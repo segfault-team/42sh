@@ -1,0 +1,6 @@
+-gestion d'erreur: migrer vers une gestion d'erreur sur la sortie d'erreur non plus la sortie standard
+-gestion du tilde dans les commandes
+
+QUESTIONS:
+-ft_signal.c ---> ft_set_sig_handler ---> what's the point ? pk sig < 31 ?
+-builtin where ?
