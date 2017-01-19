@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
 #include "shell.h"
 
 static int	ft_sigcheck(int sig)
@@ -53,12 +52,8 @@ int			ft_handle_ret_signal(int status)
 		sig = WTERMSIG(status);
 		i = -1;
 		while (++i <= 13)
-		{
 			if (ft_sigcheck(sig))
-			{
 				return (-1);
-			}
-		}
 		uknw_sig = ft_itoa(sig);
 		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
 		free(uknw_sig);
@@ -85,8 +80,5 @@ void		ft_set_sig_handler(void)
 void		ft_sig_handler(int sig)
 {
 	if (sig == SIGINT)
-	{
-		ft_putchar('\n');
-		ft_putstr("$> ");
-	}
+		ft_putstr("\n$> ");
 }
