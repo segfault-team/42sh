@@ -31,6 +31,8 @@
 # include "libft.h"
 
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
+# define FDOUT e->fd_out
+# define FDIN e->fd_in
 
 typedef struct		s_env
 {
