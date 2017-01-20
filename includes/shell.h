@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/15 21:01:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:41:19 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct		s_env
 	char			*line;
 	char			**cmd;
 	size_t			cmd_len;
+	int				fd_in;
+	int				fd_out;
 }					t_env;
 
 int					ft_parse_line(t_env *e);

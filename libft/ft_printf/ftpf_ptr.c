@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 17:46:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:26:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:25:08 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		precision_ptr(t_struct *st, int len)
 	pcp = st->flags.precision;
 	if (st->flags.precision > 0)
 		while (pcp > 0 && pcp-- > len)
-			st->pc += ft_putchar('0');
+			st->pc += ft_putchar_fd('0', FD);
 	return (1);
 }
 
@@ -35,14 +35,14 @@ int				a_ptr(t_struct *st)
 	ptr = ft_uimaxtoa_base(n_ptr, 16, 'a');
 	st->flags.padchar = (st->flags.zero) ? '0' : ' ';
 	if (st->flags.padchar == '0')
-		st->pc += ft_putstr("0x");
+		st->pc += ft_putstr_fd("0x", FD);
 	padding_left(st, len + 2);
 	if (st->flags.padchar == ' ')
-		st->pc += ft_putstr("0x");
+		st->pc += ft_putstr_fd("0x", FD);
 	precision_ptr(st, len);
 	if (((long)st->stargs.ptr > 0) ||
 			((long)st->stargs.ptr == 0 && st->flags.precision >= 0))
-		st->pc += ft_putstr(ptr) + 1;
+		st->pc += ft_putstr_fd(ptr, FD) + 1;
 	padding_right(st, len + 2);
 	free(ptr);
 	return (1);

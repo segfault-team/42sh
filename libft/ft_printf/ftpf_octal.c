@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 17:52:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:26:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:23:41 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		get_width(int width, int lenght, int precision)
 static int		sharp_octal(t_struct *st)
 {
 	if (st->flags.sharp)
-		st->pc += ft_putchar('0');
+		st->pc += ft_putchar_fd('0', FD);
 	return (1);
 }
 
@@ -40,7 +40,7 @@ static int		precision_octal(t_struct *st, int lenght)
 	if (pcp > 0)
 	{
 		while (pcp > 0 && pcp-- > lenght)
-			st->pc += ft_putchar('0');
+			st->pc += ft_putchar_fd('0', FD);
 	}
 	return (1);
 }
@@ -78,7 +78,7 @@ int				a_octal(t_struct *st)
 	if (precision_octal(st, lenght) < 0)
 		return (0);
 	oct = ft_uimaxtoa_base(st->stargs.u_nbr, 8, 'a');
-	st->pc += ft_putstr(oct);
+	st->pc += ft_putstr_fd(oct, FD);
 	padding_right(st, lenght);
 	free(oct);
 	return (1);

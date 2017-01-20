@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 17:50:59 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:26:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:22:44 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int		precision_int(t_struct *st, int lenght)
 	if (st->flags.precision > 0)
 	{
 		while (pcp > 0 && pcp-- > lenght)
-			st->pc += ft_putchar('0');
+			st->pc += ft_putchar_fd('0', FD);
 		return (1);
 	}
 	else if (st->flags.precision < 0 && st->stargs.nbr == 0)
@@ -42,11 +42,11 @@ static int		precision_int(t_struct *st, int lenght)
 static int		put_sign(t_struct *st)
 {
 	if (st->flags.plus_sign && st->stargs.nbr >= 0)
-		st->pc += ft_putchar('+');
+		st->pc += ft_putchar_fd('+', FD);
 	else if (st->flags.space && st->stargs.nbr >= 0)
-		st->pc += ft_putchar(' ');
+		st->pc += ft_putchar_fd(' ', FD);
 	else if (st->stargs.nbr < 0)
-		st->pc += ft_putchar('-');
+		st->pc += ft_putchar_fd('-', FD);
 	return (1);
 }
 
@@ -80,7 +80,7 @@ int				a_int(t_struct *st)
 	if (precision_int(st, lenght) < 0)
 		return (0);
 	nbr = ft_imaxtoa_base(st->stargs.nbr, 10, 'a');
-	st->pc += ft_putstr(nbr);
+	st->pc += ft_putstr_fd(nbr, FD);
 	padding_right(st, lenght);
 	free(nbr);
 	return (1);

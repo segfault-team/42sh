@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 11:22:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/28 10:34:00 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:42:41 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 
 # define PAD_RIGHT	1
 # define PAD_ZERO	2
+
+# define FD st->fd
 
 typedef struct		s_lmod
 {
@@ -74,9 +76,10 @@ typedef struct		s_struct
 	t_args			stargs;
 	t_flags			flags;
 	t_lmod			lmod;
+	int				fd;
 }					t_struct;
 
-int					ft_printf(const char *format, ...);
+int					ft_printf(int fd, const char *format, ...);
 
 /*
 ** PARSE
@@ -119,7 +122,7 @@ void				form_sharp(t_struct *st);
 /*
 ** HANDLE_WCHAR
 */
-int					handle_wchar(wchar_t wchar);
+int					handle_wchar(int fd, wchar_t wchar);
 
 /*
 ** PRECISION

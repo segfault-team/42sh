@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/29 15:19:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:26:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:26:35 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		precision_uint(t_struct *st, int lenght)
 	pcp = st->flags.precision;
 	if (pcp > 0)
 		while (pcp > 0 && pcp-- > lenght)
-			st->pc += ft_putchar('0');
+			st->pc += ft_putchar_fd('0', FD);
 	else if (st->flags.precision < 0 && st->stargs.u_nbr == 0)
 		return (-1);
 	return (1);
@@ -62,7 +62,7 @@ int				a_uint(t_struct *st)
 	if (precision_uint(st, lenght) < 0)
 		return (0);
 	unbr = ft_uimaxtoa_base(st->stargs.u_nbr, 10, 'a');
-	st->pc += ft_putstr(unbr);
+	st->pc += ft_putstr_fd(unbr, FD);
 	right_uint(st, lenght);
 	free(unbr);
 	return (1);

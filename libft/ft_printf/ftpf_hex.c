@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 17:50:17 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:26:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:21:28 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int		precision_hex(t_struct *st, int lenght)
 	if (st->flags.precision > 0)
 	{
 		while (pcp > 0 && pcp-- > lenght)
-			st->pc += ft_putchar('0');
+			st->pc += ft_putchar_fd('0', FD);
 		if (st->stargs.u_nbr == 0 && st->flags.width <= 0)
 			return (0);
 		return (1);
@@ -45,9 +45,9 @@ static int		sharp_hex(t_struct *st, int set)
 		if (st->stargs.u_nbr != 0)
 		{
 			if (set == 'a')
-				st->pc += ft_putstr("0x") + 1;
+				st->pc += ft_putstr_fd("0x", FD) + 1;
 			else if (set == 'A')
-				st->pc += ft_putstr("0X") + 1;
+				st->pc += ft_putstr_fd("0X", FD) + 1;
 		}
 	return (1);
 }
@@ -79,7 +79,7 @@ int				a_hex(t_struct *st, char set)
 	if (precision_hex(st, lenght) < 0)
 		return (0);
 	hex = ft_uimaxtoa_base(st->stargs.u_nbr, 16, set);
-	st->pc += ft_putstr(hex);
+	st->pc += ft_putstr_fd(hex, FD);
 	padding_right(st, lenght);
 	free(hex);
 	return (1);

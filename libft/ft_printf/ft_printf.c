@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 11:44:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:35:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:14:24 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,20 @@ static void		ft_print(t_struct *st, int ret)
 			}
 		}
 		else
-			st->pc += ft_putchar(*st->format);
+			st->pc += ft_putchar_fd(*st->format, FD);
 		reset_flags(st);
 		++st->format;
 	}
 }
 
-int				ft_printf(const char *format, ...)
+int				ft_printf(int fd, const char *format, ...)
 {
 	t_struct	*st;
 	int			pc;
 
 	if ((st = malloc(sizeof(t_struct))) == NULL)
 		return (0);
+	FD = fd;
 	va_start(st->args, format);
 	set_init_st(st, format);
 	ft_print(st, 0);

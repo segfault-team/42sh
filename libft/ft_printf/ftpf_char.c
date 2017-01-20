@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 10:59:21 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/15 18:25:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 13:14:52 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			a_char(t_struct *st, int va)
 		st->stargs.ch = *st->format;
 	st->flags.padchar = (st->flags.zero == 1) ? '0' : ' ';
 	padding_left(st, 1);
-	ft_putchar(st->stargs.ch);
+	ft_putchar_fd(st->stargs.ch, FD);
 	padding_right(st, 1);
 	return (1);
 }
