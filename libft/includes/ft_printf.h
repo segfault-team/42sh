@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 11:22:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 13:42:41 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/20 17:06:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ typedef struct		s_struct
 	int				fd;
 }					t_struct;
 
-int					ft_printf(int fd, const char *format, ...);
+int					ft_printf(const char *format, ...);
+int					ft_printfd(int fd, const char *format, ...);
 
 /*
 ** PARSE

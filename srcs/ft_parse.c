@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/15 20:48:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/20 17:07:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
-			ft_redirect(&cmds[i], e);
+			//ft_redirect(&cmds[i], e);
 			if (ft_matchquotes(cmds[i]) == 0)
 			{
 				ret = ft_exec_cmd(e, cmds, i);

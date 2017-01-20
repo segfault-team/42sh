@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:44:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 13:44:43 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/20 17:06:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-int				ft_printf(int fd, const char *format, ...);
+int				ft_printf(const char *format, ...);
+int				ft_printfd(int fd, const char *format, ...);
 int				get_next_line(int fd, char **line);
 
 /*
