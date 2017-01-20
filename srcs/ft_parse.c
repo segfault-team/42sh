@@ -75,6 +75,7 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
+			ft_redirect(&cmds[i], e);
 			if (ft_matchquotes(cmds[i]) == 0)
 			{
 				ret = ft_exec_cmd(e, cmds, i);
