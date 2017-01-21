@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 13:41:19 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/21 14:20:37 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,18 @@
 # include "libft.h"
 
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
-# define FDOUT e->fd_out
-# define FDIN e->fd_in
+# define FD e.fd
+
+typedef struct		s_fd
+{
+	int				stdin;
+	int				stdout;
+	int				stderr;
+}					t_fd;
 
 typedef struct		s_env
 {
+	t_fd			fd;
 	int				x;
 	int				exit;
 	char			**env;
@@ -44,8 +51,6 @@ typedef struct		s_env
 	char			*line;
 	char			**cmd;
 	size_t			cmd_len;
-	int				fd_in;
-	int				fd_out;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
