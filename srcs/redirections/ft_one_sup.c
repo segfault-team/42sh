@@ -45,6 +45,6 @@ void	ft_one_sup(t_env *e, char **cmd)
 	file = ft_strsub(*cmd, mem, i - mem);
 	if (open_valid(e, *cmd, R_OK))
 	  if (!(FDOUT = open(file, O_RDWR | O_CREAT | O_TRUNC)))
-	    ft_printf(2, "Failed creating fd. Stop.\n");
+	    ft_printfd(2, "Failed creating fd. Stop.\n");
 	free(file);
 }

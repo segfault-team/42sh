@@ -45,6 +45,6 @@ void	ft_two_sup(t_env *e, char **cmd)
 	file = ft_strsub(*cmd, mem, i - mem);
 	if (open_valid(e, *cmd, R_OK))
 	  if (!(FDOUT = open(file, O_RDWR | O_CREAT)))
-	    ft_printf(2, "GERER ERRUR");
+	    ft_printfd(2, "GERER ERRUR");
 	free(file);
 }
