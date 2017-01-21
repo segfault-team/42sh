@@ -6,11 +6,11 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2016/12/05 20:34:02 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/01/21 14:20:04 by vlistrat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = 21sh
 
 SRC_NAME = main.c ft_init.c ft_parse.c ft_exec.c\
 		   ft_env.c ft_setenv.c ft_unsetenv.c ft_chdir.c ft_echo.c ft_where.c\
@@ -26,19 +26,23 @@ LIB_PATH = ./libft/
 INC_PATH = ./includes ./libft/includes ./libft/libft
 
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
-OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+#OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+OBJ = $(SRC:.c=.o)
 LIB = $(addprefix -L, $(LIB_PATH))
 INC = $(addprefix -I ,$(INC_PATH))
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-all: lib
-	@echo "\033[32;44m Make $(NAME) \033[0m"
-	@make $(NAME)
+all: lib $(NAME)
+#	@make $(NAME)
 
-$(NAME):
-	$(CC) $(CFLAGS) $(INC) $(SRC) -o $(NAME) $(LIB) $(LIB_NAME)
+$(NAME): $(OBJ)
+	@($(CC) -o $(NAME) $(OBJ) $(LIB) $(LIB_NAME))
+	@(echo "\033[32;44m Make $(NAME) \033[0m")
+
+%.o: %.c
+	@($(CC) -o $@ -c $< $(INC))
 
 .PHONY: all lib clean fclean re libfclean libclean
 

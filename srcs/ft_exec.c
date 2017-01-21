@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/07 00:08:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/21 14:21:00 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,36 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env)
 {
 	pid_t	pid;
 	int		status;
+	int		infd[2];
+	int		outfd[2];
+	char	buf[2048];
 
+	pipe(outfd);
+	pipe(infd);
 	status = 0;
 	if ((pid = fork()) < 0)
 	{
 		ft_error("fork", "failed to fork process", NULL);
 	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
+//		close(STDOUT_FILENO);
+//		close(STDIN_FILENO);
+		dup2(outfd[0], STDIN_FILENO);
+		dup2(infd[1], STDOUT_FILENO);
+		if (close(infd[0]) || close(infd[1]) || close(outfd[0]) || close(outfd[1]))
+			ft_printfd(2, "%s\n", "GERER ERREUR");
 		execve(exec, &cmd[0], env);
 	}
-	waitpid(pid, &status, WUNTRACED);
+	else
+	{
+//		waitpid(pid, &status, WUNTRACED);
+		if (close(outfd[0]) || close(infd[1]) || close(outfd[1]))
+			ft_printfd(2, "%s\n", "GERER ERREUR");
+		while (read(infd[0], buf, 2048) != 0)
+			ft_printf("boid: %s\n", buf);
+		close(infd[0]);
+	}
 	ft_handle_ret_signal(status);
 	return (status);
 }

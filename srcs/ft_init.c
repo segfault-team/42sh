@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/21 08:15:26 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/21 14:20:23 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	FDOUT = 1;
-	FDIN = 1;
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;
