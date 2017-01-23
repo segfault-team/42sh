@@ -1,3 +1,5 @@
 *~
 *.o
+.*.sw*
+utilitaires
 test/

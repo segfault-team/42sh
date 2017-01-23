@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/21 14:20:23 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/23 14:51:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static int		ft_set_home(t_env *e)
 	char		*tmp;
 
 	e->home = NULL;
-	if ((tmp = ft_find_name(e->env, "HOME")))
+	tmp = NULL;
+	if ((tmp = ft_getenv(e->env, "HOME")))
 	{
-		e->home = ft_strdup(ft_strchr(tmp, '=') + 1);
+		e->home = ft_strdup(tmp);
 		free(tmp);
 		return (1);
 	}
@@ -37,12 +38,11 @@ static void		ft_set_shlvl(t_env *e)
 	char	*lvl;
 	int		tmp;
 
-	if ((lvl = ft_find_value(e->env, "SHLVL")))
+	if ((lvl = ft_getenv(e->env, "SHLVL")))
 	{
 		tmp = ft_atoi(lvl) + 1;
 		free(lvl);
 		lvl = ft_itoa(tmp);
-		ft_unsetenv(&e->env, "SHLVL");
 		ft_setenv(&e->env, "SHLVL", lvl);
 		free(lvl);
 	}

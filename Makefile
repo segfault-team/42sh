@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/01/21 14:20:04 by vlistrat         ###   ########.fr        #
+#    Updated: 2017/01/23 14:47:48 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(NAME): $(OBJ)
 	@(echo "\033[32;44m Make $(NAME) \033[0m")
 
 %.o: %.c
-	@($(CC) -o $@ -c $< $(INC))
+	@($(CC) $(CFLAGS) -o $@ -c $< $(INC))
 
 .PHONY: all lib clean fclean re libfclean libclean
 

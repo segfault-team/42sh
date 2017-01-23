@@ -1,0 +1,7 @@
+freccia [23-01-2017 15:00]
+	-> includes/shell.h :	ft_find_name DELETED
+	-> srcs/ft_tools.c 	:	ft_find_name DELETED
+	-> includes/shell.h :	ft_find_value -> ft_getenv
+	-> srcs/ft_init.c  	:	cleaned up unneeded unsetenv() calls
+	-> srcs/ft_chdir.c  :	cleaned up unneeded unsetenv() calls
+	-> !!! Makefile		:	added CFLAGS to gcc
