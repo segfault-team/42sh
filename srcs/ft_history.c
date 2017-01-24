@@ -29,7 +29,7 @@ int	store_history(char **cmd)
 			ft_putchar_fd(cmd[i][j], fd);
 		ft_putchar_fd(' ', fd);
 	}
-	ft_putchar_fd('\n', fd);
+//	ft_putchar_fd('\n', fd);
 	if (close(fd) == -1)
 		ft_printf("ERROR 1");
 	return (0);
