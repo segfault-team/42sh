@@ -20,14 +20,18 @@
 **		(ft_chdir)
 **	<dirent.h> :		[ opendir | readdir ]
 **		(ft_exec)
+**	<fcntl.h> :		[ open | read ]
+**		(ft_history.c)
 **	<signal.h> :		[ signal ]
 **		(ft_signal)
+
 */
 
 # include <unistd.h>
 # include <sys/wait.h>
 # include <dirent.h>
 # include <signal.h>
+# include <fcntl.h>
 # include "libft.h"
 
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
@@ -95,5 +99,7 @@ int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e);
 int					ft_echo(t_env *e);
 int					ft_where(t_env *e);
+int					store_history(char **cmd);
+int					ft_history(void);
 
 #endif
