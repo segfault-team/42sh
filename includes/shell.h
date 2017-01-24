@@ -79,7 +79,7 @@ void				ft_sig_handler(int sig);
 **		Tools
 */
 int					ft_matchquotes(char *str);
-int					ft_issetenv(char **env, char *name);
+char				*ft_issetenv(char **env, char *name);
 void				ft_env_free(t_env *e);
 char				*ft_getenv(char **env, char *name);
 
