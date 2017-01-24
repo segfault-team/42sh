@@ -42,7 +42,7 @@ void		ft_env_free(t_env *e)
 	ft_free_tab(e->env);
 }
 
-int			ft_issetenv(char **env, char *name)
+char		*ft_issetenv(char **env, char *name)
 {
 	char	*eval;
 	int		i;
@@ -56,12 +56,12 @@ int			ft_issetenv(char **env, char *name)
 			if (ft_strnequ(env[i], eval, ft_strlen(eval)))
 			{
 				free(eval);
-				return (1);
+				return (env[i]);
 			}
 		}
 	}
 	free(eval);
-	return (0);
+	return (NULL);
 }
 
 char		*ft_getenv(char **env, char *name)
@@ -73,7 +73,7 @@ char		*ft_getenv(char **env, char *name)
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
-		free(tmp);
+//		free(tmp);
 	}
 	return (value);
 }

@@ -9,7 +9,6 @@
 int	store_history(char **cmd)
 {
 	int		i;
-//	int		j;
 	int		fd;
 	static char	*last_cmd = NULL;
 

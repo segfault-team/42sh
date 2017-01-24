@@ -87,6 +87,7 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env)
 	int		infd[2];
 	int		outfd[2];
 	char	buf[2048];
+	int		rtr;
 
 	pipe(outfd);
 	pipe(infd);
@@ -110,8 +111,11 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env)
 //		waitpid(pid, &status, WUNTRACED);
 		if (close(outfd[0]) || close(infd[1]) || close(outfd[1]))
 			ft_printfd(2, "%s\n", "GERER ERREUR");
-		while (read(infd[0], buf, 2048) != 0)
-			ft_printf("boid: %s\n", buf);
+		while ((rtr = read(infd[0], buf, 2048)) != 0)
+		{
+			buf[rtr] = '\0';
+			ft_printf("%s", buf);
+		}
 		close(infd[0]);
 	}
 	ft_handle_ret_signal(status);

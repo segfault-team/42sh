@@ -14,7 +14,7 @@ NAME = 21sh
 
 SRC_NAME = main.c ft_init.c ft_parse.c ft_exec.c\
 		   ft_env.c ft_setenv.c ft_unsetenv.c ft_chdir.c ft_echo.c ft_where.c\
-		   ft_tools.c ft_signal.c ft_exit.c ft_error.c
+		   ft_tools.c ft_signal.c ft_exit.c ft_error.c ft_history.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
