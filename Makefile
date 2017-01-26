@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/01/23 14:47:48 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/01/26 13:30:58 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = 21sh
 
 SRC_NAME = main.c ft_init.c ft_parse.c ft_exec.c\
 		   ft_env.c ft_setenv.c ft_unsetenv.c ft_chdir.c ft_echo.c ft_where.c\
-		   ft_tools.c ft_signal.c ft_exit.c ft_error.c ft_history.c
+		   ft_tools.c ft_signal.c ft_exit.c ft_error.c ft_history.c ft_termcaps.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -28,7 +28,7 @@ INC_PATH = ./includes ./libft/includes ./libft/libft
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 #OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 OBJ = $(SRC:.c=.o)
-LIB = $(addprefix -L, $(LIB_PATH))
+LIB = $(addprefix -L, $(LIB_PATH)) -lncurses
 INC = $(addprefix -I ,$(INC_PATH))
 
 CC = gcc

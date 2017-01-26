@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/23 14:58:02 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/26 14:28:33 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,16 @@
 # include <dirent.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <term.h>
+# include <termios.h>
+# include <curses.h>
+# include <sys/ioctl.h>
 # include "libft.h"
 
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
 # define FD e.fd
+# define BUF e->buf
+# define TCAPS e->tcaps
 
 typedef struct		s_fd
 {
@@ -43,6 +49,12 @@ typedef struct		s_fd
 	int				stdout;
 	int				stderr;
 }					t_fd;
+
+typedef struct		s_term
+{
+	char			*term_name;
+	struct termios	termos;
+}					t_term;
 
 typedef struct		s_env
 {
@@ -55,6 +67,8 @@ typedef struct		s_env
 	char			*line;
 	char			**cmd;
 	size_t			cmd_len;
+	char			buf[3];
+	t_term			tcaps;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -101,5 +115,13 @@ int					ft_echo(t_env *e);
 int					ft_where(t_env *e);
 int					store_history(char **cmd);
 int					ft_history(void);
+
+/*
+**		Termcaps
+*/
+int					check_key(char buf[3], int a, int b, int c);
+int					check_read(char buf[3]);
+void				realloc_line(t_env *e, char c);
+int					ft_termcaps(t_env *e);
 
 #endif
