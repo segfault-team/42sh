@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/27 10:31:32 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/27 14:00:19 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->env = ft_tabdup(env);
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
+	TCAPS.nb_move = 0;
+	TCAPS.nb_read = 0;
+	TCAPS.check_move = 0;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)
 		TCAPS.term_name = ft_strdup("xterm");
 	if (tgetent(NULL, TCAPS.term_name) == ERR)
 		ft_printf("GERRER L'ERROR");
-	if (tcgetattr(0, &TCAPS.termos) == -1 && tcgetattr(0, &TCAPS.save))
+	if (tcgetattr(0, &TCAPS.termos) == -1)
 		ft_printf("GERRER L'ERROR");
 	TCAPS.termos.c_lflag &= ~(ICANON);
 	TCAPS.termos.c_lflag &= ~(ECHO);

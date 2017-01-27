@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/01/27 11:26:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/27 13:59:45 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,21 @@ int 	ft_termcaps(t_env *e)
 	}
 */	else if (check_key(BUF, 27, 91, 66))
 		printf("down arrow\n");
-	else if (check_key(BUF, 27, 91, 67))
+	else if (check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
 	{
 		res = tgetstr("nd", NULL);
 		tputs(res, 1, dsh_putchar);
+		if (++TCAPS.nb_move == TCAPS.nb_read)
+			TCAPS.check_move = 0;
 	}
-	else if (check_key(BUF, 27, 91, 68))
+	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move)
 	{
 		res = tgetstr("le", NULL);
 		tputs(res, 1, dsh_putchar);
+		if (--TCAPS.nb_move < TCAPS.nb_read)
+			TCAPS.check_move = 1;
 	}
-	else if (BUF[0])
-		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
+//	else if (BUF[0])
+//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
 }

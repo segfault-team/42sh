@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/27 11:14:11 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/27 13:55:33 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ typedef struct		s_term
 {
 	char			*term_name;
 	struct termios	termos;
-	struct termios	save;
+	int				nb_move;
+	int				nb_read;
+	int				check_move;
 }					t_term;
 
 typedef struct		s_env
