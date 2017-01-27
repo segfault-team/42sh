@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:44:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 17:06:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/26 13:02:15 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,14 +118,14 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 /*
 **	TAB
 */
-size_t			ft_tablen(char **tab);
+size_t			ft_tablen(char **tab_bis);
 char			**ft_tabnew(size_t size);
 char			**ft_tabcpy(char **dst, char **src);
-char			**ft_tabdup(char **tab);
-char			**ft_tabndup(char **tab, size_t b);
-char			**ft_tabcat(char **tab, char *str);
-char			**ft_tabpop(char **tab, size_t pop);
-void			ft_free_tab(char **tab);
+char			**ft_tabdup(char **tab_bis);
+char			**ft_tabndup(char **tab_bis, size_t b);
+char			**ft_tabcat(char **tab_bis, char *str);
+char			**ft_tabpop(char **tab_bis, size_t pop);
+void			ft_free_tab(char **tab_bis);
 
 /*
 **	PUT
@@ -134,7 +134,7 @@ int				ft_putchar(char c);
 int				ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnbr(int n);
-void			ft_puttab(char **tab);
+void			ft_puttab(char **tab_bis);
 int				ft_putchar_fd(char c, int fd);
 int				ft_putstr_fd(char const *s, int fd);
 int				ft_putendl_fd(char const *s, int fd);

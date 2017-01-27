@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/26 14:28:33 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/27 11:14:11 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct		s_term
 {
 	char			*term_name;
 	struct termios	termos;
+	struct termios	save;
 }					t_term;
 
 typedef struct		s_env
@@ -121,7 +122,8 @@ int					ft_history(void);
 */
 int					check_key(char buf[3], int a, int b, int c);
 int					check_read(char buf[3]);
-void				realloc_line(t_env *e, char c);
+char				*realloc_line(t_env *e, char c);
 int					ft_termcaps(t_env *e);
+int					dsh_putchar(int c);
 
 #endif
