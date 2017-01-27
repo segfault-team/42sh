@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/01/26 14:00:10 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/27 11:26:19 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,19 @@ int 	ft_termcaps(t_env *e)
 	char	*res;
 	int		up;
 
+	res = NULL;
 	up = 0;
 	up = (check_key(BUF, 27, 91, 65)) ? up + 1: 0;
-	if ((BUF[0] >= 'a' && BUF[0] <= 'z') || (BUF[0] >= 'A' && BUF[0] <= 'Z'))
+	if (BUF[0] == 4)
+		ft_exit(e);
+	else if (check_read(BUF))
+	{
+		res = tgetstr("im", NULL);
+		tputs(res, 1, dsh_putchar);
 		tputs(&BUF[0], 1, dsh_putchar);
+		res = tgetstr("ei", NULL);
+		tputs(res, 1, dsh_putchar);
+	}
 	else if (check_key(BUF, 12, 0, 0))
 	{
 		res = tgetstr("cl", NULL);

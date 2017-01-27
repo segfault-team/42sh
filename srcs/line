@@ -1,0 +1,94 @@
+ft_chdir.c:	ft_setenv(&e->env, "OLDPWD", oldpwd);
+ft_chdir.c:	ft_setenv(&e->env, "PWD", pwd);
+ft_chdir.c:	if (e->cmd_len > 2)
+ft_chdir.c:	if (e->cmd_len == 1)
+ft_chdir.c:		if (!ft_issetenv(e->env, "HOME") && e->home == NULL)
+ft_chdir.c:		return (ft_chdir_env(e, e->home));
+ft_chdir.c:	if (ft_strequ(e->cmd[1], "-"))
+ft_chdir.c:		free(e->cmd[1]);
+ft_chdir.c:		if ((e->cmd[1] = ft_getenv(e->env, "OLDPWD")) == NULL)
+ft_chdir.c:	return (ft_chdir_env(e, e->cmd[1]));
+ft_echo.c:	if ((nl = ft_strequ(e->cmd[1], "-n")))
+ft_echo.c:	while (e->cmd[++i])
+ft_echo.c:		if ((!nl && i == 2) || (i > 2 && i < (int)e->cmd_len))
+ft_echo.c:		ft_putstr_fd(e->cmd[i], 1);
+ft_env.c:	while (++len < e->cmd_len && ft_strchr(e->cmd[len], '='))
+ft_env.c:		if (e->cmd[i][0] == '=')
+ft_env.c:			return (ft_error("env", "invalid argument", e->cmd[i]));
+ft_env.c:		if (!ft_arg_isdouble(e->cmd, e->cmd[i], i))
+ft_env.c:			ptr[j] = ft_strdup(e->cmd[i]);
+ft_env.c:	if (len == e->cmd_len)
+ft_env.c:	while (++i < (int)e->cmd_len && e->cmd[i] && e->cmd[i][0] == '-')
+ft_env.c:		if (e->cmd[i][1] == 'u' && e->cmd[i + 1])
+ft_env.c:			ft_unsetenv(env_cpy, e->cmd[i + 1]);
+ft_env.c:		else if (e->cmd[i][1] == 'i')
+ft_env.c:			ft_error("env", "illegal option --", &e->cmd[i][1]);
+ft_env.c:	if (i == (int)e->cmd_len)
+ft_env.c:	env_cpy = ft_tabdup(e->env);
+ft_env.c:	if (e->cmd_len > 1)
+ft_env.c:			ft_exec(&e->cmd[i], env_cpy);
+ft_env.c:		ft_puttab(e->env);
+ft_exit.c://	if (e->cmd[1])
+ft_exit.c://		e->exit = ft_atoi(e->cmd[1]);
+ft_exit.c:		e->exit = 0;
+ft_exit.c://	if (e->cmd[1])
+ft_exit.c:	e->x = 0;
+ft_init.c:	e->prompt = ft_strdup("$> ");
+ft_init.c:	e->home = NULL;
+ft_init.c:	if ((tmp = ft_getenv(e->env, "HOME")))
+ft_init.c:		e->home = ft_strdup(tmp);
+ft_init.c:	if ((lvl = ft_getenv(e->env, "SHLVL")))
+ft_init.c:		ft_setenv(&e->env, "SHLVL", lvl);
+ft_init.c:		ft_setenv(&e->env, "SHLVL", "1");
+ft_init.c:	e->x = 1;
+ft_init.c:	e->exit = 0;
+ft_init.c:	e->line = NULL;
+ft_init.c:	e->env = ft_tabdup(env);
+ft_init.c:	if (e->env == NULL || !ft_set_home(e))
+ft_init.c:	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)
+ft_parse.c:	trline = ft_strxtrim_quote(e->line, '\t');
+ft_parse.c:	store_history(e->cmd);
+ft_parse.c:	if (ft_strequ(e->cmd[0], "exit") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "env") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "setenv") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "unsetenv") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "cd") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "echo") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "where") && ++ret)
+ft_parse.c:	else if (ft_strequ(e->cmd[0], "history") && ++ret)
+ft_parse.c:	e->cmd = ft_strsplit_quote(cmds[i], ' ');
+ft_parse.c:	e->cmd_len = ft_tablen(e->cmd);
+ft_parse.c:	if (e->cmd_len)
+ft_parse.c:			ret = ft_exec(e->cmd, e->env);
+ft_parse.c:	ft_free_tab(e->cmd);
+ft_setenv.c:	if (e->cmd_len == 3)
+ft_setenv.c:		if (ft_isalpha_str(e->cmd[1]))
+ft_setenv.c:			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
+ft_setenv.c:					ft_strequ(e->cmd[1], "HOME"))
+ft_setenv.c:				e->home = ft_strdup(e->cmd[2]);
+ft_setenv.c:			return (ft_setenv(&e->env, e->cmd[1], e->cmd[2]));
+ft_tools.c:	if (e->line)
+ft_tools.c:		free(e->line);
+ft_tools.c:	if (e->home)
+ft_tools.c:		free(e->home);
+ft_tools.c:	free(e->prompt);
+ft_tools.c:	ft_free_tab(e->env);
+ft_unsetenv.c:	if (e->cmd_len > 1)
+ft_unsetenv.c:		while (++i < (int)e->cmd_len)
+ft_unsetenv.c:			if (ft_strequ(e->cmd[i], "all"))
+ft_unsetenv.c:				ft_free_tab(e->env);
+ft_unsetenv.c:				e->env = NULL;
+ft_unsetenv.c:				ft_unsetenv(&e->env, e->cmd[i]);
+ft_where.c:	paths = ft_find_paths(e->env);
+ft_where.c:	while (++i < (int)e->cmd_len)
+ft_where.c:		if (ft_isbuiltin(e->cmd[i]))
+ft_where.c:			ft_error(e->cmd[i], "is a shell built-in", NULL);
+ft_where.c:		if ((path = ft_find_exec(paths, e->cmd[i])))
+main.c:	if (e->line)
+main.c:		len = ft_strlen(e->line) + 1;
+main.c:		while (e->line[i++])
+main.c:			new[i] = e->line[i];
+main.c:	if (e->line)
+main.c:		free(e->line);
+main.c:	e->line = ft_strdup(new);
+main.c://	printf("e->line: %s | %c\n", e->line, c);
