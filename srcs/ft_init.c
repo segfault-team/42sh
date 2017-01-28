@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/27 14:00:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/28 14:53:23 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 		TCAPS.term_name = ft_strdup("xterm");
 	if (tgetent(NULL, TCAPS.term_name) == ERR)
 		ft_printf("GERRER L'ERROR");
-	if (tcgetattr(0, &TCAPS.termos) == -1)
+	if (tcgetattr(0, &TCAPS.termos) == -1 || tcgetattr(0, &TCAPS.save) == -1)
 		ft_printf("GERRER L'ERROR");
 	TCAPS.termos.c_lflag &= ~(ICANON);
 	TCAPS.termos.c_lflag &= ~(ECHO);
