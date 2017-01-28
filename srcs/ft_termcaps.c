@@ -61,19 +61,21 @@ int 	ft_termcaps(t_env *e)
 	}
 */	else if (check_key(BUF, 27, 91, 66))
 		printf("down arrow\n");
-	else if (check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
+	else if (check_key(BUF, 27, 91, 67) && TCAPS.nb_move)
 	{
 		res = tgetstr("nd", NULL);
 		tputs(res, 1, dsh_putchar);
-		if (++TCAPS.nb_move == TCAPS.nb_read)
-			TCAPS.check_move = 0;
+//		if (++TCAPS.nb_move == TCAPS.nb_read)
+//			TCAPS.check_move = 0;
+		--TCAPS.nb_move;
 	}
-	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move)
+	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move < TCAPS.nb_read)
 	{
 		res = tgetstr("le", NULL);
 		tputs(res, 1, dsh_putchar);
-		if (--TCAPS.nb_move < TCAPS.nb_read)
-			TCAPS.check_move = 1;
+//		if (--TCAPS.nb_move < TCAPS.nb_read)
+//			TCAPS.check_move = 1;
+		++TCAPS.nb_move;
 	}
 //	else if (BUF[0])
 //		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);

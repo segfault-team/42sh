@@ -103,6 +103,8 @@ int					ft_matchquotes(char *str);
 char				*ft_issetenv(char **env, char *name);
 void				ft_env_free(t_env *e);
 char				*ft_getenv(char **env, char *name);
+char				*realloc_line(t_env *e, char c);
+char				*realloc_insert_char(t_env *e, char c);
 
 /*
 **		Builtins

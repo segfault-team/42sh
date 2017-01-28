@@ -144,5 +144,7 @@ int				ft_exec(char **cmd, char **env)
 		ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
 	free(exec);
+	if (!status)
+		return (1);
 	return (status);
 }

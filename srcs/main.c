@@ -52,34 +52,6 @@ int	check_read(char buf[3])
 	return (0);
 }
 
-char	*realloc_line(t_env *e, char c)
-{
-	char	*new;
-	int		len;
-	int		i;
-
-	if (e->line)
-		len = ft_strlen(e->line) + 1;
-	else
-		len = 1;
-	new = (char*)malloc(sizeof(char) * (len + 1));
-	new[len] = '\0';
-	i = 0;
-	if (len != 1)
-		while (e->line[i])
-		{
-			new[i] = e->line[i];
-			++i;
-		}
-	new[i] = c;
-	if (e->line)
-	{
-		free(e->line);
-		e->line = NULL;
-	}
-	return (new);
-}
-
 int				main(int ac, char **av, char **env)
 {
 	t_env	e;
@@ -93,23 +65,24 @@ int				main(int ac, char **av, char **env)
 		read(0, e.buf, 3);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
-		ft_printf("%d | %d | %d\n", e.tcaps.nb_move, e.tcaps.nb_read, e.tcaps.check_move);
 		if (check_read(e.buf))
 		{
-			e.line = realloc_line(&e, e.buf[0]);
-			e.tcaps.nb_read = ft_strlen(e.line) - 1;
+			if (!e.tcaps.nb_move)
+				e.line = realloc_line(&e, e.buf[0]);
+			else
+				e.line = realloc_insert_char(&e, e.buf[0]);
+			e.tcaps.nb_read = ft_strlen(e.line);
 		}
+//		ft_printf("%d | %d | %d\n", e.tcaps.nb_move, e.tcaps.nb_read, e.tcaps.check_move);
 		if (check_key(e.buf, 10, 0, 0))
 		{
 			ft_putchar('\n');
-			ft_parse_line(&e);
+			if (ft_parse_line(&e))
+				ft_putchar('\n');
 			e.tcaps.nb_move = 0;
 			e.tcaps.nb_read = 0;
-			if (ft_strcmp(e.line, "exit") || !e.line)
-			{
-				ft_putchar('\n');
+			if (!ft_strstr(e.line, "exit"))
 				ft_putstr(e.prompt);
-			}
 			free(e.line);
 			e.line = NULL;
 		}
