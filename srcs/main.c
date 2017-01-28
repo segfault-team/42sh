@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/27 14:05:46 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/28 14:07:11 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int check_key(char buf[3], int a, int b, int c)
 
 int	check_read(char buf[3])
 {
-	if (!buf[1] && !buf[2] && (buf[0] >= 32 && buf[0] < 127))
+	if (!buf[1] && !buf[2] && (buf[0] >= 32 && buf[0] < 126))
 		return (1);
 	return (0);
 }
@@ -67,12 +67,14 @@ int				main(int ac, char **av, char **env)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (check_read(e.buf))
 		{
-			if (!e.tcaps.nb_move)
+			if (e.tcaps.nb_move == e.tcaps.nb_read)
 				e.line = realloc_line(&e, e.buf[0]);
 			else
 				e.line = realloc_insert_char(&e, e.buf[0]);
 			e.tcaps.nb_read = ft_strlen(e.line);
 		}
+		else if (e.buf[0] == 127)
+			e.line = realloc_delete_char(&e);
 //		ft_printf("%d | %d | %d\n", e.tcaps.nb_move, e.tcaps.nb_read, e.tcaps.check_move);
 		if (check_key(e.buf, 10, 0, 0))
 		{

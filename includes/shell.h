@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/27 13:55:33 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/28 14:04:27 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void				ft_env_free(t_env *e);
 char				*ft_getenv(char **env, char *name);
 char				*realloc_line(t_env *e, char c);
 char				*realloc_insert_char(t_env *e, char c);
+char				*realloc_delete_char(t_env *e);
 
 /*
 **		Builtins

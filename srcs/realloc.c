@@ -1,5 +1,37 @@
 #include "shell.h"
 
+char    *realloc_delete_char(t_env *e)
+{
+	char    *new;
+	int     len;
+	int     i;
+	int		j;
+
+	if (e->line)
+		len = ft_strlen(e->line) + 1;
+	else
+		len = 1;
+	new = (char*)malloc(sizeof(char) * (len));
+	new[len - 1] = '\0';
+	i = 0;
+	j = -1;
+	if (len != 1)
+		while (e->line[i])
+		{
+			if (i != TCAPS.nb_move - 1)
+				new[++j] = e->line[i++];
+			else
+				++i;
+		}
+	if (e->line)
+	{
+		free(e->line);
+		e->line = NULL;
+	}
+	return (new);
+}
+
+
 /*
 **	ALLOC NEW STR, FREE OLD,
 **	COPY OLD IN NEW AND INSERT
@@ -12,7 +44,6 @@ char    *realloc_insert_char(t_env *e, char c)
 	int     len;
 	int     i;
 	int		j;
-	int		isrt;
 
 	if (e->line)
 		len = ft_strlen(e->line) + 1;
@@ -22,11 +53,10 @@ char    *realloc_insert_char(t_env *e, char c)
 	new[len] = '\0';
 	i = 0;
 	j = -1;
-	isrt = TCAPS.nb_read - TCAPS.nb_move;
 	if (len != 1)
 		while (e->line[i])
 		{
-			if (i != isrt || !c)
+			if (i != TCAPS.nb_move || !c)
 				new[++j] = e->line[i++];
 			else
 			{
