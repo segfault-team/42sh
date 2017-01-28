@@ -1,5 +1,7 @@
 *~
 *.o
 .*.sw*
+*.a
+21sh
 utilitaires
 test/

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:25:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/28 15:03:41 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/28 15:12:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void		ft_exit(t_env *e)
 {
 //	char	*res;
 
-//	if (e->cmd[1])
-//		e->exit = ft_atoi(e->cmd[1]);
-//	else
+	if (e->cmd && e->cmd[1])
+		e->exit = ft_atoi(e->cmd[1]);
+	else
 		e->exit = 0;
 //	if (e->cmd[1])
 	e->x = 0;
