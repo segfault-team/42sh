@@ -38,6 +38,8 @@ void		ft_env_free(t_env *e)
 		free(e->line);
 	if (e->home)
 		free(e->home);
+	if (TCAPS.term_name)
+		free(TCAPS.term_name);
 	free(e->prompt);
 	ft_free_tab(e->env);
 }
