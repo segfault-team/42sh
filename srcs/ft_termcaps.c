@@ -12,9 +12,6 @@
 
 #include "shell.h"
 
-int		term_history(int up);
-//	void	print_pos(char *str);
-
 int		dsh_putchar(int c)
 {
 	char	d;

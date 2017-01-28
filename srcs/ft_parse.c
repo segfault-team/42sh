@@ -44,7 +44,7 @@ static int		ft_exec_builtin(t_env *e)
 	else if (ft_strequ(e->cmd[0], "where") && ++ret)
 		ft_where(e);
 	else if (ft_strequ(e->cmd[0], "history") && ++ret)
-		ft_history();
+		ft_history(e);
 	return (ret);
 }
 

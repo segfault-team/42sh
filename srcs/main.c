@@ -81,6 +81,7 @@ int				main(int ac, char **av, char **env)
 			ft_putchar('\n');
 			if (ft_parse_line(&e))
 				ft_putchar('\n');
+			check_history(&e);
 			e.tcaps.nb_move = 0;
 			e.tcaps.nb_read = 0;
 			if (!ft_strstr(e.line, "exit"))

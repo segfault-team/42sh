@@ -54,6 +54,8 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	e->history = NULL;
+	term_history(e);
 	BUF[0] = 0;
 	BUF[1] = 0;
 	BUF[2] = 0;

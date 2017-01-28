@@ -43,6 +43,8 @@
 # define BUF e->buf
 # define TCAPS e->tcaps
 
+# define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+
 typedef struct		s_fd
 {
 	int				stdin;
@@ -73,6 +75,7 @@ typedef struct		s_env
 	size_t			cmd_len;
 	char			buf[3];
 	t_term			tcaps;
+	char 			**history;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -101,8 +104,10 @@ void				ft_sig_handler(int sig);
 **		Tools
 */
 int					ft_matchquotes(char *str);
-char				*ft_issetenv(char **env, char *name);
+int 				term_history(t_env *e);
 void				ft_env_free(t_env *e);
+void 				check_history(t_env *e);
+char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 char				*realloc_line(t_env *e, char c);
 char				*realloc_insert_char(t_env *e, char c);
@@ -121,7 +126,7 @@ int					ft_chdir(t_env *e);
 int					ft_echo(t_env *e);
 int					ft_where(t_env *e);
 int					store_history(char **cmd);
-int					ft_history(void);
+int					ft_history(t_env *e);
 
 /*
 **		Termcaps

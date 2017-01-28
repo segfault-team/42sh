@@ -3,95 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/18 13:53:42 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/11/22 15:21:43 by lfabbro          ###   ########.fr       */
+/*   Created: 2016/01/05 16:07:52 by vlistrat          #+#    #+#             */
+/*   Updated: 2016/01/07 17:51:39 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_init_gnl(t_gnl **save)
+static char		*ft_join(char *s1, char *s2)
 {
-	if (((*save) = malloc(sizeof(t_gnl))) == NULL)
+	size_t		a;
+	size_t		b;
+	char		*c;
+
+	a = 0;
+	b = 0;
+	if (s1)
+		a = ft_strlen(s1);
+	if (s2)
+		b = ft_strlen(s2);
+	c = (char*)malloc(sizeof(*c) * (a + b + 1));
+	if (a)
+		ft_memcpy(c, s1, a);
+	if (b)
+		ft_memcpy(c + a, s2, b);
+	c[a + b] = '\0';
+	free(s1);
+	ft_bzero(s2, BUFF_SIZE + 1);
+	return (c);
+}
+
+static int		end_of_line(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] != '\n' && str[i])
+		i++;
+	if (str[i] == '\n')
+	{
+		str[i] = '\0';
+		return (i);
+	}
+	else
 		return (-1);
-	(*save)->rline = NULL;
-	return (0);
 }
 
-static int	ft_copy_rline(char **line, t_gnl **save)
+static int		ft_verif(char **save, char **buf, char **line)
 {
-	char	*ptr;
-	char	*tmp;
-	char	*tmp2;
+	char	*pnt_free;
+	int		end;
 
-	tmp = NULL;
-	tmp2 = NULL;
-	ptr = NULL;
-	if ((ptr = ft_strchr((*save)->rline, '\n')))
+	*save = ft_join(*save, *buf);
+	end = end_of_line(*save);
+	if (end > -1)
 	{
-		tmp = ft_strndup((*save)->rline, (int)(ptr - (*save)->rline));
-		if (ft_strlen(++ptr))
-			tmp2 = ft_strdup(ptr);
-	}
-	else
-		tmp = ft_strdup((*save)->rline);
-	free((*save)->rline);
-	if (tmp2)
-		(*save)->rline = tmp2;
-	else
-		(*save)->rline = NULL;
-	*line = tmp;
-	if ((*save)->rline)
+		*line = ft_strdup(*save);
+		pnt_free = *save;
+		*save = ft_strdup(*save + end + 1);
+		free(pnt_free);
 		return (1);
+	}
 	return (0);
 }
 
-static int	ft_join_end_line(char **line, t_gnl **save, char *buff)
+int				get_next_line(const int fd, char **line)
 {
-	char	*ptr;
-	char	*tmp;
-	char	*tmp2;
-
-	if ((ptr = ft_strchr(buff, '\n')))
-	{
-		tmp2 = ft_strndup(buff, (int)(ptr - buff));
-		tmp = ft_strjoin(*line, tmp2);
-		if (ft_strlen(++ptr))
-			(*save)->rline = ft_strdup(ptr);
-		free(tmp2);
-	}
-	else
-		tmp = ft_strjoin(*line, buff);
-	if (*line)
-		free(*line);
-	*line = tmp;
-	if (ptr)
-		return (1);
-	return (0);
-}
-
-int			get_next_line(int const fd, char **line)
-{
-	static t_gnl	*save = NULL;
-	char			buff[BUFF_SIZE + 1];
-	char			*ptr;
+	static char		*save[256];
+	char			*buf;
+	int				a;
 	int				ret;
 
-	if (fd < 0 || line == NULL)
+	buf = ft_strnew(BUFF_SIZE);
+	if (fd < 0 || (ret = read(fd, buf, 0)) < 0)
 		return (-1);
-	*line = NULL;
-	if (save == NULL && ft_init_gnl(&save) < 0)
-		return (-1);
-	if (save->rline && ft_copy_rline(line, &save))
-		return (1);
-	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		buff[ret] = '\0';
-		ptr = buff;
-		if (ft_join_end_line(line, &save, ptr))
-			break ;
+		a = ft_verif(&save[fd], &buf, line);
+		free(buf);
+		if (a == 1)
+			return (1);
+		buf = ft_strnew(BUFF_SIZE);
 	}
-	return ((ret > 0 || *line) ? 1 : ret);
+	if ((a = ft_verif(&save[fd], &buf, line)))
+		return (1);
+	else if (ft_strlen(save[fd]) > 0)
+	{
+		*line = ft_strdup(save[fd]);
+		ft_strdel(&save[fd]);
+		return (1);
+	}
+	return (a);
 }
