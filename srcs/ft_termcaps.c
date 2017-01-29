@@ -71,7 +71,7 @@ int 	ft_termcaps(t_env *e)
 		tputs(res, 1, dsh_putchar);
 		++TCAPS.nb_move;
 	}
-	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
+	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 1)
 	{
 		res = tgetstr("le", NULL);
 		tputs(res, 1, dsh_putchar);
@@ -84,8 +84,6 @@ int 	ft_termcaps(t_env *e)
 // le : move left
 // dc : delete char
 // ed: end delete mode
-//		printf("\nav: %d | %d\n", TCAPS.nb_move, TCAPS.nb_read);
-//		printf("ap: %d | %d\n", TCAPS.nb_move, TCAPS.nb_read);
 		--TCAPS.nb_read;
 		res = tgetstr("dm", NULL);
 		tputs(res, 1, dsh_putchar);

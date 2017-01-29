@@ -67,6 +67,7 @@ int				main(int ac, char **av, char **env)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (check_read(e.buf))
 		{
+//			ft_printf("%d | %d\n", e.tcaps.nb_read, e.tcaps.nb_move);
 			if (e.tcaps.nb_move == e.tcaps.nb_read)
 				e.line = realloc_line(&e, e.buf[0]);
 			else

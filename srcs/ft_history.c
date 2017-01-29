@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <fcntl.h>
 
 /*
 **	CREATE OR OPEN .history FILE
@@ -12,7 +11,7 @@ int	store_history(char **cmd)
 	int		fd;
 	static char	*last_cmd = NULL;
 
-	if (last_cmd && !ft_strcmp("history", last_cmd) && !ft_strcmp("history", cmd[0]))
+	if (last_cmd && !ft_strcmp(cmd[0], last_cmd))
 		return (0);
 	if (last_cmd)
 		free(last_cmd);
