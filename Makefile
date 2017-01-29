@@ -14,8 +14,8 @@ NAME = 21sh
 
 SRC_NAME = main.c ft_init.c ft_parse.c ft_exec.c\
 		   ft_env.c ft_setenv.c ft_unsetenv.c ft_chdir.c ft_echo.c ft_where.c\
-		   ft_tools.c ft_signal.c ft_exit.c ft_error.c ft_history.c ft_termcaps.c \
-			realloc.c history_term.c
+		   ft_tools.c ft_signal.c ft_exit.c ft_error.c ft_history.c ft_termcaps.c\
+		   realloc.c history_term.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -40,7 +40,7 @@ all: lib $(NAME)
 
 $(NAME): $(OBJ)
 	@($(CC) -o $(NAME) $(OBJ) $(LIB) $(LIB_NAME))
-	@(echo "\033[32;44m Make $(NAME) \033[0m")
+	@(printf "\033[32;44m Make $(NAME) \033[0m\n")
 
 %.o: %.c
 	@($(CC) $(CFLAGS) -o $@ -c $< $(INC))
@@ -51,19 +51,19 @@ lib:
 	@make -C ./libft
 
 clean:
-	@echo "\033[31;44m Removing $(NAME) objects \033[0m"
+	@printf "\033[31;44m Removing $(NAME) objects \033[0m\n"
 	@rm -rfv $(OBJ) $(OBJ_PATH)
 
 fclean: clean libfclean
-	@echo "\033[31;44m Removing $(NAME) executables \033[0m"
+	@printf "\033[31;44m Removing $(NAME) executables \033[0m\n"
 	@rm -fv $(NAME)
 
 libclean:
-	@echo "\033[31;44m Removing $(LIB_PATH) objects \033[0m"
+	@printf "\033[31;44m Removing $(LIB_PATH) objects \033[0m\n"
 	@make -C ./libft clean
 
 libfclean:
-	@echo "\033[31;44m Removing $(LIB_PATH) executables \033[0m"
+	@printf "\033[31;44m Removing $(LIB_PATH) executables \033[0m\n"
 	@make -C ./libft fclean
 
 re: fclean
