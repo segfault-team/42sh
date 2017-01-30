@@ -6,11 +6,25 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/23 14:56:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 15:54:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+int			ft_check_ctrlc(int ctrlc)
+{
+	static int	check = 0;
+
+	if (ctrlc)
+		check = 1;
+	else if (check)
+	{
+		check = 0;
+		return (1);
+	}
+	return (0);
+}
 
 int			ft_matchquotes(char *s)
 {

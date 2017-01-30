@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/01/30 11:51:35 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/01/30 15:51:39 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		= 21sh
 SRC_NAME	= main.c ft_init.c ft_parse.c ft_exec.c ft_banner.c\
 			  ft_env.c ft_setenv.c ft_unsetenv.c ft_chdir.c ft_echo.c\
 			  ft_where.c ft_tools.c ft_signal.c ft_exit.c ft_error.c\
-			  ft_history.c ft_realloc_line.c\
+			  ft_history.c ft_realloc_line.c ft_reset.c\
 			  tcaps.c tcaps_history.c tcaps_check.c\
 			  tcaps_delete.c tcaps_arrow.c tcaps_insert.c tcaps_ctrl.c
 			  

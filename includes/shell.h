@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:15:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 15:51:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 
 /*
-**		Init
+**		Init - Reset
 */
 void				ft_init(t_env *e, int ac, char **av, char **env);
+int					ft_reset_line(t_env *e);
 
 /*
 **		Signals
@@ -111,6 +112,7 @@ void				ft_sig_handler(int sig);
 /*
 **		Tools
 */
+int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
 int 				ft_read_history(t_env *e);
 void				ft_env_free(t_env *e);
