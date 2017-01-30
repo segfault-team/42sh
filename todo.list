@@ -6,6 +6,11 @@
 
 -manage history when "rm /tmp/.history"
 
+- manage copy/colle
+
+- integration multi ligne
+	|->	creation function qui recalcul TCAPS.nb_col && nb_line a !!CHAQUE!! mvt (arrow, delete, insertion, tout ce que tu veux, t'as carte blanche, a chaque fois que le curseur bouge on recalcul)
+- mvt ctrl + fleche
 DONE:
 
 - merge & delete integration-termcaps branch

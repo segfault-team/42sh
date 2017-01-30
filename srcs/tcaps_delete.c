@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:27:51 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 17:25:22 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,16 @@ void	tcaps_del(t_env *e)
 
 	res = tgetstr("dm", NULL);
 	tputs(res, 1, dsh_putchar);
-	if (TCAPS.nb_col == 0 && TCAPS.nb_line != 1)
-	  {
-	    //	    if (TCAPS.nb_col == 1)
-	    // TCAPS.nb_col += ft_strlen(e->prompt);
-	    res = tgetstr("dc", NULL);
-	    tputs(res, 1, dsh_putchar);
-	  }
-	else
-	  ft_printf("%d | %d\n", TCAPS.nb_col, WS_COL);
-	--TCAPS.nb_read;
 	res = tgetstr("le", NULL);
 	tputs(res, 1, dsh_putchar);
-	if (TCAPS.nb_move)
-		--TCAPS.nb_move;
 	res = tgetstr("dc", NULL);
 	tputs(res, 1, dsh_putchar);
+//	  ft_printf("%d | %d\n", TCAPS.nb_col, WS_COL);
 	res = tgetstr("ed", NULL);
 	tputs(res, 1, dsh_putchar);
+	--TCAPS.nb_read;
+	if (TCAPS.nb_move)
+		--TCAPS.nb_move;
 	if (!TCAPS.nb_read && e->line)
 	{
 		free(e->line);

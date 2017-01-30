@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:32:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 17:00:42 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 	if (len != 1)
 		while (e->line[i])
 		{
-			if (i != TCAPS.nb_move || !c)
+			if (i != TCAPS.nb_move - (int)ft_strlen(e->prompt) || !c)
 				new[++j] = e->line[i++];
 			else
 			{

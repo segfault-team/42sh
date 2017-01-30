@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:53:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 17:00:26 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				main(int ac, char **av, char **env)
 		ioctl(0, TIOCGWINSZ, &(e.tcaps.ws));
 		e.tcaps.nb_line = (e.tcaps.nb_move / e.tcaps.ws.ws_col) + 1;
 		if (e.tcaps.nb_line == 1)
-		  e.tcaps.nb_col = e.tcaps.nb_move % (e.tcaps.ws.ws_col - (ft_strlen(e.prompt) - 1));
+		e.tcaps.nb_col = e.tcaps.nb_move % (e.tcaps.ws.ws_col - (ft_strlen(e.prompt) - 1));
 		else
 		  e.tcaps.nb_col = e.tcaps.nb_move % e.tcaps.ws.ws_col;
 		//			ft_printf("%d | %d | %d\n", e.tcaps.ws.ws_col, e.tcaps.nb_line, e.tcaps.nb_col);
