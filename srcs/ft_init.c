@@ -70,6 +70,8 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.nb_read = 0;
 	TCAPS.check_move = 0;
 	TCAPS.hist_move = -1;
+	TCAPS.nb_line = 1;
+	TCAPS.nb_col = 0;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)
@@ -84,4 +86,9 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.termos.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
 		ft_printf("GERRER L'ERROR");
+	char	*res;
+	res = tgetstr("am", NULL);
+	tputs(res, 1, dsh_putchar);
+	res = tgetstr("bw", NULL);
+	tputs(res, 1, dsh_putchar);
 }

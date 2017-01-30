@@ -18,7 +18,7 @@ void	tcaps_clear(t_env *e)
 /*
 **  INSTRUCTION FOR "Ctrl + a" KEYS
 **
-**  cr: return at the begining of the line
+**	cr: return at the begining of the line
 **	nd: move cursor once on the right
 */
 
@@ -26,7 +26,14 @@ void	tcaps_rtrbeg(t_env *e)
 {
 	char	*res;
 	int		i;
+	int	l;
 
+	l = TCAPS.nb_line;
+	while (--l)
+	  {
+	    res = tgetstr("up", NULL);
+	    tputs(res, 1, dsh_putchar);
+	  }
 	res = tgetstr("cr", NULL);
 	tputs(res, 1, dsh_putchar);
 	i = ft_strlen(e->prompt);

@@ -48,6 +48,7 @@
 # define FD e.fd
 # define BUF e->buf
 # define TCAPS e->tcaps
+# define WS_COL e->tcaps.ws.ws_col
 
 # define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
@@ -67,6 +68,9 @@ typedef struct		s_term
 	int				nb_read;
 	int				check_move;
 	int				hist_move;
+  	int				nb_line;
+  	int				nb_col;
+ 	 struct winsize			ws;
 }					t_term;
 
 typedef struct		s_env

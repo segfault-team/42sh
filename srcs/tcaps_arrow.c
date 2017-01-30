@@ -46,7 +46,16 @@ void	tcaps_right(t_env *e)
 {
 	char	*res;
 
-	res = tgetstr("nd", NULL);
+	if ((TCAPS.nb_line == 1 && TCAPS.nb_col + ft_strlen(e->prompt) == TCAPS.ws.ws_col - 1) ||
+	    (TCAPS.nb_line != 1 && TCAPS.nb_col == TCAPS.ws.ws_col - 1))
+	  {
+	    res = tgetstr("do", NULL);
+	    tputs(res, 1, dsh_putchar);
+	    res = tgetstr("dr", NULL);
+	    TCAPS.nb_col = 0;	    
+	  }
+	else
+	  res = tgetstr("nd", NULL);
 	tputs(res, 1, dsh_putchar);
 	++TCAPS.nb_move;
 }
@@ -56,13 +65,20 @@ void	tcaps_right(t_env *e)
 **		ARROW KEYS
 **
 **  le: move cursor once on the left
+**  WS_COL : e->tcaps.ws.ws_col
 */
 
 void	tcaps_left(t_env *e)
 {
 	char	*res;
 
-	res = tgetstr("le", NULL);
-	tputs(res, 1, dsh_putchar);
-	--TCAPS.nb_move;
+	if (TCAPS.nb_col > (int)ft_strlen(e->prompt) || TCAPS.nb_line > 1)
+	  {
+	    if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
+	      TCAPS.nb_col = WS_COL;
+	    res = tgetstr("le", NULL);
+	    tputs(res, 1, dsh_putchar);
+	    --TCAPS.nb_move;
+	    --TCAPS.nb_col;
+	  }
 }
