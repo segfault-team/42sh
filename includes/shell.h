@@ -38,6 +38,12 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
+# define RED "\033[31m"
+# define WHITE "\033[;0m"
+# define GREEN "\033[32m"
+# define BLUE "\033[34m"
+# define YELLOW "\033[33m"
+# define ITALIC "\x1b[3m"
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
 # define FD e.fd
 # define BUF e->buf
@@ -81,6 +87,7 @@ typedef struct		s_env
 
 int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
+void				banner(t_env *e);
 
 /*
 **		Exec
@@ -139,5 +146,12 @@ int					ft_termcaps(t_env *e);
 int					dsh_putchar(int c);
 void				term_history_up(t_env *e);
 int					term_history_down(t_env *e);
+void				inst_term_del(t_env *e);
+void				inst_term_history(t_env *e);
+void				inst_term_right(t_env *e);
+void				inst_term_left(t_env *e);
+void				inst_term_insert(t_env *e);
+void				inst_term_clear(t_env *e);
+void				inst_term_rtrbeg(t_env *e);
 
 #endif
