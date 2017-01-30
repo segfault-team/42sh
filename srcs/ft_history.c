@@ -5,7 +5,7 @@
 **	COMPLETE IT WITH THE NEW CMD
 */
 
-int	store_history(char **cmd)
+int		ft_store_history(char **cmd)
 {
 	int		i;
 	int		fd;
@@ -35,7 +35,7 @@ int	store_history(char **cmd)
 **	PRINT THE HISTORY OF CMD
 */
 
-int	ft_history(t_env *e)
+int		ft_history(t_env *e)
 {
 	int		i;
 /*	int		fd;

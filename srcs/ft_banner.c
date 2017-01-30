@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_banner.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/30 11:26:14 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/01/30 11:41:04 by lfabbro          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static void	banner_ii(void)
@@ -15,7 +27,7 @@ static void	banner_ii(void)
 	ft_printf("                   `!^\"'\n\n");
 }
 
-void		banner(t_env *e)
+void		ft_banner(t_env *e)
 {
 	ft_printf("\n                      .,,uod8B8bou,,.\n");
 	ft_printf("             ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.\n");

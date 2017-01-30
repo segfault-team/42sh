@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   tcaps_insert.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/28 18:57:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:53:12 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/01/30 11:30:20 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/01/30 11:30:21 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
 /*
-** DESCRIPTION:
-**     Outputs the string s to the standard output.
-**     Returns the number or printed chars.
+**  INSTRUCTION FOR ALL INSERTION
+**		OF VISIBLE CHAR
+**
+**  im: start insert mode
+**  ei: end insert mode
 */
 
-int			ft_putstr(char const *s)
+void	tcaps_insert(t_env *e)
 {
-	int		len;
+	char	*res;
 
-	len = 0;
-	if (s)
-	{
-		len = ft_strlen(s);
-		write(1, s, len);
-	}
-	return (len);
+	res = tgetstr("im", NULL);
+	tputs(res, 1, dsh_putchar);
+	tputs(&BUF[0], 1, dsh_putchar);
+	res = tgetstr("ei", NULL);
+	tputs(res, 1, dsh_putchar);
+	++TCAPS.nb_move;
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/28 14:58:18 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/30 11:53:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	INSTRUCTIONS FOR ENTER KEY
 */
 
-static void	inst_term_enter(t_env *e)
+static void		tcaps_enter(t_env *e)
 {
 	TCAPS.hist_move = -1;
 	ft_putchar('\n');
@@ -36,38 +36,36 @@ static void	inst_term_enter(t_env *e)
 **	WITH PRINTABLE CHAR
 */
 
-static void	inst_term_printable_char(t_env *e)
+static void		tcaps_printable_char(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
-		e->line = realloc_line(e, BUF[0]);
+		e->line = ft_realloc_line(e, BUF[0]);
 	else
-		e->line = realloc_insert_char(e, BUF[0]);
+		e->line = ft_realloc_insert_char(e, BUF[0]);
 	TCAPS.nb_read = ft_strlen(e->line);
 }
 
-int			main(int ac, char **av, char **env)
+int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
 	ft_init(&e, ac, av, env);
-	banner(&e);
+	ft_banner(&e);
 	ft_set_sig_handler();
 	while (e.x)
 	{
 		read(0, e.buf, 3);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
-		if (check_read(e.buf))
-			inst_term_printable_char(&e);
+		if (tcaps_check_read(e.buf))
+			tcaps_printable_char(&e);
 		else if (e.line && e.buf[0] == 127)
-			e.line = realloc_delete_char(&e);
-		if (check_key(e.buf, 10, 0, 0))
-			inst_term_enter(&e);
+			e.line = ft_realloc_delete_char(&e);
+		if (tcaps_check_key(e.buf, 10, 0, 0))
+			tcaps_enter(&e);
 		else
-			ft_termcaps(&e);
-		e.buf[0] = 0;
-		e.buf[1] = 0;
-		e.buf[2] = 0;
+			tcaps(&e);
+		ft_bzero(&e.buf, 3);
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;
 	}

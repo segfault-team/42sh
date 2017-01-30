@@ -6,7 +6,7 @@
 **  cl: clear active window
 */
 
-void	inst_term_clear(t_env *e)
+void	tcaps_clear(t_env *e)
 {
 	char	*res;
 
@@ -22,7 +22,7 @@ void	inst_term_clear(t_env *e)
 **	nd: move cursor once on the right
 */
 
-void	inst_term_rtrbeg(t_env *e)
+void	tcaps_rtrbeg(t_env *e)
 {
 	char	*res;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/28 15:11:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 11:35:13 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				ft_exec_cmd(t_env *e, char **cmds, int i)
 		else
 			ret = ft_exec(e->cmd, e->env);
 	}
-	check_history(e);
+	ft_check_history(e);
 	ft_free_tab(e->cmd);
 	e->cmd = NULL;
 	return (ret);

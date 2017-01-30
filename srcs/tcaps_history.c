@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tcaps_history.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/01/30 11:41:23 by lfabbro          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 /*
@@ -5,7 +17,7 @@
 **	e->history TAB
 */
 
-int		read_history(t_env *e)
+int		ft_read_history(t_env *e)
 {
 	int			fd;
 	int 		i;
@@ -27,13 +39,13 @@ int		read_history(t_env *e)
 **	ADD NEW CMD TO THE END OF HTE HISTORY TAB
 */
 
-void	check_history(t_env *e)
+void	ft_check_history(t_env *e)
 {
 	int	i;
 	int	accs;
 
 	accs = access("/tmp/.history", F_OK);
-	store_history(e->cmd);
+	ft_store_history(e->cmd);
 	if (accs != -1)
 	{
 		i = ft_tablen(e->history);
@@ -46,10 +58,10 @@ void	check_history(t_env *e)
 		while (e->history[++i])
 			free(e->history[i]);
 		free(e->history);
-		read_history(e);
+		ft_read_history(e);
 	}
 	else
-		read_history(e);
+		ft_read_history(e);
 }
 
 /*
@@ -57,7 +69,7 @@ void	check_history(t_env *e)
 **	FOR UP ARROW
 */
 
-void	term_history_up(t_env *e)
+void	tcaps_history_up(t_env *e)
 {
 	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1)
 	{
@@ -79,7 +91,7 @@ void	term_history_up(t_env *e)
 **	FOR DOWN ARROW
 */
 
-int		term_history_down(t_env *e)
+int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
 
