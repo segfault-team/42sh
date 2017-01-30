@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:54:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 16:13:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			ft_check_ctrlc(int ctrlc)
 
 	if (ctrlc)
 		check = 1;
-	else if (check)
+	else if (!ctrlc && check)
 	{
 		check = 0;
 		return (1);

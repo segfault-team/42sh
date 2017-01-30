@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:49:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:54:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 16:11:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int		ft_reset_line(t_env *e)
 {
 	if (e->line)
-	{
 		free(e->line);
-		e->line = NULL;
-		e->tcaps.nb_move = 0;
-		e->tcaps.nb_read = 0;
-	}
+	e->line = NULL;
+	e->tcaps.nb_move = 0;
+	e->tcaps.nb_read = 0;
 	return (0);
 }
