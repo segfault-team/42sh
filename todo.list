@@ -5,3 +5,7 @@
 -check memory leaks for history : "memory still reachable"
 
 -manage history when "rm /tmp/.history"
+
+DONE:
+
+- merge & delete integration-termcaps branch
