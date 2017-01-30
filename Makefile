@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/01/26 13:30:58 by kboddez          ###   ########.fr        #
+#    Updated: 2017/01/30 10:45:49 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,19 +56,19 @@ lib:
 	@make -C ./libft
 
 clean:
-	@printf "\033[31;44m Removing $(NAME) objects \033[0m\n"
+	@(printf "\033[31;44m Removing $(NAME) objects \033[0m\n")
 	@rm -rfv $(OBJ) $(OBJ_PATH)
 
 fclean: clean libfclean
-	@printf "\033[31;44m Removing $(NAME) executables \033[0m\n"
+	@(printf "\033[31;44m Removing $(NAME) executables \033[0m\n")
 	@rm -fv $(NAME)
 
 libclean:
-	@printf "\033[31;44m Removing $(LIB_PATH) objects \033[0m\n"
+	@(printf "\033[31;44m Removing $(LIB_PATH) objects \033[0m\n")
 	@make -C ./libft clean
 
 libfclean:
-	@printf "\033[31;44m Removing $(LIB_PATH) executables \033[0m\n"
+	@(printf "\033[31;44m Removing $(LIB_PATH) executables \033[0m\n")
 	@make -C ./libft fclean
 
 re: fclean
