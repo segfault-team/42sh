@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:50:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 15:15:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ int					tcaps_check_key(char buf[3], int a, int b, int c);
 int					tcaps_check_read(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
-void				tcaps_del(t_env *e);
+void				tcaps_del_bkw(t_env *e);
+void				tcaps_del_fwd(t_env *e);
 void				tcaps_history(t_env *e);
 void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
