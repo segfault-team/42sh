@@ -28,7 +28,7 @@ static int		ft_exec_builtin(t_env *e)
 	char	ret;
 
 	ret = 0;
-	store_history(e->cmd);
+//	store_history(e->cmd);
 	if (ft_strequ(e->cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (ft_strequ(e->cmd[0], "env") && ++ret)
@@ -62,6 +62,7 @@ int				ft_exec_cmd(t_env *e, char **cmds, int i)
 		else
 			ret = ft_exec(e->cmd, e->env);
 	}
+	check_history(e);
 	ft_free_tab(e->cmd);
 	e->cmd = NULL;
 	return (ret);

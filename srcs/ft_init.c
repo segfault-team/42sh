@@ -55,7 +55,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	e->history = NULL;
-	term_history(e);
+	read_history(e);
 	BUF[0] = 0;
 	BUF[1] = 0;
 	BUF[2] = 0;
@@ -69,6 +69,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
 	TCAPS.check_move = 0;
+	TCAPS.hist_move = -1;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)

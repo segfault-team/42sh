@@ -22,12 +22,11 @@ int		dsh_putchar(int c)
 
 int 	ft_termcaps(t_env *e)
 {
-	char	*res;
-	int		up;
+	char		*res;
 
+	if (!check_key(BUF, 27, 91, 65) && !check_key(BUF, 27, 91, 66))
+		TCAPS.hist_move = -1;
 	res = NULL;
-	up = 0;
-	up = (check_key(BUF, 27, 91, 65)) ? up + 1: 0;
 	if (BUF[0] == 4)
 		ft_exit(e);
 	else if (check_read(BUF))
@@ -48,21 +47,20 @@ int 	ft_termcaps(t_env *e)
 		tputs(res, 1, dsh_putchar);
 		ft_putstr(e->prompt);
 	}
-/*	else if (check_key(BUF, 27, 91, 65))
+	else if (check_key(BUF, 27, 91, 65) || check_key(BUF, 27, 91, 66))
 	{
 		//cr: return at the begining of the line
 		//cd: clear the line
 		res = tgetstr("cr", NULL);
-		id = tgetstr("cd", NULL);
 		tputs(res, 1, dsh_putchar);
-		tputs(id, 1, dsh_putchar);
-		res = tgetstr("cm", NULL);
-		print_pos("#> ", &wpos);
-		tputs(tgoto(res, 3, wpos.y), 1, dsh_putchar);
-		term_history(up, &wpos);
+		res = tgetstr("cd", NULL);
+		tputs(res, 1, dsh_putchar);
+		ft_putstr(e->prompt);
+		if (check_key(BUF, 27, 91, 65))
+			term_history_up(e);
+		else
+			term_history_down(e);
 	}
-*/	else if (check_key(BUF, 27, 91, 66))
-		printf("down arrow\n");
 	else if (check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
 	{
 //nd: move right char
@@ -71,7 +69,7 @@ int 	ft_termcaps(t_env *e)
 		tputs(res, 1, dsh_putchar);
 		++TCAPS.nb_move;
 	}
-	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 1)
+	else if (check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
 	{
 		res = tgetstr("le", NULL);
 		tputs(res, 1, dsh_putchar);
@@ -95,8 +93,13 @@ int 	ft_termcaps(t_env *e)
 		tputs(res, 1, dsh_putchar);
 		res = tgetstr("ed", NULL);
 		tputs(res, 1, dsh_putchar);
+		if (!TCAPS.nb_read && e->line)
+		{
+			free(e->line);
+			e->line = NULL;
+		}
 	}
-//	else if (BUF[0])
-//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
+	else if (BUF[0])
+		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
 }

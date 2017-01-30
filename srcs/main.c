@@ -67,27 +67,29 @@ int				main(int ac, char **av, char **env)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (check_read(e.buf))
 		{
-//			ft_printf("%d | %d\n", e.tcaps.nb_read, e.tcaps.nb_move);
+//			if (e.tcaps.hist_move != -1 && e.line)
+//				free(e.line);
 			if (e.tcaps.nb_move == e.tcaps.nb_read)
 				e.line = realloc_line(&e, e.buf[0]);
 			else
 				e.line = realloc_insert_char(&e, e.buf[0]);
 			e.tcaps.nb_read = ft_strlen(e.line);
 		}
-		else if (e.buf[0] == 127)
+		else if (e.line && e.buf[0] == 127)
 			e.line = realloc_delete_char(&e);
-//		ft_printf("%d | %d | %d\n", e.tcaps.nb_move, e.tcaps.nb_read, e.tcaps.check_move);
 		if (check_key(e.buf, 10, 0, 0))
 		{
+			e.tcaps.hist_move = -1;
 			ft_putchar('\n');
-			if (ft_parse_line(&e))
-				ft_putchar('\n');
-			check_history(&e);
+//			ft_printf("%d | %s\n", e.tcaps.hist_move, e.line);
+			if (e.line && ft_parse_line(&e))
+				ft_putstr(".\n");
 			e.tcaps.nb_move = 0;
 			e.tcaps.nb_read = 0;
 			if (!ft_strstr(e.line, "exit"))
 				ft_putstr(e.prompt);
-			free(e.line);
+			if (e.line)
+				free(e.line);
 			e.line = NULL;
 		}
 		else

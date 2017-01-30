@@ -40,10 +40,13 @@ void		ft_env_free(t_env *e)
 		free(e->home);
 	if (TCAPS.term_name)
 		free(TCAPS.term_name);
-	if (e->history)
-		ft_free_tab(e->history);
-	free(e->prompt);
-	ft_free_tab(e->env);
+// DOUBLE FREE ??
+//	if (e->history)
+//		ft_free_tab(e->history);
+	if (e->prompt)
+		free(e->prompt);
+	if (e->env)
+		ft_free_tab(e->env);
 }
 
 char		*ft_issetenv(char **env, char *name)

@@ -43,7 +43,7 @@ $(NAME): $(OBJ)
 	@(printf "\033[32;44m Make $(NAME) \033[0m\n")
 
 %.o: %.c
-	@($(CC) $(CFLAGS) -o $@ -c $< $(INC))
+	@($(CC) -o $@ -c $< $(INC))
 
 .PHONY: all lib clean fclean re libfclean libclean
 

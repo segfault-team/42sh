@@ -60,6 +60,7 @@ typedef struct		s_term
 	int				nb_move;
 	int				nb_read;
 	int				check_move;
+	int				hist_move;
 }					t_term;
 
 typedef struct		s_env
@@ -104,7 +105,7 @@ void				ft_sig_handler(int sig);
 **		Tools
 */
 int					ft_matchquotes(char *str);
-int 				term_history(t_env *e);
+int 				read_history(t_env *e);
 void				ft_env_free(t_env *e);
 void 				check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
@@ -136,5 +137,7 @@ int					check_read(char buf[3]);
 char				*realloc_line(t_env *e, char c);
 int					ft_termcaps(t_env *e);
 int					dsh_putchar(int c);
+void				term_history_up(t_env *e);
+int					term_history_down(t_env *e);
 
 #endif
