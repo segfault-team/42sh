@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:34:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 14:26:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int		ft_set_home(t_env *e)
 		free(tmp);
 		return (1);
 	}
-	free(tmp);
 	return (0);
 }
 
@@ -55,10 +54,12 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	e->history = NULL;
-	ft_read_history(e);
-	BUF[0] = 0;
-	BUF[1] = 0;
-	BUF[2] = 0;
+	if (ft_read_history(e) < 0)
+	{
+		ft_free_tab(e->history);
+		e->history = NULL;
+	}
+	ft_bzero(e->buf, 3);
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;

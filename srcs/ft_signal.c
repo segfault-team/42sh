@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 14:38:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/30 15:46:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,8 @@ void		ft_set_sig_handler(void)
 void		ft_sig_handler(int sig)
 {
 	if (sig == SIGINT)
+	{
+		ft_check_ctrlc(1);
 		ft_putstr_fd("\n$> ", 1);
+	}
 }

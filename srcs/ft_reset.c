@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabcat.c                                        :+:      :+:    :+:   */
+/*   ft_reset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/24 16:35:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 13:42:59 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/01/30 15:49:07 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/01/30 16:11:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char		**ft_tabcat(char **tab, char *str)
+int		ft_reset_line(t_env *e)
 {
-	char	**tmp;
-	size_t	len;
-
-	tmp = NULL;
-	if (tab && *tab && str)
-	{
-		len = ft_tablen(tab);
-		tmp = ft_tabnew(len + 2);
-		tmp = ft_tabcpy(tmp, tab);
-		tmp[len] = ft_strdup(str);
-		tmp[len + 1] = NULL;
-	}
-	else if (str)
-	{
-		tmp = ft_tabnew(2);
-		tmp[0] = ft_strdup(str);
-		tmp[1] = NULL;
-	}
-	return (tmp);
+	if (e->line)
+		free(e->line);
+	e->line = NULL;
+	e->tcaps.nb_move = 0;
+	e->tcaps.nb_read = 0;
+	return (0);
 }
