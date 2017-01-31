@@ -1,11 +1,16 @@
--gestion d'erreur: migrer vers une gestion d'erreur sur la sortie d'erreur non plus la sortie standard
+TODO:
 
--gestion du tilde dans les commandes
+- gestion du tilde dans les commandes
 
--check memory leaks for history : "memory still reachable"
+- manage history when "rm /tmp/.history"
 
--manage history when "rm /tmp/.history"
+- manage delete char (not backspace, delete), cause now it barely works (clean TCAPS.nbmove && TCAPS.nbread)
 
 DONE:
 
 - merge & delete integration-termcaps branch
+
+-check memory leaks for history : "memory still reachable"
+
+-gestion d'erreur: migrer vers une gestion d'erreur sur la sortie d'erreur non plus la sortie standard
+(utiliser: "ft_error(char *util, char *msg, char *what)")
