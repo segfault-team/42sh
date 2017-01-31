@@ -4,6 +4,7 @@
 **  INSTRUCTION FOR "Ctrl + l" KEYS
 **
 **  cl: clear active window
+**  To do : reset positions after clear && check buffer after ctrl+l
 */
 
 void	tcaps_clear(t_env *e)
@@ -36,11 +37,12 @@ void	tcaps_rtrbeg(t_env *e)
 	  }
 	res = tgetstr("cr", NULL);
 	tputs(res, 1, dsh_putchar);
+	TCAPS.nb_move = 0;
 	i = ft_strlen(e->prompt);
 	while (i--)
 	{
 		res = tgetstr("nd", NULL);
 		tputs(res, 1, dsh_putchar);
 	}
-	TCAPS.nb_move = 0;
+	tcaps_recalc_pos(e);
 }

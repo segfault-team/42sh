@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:38:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 10:56:25 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	tcaps_history(t_env *e)
 		tcaps_history_up(e);
 	else
 		tcaps_history_down(e);
+	tcaps_recalc_pos(e);
 }
 
 /*
@@ -58,6 +59,8 @@ void	tcaps_right(t_env *e)
 	  res = tgetstr("nd", NULL);
 	tputs(res, 1, dsh_putchar);
 	++TCAPS.nb_move;
+	++TCAPS.nb_col;
+	tcaps_recalc_pos(e);
 }
 
 /*
@@ -80,5 +83,6 @@ void	tcaps_left(t_env *e)
 	    tputs(res, 1, dsh_putchar);
 	    --TCAPS.nb_move;
 	    --TCAPS.nb_col;
+		tcaps_recalc_pos(e);
 	  }
 }

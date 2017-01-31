@@ -10,6 +10,8 @@
 
 - integration multi ligne
 	|->	creation function qui recalcul TCAPS.nb_col && nb_line a !!CHAQUE!! mvt (arrow, delete, insertion, tout ce que tu veux, t'as carte blanche, a chaque fois que le curseur bouge on recalcul)
+
+	|->	gerer l'affichage apres la cmd sur plusieurs ligne
 - mvt ctrl + fleche
 DONE:
 
