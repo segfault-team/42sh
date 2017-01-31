@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 13:20:26 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 14:26:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	e->history = NULL;
-	ft_read_history(e);
+	if (ft_read_history(e) < 0)
+	{
+		ft_free_tab(e->history);
+		e->history = NULL;
+	}
 	ft_bzero(e->buf, 3);
 	e->x = 1;
 	e->exit = 0;

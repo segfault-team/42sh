@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 13:20:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 14:25:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@ size_t	ft_history_len(void)
 	char	*line;
 	size_t	len;
 	int		fd;
-	int		i;
 
-	i = 1;
 	len = 0;
 	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) < 0)
 		return (ft_error("open", "could not open", "/tmp/.history"));
-	while (get_next_line(fd, &line) > 0 && ++i)
+	while (get_next_line(fd, &line) > 0 && ++len)
 		free(line);
 	if (close(fd) < 0)
 		return (ft_error("close", "could not close file", "/tmp/.history"));
-	return (0);
+	return (len);
 }
 
 int		ft_read_history(t_env *e)
@@ -42,21 +40,20 @@ int		ft_read_history(t_env *e)
 	size_t		len;
 	char		*line;
 
-	i = 0;
+	i = -1;
 	len = 0;
 	line = NULL;
 	if ((len = ft_history_len()))
 	{
-// MANAGE ERRORS
+		// MANAGE ERRORS
 		if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) < 0)
 			return (ft_error("open", "could not open", "/tmp/.history"));
 		if ((e->history = ft_tabnew(len)) == NULL)
-			return (ft_error("malloc", "malloc failed", NULL));
+			return (ft_error("malloc", "failed", NULL));
 		while (get_next_line(fd, &line) > 0)
 		{
-			e->history[i] = ft_strdup(line);
+			e->history[++i] = ft_strdup(line);
 			free(line);
-			++i;
 		}
 		if (close(fd) < 0)
 			return (ft_error("close", "could not close file", "/tmp/.history"));
@@ -71,29 +68,32 @@ int		ft_read_history(t_env *e)
 
 void	ft_check_history(t_env *e)
 {
-	int	i;
-	int	accs;
+	int		i;
+	int		accs;
+	char	**tmp;
 
 	accs = access("/tmp/.history", F_OK);
 	ft_store_history(e->cmd);
-	if (accs != -1 && e->history)
+	tmp = NULL;
+	if (accs != -1)
 	{
 		i = ft_tablen(e->history);
-		if (e->history[i] && !ft_strcmp(e->history[i], e->line))
+		if (!ft_strcmp(e->history[i], e->line))
+		{
+			tmp = e->history;
 			e->history = ft_tabcat(e->history, e->line);
-		else if (!e->history[i])
-			e->history = ft_tabcat(e->history, e->line);
+			if (tmp)
+				ft_free_tab(tmp);
+		}
 	}
 	else if (e->history)
 	{
-		i = -1;
 		ft_free_tab(e->history);
 		ft_read_history(e);
 	}
 	else
 		ft_read_history(e);
 }
-
 /*
  **	MANAGE THE TERMCAPS HISTORY
  **	FOR UP ARROW
