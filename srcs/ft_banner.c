@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:26:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:41:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 15:53:13 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ void		ft_banner(t_env *e)
 	ft_printf("\n                      .,,uod8B8bou,,.\n");
 	ft_printf("             ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.\n");
 	ft_printf("         ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||\n");
-	ft_printf("         !...:!TVBBBRPFT||||||||||!!^^\"\"'   ||||\n");
-	ft_printf("         !.......:!?|||||!!^^\"\"'            ||||\n");
-	ft_printf("         !.........||||                     ||||\n");
-	ft_printf("         !.........||||     %s%s%s", GREEN, "## > ", ITALIC);
-	ft_printf("%s%s%s       ||||\n", BLUE, "boid", "\x1b[0m", WHITE);
-	ft_printf("         !.........||||                     ||||\n");
-	ft_printf("         !.........||||                     ||||\n");
-	ft_printf("         !.........||||                     ||||\n");
-	ft_printf("         !.........||||                     ||||\n");
-	ft_printf("         `.........||||                    ,||||\n");
-	ft_printf("          .;.......||||               _.-!!|||||\n");
-	ft_printf("   .,uodWBBBBb.....||||       _.-!!|||||||||!:'\n");
+	ft_printf("         !...:!TVBBBRPFT||||||||||!!^^\"\"'%s...%s||||\n", BLUE, WHITE);
+	ft_printf("         !.......:!?|||||!!^^\"\"'%s............%s||||\n", BLUE, WHITE);
+	ft_printf("         !.........||||%s.....................%s||||\n", BLUE, WHITE);
+	ft_printf("         !.........||||%s....%s%s%s", BLUE, GREEN, "## > ", ITALIC);
+	ft_printf("%s%s........%s||||\n", "21sh", BLUE, WHITE);
+	ft_printf("         !.........||||%s.....................%s||||\n", BLUE, WHITE);
+	ft_printf("         !.........||||%s.....................%s||||\n", BLUE, WHITE);
+	ft_printf("         !.........||||%s.....................%s||||\n", BLUE, WHITE);
+	ft_printf("         !.........||||%s.....................%s||||\n", BLUE, WHITE);
+	ft_printf("         `.........||||%s....................%s,||||\n", BLUE, WHITE);
+	ft_printf("          .;.......||||%s.............%s_.-!!|||||\n", BLUE, WHITE);
+	ft_printf("   .,uodWBBBBb.....||||%s.......%s_.-!!|||||||||!:'\n", BLUE, WHITE);
 	ft_printf("!YBBBBBBBBBBBBBBb..!|||:..-!!|||||||!iof68BBBBBb....\n");
 	ft_printf("!..YBBBBBBBBBBBBBBb!!||||||||!iof68BBBBBBRPFT?!::   `.\n");
 	ft_printf("!....YBBBBBBBBBBBBBBbaaitf68BBBBBBRPFT?!:::::::::     `.\n");

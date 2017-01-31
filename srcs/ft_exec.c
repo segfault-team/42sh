@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/23 14:52:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 14:33:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env)
 		dup2(outfd[0], STDIN_FILENO);
 		dup2(infd[1], STDOUT_FILENO);
 		if (close(infd[0]) || close(infd[1]) || close(outfd[0]) || close(outfd[1]))
-			ft_printfd(2, "%s\n", "GERER ERREUR");
+			ft_printfd(2, "%s\n", "GERER ERREUR BROKEN PIPE");
 		execve(exec, &cmd[0], env);
 	}
 	else
 	{
 //		waitpid(pid, &status, WUNTRACED);
 		if (close(outfd[0]) || close(infd[1]) || close(outfd[1]))
-			ft_printfd(2, "%s\n", "GERER ERREUR");
+			ft_printfd(2, "%s\n", "GERER ERREUR BROKEN PIPE");
 		while ((rtr = read(infd[0], buf, 2048)) != 0)
 		{
 			buf[rtr] = '\0';
