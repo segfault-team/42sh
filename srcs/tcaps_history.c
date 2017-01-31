@@ -6,38 +6,68 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:41:23 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 13:20:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
 /*
-**	OPEN /tmp/.history AND STORE IT IN
-**	e->history TAB
-*/
+ **	OPEN /tmp/.history AND STORE IT IN
+ **	e->history TAB
+ */
+
+size_t	ft_history_len(void)
+{
+	char	*line;
+	size_t	len;
+	int		fd;
+	int		i;
+
+	i = 1;
+	len = 0;
+	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) < 0)
+		return (ft_error("open", "could not open", "/tmp/.history"));
+	while (get_next_line(fd, &line) > 0 && ++i)
+		free(line);
+	if (close(fd) < 0)
+		return (ft_error("close", "could not close file", "/tmp/.history"));
+	return (0);
+}
 
 int		ft_read_history(t_env *e)
 {
 	int			fd;
 	int 		i;
+	size_t		len;
+	char		*line;
 
 	i = 0;
-	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
-// MANAGE ERROR
-		return (ft_printf(""));
-	e->history = malloc(sizeof(e->history));
-	while (get_next_line(fd, &e->history[i]) > 0)
-		++i;
-	e->history[i] = NULL;
-	if (close(fd) == -1)
-		ft_printfd(2, "MANAGE ERROR");
-	return (0);
+	len = 0;
+	line = NULL;
+	if ((len = ft_history_len()))
+	{
+// MANAGE ERRORS
+		if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) < 0)
+			return (ft_error("open", "could not open", "/tmp/.history"));
+		if ((e->history = ft_tabnew(len)) == NULL)
+			return (ft_error("malloc", "malloc failed", NULL));
+		while (get_next_line(fd, &line) > 0)
+		{
+			e->history[i] = ft_strdup(line);
+			free(line);
+			++i;
+		}
+		if (close(fd) < 0)
+			return (ft_error("close", "could not close file", "/tmp/.history"));
+		return (0);
+	}
+	return (-1);
 }
 
 /*
-**	ADD NEW CMD TO THE END OF HTE HISTORY TAB
-*/
+ **	ADD NEW CMD TO THE END OF HTE HISTORY TAB
+ */
 
 void	ft_check_history(t_env *e)
 {
@@ -46,18 +76,18 @@ void	ft_check_history(t_env *e)
 
 	accs = access("/tmp/.history", F_OK);
 	ft_store_history(e->cmd);
-	if (accs != -1)
+	if (accs != -1 && e->history)
 	{
 		i = ft_tablen(e->history);
-		if (!ft_strcmp(e->history[i], e->line))
+		if (e->history[i] && !ft_strcmp(e->history[i], e->line))
+			e->history = ft_tabcat(e->history, e->line);
+		else if (!e->history[i])
 			e->history = ft_tabcat(e->history, e->line);
 	}
 	else if (e->history)
 	{
 		i = -1;
-		while (e->history[++i])
-			free(e->history[i]);
-		free(e->history);
+		ft_free_tab(e->history);
 		ft_read_history(e);
 	}
 	else
@@ -65,9 +95,9 @@ void	ft_check_history(t_env *e)
 }
 
 /*
-**	MANAGE THE TERMCAPS HISTORY
-**	FOR UP ARROW
-*/
+ **	MANAGE THE TERMCAPS HISTORY
+ **	FOR UP ARROW
+ */
 
 void	tcaps_history_up(t_env *e)
 {
@@ -87,9 +117,9 @@ void	tcaps_history_up(t_env *e)
 }
 
 /*
-**	MANAGE THE TERMCAPS HISTORY
-**	FOR DOWN ARROW
-*/
+ **	MANAGE THE TERMCAPS HISTORY
+ **	FOR DOWN ARROW
+ */
 
 int		tcaps_history_down(t_env *e)
 {

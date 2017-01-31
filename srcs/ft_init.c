@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:15:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 13:20:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int		ft_set_home(t_env *e)
 	if ((tmp = ft_getenv(e->env, "HOME")))
 	{
 		e->home = ft_strdup(tmp);
+		free(tmp);
 		return (1);
 	}
 	return (0);
