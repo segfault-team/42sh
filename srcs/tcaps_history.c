@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:41:23 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/31 13:48:00 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_read_history(t_env *e)
 	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
 // MANAGE ERROR
 		return (ft_printf(""));
-	e->history = malloc(sizeof(e->history));
+	e->history = malloc(sizeof(e->history) * 4096);
 	while (get_next_line(fd, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;

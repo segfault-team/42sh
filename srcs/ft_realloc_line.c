@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 17:00:42 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/01/31 17:01:50 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char    *ft_realloc_delete_char(t_env *e)
 	int		j;
 
 	if (e->line)
-		len = TCAPS.nb_read;//ft_strlen(e->line) + 1;
+		len = TCAPS.nb_read;
 	else
 		len = 1;
 	if ((new = ft_strnew(sizeof(char) * (len))) == NULL)
@@ -119,3 +119,52 @@ char    *ft_realloc_line(t_env *e, char c)
 	}
 	return (new);
 }
+
+/*
+**	sc: save position curosr
+**	cr: carriage return (debut de ligne)
+**	dm: start delete mode
+**	le: left
+**	dc: delete one char
+**	dl: delete line
+**	ce: delete line from cursor
+**	ed: end delete mode
+**	rc: recover cursor position
+*/
+
+int		tcaps_putstr(t_env *e)
+{
+	char	*res;
+	int		l;
+	int		i;
+
+	i = -1;
+	res = tgetstr("sc", NULL);
+	tputs(res, 1, dsh_putchar);
+	res = tgetstr("cr", NULL);
+	tputs(res, 1, dsh_putchar);
+	res = tgetstr("dm", NULL);
+	tputs(res, 1, dsh_putchar);
+	l = TCAPS.nb_read;
+	while (--l > 0)
+	{
+		res = tgetstr("le", NULL);
+		tputs(res, 1, dsh_putchar);
+		res = tgetstr("dc", NULL);
+		tputs(res, 1, dsh_putchar);
+	}
+	res = tgetstr("dl", NULL);
+	tputs(res, 1, dsh_putchar);
+	res = tgetstr("ce", NULL);
+	tputs(res, 1, dsh_putchar);
+	res = tgetstr("ed", NULL);
+	tputs(res, 1, dsh_putchar);
+//	ft_putstr(e->prompt);
+//	ft_putstr(e->line);
+	tputs(e->prompt, 1, dsh_putchar);
+	tputs(e->line, 1, dsh_putchar);
+	res = tgetstr("rc", NULL);
+	tputs(res, 1, dsh_putchar);
+	return (0);
+}
+

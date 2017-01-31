@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 09:59:03 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/31 15:03:50 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 **		(ft_signal)
 
 */
+
+# define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
 # include <unistd.h>
 # include <sys/wait.h>
@@ -161,5 +163,6 @@ void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
 void				tcaps_rtrbeg(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
+int					tcaps_putstr(t_env *e);
 
 #endif

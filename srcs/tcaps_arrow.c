@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 10:56:25 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/01/31 14:33:31 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,17 @@ void	tcaps_right(t_env *e)
 {
 	char	*res;
 
-	if ((TCAPS.nb_line == 1 && TCAPS.nb_col + ft_strlen(e->prompt) == TCAPS.ws.ws_col - 1) ||
-	    (TCAPS.nb_line != 1 && TCAPS.nb_col == TCAPS.ws.ws_col - 1))
+	if (TCAPS.nb_col == TCAPS.ws.ws_col - 1)
 	  {
 	    res = tgetstr("do", NULL);
 	    tputs(res, 1, dsh_putchar);
 	    res = tgetstr("dr", NULL);
-	    TCAPS.nb_col = 0;	    
+	    TCAPS.nb_col = 0;
 	  }
 	else
 	  res = tgetstr("nd", NULL);
 	tputs(res, 1, dsh_putchar);
 	++TCAPS.nb_move;
-	++TCAPS.nb_col;
 	tcaps_recalc_pos(e);
 }
 
@@ -82,7 +80,6 @@ void	tcaps_left(t_env *e)
 	    res = tgetstr("le", NULL);
 	    tputs(res, 1, dsh_putchar);
 	    --TCAPS.nb_move;
-	    --TCAPS.nb_col;
 		tcaps_recalc_pos(e);
 	  }
 }
