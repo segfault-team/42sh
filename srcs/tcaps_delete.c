@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 17:04:14 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/01 10:13:23 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 **		ed: end delete mode
 */
 
-void	tcaps_del(t_env *e)
+static void	tcaps_del_end(t_env *e)
 {
-	char *res;
+	char	*res;
 
-/*	res = tgetstr("dm", NULL);
+	res = tgetstr("dm", NULL);
 	tputs(res, 1, dsh_putchar);
 	res = tgetstr("le", NULL);
 	tputs(res, 1, dsh_putchar);
@@ -41,16 +41,27 @@ void	tcaps_del(t_env *e)
 	tputs(res, 1, dsh_putchar);
 	--TCAPS.nb_read;
 	res = tgetstr("ed", NULL);
-	tputs(res, 1, dsh_putchar);*/
-	if (!TCAPS.nb_read && e->line)
-	{
-		free(e->line);
-		e->line = NULL;
-	}
-	res = tgetstr("le", NULL);
 	tputs(res, 1, dsh_putchar);
-	--TCAPS.nb_read;
-	if (TCAPS.nb_move)
-		--TCAPS.nb_move;
-	tcaps_putstr(e);
+}
+
+void		tcaps_del(t_env *e)
+{
+	char *res;
+
+	if (TCAPS.nb_move == TCAPS.nb_read)
+		tcaps_del_end(e);
+	else
+	{
+		if (!TCAPS.nb_read && e->line)
+		{
+			free(e->line);
+			e->line = NULL;
+		}
+		res = tgetstr("le", NULL);
+		tputs(res, 1, dsh_putchar);
+		--TCAPS.nb_read;
+		if (TCAPS.nb_move)
+			--TCAPS.nb_move;
+		tcaps_putstr(e);
+	}
 }
