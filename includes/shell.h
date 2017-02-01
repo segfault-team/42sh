@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 15:03:50 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/01 09:20:02 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,6 @@ void				tcaps_clear(t_env *e);
 void				tcaps_rtrbeg(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
 int					tcaps_putstr(t_env *e);
+void				tcaps_ctrl_mov(t_env *e);
 
 #endif

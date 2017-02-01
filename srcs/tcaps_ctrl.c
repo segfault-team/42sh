@@ -46,3 +46,35 @@ void	tcaps_rtrbeg(t_env *e)
 	}
 	tcaps_recalc_pos(e);
 }
+
+/*
+**  INSTRUCTION FOR "Ctrl + ARROW" KEYS
+**
+**	tcaps_check_key(buf, 59, 53, 68)): Ctrl + LEFT  arrow
+**	NOT YET tcaps_check_key(buf, 59, 53, 67)): Ctrl + RIGHT arrow
+*/
+
+void	tcaps_ctrl_mov(t_env *e)
+{
+	char	*res;
+	int		i;
+	int		mem;
+	char	buf[3];
+
+	i = TCAPS.nb_move;
+	mem = i;
+	read(0, buf, 3);
+	if (tcaps_check_key(buf, 59, 53, 68) && i)
+		while (e->line[--i] != ' ' && i)
+		{
+			res = tgetstr("le", NULL);
+			tputs(res, 1, dsh_putchar);
+		}
+	if (mem != i && (e->line[i] == ' ' || !i))
+	{
+		res = tgetstr("le", NULL);
+		tputs(res, 1, dsh_putchar);
+		TCAPS.nb_move = i;
+	}
+	tcaps_recalc_pos(e);
+}
