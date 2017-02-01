@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 17:04:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 13:24:32 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.termos.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
 		ft_printf("GERRER L'ERROR");
-	char	*res;
-	res = tgetstr("am", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("bw", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("am");
+	xputs("bw");
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 09:52:33 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 13:28:14 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,37 +134,27 @@ char    *ft_realloc_line(t_env *e, char c)
 
 int		tcaps_putstr(t_env *e)
 {
-	char	*res;
 	int		l;
 	int		i;
 
 	i = -1;
-	res = tgetstr("sc", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("cr", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("dm", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("sc");
+	xputs("cr");
+	xputs("dm");
 	l = TCAPS.nb_read;
 	while (--l > 0)
 	{
-		res = tgetstr("le", NULL);
-		tputs(res, 1, dsh_putchar);
-		res = tgetstr("dc", NULL);
-		tputs(res, 1, dsh_putchar);
+		xputs("le");
+		xputs("dc");
 	}
-	res = tgetstr("dl", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("ce", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("ed", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("dl");
+	xputs("ce");
+	xputs("ed");
 //	ft_putstr(e->prompt);
 //	ft_putstr(e->line);
 	tputs(e->prompt, 1, dsh_putchar);
 	tputs(e->line, 1, dsh_putchar);
-	res = tgetstr("rc", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("rc");
 	return (0);
 }
 

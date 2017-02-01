@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:20 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 09:46:05 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 13:33:51 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@
 
 void	tcaps_insert(t_env *e)
 {
-	char	*res;
-
-	res = tgetstr("im", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("im");
 	tputs(&BUF[0], 1, dsh_putchar);
-	res = tgetstr("ei", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("ei");
 	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
 }

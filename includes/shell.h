@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 09:20:02 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 13:59:02 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void				ft_env_free(t_env *e);
 void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
+char				*ft_tilde(t_env *e, char *current);
 
 /*
 **		Realloc
@@ -161,9 +162,11 @@ void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
-void				tcaps_rtrbeg(t_env *e);
+void				tcaps_ctrl_home(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
 int					tcaps_putstr(t_env *e);
 void				tcaps_ctrl_mov(t_env *e);
+void				tcaps_ctrl_end(t_env *e);
+void				xputs(char *tag);
 
 #endif

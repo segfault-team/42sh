@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/23 14:56:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/01 13:18:57 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,16 @@ char		*ft_getenv(char **env, char *name)
 //		free(tmp);
 	}
 	return (value);
+}
+
+/*
+** RAZ LE CUL DE TOUT REECRIRE !
+*/
+
+void	xputs(char *tag)
+{
+	char	*res;
+
+	res = tgetstr(tag, NULL);
+	tputs(res, 1, dsh_putchar);
 }

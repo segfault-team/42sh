@@ -1,18 +1,33 @@
--gestion d'erreur: migrer vers une gestion d'erreur sur la sortie d'erreur non plus la sortie standard
-
--gestion du tilde dans les commandes
-
 -check memory leaks for history : "memory still reachable"
 
--manage history when "rm /tmp/.history"
+-gestion d'erreur
 
-- manage copy/colle
+-REDIRECTIONS
 
-- integration multi ligne
-	|->	creation function qui recalcul TCAPS.nb_col && nb_line a !!CHAQUE!! mvt (arrow, delete, insertion, tout ce que tu veux, t'as carte blanche, a chaque fois que le curseur bouge on recalcul)
+BAREME:
+-add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
+-add couper/coller
+-add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
+-gestion fin `de cmd avec " ' \ { [ (
+-add gestion du tilde
+-add verification du type de fichier a executer lors de cmd avec une modif du PATH (ex: setenv PATH ~ && Desktop)
+-RETESTER ECHO
+-gestion des && et || (ex: ls something ||/&& ls)
 
-	|->	gerer l'affichage apres la cmd sur plusieurs ligne
-- mvt ctrl + fleche
+
+Idea BONUS:
+-recherche dans l'historique
+-SEE table de hachage pour binaire
+
+NEW FEATURES:
+-Ctrl + a && Ctrl + e
+
 DONE:
+- mvt ctrl + fleche
+-add Ctrl + a || home && Ctrl + e || end
+- integration multi ligne
+-gerer l'affichage apres la cmd sur plusieurs ligne
+-manage history when "rm /tmp/.history"
+-gestion du tilde dans les commandes
 
-- merge & delete integration-termcaps branch
+

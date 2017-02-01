@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tcaps_ctrl.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
+/*   Updated: 2017/02/01 14:32:14 by kboddez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 /*
@@ -9,72 +21,123 @@
 
 void	tcaps_clear(t_env *e)
 {
-	char	*res;
-
-	res = tgetstr("cl", NULL);
-	tputs(res, 1, dsh_putchar);
+	xputs("cl");
 	ft_putstr(e->prompt);
 }
 
 /*
-**  INSTRUCTION FOR "Ctrl + a" KEYS
+**  INSTRUCTION FOR "Ctrl + a" KEYS || cmd: home
 **
 **	cr: return at the begining of the line
 **	nd: move cursor once on the right
 */
 
-void	tcaps_rtrbeg(t_env *e)
+void	tcaps_ctrl_home(t_env *e)
 {
-	char	*res;
 	int		i;
 	int	l;
 
 	l = TCAPS.nb_line;
 	while (--l)
-	  {
-	    res = tgetstr("up", NULL);
-	    tputs(res, 1, dsh_putchar);
-	  }
-	res = tgetstr("cr", NULL);
-	tputs(res, 1, dsh_putchar);
+		xputs("up");
+	xputs("cr");
 	TCAPS.nb_move = 0;
 	i = ft_strlen(e->prompt);
 	while (i--)
-	{
-		res = tgetstr("nd", NULL);
-		tputs(res, 1, dsh_putchar);
-	}
+		xputs("nd");
 	tcaps_recalc_pos(e);
 }
 
 /*
-**  INSTRUCTION FOR "Ctrl + ARROW" KEYS
+**  INSTRUCTION FOR "Ctrl + e" KEYS || cmd: end
 **
-**	tcaps_check_key(buf, 59, 53, 68)): Ctrl + LEFT  arrow
-**	NOT YET tcaps_check_key(buf, 59, 53, 67)): Ctrl + RIGHT arrow
+**	cr: return at the begining of the line
+**	nd: move cursor once on the right
 */
+
+void	tcaps_ctrl_end(t_env *e)
+{
+	tcaps_recalc_pos(e);
+	while (TCAPS.nb_move < TCAPS.nb_read)
+	{
+		if (TCAPS.nb_col == (WS_COL - 1) && TCAPS.nb_move)
+		{
+			xputs("do");
+			xputs("cr");
+		}
+		else
+			xputs("nd");
+		++TCAPS.nb_move;
+		tcaps_recalc_pos(e);
+	}
+}
+
+/*
+ **  INSTRUCTION FOR "Ctrl + ARROW ->" KEYS
+ */
+
+void	tcaps_ctrl_mov_right(t_env *e)
+{
+	int		i;
+
+	i = TCAPS.nb_move;
+	while ((i > 0 && i != TCAPS.nb_read && e->line[i - 1] == ' ')
+			|| (!i && TCAPS.nb_read))
+	{
+		xputs("nd");
+		++TCAPS.nb_move;
+		++i;
+	}
+	while (i > 0 && i != TCAPS.nb_read && e->line[i - 1] != ' ')
+	{
+		xputs("nd");
+		++TCAPS.nb_move;
+		++i;
+	}
+	while (e->line[i] == '-' || e->line[i] == ' ')
+	{
+		xputs("nd");
+		++TCAPS.nb_move;
+		++i;
+	}
+}
+
+/*
+ **  INSTRUCTION FOR "Ctrl + ARROW" KEYS
+ **
+ **	tcaps_check_key(buf, 59, 53, 68)): Ctrl + LEFT  arrow
+ **	NOT YET tcaps_check_key(buf, 59, 53, 67)): Ctrl + RIGHT arrow
+ */
 
 void	tcaps_ctrl_mov(t_env *e)
 {
-	char	*res;
 	int		i;
-	int		mem;
 	char	buf[3];
 
-	i = TCAPS.nb_move;
-	mem = i;
 	read(0, buf, 3);
-	if (tcaps_check_key(buf, 59, 53, 68) && i)
-		while (e->line[--i] != ' ' && i)
-		{
-			res = tgetstr("le", NULL);
-			tputs(res, 1, dsh_putchar);
-		}
-	if (mem != i && (e->line[i] == ' ' || !i))
+	if (tcaps_check_key(buf, 59, 53, 67))
+		tcaps_ctrl_mov_right(e);
+	else
 	{
-		res = tgetstr("le", NULL);
-		tputs(res, 1, dsh_putchar);
-		TCAPS.nb_move = i;
+		i = TCAPS.nb_move;
+		while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
+		{
+			xputs("le");
+			--TCAPS.nb_move;
+			--i;
+		}
+		while ((i && e->line[i - 1] != ' '))
+		{
+			xputs("le");
+			--TCAPS.nb_move;
+			--i;
+		}
+		while (e->line[i] == '-')
+		{
+			xputs("nd");
+			++TCAPS.nb_move;
+			++i;
+		}
 	}
 	tcaps_recalc_pos(e);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 09:48:05 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 14:16:48 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 static void		tcaps_enter(t_env *e)
 {
+	tcaps_ctrl_end(e);
+//	ft_putchar('\n');
 	TCAPS.hist_move = -1;
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
