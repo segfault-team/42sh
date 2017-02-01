@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/01 14:32:14 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 16:46:59 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ void	tcaps_ctrl_home(t_env *e)
 	int		i;
 	int	l;
 
-	l = TCAPS.nb_line;
-	while (--l)
-		xputs("up");
+	l = TCAPS.nb_read;
+	while (l--)
+	{
+		xputs("le");
+		TCAPS.nb_move = 0;
+	}
 	xputs("cr");
-	TCAPS.nb_move = 0;
 	i = ft_strlen(e->prompt);
 	while (i--)
 		xputs("nd");
@@ -59,17 +61,7 @@ void	tcaps_ctrl_end(t_env *e)
 {
 	tcaps_recalc_pos(e);
 	while (TCAPS.nb_move < TCAPS.nb_read)
-	{
-		if (TCAPS.nb_col == (WS_COL - 1) && TCAPS.nb_move)
-		{
-			xputs("do");
-			xputs("cr");
-		}
-		else
-			xputs("nd");
-		++TCAPS.nb_move;
-		tcaps_recalc_pos(e);
-	}
+		move_right(e);
 }
 
 /*
@@ -84,21 +76,52 @@ void	tcaps_ctrl_mov_right(t_env *e)
 	while ((i > 0 && i != TCAPS.nb_read && e->line[i - 1] == ' ')
 			|| (!i && TCAPS.nb_read))
 	{
-		xputs("nd");
-		++TCAPS.nb_move;
+		move_right(e);
 		++i;
 	}
 	while (i > 0 && i != TCAPS.nb_read && e->line[i - 1] != ' ')
 	{
-		xputs("nd");
-		++TCAPS.nb_move;
+		move_right(e);
 		++i;
 	}
 	while (e->line[i] == '-' || e->line[i] == ' ')
 	{
-		xputs("nd");
-		++TCAPS.nb_move;
+		move_right(e);
 		++i;
+	}
+}
+
+/*
+**  INSTRUCTION FOR "Ctrl + ARROW" UP
+**	65 = UP
+**	66 = DOWN
+*/
+
+static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
+{
+	int		line;
+
+	line = WS_COL;
+	tcaps_recalc_pos(e);
+	if (buf[2] == 65)
+	{
+		if (TCAPS.nb_line > 1)
+		{
+			while (line--)
+			{
+				xputs("le");
+				--TCAPS.nb_move;
+			}
+			tcaps_recalc_pos(e);
+		}
+	}
+	else if (buf[2] == 66)
+	{
+		if (TCAPS.nb_line == 1)
+			line -= (int)ft_strlen(e->prompt);
+		while (line-- && TCAPS.nb_move++ < TCAPS.nb_read)
+			move_right(e);
+		tcaps_recalc_pos(e);
 	}
 }
 
@@ -117,7 +140,7 @@ void	tcaps_ctrl_mov(t_env *e)
 	read(0, buf, 3);
 	if (tcaps_check_key(buf, 59, 53, 67))
 		tcaps_ctrl_mov_right(e);
-	else
+	else if (tcaps_check_key(buf, 59, 53, 68))
 	{
 		i = TCAPS.nb_move;
 		while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
@@ -134,10 +157,13 @@ void	tcaps_ctrl_mov(t_env *e)
 		}
 		while (e->line[i] == '-')
 		{
-			xputs("nd");
-			++TCAPS.nb_move;
+			move_right(e);
 			++i;
 		}
 	}
+	else if (tcaps_check_key(buf, 59, 53, 65))
+		tcaps_ctrl_up_down(e, buf);
+	else if (tcaps_check_key(buf, 59, 53, 66))
+		tcaps_ctrl_up_down(e, buf);
 	tcaps_recalc_pos(e);
 }

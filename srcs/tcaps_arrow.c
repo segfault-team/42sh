@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 13:30:07 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 15:12:46 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	tcaps_history(t_env *e)
 
 void	tcaps_right(t_env *e)
 {
-	if (TCAPS.nb_col == TCAPS.ws.ws_col - 1)
+/*	if (TCAPS.nb_col == TCAPS.ws.ws_col - 1)
 	  {
 		xputs("do");
 		xputs("cr");
@@ -50,7 +50,8 @@ void	tcaps_right(t_env *e)
 	else
 		xputs("nd");
 	++TCAPS.nb_move;
-	tcaps_recalc_pos(e);
+	tcaps_recalc_pos(e);*/
+	move_right(e);
 }
 
 /*

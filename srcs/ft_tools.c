@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 13:18:57 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/01 15:12:24 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,17 @@ void	xputs(char *tag)
 
 	res = tgetstr(tag, NULL);
 	tputs(res, 1, dsh_putchar);
+}
+
+void	move_right(t_env *e)
+{
+	if (TCAPS.nb_col == (WS_COL - 1))
+	{
+		xputs("do");
+		xputs("cr");
+	}
+	else
+		xputs("nd");
+	++TCAPS.nb_move;
+	tcaps_recalc_pos(e);
 }

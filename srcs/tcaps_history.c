@@ -6,16 +6,31 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 13:48:00 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/01 16:37:54 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+static void		clear_cmd(t_env *e)
+{
+	tcaps_ctrl_end(e);
+	xputs("dm");
+	while (--TCAPS.nb_read + ((int)ft_strlen(e->prompt) + 1) > 0)
+	{
+		xputs("le");
+		xputs("ce");
+	}
+	TCAPS.nb_read = 0;
+	xputs("dl");
+	xputs("ce");
+	tputs(e->prompt, 1, dsh_putchar);
+}
+
 /*
-**	OPEN /tmp/.history AND STORE IT IN
-**	e->history TAB
-*/
+ **	OPEN /tmp/.history AND STORE IT IN
+ **	e->history TAB
+ */
 
 int		ft_read_history(t_env *e)
 {
@@ -24,7 +39,7 @@ int		ft_read_history(t_env *e)
 
 	i = 0;
 	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
-// MANAGE ERROR
+		// MANAGE ERROR
 		return (ft_printf(""));
 	e->history = malloc(sizeof(e->history) * 4096);
 	while (get_next_line(fd, &e->history[i]) > 0)
@@ -36,8 +51,8 @@ int		ft_read_history(t_env *e)
 }
 
 /*
-**	ADD NEW CMD TO THE END OF HTE HISTORY TAB
-*/
+ **	ADD NEW CMD TO THE END OF HTE HISTORY TAB
+ */
 
 void	ft_check_history(t_env *e)
 {
@@ -65,52 +80,58 @@ void	ft_check_history(t_env *e)
 }
 
 /*
-**	MANAGE THE TERMCAPS HISTORY
-**	FOR UP ARROW
-*/
+ **	MANAGE THE TERMCAPS HISTORY
+ **	FOR UP ARROW
+ */
 
 void	tcaps_history_up(t_env *e)
 {
-	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1)
+	if (TCAPS.hist_move == -1)
+		TCAPS.hist_move = (int)ft_tablen(e->history);
+	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1 &&
+				TCAPS.hist_move > 0)
 	{
-		if (TCAPS.hist_move == -1)
-			TCAPS.hist_move = ft_tablen(e->history) - 1;
-		else if (TCAPS.hist_move)
-			--TCAPS.hist_move;
-		TCAPS.nb_read = ft_strlen(e->history[TCAPS.hist_move]);
-		TCAPS.nb_move = TCAPS.nb_read;
+		clear_cmd(e);
+		if (e->line)
+			free(e->line);
+		e->line = NULL;
+		--TCAPS.hist_move;
 		if (e->line)
 			free(e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
 		ft_printf("%s", e->history[TCAPS.hist_move]);
+		TCAPS.nb_read = ft_strlen(e->history[TCAPS.hist_move]);
+		TCAPS.nb_move = TCAPS.nb_read;
 	}
+	tcaps_recalc_pos(e);
 }
 
 /*
-**	MANAGE THE TERMCAPS HISTORY
-**	FOR DOWN ARROW
-*/
+ **	MANAGE THE TERMCAPS HISTORY
+ **	FOR DOWN ARROW
+ */
 
 int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
 
-	tab_len = (int)ft_tablen(e->history);
+	tab_len = (int)ft_tablen(e->history) + 1;
 	if (e->history && e->history[0])
 	{
 		if (TCAPS.hist_move == -1)
 			return (0);
-		if (TCAPS.hist_move + 1 < tab_len)
+		clear_cmd(e);
+		if (TCAPS.hist_move <= tab_len)
 		{
 			TCAPS.nb_read = ft_strlen(e->history[TCAPS.hist_move]);
 			TCAPS.nb_move = TCAPS.nb_read;
-			++TCAPS.hist_move;
 			ft_printf("%s", e->history[TCAPS.hist_move]);
 			if (e->line)
 				free(e->line);
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
+			++TCAPS.hist_move;
 		}
-		else if (TCAPS.hist_move + 1 == tab_len)
+		else if (TCAPS.hist_move == tab_len)
 		{
 			++TCAPS.hist_move;
 			if (e->line)
@@ -119,6 +140,23 @@ int		tcaps_history_down(t_env *e)
 		}
 	}
 	if (TCAPS.hist_move == tab_len)
+	{
+		xputs("cr");
+		xputs("dm");
+		while (--TCAPS.nb_read > 0)
+		{
+			xputs("le");
+			xputs("dc");
+		}
+		xputs("dl");
+		xputs("ce");
+		xputs("ed");
+		tputs(e->prompt, 1, dsh_putchar);
 		TCAPS.hist_move = -1;
+		if (e->line)
+			free(e->line);
+		e->line = NULL;
+	}
+	tcaps_recalc_pos(e);
 	return (0);
 }
