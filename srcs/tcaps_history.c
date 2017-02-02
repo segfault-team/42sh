@@ -6,13 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 11:02:44 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/02 14:32:06 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void		clear_cmd(t_env *e)
+void		clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	xputs("dm");
@@ -104,17 +104,19 @@ void	tcaps_history_up(t_env *e)
 		TCAPS.nb_move = TCAPS.nb_read;
 	}
 	tcaps_recalc_pos(e);
+	ft_printf("%d\n", TCAPS.hist_move);
 }
 
 /*
- **	MANAGE THE TERMCAPS HISTORY
- **	FOR DOWN ARROW
- */
+**	MANAGE THE TERMCAPS HISTORY
+**	FOR DOWN ARROW
+*/
 
 int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
 
+	ft_printf("%d\n", TCAPS.hist_move);
 	tab_len = (int)ft_tablen(e->history);
 	if (e->history && e->history[0])
 	{
@@ -142,9 +144,9 @@ int		tcaps_history_down(t_env *e)
 				free(e->line);
 			e->line = NULL;
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
-		}*/
-	}
-	if (TCAPS.hist_move == tab_len)
+		}
+*/	}
+	if (TCAPS.hist_move == tab_len + 1)
 	{
 		xputs("cr");
 		xputs("dm");

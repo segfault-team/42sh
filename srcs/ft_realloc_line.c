@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 10:34:12 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/02 13:50:05 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,25 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 	{
 		free(e->line);
 		e->line = NULL;
-	}
-	return (new);
+		}
+		return (new);
+}
+
+void	ft_realloc_insert_str(t_env *e, char *str)
+{
+	char	*new;
+	char	*tmp;
+
+	new = ft_strsub(e->line, 0, TCAPS.nb_move);
+	tmp = ft_strjoin(new, str);
+	free(new);
+	new = ft_strsub(e->line, TCAPS.nb_move, TCAPS.nb_read - TCAPS.nb_move);
+	free(e->line);
+	e->line = ft_strjoin(tmp, new);
+	free(tmp);
+	free(new);
+	// nb_move += cut
+	// nb_read = e->line;
 }
 
 /*
@@ -132,7 +149,7 @@ char    *ft_realloc_line(t_env *e, char c)
 **	rc: recover cursor position
 */
 
-int		tcaps_putstr(t_env *e)
+int		tcaps_putstr(t_env *e, char *str)
 {
 	int		l;
 	int		i;
@@ -150,10 +167,8 @@ int		tcaps_putstr(t_env *e)
 	xputs("dl");
 	xputs("ce");
 	xputs("ed");
-//	ft_putstr(e->prompt);
-//	ft_putstr(e->line);
 	tputs(e->prompt, 1, dsh_putchar);
-	tputs(e->line, 1, dsh_putchar);
+	tputs(str, 1, dsh_putchar);
 	xputs("rc");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 13:34:14 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/02 13:14:11 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void		tcaps_del(t_env *e)
 		--TCAPS.nb_read;
 		if (TCAPS.nb_move)
 			--TCAPS.nb_move;
-		tcaps_putstr(e);
+		tcaps_putstr(e, e->line);
 	}
 }

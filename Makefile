@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/02/01 15:13:21 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/02 12:26:08 by vlistrat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_NAME	= main.c ft_init.c ft_parse.c ft_exec.c ft_banner.c\
 			  ft_history.c ft_realloc_line.c\
 			  tcaps.c tcaps_history.c tcaps_check.c\
 			  tcaps_delete.c tcaps_arrow.c tcaps_insert.c tcaps_ctrl.c \
-			  tcaps_positions.c
+			  tcaps_positions.c tcaps_cut_paste.c
 
 #SRC_TERM_NAME = delete.c arrow.c insert.c ctrl.c
 

@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/01 16:46:59 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/02 12:18:57 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,8 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 	}
 	else if (buf[2] == 66)
 	{
-		if (TCAPS.nb_line == 1)
-			line -= (int)ft_strlen(e->prompt);
-		while (line-- && TCAPS.nb_move++ < TCAPS.nb_read)
+		while (line-- && TCAPS.nb_move < TCAPS.nb_read)
 			move_right(e);
-		tcaps_recalc_pos(e);
 	}
 }
 

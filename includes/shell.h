@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/01 15:13:09 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/02 14:25:44 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct		s_env
 	char			buf[3];
 	t_term			tcaps;
 	char 			**history;
+	char			*cut;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -132,6 +133,7 @@ void				move_right(t_env *e);
 char				*ft_realloc_line(t_env *e, char c);
 char				*ft_realloc_insert_char(t_env *e, char c);
 char				*ft_realloc_delete_char(t_env *e);
+void				ft_realloc_insert_str(t_env *e, char *str);
 
 /*
 **		Builtins
@@ -165,9 +167,11 @@ void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
 void				tcaps_ctrl_home(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
-int					tcaps_putstr(t_env *e);
+int					tcaps_putstr(t_env *e, char *str);
 void				tcaps_ctrl_mov(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
 void				xputs(char *tag);
+void				tcaps_cut_paste(t_env *e);
+void				clear_cmd(t_env *e);
 
 #endif
