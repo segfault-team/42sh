@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 14:33:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/02 18:23:21 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,49 +80,49 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-static int		ft_fork_exec(char *exec, char **cmd, char **env)
+static int		ft_redirect(int oldfd, int newfd)
+{
+	if (oldfd != newfd)
+	{
+		if (dup2(oldfd, newfd) != -1)
+		{
+			if (close(oldfd) < 0)
+				return (ft_error("close", "Failed closing fd", NULL));
+		}
+		else
+		{
+			ft_printf("old: %d		new: %d\n", oldfd, newfd);
+			return (ft_error(SH_NAME, "dup2 failed", NULL));
+		}
+	}
+	return (0);
+}
+
+static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 {
 	pid_t	pid;
 	int		status;
-	int		infd[2];
-	int		outfd[2];
-	char	buf[2048];
-	int		rtr;
 
-	pipe(outfd);
-	pipe(infd);
 	status = 0;
 	if ((pid = fork()) < 0)
 	{
-		ft_error("fork", "failed to fork process", NULL);
+		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid == 0)
+	else if (pid == 0)
 	{
-//		close(STDOUT_FILENO);
-//		close(STDIN_FILENO);
-		dup2(outfd[0], STDIN_FILENO);
-		dup2(infd[1], STDOUT_FILENO);
-		if (close(infd[0]) || close(infd[1]) || close(outfd[0]) || close(outfd[1]))
-			ft_printfd(2, "%s\n", "GERER ERREUR BROKEN PIPE");
+		close(fd[0]);
+		if (ft_redirect(in, STDIN_FILENO) || ft_redirect(fd[1], STDOUT_FILENO))
+			return (-1);
 		execve(exec, &cmd[0], env);
 	}
-	else
-	{
-//		waitpid(pid, &status, WUNTRACED);
-		if (close(outfd[0]) || close(infd[1]) || close(outfd[1]))
-			ft_printfd(2, "%s\n", "GERER ERREUR BROKEN PIPE");
-		while ((rtr = read(infd[0], buf, 2048)) != 0)
-		{
-			buf[rtr] = '\0';
-			ft_printf("%s", buf);
-		}
-		close(infd[0]);
-	}
+	//close(fd[1]);
+	close(in);
+	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
 }
 
-int				ft_exec(char **cmd, char **env)
+int				ft_exec(char **cmd, char **env, int in, int fd[2])
 {
 	int		status;
 	char	**paths;
@@ -139,12 +139,10 @@ int				ft_exec(char **cmd, char **env)
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		status = ft_fork_exec(exec, cmd, env);
+		status = ft_fork_exec(exec, cmd, env, in, fd);
 	else
 		ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
 	free(exec);
-	if (!status)
-		return (1);
 	return (status);
 }

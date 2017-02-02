@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:51:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/02 18:21:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,17 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-# define RED "\033[31m"
-# define WHITE "\033[;0m"
-# define GREEN "\033[32m"
-# define BLUE "\033[34m"
-# define YELLOW "\033[33m"
-# define ITALIC "\x1b[3m"
+# define RED		"\033[31m"
+# define WHITE		"\033[;0m"
+# define GREEN		"\033[32m"
+# define BLUE		"\033[34m"
+# define YELLOW		"\033[33m"
+# define ITALIC		"\x1b[3m"
+# define SH_NAME	"21sh"
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
-# define FD e.fd
-# define BUF e->buf
-# define TCAPS e->tcaps
+# define FD			e.fd
+# define BUF		e->buf
+# define TCAPS		e->tcaps
 
 # define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
@@ -92,7 +93,7 @@ void				ft_banner(t_env *e);
 /*
 **		Exec
 */
-int					ft_exec(char **cmd, char **env);
+int					ft_exec(char **cmd, char **env, int in, int fd[2]);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 
