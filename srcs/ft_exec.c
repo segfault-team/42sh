@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 18:23:21 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/02 18:39:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int		ft_redirect(int oldfd, int newfd)
 		else
 		{
 			ft_printf("old: %d		new: %d\n", oldfd, newfd);
+			perror(NULL);
 			return (ft_error(SH_NAME, "dup2 failed", NULL));
 		}
 	}
@@ -115,8 +116,9 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 			return (-1);
 		execve(exec, &cmd[0], env);
 	}
+	// This solves what?!
 	//close(fd[1]);
-	close(in);
+	//close(in);
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
