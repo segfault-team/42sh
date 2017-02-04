@@ -8,6 +8,8 @@
 
 -parsing pour '\'
 
+ctrl+arrow left/right with 'word-word' has to move to the -
+
 BAREME:
 -add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
 -add couper/coller
