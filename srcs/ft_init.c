@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 14:26:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/04 11:57:07 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,15 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->line = NULL;
 	e->env = ft_tabdup(env);
 	e->cmd = NULL;
+	e->cut = NULL;
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
 	TCAPS.check_move = 0;
 	TCAPS.hist_move = -1;
+	TCAPS.nb_line = 1;
+	TCAPS.nb_col = 0;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)
@@ -85,4 +88,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.termos.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
 		ft_printf("GERRER L'ERROR");
+	xputs("am");
+	xputs("bw");
 }
