@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/02 14:33:16 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/04 11:18:29 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int 	tcaps(t_env *e)
 		tcaps_ctrl_home(e);
 	else if (tcaps_check_key(BUF, 11, 0, 0) || tcaps_check_key(BUF, 16, 0, 0))
 		tcaps_cut_paste(e);
-	else if (BUF[0])
-		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
+//	else if (BUF[0])
+//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	//ft_printf("%d | %d\n", TCAPS.nb_read, TCAPS.nb_move);
 	return (0);
 }

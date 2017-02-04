@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 14:32:06 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/04 11:23:50 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	tcaps_history_up(t_env *e)
 		TCAPS.nb_move = TCAPS.nb_read;
 	}
 	tcaps_recalc_pos(e);
-	ft_printf("%d\n", TCAPS.hist_move);
+//	ft_printf("%d\n", TCAPS.hist_move);
 }
 
 /*
@@ -116,7 +116,7 @@ int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
 
-	ft_printf("%d\n", TCAPS.hist_move);
+//	ft_printf("%d\n", TCAPS.hist_move);
 	tab_len = (int)ft_tablen(e->history);
 	if (e->history && e->history[0])
 	{
@@ -144,9 +144,10 @@ int		tcaps_history_down(t_env *e)
 				free(e->line);
 			e->line = NULL;
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
+			TCAPS.hist_move = -42;
 		}
 */	}
-	if (TCAPS.hist_move == tab_len + 1)
+	if (TCAPS.hist_move == tab_len)
 	{
 		xputs("cr");
 		xputs("dm");
@@ -164,6 +165,7 @@ int		tcaps_history_down(t_env *e)
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
+		TCAPS.hist_move = -1;
 	}
 	tcaps_recalc_pos(e);
 	return (0);

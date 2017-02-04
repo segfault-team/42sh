@@ -4,6 +4,10 @@
 
 -REDIRECTIONS
 
+-utilisation history : bug to fix: double up/down needed
+
+-parsing pour '\'
+
 BAREME:
 -add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
 -add couper/coller

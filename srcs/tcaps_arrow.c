@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 14:28:31 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/04 11:23:58 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	tcaps_history(t_env *e)
 	tputs(e->line, 1, dsh_putchar);
 	if (tcaps_check_key(BUF, 27, 91, 65))
 		tcaps_history_up(e);
-	else
+	else if (tcaps_check_key(BUF, 27, 91, 66))
 		tcaps_history_down(e);
 	tcaps_recalc_pos(e);
 }
