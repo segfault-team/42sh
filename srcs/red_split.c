@@ -39,7 +39,7 @@ static size_t ft_wordlen(char const *str, char div)
 	return (wlen);
 }
 
-char	**red_split(char const *str)
+char	**red_split(char *str)
 {
 	char	**tab;
 	size_t nwords;
@@ -50,6 +50,7 @@ char	**red_split(char const *str)
 	i = 0;
 	j = 0;
 	nwords = ft_nwords(str);
+	wlen = 0;
 	if (nwords == 0 || (tab = ft_tabnew(nwords)) == NULL)
 		return (NULL);
 	while (i < (int)ft_strlen(str))
@@ -68,43 +69,26 @@ char	**red_split(char const *str)
 	return (tab);
 }
 
-char	**red_sign_split(char const *str)
+char	**red_sign_split(char *str)
 {
 	char	**tab;
 	size_t nwords;
-	size_t wlen;
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	nbwords;
-/*	nwords = ft_nwords(str);
-	if (nwords == 0 || (tab = ft_tabnew(nwords)) == NULL)
-		return (NULL);
-	while (i < (int)ft_strlen(str))
-	{
-		if ((wlen = ft_wordlen(&str[i])))
-		{
-			if ((tab[j] = ft_strndup(&str[i], wlen)) == NULL)
-				break ;
-			i += wlen;
-			++j;
-			tab[j] = NULL;
-		}
-		else
-			++i;
-	}
-	return (tab);*/
+	nwords = 0;
 	while (str[++i])
 	{
 		if (red_check_sign(str[i]))
-			++nbwords;
+			++nwords;
 	}
-	e->red_sign = ft_tabnew(nbwords);
+	e->red_sign = ft_tabnew(nwords);
 	i = -1;
 	while (str[++i])
 	{
+		e->red_sign[j] = ft_strnew(4);
 		if (red_check_sign(str[i]))
 			e->red_sign[j][k] = str[i];
 		if (red_check_sign(str[i + 1]))
@@ -116,4 +100,26 @@ char	**red_sign_split(char const *str)
 	}
 }
 
+char	*remove_spaces(char *str)
+{
+	char	*ret;
+	int		len;
+	int		i;
+	int		j;
 
+	i = -1;
+	j = -1;
+	ret = NULL;
+	len = 0;
+	while (str[++i])
+		if (str[i] != ' ' && str[i] != '\t')
+			++len;
+	i = -1;
+	ret = ft_strnew(len);
+	while (str[++i])
+		if (str[i] != ' ' && str[i] != '\t')
+			ret[++j] = str[i];
+	if (j < 1)
+		return (NULL);
+	return (ret);
+}
