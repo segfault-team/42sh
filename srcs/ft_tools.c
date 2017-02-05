@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 11:56:39 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/05 17:13:18 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void		ft_env_free(t_env *e)
 		free(e->prompt);
 	if (e->env)
 		ft_free_tab(e->env);
+	if (e->magic)
+		magic_free(e);
 }
 
 char		*ft_issetenv(char **env, char *name)

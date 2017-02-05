@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/05 12:55:52 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/05 18:14:11 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@
 
 # define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
+typedef struct		s_magic
+{
+	char			*cmd;
+	char			*type;
+}					t_magic;
+
 typedef struct		s_fd
 {
 	int				stdin;
@@ -87,8 +93,7 @@ typedef struct		s_env
 	char			**cmd;
 	size_t			cmd_len;
 
-	char			**red;
-	char			**red_sign;
+	t_magic			*magic;
 
 	char			buf[3];
 	t_term			tcaps;
@@ -132,6 +137,8 @@ char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 char				*ft_tilde(t_env *e, char *current);
 void				move_right(t_env *e);
+int					red_strstr(char *str);
+void				ft_remove_tab(char ***pas_tab, int index);
 
 /*
 **		Realloc
@@ -180,5 +187,16 @@ void				tcaps_ctrl_end(t_env *e);
 void				xputs(char *tag);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
+
+/*
+**	Magic struct
+*/
+t_magic				*struct_strsplit(char const *str, char div);
+t_magic				*struct_strsplit_quote(char const *s, char c);
+int					struct_len(t_magic *magic);
+void				magic_free(t_env *e);
+void				struct_arg_red(int i, t_env *e);
+int					struct_check_cmd(int i, t_env *e);
+void				magic_type(t_env *e);
 
 #endif
