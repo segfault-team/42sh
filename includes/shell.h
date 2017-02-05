@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 12:05:08 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/05 12:55:52 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ typedef struct		s_env
 	char			*line;
 	char			**cmd;
 	size_t			cmd_len;
+
+	char			**red;
+	char			**red_sign;
+
 	char			buf[3];
 	t_term			tcaps;
 	char 			**history;

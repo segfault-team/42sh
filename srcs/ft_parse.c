@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 11:56:49 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/05 12:51:50 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,9 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
-			//ft_redirect(&cmds[i], e);
-			if (ft_matchquotes(cmds[i]) == 0)
-			{
+			ft_redirect(&cmds[i], e);
+//			if (ft_matchquotes(cmds[i]) == 0)
 				ret = ft_exec_cmd(e, cmds, i);
-			}
 			else
 				ft_error(NULL, "Unmatched quote", NULL);
 		}
