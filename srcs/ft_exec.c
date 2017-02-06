@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 18:39:42 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 13:46:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int		ft_redirect(int oldfd, int newfd)
 		if (dup2(oldfd, newfd) != -1)
 		{
 			if (close(oldfd) < 0)
-				return (ft_error("close", "Failed closing fd", NULL));
+				return (ft_error(SH_NAME, "Failed closing fd", NULL));
 		}
 		else
 		{
@@ -109,16 +109,35 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
-		close(fd[0]);
+		//Protect closes
 		if (ft_redirect(in, STDIN_FILENO) || ft_redirect(fd[1], STDOUT_FILENO))
 			return (-1);
+		/*
+		if (close(fd[0]) == -1)
+		{
+			ft_printf("fd[0] : %d\n", fd[0]);
+			ft_error(SH_NAME, "Close failed on fd", NULL);
+		}
+		*/
 		execve(exec, &cmd[0], env);
 	}
 	// This solves what?!
-	//close(fd[1]);
-	//close(in);
+	if (fd[1] != 1 && fd[1] != 0) {
+		if (close(fd[1]) == -1)
+		{
+			ft_printf("fd[1] : %d\n", fd[1]);
+			ft_error(SH_NAME, "Close failed on fd", NULL);
+		}
+	}
+	if (in != 1 && in != 0) {
+		if (close(in) == -1)
+		{
+			ft_printf("in : %d\n", in);
+			ft_error(SH_NAME, "Close failed on fd", NULL);
+		}
+	}
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);

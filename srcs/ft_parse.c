@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 18:23:48 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 13:47:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 	pipes = ft_strsplit_quote(cmds_i, '|');
 	while (pipes[++i + 1])
 	{
-		ft_printf("pipe[%d]: %s\n", i, pipes[i]);
+	//	ft_printf("pipe[%d]: %s\n", i, pipes[i]);
 		if (pipe(fd) < 0)
 		{
 			ft_free_tab(pipes);
@@ -91,7 +91,7 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 		ret = ft_exec_cmd(e, pipes[i], in, fd);
 		in = fd[0];
 	}
-	ft_printf("pipe[%d]: %s\n", i, pipes[i]);
+	//ft_printf("pipe[%d]: %s\n", i, pipes[i]);
 	fd[1] = STDOUT_FILENO;
 	ret = ft_exec_cmd(e, pipes[i], in, fd);
 	ft_free_tab(pipes);

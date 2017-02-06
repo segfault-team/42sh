@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 15:46:16 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 13:47:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		ft_set_sig_handler(void)
 	sig = 0;
 	while (++sig <= 31)
 	{
-		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || \
+		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGUSR2 || \
 			sig == SIGKILL || sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
 			signal(sig, SIG_DFL);
 		else
