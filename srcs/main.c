@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 11:56:20 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/06 13:33:02 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int				main(int ac, char **av, char **env)
 		else
 			tcaps(&e);
 		ft_bzero(&e.buf, 3);
+		e.check_remove_tab = 0;
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;
 	}
