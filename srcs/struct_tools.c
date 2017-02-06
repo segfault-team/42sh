@@ -20,8 +20,6 @@ void	magic_type(t_env *e)
 	check = 0;
 	while (e->magic[++i].cmd)
 	{
-//		for (int j = 0; e->cmd[j] != NULL ; j++)
-//			ft_printf("i: %d CMD: %s\n", i, e->cmd[j]);
 		if (!check && struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
 		else if (red_strstr(e->magic[i].cmd))
@@ -37,7 +35,11 @@ void	magic_type(t_env *e)
 		}
 	}
 	magic_realloc(e);
-}
+/*	for (int j = 0; e->cmd[j] != NULL ; j++)
+		ft_printf("CMD: %s\n", e->cmd[j]);
+	for (int j = 0; e->magic[j].cmd != NULL ; j++)
+		ft_printf("M.cmd: %s | M.type: %s\n", e->magic[j].cmd, e->magic[j].type);
+*/}
 
 // POSSIBLE ERREUR SUR LE DERNIER FREE
 // ON AVANCE A L AVEUGLE

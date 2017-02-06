@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/02/05 18:12:10 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/06 17:59:17 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC_NAME	= main.c ft_init.c ft_parse.c ft_exec.c ft_banner.c\
 			  tcaps_delete.c tcaps_arrow.c tcaps_insert.c tcaps_ctrl.c \
 			  tcaps_positions.c tcaps_cut_paste.c ft_realloc_tab.c \
 				struct_tools.c struct_strsplit.c struct_strsplit_quote.c \
-				struct_get_type.c remove_space.c
+				struct_get_type.c remove_space.c \
+				ft_cmds_split.c
 
 #SRC_TERM_NAME = delete.c arrow.c insert.c ctrl.c
 

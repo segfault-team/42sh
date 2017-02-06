@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 14:16:22 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/06 18:28:30 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int				ft_exec_cmd(t_env *e, char **cmds, int i)
 	tmp = NULL;
 	e->cmd = ft_strsplit_quote(cmds[i], ' ');
 	e->magic = struct_strsplit_quote(cmds[i], ' ');
+	e->cat = ft_cmds_split(e);
 	magic_type(e);
 	e->cmd_len = ft_tablen(e->cmd);
 	k = -1;
@@ -101,6 +102,7 @@ int				ft_parse_line(t_env *e)
 		}
 	}
 	ft_free_tab(cmds);
+	ft_triple_free(e);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 13:44:09 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/06 18:24:56 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include "libft.h"
+
+# define CMD		1
+# define RDR		2
+# define INPUT		3
+# define OUTPUT		4
 
 # define RED "\033[31m"
 # define WHITE "\033[;0m"
@@ -92,6 +97,7 @@ typedef struct		s_env
 	char			*home;
 	char			*line;
 	char			**cmd;
+	char			***cat;
 	size_t			cmd_len;
 
 	int				check_remove_tab;
@@ -142,6 +148,8 @@ void				move_right(t_env *e);
 int					red_strstr(char *str);
 void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
+char				***ft_cmds_split(t_env *e);
+void				ft_triple_free(t_env *e);
 
 /*
 **		Realloc

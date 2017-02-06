@@ -44,16 +44,37 @@ void			del_elem_magic(int i, t_env *e)
 		e->magic[i - 1].type = ft_strdup("ignore");
 }
 
+static int		ft_check_input(int i, t_env *e)
+{
+	if (!ft_strcmp(e->magic[i].cmd, "<") ||
+		!ft_strcmp(e->magic[i].cmd, "<<") ||
+		ft_strstr(e->magic[i].cmd, "<&") ||
+		!ft_strcmp("input", e->magic[i].type))
+			return (1);
+	return (0);
+}
+
+static int		ft_check_output(int i, t_env *e)
+{
+	if (!ft_strcmp(e->magic[i].cmd, ">") ||
+		!ft_strcmp(e->magic[i].cmd, ">>") ||
+		ft_strstr(e->magic[i].cmd, "&>") ||
+		!ft_strcmp(e->magic[i].cmd, "|") ||
+		!ft_strcmp("output", e->magic[i].type))
+			return (1);
+	return (0);
+}
+
 void			struct_arg_red(int i, t_env *e)
 {
-	if (ft_strstr(e->magic[i - 1].cmd, "<") ||
-		ft_strstr(e->magic[i - 1].cmd, "<<") ||
-		ft_strstr(e->magic[i - 1].cmd, "<&") || 
-		(i > 0 && !ft_strcmp("input", e->magic[i - 1].type)))
+	if (i > 0 && (!ft_strcmp("|", e->magic[i - 1].cmd) ||
+				  !ft_strcmp(e->magic[i - 1].type, "cmd")))
+ 		e->magic[i].type = ft_strdup("cmd");
+	else if (i > 0 && ft_check_input(i - 1, e))
 		e->magic[i].type = ft_strdup("input");
-	else
+	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
-	if ((i > 0 && !ft_strcmp(e->magic[i - 1].type, "input")) ||
-		 (i > 0 && !ft_strcmp(e->magic[i - 1].type, "output")))
+	if (i > 0 && (!ft_strcmp(e->magic[i - 1].type, "input") ||
+		 !ft_strcmp(e->magic[i - 1].type, "output")))
 		del_elem_magic(i, e);
 }
