@@ -23,6 +23,8 @@ int				struct_check_cmd(int i, t_env *e)
 	if (i > 0 && e->magic[i - 1].cmd && !red_strstr(e->magic[i - 1].cmd) &&
 		!red_strstr(e->magic[i].cmd))
 		return (1);
+	else if (i == 0 && !red_strstr(e->magic[i].cmd))
+		return (1);
 	return (0);
 }
 
