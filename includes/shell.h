@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 17:14:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 18:48:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@
 # define FD			e.fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
-# define WS_COL		e->tcaps.ws.ws_col
+//# define WS_COL		e->tcaps.ws.ws_col
 
-# define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+# define WS_COL		TCAPS.ws.ws_col
+# define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
 typedef struct		s_magic
 {
@@ -93,6 +94,7 @@ typedef struct		s_env
 	char			*home;
 	char			*line;
 	char			**cmd;
+	char			***cat;
 	size_t			cmd_len;
 
 	int				check_remove_tab;
@@ -143,6 +145,8 @@ void				move_right(t_env *e);
 int					red_strstr(char *str);
 void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
+char				***ft_cmds_split(t_env *e);
+void				ft_triple_free(t_env *e);
 
 /*
 **		Realloc

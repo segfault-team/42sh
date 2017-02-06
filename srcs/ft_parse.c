@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 17:14:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 18:47:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		ft_exec_builtin(t_env *e)
 	return (ret);
 }
 
-int				ft_exec_cmd(t_env *e, char *cmd, int in, int fd[2])
+int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
 {
 	int		ret;
 	int		k;
@@ -55,8 +55,9 @@ int				ft_exec_cmd(t_env *e, char *cmd, int in, int fd[2])
 
 	ret = 0;
 	tmp = NULL;
-	e->cmd = ft_strsplit_quote(cmd, ' ');
-	e->magic = struct_strsplit_quote(cmd, ' ');
+	e->cmd = ft_strsplit_quote(cmds, ' ');
+	e->magic = struct_strsplit_quote(cmds, ' ');
+	e->cat = ft_cmds_split(e);
 	magic_type(e);
 	e->cmd_len = ft_tablen(e->cmd);
 	k = -1;
@@ -133,6 +134,7 @@ int				ft_parse_line(t_env *e)
 		}
 	}
 	ft_free_tab(cmds);
+	ft_triple_free(e);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 13:33:41 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/06 17:33:10 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cmd = NULL;
 	e->cut = NULL;
 	e->check_remove_tab = 0;
+	e->cat = NULL;
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
 	TCAPS.nb_move = 0;
