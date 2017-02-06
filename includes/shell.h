@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 17:01:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 17:14:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 */
 
+# define DEBUG(x) ft_printf("%d\n", x)
 # define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
 # include <unistd.h>
@@ -94,6 +95,7 @@ typedef struct		s_env
 	char			**cmd;
 	size_t			cmd_len;
 
+	int				check_remove_tab;
 	t_magic			*magic;
 
 	char			buf[3];
@@ -139,7 +141,8 @@ char				*ft_getenv(char **env, char *name);
 char				*ft_tilde(t_env *e, char *current);
 void				move_right(t_env *e);
 int					red_strstr(char *str);
-void				ft_remove_tab(char ***pas_tab, int index);
+void				ft_remove_tab(char **pas_tab, int index, int check);
+void				ft_cut_tab(char **pas_tab, int index);
 
 /*
 **		Realloc
@@ -199,5 +202,6 @@ void				magic_free(t_env *e);
 void				struct_arg_red(int i, t_env *e);
 int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
+void				magic_realloc(t_env *e);
 
 #endif
