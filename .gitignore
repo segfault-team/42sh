@@ -40,3 +40,6 @@ minishell
 fpe
 segv
 log
+
+# Folders
+tests

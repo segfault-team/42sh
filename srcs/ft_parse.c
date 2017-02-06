@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 13:47:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 17:03:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int		ft_exec_builtin(t_env *e)
 	char	ret;
 
 	ret = 0;
-//	store_history(e->cmd);
 	if (ft_strequ(e->cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (ft_strequ(e->cmd[0], "env") && ++ret)
@@ -51,10 +50,23 @@ static int		ft_exec_builtin(t_env *e)
 int				ft_exec_cmd(t_env *e, char *cmd, int in, int fd[2])
 {
 	int		ret;
+	int		k;
+	char	*tmp;
 
 	ret = 0;
+	tmp = NULL;
 	e->cmd = ft_strsplit_quote(cmd, ' ');
+	e->magic = struct_strsplit_quote(cmd, ' ');
+	magic_type(e);
 	e->cmd_len = ft_tablen(e->cmd);
+	k = -1;
+	while (e->cmd[++k])
+		if (e->cmd[k][0] == '~')
+		{
+			tmp = ft_tilde(e, e->cmd[k]);
+			free(e->cmd[k]);
+			e->cmd[k] = tmp;
+		}
 	if (e->cmd_len)
 	{
 		if ((ret = ft_exec_builtin(e)))
@@ -64,6 +76,7 @@ int				ft_exec_cmd(t_env *e, char *cmd, int in, int fd[2])
 	}
 	ft_check_history(e);
 	ft_free_tab(e->cmd);
+	magic_free(e);
 	e->cmd = NULL;
 	e->cmd_len = 0;
 	return (ret);
@@ -110,7 +123,7 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
-			//ft_redirect(&cmds[i], e);
+//			ft_redirect(&cmds[i], e);
 			if (ft_matchquotes(cmds[i]) == 0)
 			{
 				ret = ft_split_pipes(e, cmds[i]);
@@ -120,5 +133,17 @@ int				ft_parse_line(t_env *e)
 		}
 	}
 	ft_free_tab(cmds);
+	return (ret);
+}
+
+char	*ft_tilde(t_env *e, char *current)
+{
+	char	*ret;
+	char	*home;
+
+	if (!(home = ft_getenv(e->env, "HOME")))
+		return (NULL);
+	ret = ft_strjoin(home, &current[1]);
+	free(home);
 	return (ret);
 }

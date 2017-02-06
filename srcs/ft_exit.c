@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:25:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/28 15:12:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/05 17:07:33 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		ft_exit(t_env *e)
 	e->x = 0;
 //	tcgetattr(0, &TCAPS.save);
 	TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
+
 //	TCAPS.save.c_lflag = ECHO;
 //	tcsetattr(0, 0, &TCAPS.save);
 //	TCAPS.termos.c_lflag = (ICANON | ECHO);

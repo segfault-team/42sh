@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 14:11:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/05 17:13:18 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void		ft_env_free(t_env *e)
 		free(e->prompt);
 	if (e->env)
 		ft_free_tab(e->env);
+	if (e->magic)
+		magic_free(e);
 }
 
 char		*ft_issetenv(char **env, char *name)
@@ -97,4 +99,29 @@ char		*ft_getenv(char **env, char *name)
 //		free(tmp);
 	}
 	return (value);
+}
+
+/*
+** RAZ LE CUL DE TOUT REECRIRE !
+*/
+
+void	xputs(char *tag)
+{
+	char	*res;
+
+	res = tgetstr(tag, NULL);
+	tputs(res, 1, dsh_putchar);
+}
+
+void	move_right(t_env *e)
+{
+	if (TCAPS.nb_col == (WS_COL - 1))
+	{
+		xputs("do");
+		xputs("cr");
+	}
+	else
+		xputs("nd");
+	++TCAPS.nb_move;
+	tcaps_recalc_pos(e);
 }

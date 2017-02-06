@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 18:21:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/06 17:01:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 **		(ft_signal)
 
 */
+
+# define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
 # include <unistd.h>
 # include <sys/wait.h>
@@ -49,8 +51,15 @@
 # define FD			e.fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
+# define WS_COL		e->tcaps.ws.ws_col
 
 # define OPENFLAGS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+
+typedef struct		s_magic
+{
+	char			*cmd;
+	char			*type;
+}					t_magic;
 
 typedef struct		s_fd
 {
@@ -68,6 +77,9 @@ typedef struct		s_term
 	int				nb_read;
 	int				check_move;
 	int				hist_move;
+  	int				nb_line;
+  	int				nb_col;
+ 	 struct winsize			ws;
 }					t_term;
 
 typedef struct		s_env
@@ -81,9 +93,13 @@ typedef struct		s_env
 	char			*line;
 	char			**cmd;
 	size_t			cmd_len;
+
+	t_magic			*magic;
+
 	char			buf[3];
 	t_term			tcaps;
 	char 			**history;
+	char			*cut;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -120,6 +136,10 @@ void				ft_env_free(t_env *e);
 void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
+char				*ft_tilde(t_env *e, char *current);
+void				move_right(t_env *e);
+int					red_strstr(char *str);
+void				ft_remove_tab(char ***pas_tab, int index);
 
 /*
 **		Realloc
@@ -127,6 +147,7 @@ char				*ft_getenv(char **env, char *name);
 char				*ft_realloc_line(t_env *e, char c);
 char				*ft_realloc_insert_char(t_env *e, char c);
 char				*ft_realloc_delete_char(t_env *e);
+void				ft_realloc_insert_str(t_env *e, char *str);
 
 /*
 **		Builtins
@@ -152,13 +173,31 @@ int					tcaps_check_key(char buf[3], int a, int b, int c);
 int					tcaps_check_read(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
-void				tcaps_del_bkw(t_env *e);
+void				tcaps_del(t_env *e);
 void				tcaps_del_fwd(t_env *e);
 void				tcaps_history(t_env *e);
 void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
-void				tcaps_rtrbeg(t_env *e);
+void				tcaps_ctrl_home(t_env *e);
+void				tcaps_recalc_pos(t_env *e);
+int					tcaps_putstr(t_env *e, char *str);
+void				tcaps_ctrl_mov(t_env *e);
+void				tcaps_ctrl_end(t_env *e);
+void				xputs(char *tag);
+void				tcaps_cut_paste(t_env *e);
+void				clear_cmd(t_env *e);
+
+/*
+**	Magic struct
+*/
+t_magic				*struct_strsplit(char const *str, char div);
+t_magic				*struct_strsplit_quote(char const *s, char c);
+int					struct_len(t_magic *magic);
+void				magic_free(t_env *e);
+void				struct_arg_red(int i, t_env *e);
+int					struct_check_cmd(int i, t_env *e);
+void				magic_type(t_env *e);
 
 #endif

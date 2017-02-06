@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:26:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:26:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/01 14:08:34 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		tcaps_check_key(char buf[3], int a, int b, int c)
 
 int		tcaps_check_read(char buf[3])
 {
-	if (!buf[1] && !buf[2] && (buf[0] >= 32 && buf[0] < 126))
+	if (!buf[1] && !buf[2] && (buf[0] >= 32 && buf[0] < 127))
 		return (1);
 	return (0);
 }
