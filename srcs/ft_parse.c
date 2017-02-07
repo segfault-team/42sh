@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 18:40:24 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/07 10:50:51 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		ft_exec_builtin(t_env *e)
 	return (ret);
 }
 
-int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
+int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 {
 	int		ret;
 	int		k;
@@ -55,30 +55,25 @@ int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
 
 	ret = 0;
 	tmp = NULL;
-	e->cmd = ft_strsplit_quote(cmds, ' ');
-	e->magic = struct_strsplit_quote(cmds, ' ');
-	e->cat = ft_cmds_split(e);
-	magic_type(e);
-	e->cmd_len = ft_tablen(e->cmd);
+	e->cmd_len = ft_tablen(cmd);
 	k = -1;
-	while (e->cmd[++k])
-		if (e->cmd[k][0] == '~')
+	while (cmd[++k])
+	{
+		if (cmd[k][0] == '~')
 		{
-			tmp = ft_tilde(e, e->cmd[k]);
-			free(e->cmd[k]);
-			e->cmd[k] = tmp;
+			tmp = ft_tilde(e, cmd[k]);
+			free(cmd[k]);
+			cmd[k] = tmp;
 		}
+	}
 	if (e->cmd_len)
 	{
 		if ((ret = ft_exec_builtin(e)))
 			;
 		else
-			ret = ft_exec(e->cmd, e->env, in, fd);
+			ret = ft_exec(cmd, e->env, in, fd);
 	}
 	ft_check_history(e);
-	ft_free_tab(e->cmd);
-	magic_free(e);
-	e->cmd = NULL;
 	e->cmd_len = 0;
 	return (ret);
 }
@@ -89,26 +84,28 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 	int		in;
 	int		fd[2];
 	int		ret;
-	char	**pipes;
 
 	i = -1;
 	in = STDIN_FILENO;
-	pipes = ft_strsplit_quote(cmds_i, '|');
-	while (pipes[++i + 1])
+	e->cmd = ft_strsplit_quote(cmds_i, ' ');
+	e->magic = struct_strsplit_quote(cmds_i, ' ');
+	e->cat = ft_cmds_split(e);
+	magic_type(e);
+	while (e->cat[++i + 1])
 	{
-	//	ft_printf("pipe[%d]: %s\n", i, pipes[i]);
 		if (pipe(fd) < 0)
 		{
-			ft_free_tab(pipes);
+	//		ft_free_tab(pipes);
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
 		}
-		ret = ft_exec_cmd(e, pipes[i], in, fd);
+		ret = ft_exec_cmd(e, e->cat[i], in, fd);
 		in = fd[0];
 	}
-	//ft_printf("pipe[%d]: %s\n", i, pipes[i]);
+	//
 	fd[1] = STDOUT_FILENO;
-	ret = ft_exec_cmd(e, pipes[i], in, fd);
-	ft_free_tab(pipes);
+	ret = ft_exec_cmd(e, e->cat[i], in, fd);
+//	ft_triple_free(e);
+	magic_free(e);
 	return (ret);
 }
 

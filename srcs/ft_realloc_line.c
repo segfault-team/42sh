@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/02 13:50:05 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/07 09:46:42 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,7 @@ char    *ft_realloc_line(t_env *e, char c)
 int		tcaps_putstr(t_env *e, char *str)
 {
 	int		l;
-	int		i;
 
-	i = -1;
 	xputs("sc");
 	xputs("cr");
 	xputs("dm");

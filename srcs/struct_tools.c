@@ -35,11 +35,9 @@ void	magic_type(t_env *e)
 		}
 	}
 	magic_realloc(e);
-/*	for (int j = 0; e->cmd[j] != NULL ; j++)
-		ft_printf("CMD: %s\n", e->cmd[j]);
-	for (int j = 0; e->magic[j].cmd != NULL ; j++)
-		ft_printf("M.cmd: %s | M.type: %s\n", e->magic[j].cmd, e->magic[j].type);
-*/}
+//	for (int j = 0; e->magic[j].cmd != NULL ; j++)
+//		ft_printf("M.cmd: %s | M.type: %s\n", e->magic[j].cmd, e->magic[j].type);
+}
 
 // POSSIBLE ERREUR SUR LE DERNIER FREE
 // ON AVANCE A L AVEUGLE

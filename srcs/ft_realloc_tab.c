@@ -1,28 +1,4 @@
 #include "shell.h"
-/*
-void	ft_remove_tab(char **pas_tab, int index)
-{
-	char	**ret;
-	int		i;
-	int		j;
-
-	i = -1;
-	j = -1;
-	ft_printf("INDEX %d %s\n", index, pas_tab[index]);
-	if (!(ret = ft_tabnew(ft_tablen(pas_tab))))
-		return ;
-	while (pas_tab[++i] != NULL)
-	{
-		ft_printf("s: ");
-		ft_printf("%s\n", pas_tab[i]);
-		if (i == index)
-			++i;
-		else
-			ret[++j] = ft_strdup(pas_tab[i]);
-	}
-	ft_free_tab(pas_tab);
-	pas_tab = ret;
-}*/
 
 /*
 **	DELETE ELEMENT IN TAB
