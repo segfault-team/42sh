@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/07 10:50:51 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:19:26 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,13 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 	while (e->cat[++i + 1])
 	{
 		if (pipe(fd) < 0)
-		{
-	//		ft_free_tab(pipes);
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
-		}
 		ret = ft_exec_cmd(e, e->cat[i], in, fd);
 		in = fd[0];
 	}
-	//
 	fd[1] = STDOUT_FILENO;
 	ret = ft_exec_cmd(e, e->cat[i], in, fd);
-//	ft_triple_free(e);
+	ft_triple_free(e);
 	magic_free(e);
 	return (ret);
 }
@@ -121,17 +117,14 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
-
 			if (ft_matchquotes(cmds[i]) == 0)
-			{
 				ret = ft_split_pipes(e, cmds[i]);
-			}
 			else
 				ft_error(NULL, "Unmatched quote", NULL);
+			e->check_remove_tab = 0;
 		}
 	}
 	ft_free_tab(cmds);
-	ft_triple_free(e);
 	return (ret);
 }
 
