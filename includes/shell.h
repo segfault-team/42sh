@@ -140,7 +140,6 @@ void				ft_env_free(t_env *e);
 void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
-char				*ft_tilde(t_env *e, char *current);
 void				move_right(t_env *e);
 int					red_strstr(char *str);
 void				ft_remove_tab(char **pas_tab, int index, int check);

@@ -12,7 +12,36 @@
 
 #include "shell.h"
 
-static char		**ft_parse_cmd(t_env *e)
+static char		*ft_tilde(t_env *e, char *current)
+{
+	char	*ret;
+	char	*home;
+
+	if (!(home = ft_getenv(e->env, "HOME")))
+		return (NULL);
+	ret = ft_strjoin(home, &current[1]);
+	free(home);
+	return (ret);
+}
+
+static int		ft_subs_tilde(t_env *e)
+{
+	int		k;
+	char	*tmp;
+
+	k = -1;
+	tmp = NULL;
+	while (e->cmd[++k])
+		if (e->cmd[k][0] == '~')
+		{
+			tmp = ft_tilde(e, e->cmd[k]);
+			free(e->cmd[k]);
+			e->cmd[k] = tmp;
+		}
+	return (0);
+}
+
+static char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
@@ -50,24 +79,14 @@ static int		ft_exec_builtin(t_env *e)
 int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
 {
 	int		ret;
-	int		k;
-	char	*tmp;
 
 	ret = 0;
-	tmp = NULL;
 	e->cmd = ft_strsplit_quote(cmds, ' ');
+	ft_subs_tilde(e);
 	e->magic = struct_strsplit_quote(cmds, ' ');
 	e->cat = ft_cmds_split(e);
-	magic_type(e);
 	e->cmd_len = ft_tablen(e->cmd);
-	k = -1;
-	while (e->cmd[++k])
-		if (e->cmd[k][0] == '~')
-		{
-			tmp = ft_tilde(e, e->cmd[k]);
-			free(e->cmd[k]);
-			e->cmd[k] = tmp;
-		}
+	magic_type(e);
 	if (e->cmd_len)
 	{
 		if ((ret = ft_exec_builtin(e)))
@@ -83,7 +102,7 @@ int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
 	return (ret);
 }
 
-int				ft_split_pipes(t_env *e, char *cmds_i)
+int				ft_iter_pipes(t_env *e, char *cmds_i)
 {
 	int		i;
 	int		in;
@@ -96,7 +115,6 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 	pipes = ft_strsplit_quote(cmds_i, '|');
 	while (pipes[++i + 1])
 	{
-	//	ft_printf("pipe[%d]: %s\n", i, pipes[i]);
 		if (pipe(fd) < 0)
 		{
 			ft_free_tab(pipes);
@@ -105,7 +123,6 @@ int				ft_split_pipes(t_env *e, char *cmds_i)
 		ret = ft_exec_cmd(e, pipes[i], in, fd);
 		in = fd[0];
 	}
-	//ft_printf("pipe[%d]: %s\n", i, pipes[i]);
 	fd[1] = STDOUT_FILENO;
 	ret = ft_exec_cmd(e, pipes[i], in, fd);
 	ft_free_tab(pipes);
@@ -120,14 +137,14 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if ((cmds = ft_parse_cmd(e)) != NULL)
+	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
 		while (cmds[++i])
 		{
 
 			if (ft_matchquotes(cmds[i]) == 0)
 			{
-				ret = ft_split_pipes(e, cmds[i]);
+				ret = ft_iter_pipes(e, cmds[i]);
 			}
 			else
 				ft_error(NULL, "Unmatched quote", NULL);
@@ -135,17 +152,5 @@ int				ft_parse_line(t_env *e)
 	}
 	ft_free_tab(cmds);
 	ft_triple_free(e);
-	return (ret);
-}
-
-char	*ft_tilde(t_env *e, char *current)
-{
-	char	*ret;
-	char	*home;
-
-	if (!(home = ft_getenv(e->env, "HOME")))
-		return (NULL);
-	ret = ft_strjoin(home, &current[1]);
-	free(home);
 	return (ret);
 }
