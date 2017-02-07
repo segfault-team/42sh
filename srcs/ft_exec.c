@@ -91,12 +91,24 @@ static int		ft_redirect(int oldfd, int newfd)
 		}
 		else
 		{
+			// REMOVE ME
 			ft_printf("old: %d		new: %d\n", oldfd, newfd);
 			perror(NULL);
 			return (ft_error(SH_NAME, "dup2 failed", NULL));
 		}
 	}
 	return (0);
+}
+
+static void		ft_close(int fd)
+{
+	if (fd != 1 && fd != 0) {
+		if (close(fd) == -1)
+		{
+			ft_printf("fd : %d\n", fd);
+			ft_error(SH_NAME, "Close failed on fd", NULL);
+		}
+	}
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
@@ -111,33 +123,12 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 	}
 	if (pid == 0)
 	{
-		//Protect closes
 		if (ft_redirect(in, STDIN_FILENO) || ft_redirect(fd[1], STDOUT_FILENO))
 			return (-1);
-		/*
-		if (close(fd[0]) == -1)
-		{
-			ft_printf("fd[0] : %d\n", fd[0]);
-			ft_error(SH_NAME, "Close failed on fd", NULL);
-		}
-		*/
 		execve(exec, &cmd[0], env);
 	}
-	// This solves what?!
-	if (fd[1] != 1 && fd[1] != 0) {
-		if (close(fd[1]) == -1)
-		{
-			ft_printf("fd[1] : %d\n", fd[1]);
-			ft_error(SH_NAME, "Close failed on fd", NULL);
-		}
-	}
-	if (in != 1 && in != 0) {
-		if (close(in) == -1)
-		{
-			ft_printf("in : %d\n", in);
-			ft_error(SH_NAME, "Close failed on fd", NULL);
-		}
-	}
+	ft_close(fd[1]);
+	ft_close(in);
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
