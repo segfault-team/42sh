@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 10:59:33 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/08 12:18:56 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void		clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	xputs("dm");
-
 	while (--TCAPS.nb_read + ((int)ft_strlen(e->prompt) + 1) > 0)
 	{
 		xputs("le");
@@ -121,18 +120,31 @@ void	tcaps_history_up(t_env *e)
 int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
+	static int	last_nb_read = 0;
 
 	TCAPS.nb_move = TCAPS.nb_read;
 	tab_len = (int)ft_tablen(e->history);
 	if (e->history && e->history[0])
 	{
 		if (TCAPS.hist_move == -1)
+		{
+			TCAPS.nb_read = last_nb_read;
+			xputs("dm");
+			while (--TCAPS.nb_read + ((int)ft_strlen(e->prompt) + 1) > 0)
+			{
+				xputs("le");
+				xputs("ce");
+			}
+			TCAPS.nb_read = 0;
+			xputs("dl");
+			xputs("ce");
+			tputs(e->prompt, 1, dsh_putchar);
+			TCAPS.nb_read = 0;
 			return (0);
+		}
 		clear_cmd(e);
-		// <= ---- <
 		if (TCAPS.hist_move < tab_len)
 		{
-//			++TCAPS.hist_move;
 			TCAPS.nb_read = (int)ft_strlen(e->history[TCAPS.hist_move]);
 			TCAPS.nb_move = TCAPS.nb_read;
 			ft_printf("%s", e->history[TCAPS.hist_move]);
@@ -141,20 +153,10 @@ int		tcaps_history_down(t_env *e)
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
 			++TCAPS.hist_move;
 		}
-/*		else if (TCAPS.hist_move == tab_len)
-		{
-			TCAPS.nb_read = (int)ft_strlen(e->history[TCAPS.hist_move]);
-			TCAPS.nb_move = TCAPS.nb_read;
-//			++TCAPS.hist_move;
-			if (e->line)
-				free(e->line);
-			e->line = NULL;
-			e->line = ft_strdup(e->history[TCAPS.hist_move]);
-			TCAPS.hist_move = -42;
-		}
-*/	}
+	}
 	if (TCAPS.hist_move == tab_len)
 	{
+		clear_cmd(e);
 		xputs("cr");
 		xputs("dm");
 		while (--TCAPS.nb_read > 0)
@@ -168,6 +170,7 @@ int		tcaps_history_down(t_env *e)
 		tputs(e->prompt, 1, dsh_putchar);
 		tputs(e->line, 1, dsh_putchar);
 		TCAPS.hist_move = -1;
+		last_nb_read = ft_strlen(e->line);
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
