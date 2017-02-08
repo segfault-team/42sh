@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 12:06:10 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/08 10:59:33 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void		clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	xputs("dm");
+
 	while (--TCAPS.nb_read + ((int)ft_strlen(e->prompt) + 1) > 0)
 	{
 		xputs("le");
@@ -90,6 +91,7 @@ void	ft_check_history(t_env *e)
 
 void	tcaps_history_up(t_env *e)
 {
+	TCAPS.nb_move = TCAPS.nb_read;
 	if (TCAPS.hist_move == -1)
 		TCAPS.hist_move = (int)ft_tablen(e->history);
 	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1 &&
@@ -120,7 +122,7 @@ int		tcaps_history_down(t_env *e)
 {
 	int	tab_len;
 
-//	ft_printf("%d\n", TCAPS.hist_move);
+	TCAPS.nb_move = TCAPS.nb_read;
 	tab_len = (int)ft_tablen(e->history);
 	if (e->history && e->history[0])
 	{
