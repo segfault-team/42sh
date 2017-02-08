@@ -6,13 +6,42 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/07 14:35:03 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:41:48 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static char		**ft_parse_cmd(t_env *e)
+static char		*ft_tilde(t_env *e, char *current)
+{
+	char	*ret;
+	char	*home;
+
+	if (!(home = ft_getenv(e->env, "HOME")))
+		return (NULL);
+	ret = ft_strjoin(home, &current[1]);
+	free(home);
+	return (ret);
+}
+
+static int		ft_subs_tilde(t_env *e)
+{
+	int		k;
+	char	*tmp;
+
+	k = -1;
+	tmp = NULL;
+	while (e->cmd[++k])
+		if (e->cmd[k][0] == '~')
+		{
+			tmp = ft_tilde(e, e->cmd[k]);
+			free(e->cmd[k]);
+			e->cmd[k] = tmp;
+		}
+	return (0);
+}
+
+static char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
@@ -50,8 +79,6 @@ static int		ft_exec_builtin(t_env *e)
 int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 {
 	int		ret;
-	int		k;
-	char	*tmp;
 
 	ret = 0;
 	tmp = NULL;
@@ -78,7 +105,7 @@ int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 	return (ret);
 }
 
-int				ft_split_pipes(t_env *e, char *cmds_i)
+int				ft_iter_pipes(t_env *e, char *cmds_i)
 {
 	int		i;
 	int		in;
@@ -113,29 +140,17 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if ((cmds = ft_parse_cmd(e)) != NULL)
+	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
 		while (cmds[++i])
 		{
 			if (ft_matchquotes(cmds[i]) == 0)
-				ret = ft_split_pipes(e, cmds[i]);
+				ret = ft_iter_pipes(e, cmds[i]);
 			else
 				ft_error(NULL, "Unmatched quote", NULL);
 			e->check_remove_tab = 0;
 		}
 	}
 	ft_free_tab(cmds);
-	return (ret);
-}
-
-char	*ft_tilde(t_env *e, char *current)
-{
-	char	*ret;
-	char	*home;
-
-	if (!(home = ft_getenv(e->env, "HOME")))
-		return (NULL);
-	ret = ft_strjoin(home, &current[1]);
-	free(home);
 	return (ret);
 }

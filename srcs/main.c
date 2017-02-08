@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 12:57:24 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:39:41 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int				main(int ac, char **av, char **env)
 			e.tcaps.check_move = 1;
 	}
 	ft_env_free(&e);
+	ft_putendl("exit");
 	return (e.exit);
 }

@@ -123,7 +123,7 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 		len = ft_count_words(s, c);
 		if (!(magic = (t_magic *)malloc(sizeof(t_magic) * (len + 1))))
 			return (NULL);
-			struct_init(len, magic);
+		struct_init(len, magic);
 		i = 0;
 		k = 0;
 		while (k < ft_count_words(s, c) && s[i] != '\0')

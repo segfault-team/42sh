@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 12:37:18 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:42:06 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define FD			e.fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
+//# define WS_COL		e->tcaps.ws.ws_col
 
 # define WS_COL		TCAPS.ws.ws_col
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
@@ -139,7 +140,6 @@ void				ft_env_free(t_env *e);
 void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
-char				*ft_tilde(t_env *e, char *current);
 void				move_right(t_env *e);
 int					red_strstr(char *str);
 void				ft_remove_tab(char **pas_tab, int index, int check);
