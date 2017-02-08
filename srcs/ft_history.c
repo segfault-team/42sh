@@ -15,7 +15,8 @@ int		ft_store_history(char **cmd)
 		return (0);
 	if (last_cmd)
 		free(last_cmd);
-	last_cmd = ft_strdup(cmd[0]);
+	if (cmd[0])
+		last_cmd = ft_strdup(cmd[0]);
 	if ((fd = open("/tmp/.history", O_RDWR | O_CREAT | O_APPEND, OPENFLAGS)) == -1)
 		return (ft_error("open", "Could not open file", "/tmp/.history"));
 	i = -1;
