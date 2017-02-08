@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 12:18:56 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/08 12:21:32 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int		tcaps_history_down(t_env *e)
 			xputs("ce");
 			tputs(e->prompt, 1, dsh_putchar);
 			TCAPS.nb_read = 0;
+			last_nb_read = 0;
 			return (0);
 		}
 		clear_cmd(e);
