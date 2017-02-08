@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:41:48 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:46:35 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,8 @@ int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 	int		ret;
 
 	ret = 0;
-	tmp = NULL;
 	e->cmd_len = ft_tablen(cmd);
-	k = -1;
-	while (cmd[++k])
-	{
-		if (cmd[k][0] == '~')
-		{
-			tmp = ft_tilde(e, cmd[k]);
-			free(cmd[k]);
-			cmd[k] = tmp;
-		}
-	}
+	ft_subs_tilde(e);
 	if (e->cmd_len)
 	{
 		if ((ret = ft_exec_builtin(e)))

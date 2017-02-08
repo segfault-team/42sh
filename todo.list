@@ -6,13 +6,12 @@ TODO:
 
 -REDIRECTIONS
 
--utilisation history : bug to fix: double up/down needed
-
 -parsing pour '\'
 
 -ls |
 pipe:
 
+-manage last history : up down down
 
 ctrl+arrow left/right with 'word-word' has to move to the -
 
@@ -41,5 +40,4 @@ DONE:
 -gerer l'affichage apres la cmd sur plusieurs ligne
 -manage history when "rm /tmp/.history"
 -gestion du tilde dans les commandes
-
-
+-utilisation history : bug to fix: double up/down needed
