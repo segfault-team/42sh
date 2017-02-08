@@ -35,9 +35,10 @@ NEW FEATURES:
 
 DONE:
 - mvt ctrl + fleche
--add Ctrl + a || home && Ctrl + e || end
+- add Ctrl + a || home && Ctrl + e || end
 - integration multi ligne
--gerer l'affichage apres la cmd sur plusieurs ligne
--manage history when "rm /tmp/.history"
--gestion du tilde dans les commandes
--utilisation history : bug to fix: double up/down needed
+- gerer l'affichage apres la cmd sur plusieurs ligne
+- manage history when "rm /tmp/.history"
+- gestion du tilde dans les commandes
+- utilisation history : bug to fix: double up/down needed
+- couper/coller avec ctrl+k / ctrl+p
