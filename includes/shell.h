@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 18:41:23 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/08 12:37:18 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e);
 int					ft_echo(t_env *e);
 int					ft_where(t_env *e);
-int					ft_store_history(char **cmd);
+int					ft_store_history(char *cmd);
 int					ft_history(t_env *e);
 
 /*

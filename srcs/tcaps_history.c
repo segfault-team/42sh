@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 12:21:32 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/08 13:31:12 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_check_history(t_env *e)
 	char	**tmp;
 
 	accs = access("/tmp/.history", F_OK);
-	ft_store_history(e->cmd);
+	ft_store_history(e->line);
 	tmp = NULL;
 	if (accs != -1)
 	{
@@ -94,13 +94,13 @@ void	tcaps_history_up(t_env *e)
 	if (TCAPS.hist_move == -1)
 		TCAPS.hist_move = (int)ft_tablen(e->history);
 	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1 &&
-				TCAPS.hist_move > 0)
+				TCAPS.hist_move >= 0)
 	{
 		clear_cmd(e);
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
-		--TCAPS.hist_move;
+		//	--TCAPS.hist_move;
 		if (e->line)
 			free(e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
@@ -142,7 +142,7 @@ int		tcaps_history_down(t_env *e)
 			TCAPS.nb_read = 0;
 			last_nb_read = 0;
 			return (0);
-		}
+			}
 		clear_cmd(e);
 		if (TCAPS.hist_move < tab_len)
 		{
@@ -152,7 +152,7 @@ int		tcaps_history_down(t_env *e)
 			if (e->line)
 				free(e->line);
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
-			++TCAPS.hist_move;
+//			++TCAPS.hist_move;
 		}
 	}
 	if (TCAPS.hist_move == tab_len)
@@ -170,12 +170,12 @@ int		tcaps_history_down(t_env *e)
 		xputs("ed");
 		tputs(e->prompt, 1, dsh_putchar);
 		tputs(e->line, 1, dsh_putchar);
-		TCAPS.hist_move = -1;
+//		TCAPS.hist_move = -1;
 		last_nb_read = ft_strlen(e->line);
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
-		TCAPS.hist_move = -1;
+//		TCAPS.hist_move = -1;
 	}
 	tcaps_recalc_pos(e);
 	return (0);
