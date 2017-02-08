@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:42:06 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 15:34:39 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 
 # define DEBUG(x) ft_printf("%d\n", x)
 # define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
+
+# define UATTR __attribute__((unused))
 
 # include <unistd.h>
 # include <sys/wait.h>
@@ -146,6 +148,8 @@ void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
+
+void				ft_close(int fd);
 
 /*
 **		Realloc

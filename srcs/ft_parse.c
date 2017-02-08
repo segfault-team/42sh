@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:46:35 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/08 15:47:22 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 
 	i = -1;
 	in = STDIN_FILENO;
+//	ft_printf("IN: %d\n", in);
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
@@ -112,6 +113,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	{
 		if (pipe(fd) < 0)
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
+//		ft_printf("fd[0]: %d	fd[1]: %d\n", fd[0], fd[1]);
 		ret = ft_exec_cmd(e, e->cat[i], in, fd);
 		in = fd[0];
 	}
