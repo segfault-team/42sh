@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:38:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/04 11:23:58 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,21 @@
 
 void	tcaps_history(t_env *e)
 {
-	char *res;
+	int		l;
 
-	res = tgetstr("cr", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("cd", NULL);
-	tputs(res, 1, dsh_putchar);
+	l = TCAPS.nb_line;
+	xputs("cr");
+	while (--l)
+		xputs("up");
+//	clear_cmd(e);
+	xputs("cd");
 	ft_putstr(e->prompt);
+	tputs(e->line, 1, dsh_putchar);
 	if (tcaps_check_key(BUF, 27, 91, 65))
 		tcaps_history_up(e);
-	else
+	else if (tcaps_check_key(BUF, 27, 91, 66))
 		tcaps_history_down(e);
+	tcaps_recalc_pos(e);
 }
 
 /*
@@ -44,11 +48,17 @@ void	tcaps_history(t_env *e)
 
 void	tcaps_right(t_env *e)
 {
-	char	*res;
-
-	res = tgetstr("nd", NULL);
-	tputs(res, 1, dsh_putchar);
+/*	if (TCAPS.nb_col == TCAPS.ws.ws_col - 1)
+	  {
+		xputs("do");
+		xputs("cr");
+	    TCAPS.nb_col = 0;
+	  }
+	else
+		xputs("nd");
 	++TCAPS.nb_move;
+	tcaps_recalc_pos(e);*/
+	move_right(e);
 }
 
 /*
@@ -56,13 +66,17 @@ void	tcaps_right(t_env *e)
 **		ARROW KEYS
 **
 **  le: move cursor once on the left
+**  WS_COL : e->tcaps.ws.ws_col
 */
 
 void	tcaps_left(t_env *e)
 {
-	char	*res;
-
-	res = tgetstr("le", NULL);
-	tputs(res, 1, dsh_putchar);
-	--TCAPS.nb_move;
+	if (TCAPS.nb_col > (int)ft_strlen(e->prompt) || TCAPS.nb_line > 1)
+	  {
+	    if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
+	      TCAPS.nb_col = WS_COL;
+	  	xputs("le");
+	    --TCAPS.nb_move;
+		tcaps_recalc_pos(e);
+	  }
 }

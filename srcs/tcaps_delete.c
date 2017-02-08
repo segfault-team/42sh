@@ -6,48 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 16:15:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/04 12:06:23 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-/*
- **	INSTRUCTIONS FOR DELETES KEYS
- **
- **		tcaps_del_bkw : BACKSPACE
- **		tcaps_del_fwd : DELETE
- **
- **		dm: start delete mode
- **		le : move left
- **		nd : move right
- **		dc : delete char
- **		ed: end delete mode
- */
-
-void		tcaps_del_bkw(t_env *e)
-{
-	char	*res;
-
-	--TCAPS.nb_read;
-	res = tgetstr("dm", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("le", NULL);
-	tputs(res, 1, dsh_putchar);
-	if (TCAPS.nb_move)
-		--TCAPS.nb_move;
-	res = tgetstr("dc", NULL);
-	tputs(res, 1, dsh_putchar);
-	res = tgetstr("ed", NULL);
-	tputs(res, 1, dsh_putchar);
-	if (!TCAPS.nb_read && e->line)
-	{
-		free(e->line);
-		e->line = NULL;
-	}
-}
-
-void		tcaps_del_fwd(t_env *e)
+void	tcaps_del_fwd(t_env *e)
 {
 	char	*res;
 	char	buf[3];
@@ -66,5 +31,51 @@ void		tcaps_del_fwd(t_env *e)
 			free(e->line);
 			e->line = NULL;
 		}
+	}
+}
+
+/*
+ **	INSTRUCTIONS FOR DELETES KEYS
+ **
+ **		tcaps_del_bkw : BACKSPACE
+ **		tcaps_del_fwd : DELETE
+ **
+ **		dm: start delete mode
+ **		le : move left
+ **		nd : move right
+ **		dc : delete char
+ **		ed: end delete mode
+ */
+
+static void	tcaps_del_end(t_env *e)
+{
+	xputs("dm");
+	xputs("le");
+	if (TCAPS.nb_move)
+		--TCAPS.nb_move;
+	tcaps_recalc_pos(e);
+	if (TCAPS.nb_col == WS_COL - 1)
+		xputs("cd");
+	xputs("dc");
+	--TCAPS.nb_read;
+	xputs("ed");
+}
+
+void		tcaps_del(t_env *e)
+{
+	if (TCAPS.nb_move == TCAPS.nb_read)
+		tcaps_del_end(e);
+	else
+	{
+		if (!TCAPS.nb_read && e->line)
+		{
+			free(e->line);
+			e->line = NULL;
+		}
+		xputs("le");
+		--TCAPS.nb_read;
+		if (TCAPS.nb_move)
+			--TCAPS.nb_move;
+		tcaps_putstr(e, e->line);
 	}
 }
