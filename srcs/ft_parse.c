@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 18:47:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 18:05:38 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,19 @@ static int		ft_exec_builtin(t_env *e)
 	return (ret);
 }
 
-int				ft_exec_cmd(t_env *e, char *cmds, int in, int fd[2])
+int				ft_exec_cmd(t_env *e, char **cmds, int in, int fd[2])
 {
 	int		ret;
 
 	ret = 0;
-	e->cmd = ft_strsplit_quote(cmds, ' ');
-	ft_subs_tilde(e);
-	e->magic = struct_strsplit_quote(cmds, ' ');
-	e->cat = ft_cmds_split(e);
-	e->cmd_len = ft_tablen(e->cmd);
-	magic_type(e);
 	if (e->cmd_len)
 	{
 		if ((ret = ft_exec_builtin(e)))
 			;
 		else
-			ret = ft_exec(e->cmd, e->env, in, fd);
+			ret = ft_exec(cmds, e->env, in, fd);
 	}
 	ft_check_history(e);
-	ft_free_tab(e->cmd);
-	magic_free(e);
-	e->cmd = NULL;
 	e->cmd_len = 0;
 	return (ret);
 }
@@ -108,24 +99,27 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	int		in;
 	int		fd[2];
 	int		ret;
-	char	**pipes;
 
 	i = -1;
 	in = STDIN_FILENO;
-	pipes = ft_strsplit_quote(cmds_i, '|');
-	while (pipes[++i + 1])
+	e->magic = struct_strsplit_quote(cmds_i, ' ');
+	e->cat = ft_cmds_split(e);
+	e->cmd_len = ft_tablen(e->cmd);
+	magic_type(e);
+	for (int a = 0; e->cat[a] ; a++)
+		for (int b = 0 ; e->cat[a][b] ; b++)
+			ft_printf("e->cat[%d][%d]: %s\n", a, b, e->cat[a][b]);
+	while (e->cat[++i + 1])
 	{
 		if (pipe(fd) < 0)
-		{
-			ft_free_tab(pipes);
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
-		}
-		ret = ft_exec_cmd(e, pipes[i], in, fd);
+		ret = ft_exec_cmd(e, e->cat[i], in, fd);
 		in = fd[0];
 	}
 	fd[1] = STDOUT_FILENO;
-	ret = ft_exec_cmd(e, pipes[i], in, fd);
-	ft_free_tab(pipes);
+	ret = ft_exec_cmd(e, e->cat[i], in, fd);
+	ft_triple_free(e);
+	magic_free(e);
 	return (ret);
 }
 
@@ -151,6 +145,5 @@ int				ft_parse_line(t_env *e)
 		}
 	}
 	ft_free_tab(cmds);
-	ft_triple_free(e);
 	return (ret);
 }
