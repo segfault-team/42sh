@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:31:12 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/09 17:31:40 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,28 @@ int		ft_read_history(t_env *e)
 {
 	int			fd;
 	int 		i;
+	char		**tmp;
 
 	i = 0;
+	tmp = NULL;
 	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
-		// MANAGE ERROR
-		return (ft_printf(""));
-	e->history = malloc(sizeof(e->history) * 4096);
+		return (ft_error(SH_NAME, "Cannot read /tmp/.history", NULL));
+	if ((e->history = malloc(sizeof(*e->history) * 4096)) == NULL)
+		return (ft_error(SH_NAME, "Malloc failed.", NULL));
 	while (get_next_line(fd, &e->history[i]) > 0)
+	{
+		if (i >= 4096)
+		{
+			tmp = ft_tabnew(i * 2);
+			ft_tabcpy(tmp, e->history);
+			ft_tabfree(e->history);
+			e->history = tmp;
+		}
 		++i;
+	}
 	e->history[i] = NULL;
 	if (close(fd) == -1)
-		ft_printfd(2, "MANAGE ERROR");
+		return (ft_error(SH_NAME, "Close failed.", NULL));
 	return (0);
 }
 

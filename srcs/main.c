@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:39:41 by vlistrat         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 /*
@@ -51,14 +39,15 @@ int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
+	ft_banner();
 	ft_init(&e, ac, av, env);
-	ft_banner(&e);
 	ft_set_sig_handler();
+	ft_putstr(e.prompt);
 	while (e.x)
 	{
 		read(0, e.buf, 3);
 		if (ft_check_ctrlc(0))
-			 ft_reset_line(&e);
+			ft_reset_line(&e);
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;

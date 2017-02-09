@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_tools.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/07 13:09:28 by vlistrat         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 int			ft_check_ctrlc(int ctrlc)
@@ -96,13 +84,12 @@ char		*ft_getenv(char **env, char *name)
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
-//		free(tmp);
 	}
 	return (value);
 }
 
 /*
-** RAZ LE CUL DE TOUT REECRIRE !
+** RAZ LE BOL DE TOUT REECRIRE !
 */
 
 void	xputs(char *tag)
