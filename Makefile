@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/02/09 17:52:13 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/06 17:59:17 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ LIB			= $(addprefix -L, $(LIB_PATH)) -lncurses
 INC			= $(addprefix -I ,$(INC_PATH))
 
 CC			= @gcc
-CFLAGS		= #-Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
 RED			= \033[31;44m
 GREEN		= \033[32;44m

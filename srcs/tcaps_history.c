@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 18:00:25 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/09 14:50:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ void	ft_check_history(t_env *e)
 	char	**tmp;
 
 	accs = access("/tmp/.history", F_OK);
-	ft_store_history(e->line);
+	ft_store_history(e->cmd);
 	tmp = NULL;
 	if (accs != -1)
 	{
-		i = (e->history) ? ft_tablen(e->history) : 0;
-		if (e->history && !ft_strcmp(e->history[i], e->line))
+		i = ft_tablen(e->history);
+		if (!ft_strcmp(e->history[i], e->line))
 		{
 			tmp = e->history;
 			e->history = ft_tabcat(e->history, e->line);
@@ -94,7 +94,6 @@ void	ft_check_history(t_env *e)
 	else
 		ft_read_history(e);
 }
-
 /*
  **	MANAGE THE TERMCAPS HISTORY
  **	FOR UP ARROW
