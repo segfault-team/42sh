@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 16:08:40 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 18:44:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,6 @@ int			ft_matchquotes(char *s)
 	return (0);
 }
 
-void		ft_env_free(t_env *e)
-{
-	if (e->line)
-		free(e->line);
-	if (e->home)
-		free(e->home);
-	if (TCAPS.term_name)
-		free(TCAPS.term_name);
-// DOUBLE FREE ??
-//	if (e->history)
-//		ft_free_tab(e->history);
-	if (e->prompt)
-		free(e->prompt);
-	if (e->env)
-		ft_free_tab(e->env);
-	if (e->magic)
-		magic_free(e);
-}
-
 char		*ft_issetenv(char **env, char *name)
 {
 	char	*eval;
@@ -98,29 +79,4 @@ char		*ft_getenv(char **env, char *name)
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
 	}
 	return (value);
-}
-
-/*
-** RAZ LE BOL DE TOUT REECRIRE !
-*/
-
-void	xputs(char *tag)
-{
-	char	*res;
-
-	res = tgetstr(tag, NULL);
-	tputs(res, 1, dsh_putchar);
-}
-
-void	move_right(t_env *e)
-{
-	if (TCAPS.nb_col == (WS_COL - 1))
-	{
-		xputs("do");
-		xputs("cr");
-	}
-	else
-		xputs("nd");
-	++TCAPS.nb_move;
-	tcaps_recalc_pos(e);
 }

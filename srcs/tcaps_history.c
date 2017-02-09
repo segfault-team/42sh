@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 14:50:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 18:52:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ void	ft_check_history(t_env *e)
 	accs = access("/tmp/.history", F_OK);
 	ft_store_history(e->cmd);
 	tmp = NULL;
+	i = 0;
 	if (accs != -1)
 	{
-		i = ft_tablen(e->history);
+		if (e->history)
+			i = ft_tablen(e->history);
 		if (!ft_strcmp(e->history[i], e->line))
 		{
 			tmp = e->history;

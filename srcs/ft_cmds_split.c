@@ -42,27 +42,6 @@ static char	**ft_find_tab(t_env *e, int *z)
 	return (rtr);
 }
 
-void	ft_triple_free(t_env *e)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (e->cat[++i])
-	{
-		j = -1;
-		while (e->cat[i][++j])
-		{
-			free(e->cat[i][j]);
-			e->cat[i][j] = NULL;
-		}
-		free(e->cat[i]);
-		e->cat[i] = NULL;
-	}
-	free(e->cat);
-	e->cat = NULL;
-}
-
 /*
 **	CREATE AND RETURN A 3D TAB
 **	WHO CONTAIN ALL CMDS

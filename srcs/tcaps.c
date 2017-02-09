@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/09 15:01:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 18:14:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int 			tcaps(t_env *e)
 	else if (tcaps_check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
 		tcaps_left(e);
 	else if (BUF[0] == 127 && TCAPS.nb_read && TCAPS.nb_move > 0)
-		tcaps_del(e);
+		tcaps_del_bkw(e);
 	else if (tcaps_check_key(BUF, 27, 91, 49))
 		tcaps_ctrl_mov(e);
 	else if (tcaps_check_key(BUF, 5, 0, 0) || tcaps_check_key(BUF, 27, 91, 70))

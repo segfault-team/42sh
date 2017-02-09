@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 16:16:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 18:50:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 static void		tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
-//	ft_putchar('\n');
 	TCAPS.hist_move = -1;
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
-	if (!ft_strstr(e->line, "exit"))
+	if (e->x)
 		ft_putstr(e->prompt);
 	if (e->line)
 		free(e->line);
@@ -66,7 +65,7 @@ int				main(int ac, char **av, char **env)
 		if (tcaps_check_read(e.buf))
 			tcaps_printable_char(&e);
 		else if (e.line && e.buf[0] == 127)
-			e.line = ft_realloc_delete_char(&e);
+			e.line = ft_realloc_delete_char(&e, e.tcaps.nb_move - 1);
 		if (tcaps_check_key(e.buf, 10, 0, 0))
 			tcaps_enter(&e);
 		else

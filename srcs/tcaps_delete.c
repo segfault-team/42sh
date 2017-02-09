@@ -6,17 +6,26 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 12:06:23 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/09 19:02:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+/*
+ ** nb_read		= strlen de line
+ ** nb_move		= position curseur sur line
+ ** ws.ws_col	= nombre de colones dans la fenetre
+ ** nb_col		= emplacement du curseur sur UNE ligne par rapport a ws_col
+ ** nb_line		= numero de la ligne
+ */
 
 void	tcaps_del_fwd(t_env *e)
 {
 	char	*res;
 	char	buf[3];
 
+	ft_bzero(buf, 3);
 	read(0, buf, 3);
 	if (tcaps_check_key(buf, 126, 0, 0))
 	{
@@ -31,6 +40,10 @@ void	tcaps_del_fwd(t_env *e)
 			free(e->line);
 			e->line = NULL;
 		}
+		ft_realloc_delete_char(e, TCAPS.nb_move + 1);
+		tcaps_recalc_pos(e);
+		if (TCAPS.nb_read)
+			--TCAPS.nb_read;
 	}
 }
 
@@ -61,7 +74,7 @@ static void	tcaps_del_end(t_env *e)
 	xputs("ed");
 }
 
-void		tcaps_del(t_env *e)
+void		tcaps_del_bkw(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
 		tcaps_del_end(e);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 16:13:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 19:02:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ typedef struct		s_term
 	char			*term_name;
 	struct termios	termos;
 	struct termios	save;
-	int				nb_move;
-	int				nb_read;
 	int				check_move;
 	int				hist_move;
+	int				nb_move;
+	int				nb_read;
   	int				nb_line;
   	int				nb_col;
- 	 struct winsize			ws;
+	struct winsize	ws;
 }					t_term;
 
 typedef struct		s_env
@@ -136,26 +136,41 @@ void				ft_sig_handler(int sig);
 */
 int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
-void				ft_env_free(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
-void				move_right(t_env *e);
 int					red_strstr(char *str);
 void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
-void				ft_triple_free(t_env *e);
+
+/*
+**		History
+*/
 int 				ft_read_history(t_env *e);
 void 				ft_check_history(t_env *e);
 int					ft_check_file_perm(char *file);
+
+/*
+**		Tcaps Tools
+*/
+void				xputs(char *tag);
+void				move_right(t_env *e);
 
 /*
 **		Realloc
 */
 char				*ft_realloc_line(t_env *e, char c);
 char				*ft_realloc_insert_char(t_env *e, char c);
-char				*ft_realloc_delete_char(t_env *e);
+char				*ft_realloc_delete_char(t_env *e, int pos);
 void				ft_realloc_insert_str(t_env *e, char *str);
+
+/*
+**		Free
+*/
+void				ft_free_line(t_env *e);
+void				ft_env_free(t_env *e);
+void				ft_triple_free(t_env *e);
+
 
 /*
 **		Builtins
@@ -181,7 +196,7 @@ int					tcaps_check_key(char buf[3], int a, int b, int c);
 int					tcaps_check_read(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
-void				tcaps_del(t_env *e);
+void				tcaps_del_bkw(t_env *e);
 void				tcaps_del_fwd(t_env *e);
 void				tcaps_history(t_env *e);
 void				tcaps_right(t_env *e);
@@ -193,7 +208,6 @@ void				tcaps_recalc_pos(t_env *e);
 int					tcaps_putstr(t_env *e, char *str);
 void				tcaps_ctrl_mov(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
-void				xputs(char *tag);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
 

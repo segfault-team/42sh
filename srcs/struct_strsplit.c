@@ -32,7 +32,7 @@ static size_t		ft_wordlen(char const *str, char div)
 	return (wlen);
 }
 
-static void	struct_init(int len, t_magic *magic)
+static void			struct_init(int len, t_magic *magic)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ static void	struct_init(int len, t_magic *magic)
 	}
 }
 
-t_magic		*struct_strsplit(char const *str, char div)
+t_magic				*struct_strsplit(char const *str, char div)
 {
 	t_magic	*magic;
 	size_t	nwords;
@@ -55,7 +55,8 @@ t_magic		*struct_strsplit(char const *str, char div)
 	i = 0;
 	j = 0;
 	nwords = ft_nwords(str, div);
-	if (nwords == 0 || (magic = (t_magic *)malloc(sizeof(t_magic) * nwords)) == NULL)
+	if (nwords == 0 || \
+			(magic = (t_magic *)malloc(sizeof(t_magic) * nwords)) == NULL)
 		return (NULL);
 	struct_init(nwords, magic);
 	while (i < (int)ft_strlen(str))
