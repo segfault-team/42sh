@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 12:51:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/09 16:16:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,16 @@ int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
+	ft_banner();
 	ft_init(&e, ac, av, env);
-	ft_banner(&e);
 	ft_set_sig_handler();
+	ft_putstr(e.prompt);
 	while (e.x)
 	{
 		read(0, e.buf, 3);
 		if (ft_check_ctrlc(0))
 			ft_reset_line(&e);
 		tcaps_recalc_pos(&e);
-/*		ioctl(0, TIOCGWINSZ, &(e.tcaps.ws));
-		e.tcaps.nb_line = (e.tcaps.nb_move / e.tcaps.ws.ws_col) + 1;
-		if (e.tcaps.nb_line == 1)
-		e.tcaps.nb_col = e.tcaps.nb_move % (e.tcaps.ws.ws_col - (ft_strlen(e.prompt) - 1));
-		else
-		  e.tcaps.nb_col = e.tcaps.nb_move % e.tcaps.ws.ws_col; */
-		//			ft_printf("%d | %d | %d\n", e.tcaps.ws.ws_col, e.tcaps.nb_line, e.tcaps.nb_col);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (tcaps_check_read(e.buf))
