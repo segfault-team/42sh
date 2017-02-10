@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tcaps_history.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 11:41:22 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 17:31:40 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 void		clear_cmd(t_env *e)
@@ -37,28 +25,17 @@ int		ft_read_history(t_env *e)
 {
 	int			fd;
 	int 		i;
-	char		**tmp;
 
 	i = 0;
-	tmp = NULL;
 	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read /tmp/.history", NULL));
-	if ((e->history = malloc(sizeof(*e->history) * 4096)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
+		// MANAGE ERROR
+		return (ft_printf(""));
+	e->history = malloc(sizeof(e->history) * 4096);
 	while (get_next_line(fd, &e->history[i]) > 0)
-	{
-		if (i >= 4096)
-		{
-			tmp = ft_tabnew(i * 2);
-			ft_tabcpy(tmp, e->history);
-			ft_tabfree(e->history);
-			e->history = tmp;
-		}
 		++i;
-	}
 	e->history[i] = NULL;
 	if (close(fd) == -1)
-		return (ft_error(SH_NAME, "Close failed.", NULL));
+		ft_printfd(2, "MANAGE ERROR");
 	return (0);
 }
 

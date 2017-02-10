@@ -84,12 +84,13 @@ char		*ft_getenv(char **env, char *name)
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
+//		free(tmp);
 	}
 	return (value);
 }
 
 /*
-** RAZ LE BOL DE TOUT REECRIRE !
+** RAZ LE CUL DE TOUT REECRIRE !
 */
 
 void	xputs(char *tag)

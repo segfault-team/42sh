@@ -31,19 +31,18 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-# define RED			"\033[31m"
-# define WHITE			"\033[;0m"
-# define GREEN			"\033[32m"
-# define BLUE			"\033[34m"
-# define YELLOW			"\033[33m"
-# define ITALIC			"\x1b[3m"
-# define SH_NAME		"21sh"
-# define PATH			"/usr/bin:/bin:/usr/sbin:/sbin"
-# define HISTORY_FILE	"/tmp/.history"
-# define FD				e.fd
-# define BUF			e->buf
-# define TCAPS			e->tcaps
-//# define WS_COL			e->tcaps.ws.ws_col
+# define RED		"\033[31m"
+# define WHITE		"\033[;0m"
+# define GREEN		"\033[32m"
+# define BLUE		"\033[34m"
+# define YELLOW		"\033[33m"
+# define ITALIC		"\x1b[3m"
+# define SH_NAME	"21sh"
+# define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
+# define FD			e.fd
+# define BUF		e->buf
+# define TCAPS		e->tcaps
+//# define WS_COL		e->tcaps.ws.ws_col
 
 # define WS_COL		TCAPS.ws.ws_col
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
@@ -99,7 +98,7 @@ typedef struct		s_env
 
 int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
-void				ft_banner(void);
+void				ft_banner(t_env *e);
 
 /*
 **		Exec
@@ -126,7 +125,9 @@ void				ft_sig_handler(int sig);
 */
 int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
+int 				ft_read_history(t_env *e);
 void				ft_env_free(t_env *e);
+void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 void				move_right(t_env *e);
@@ -135,9 +136,6 @@ void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
-int 				ft_read_history(t_env *e);
-void 				ft_check_history(t_env *e);
-int					ft_check_file_perm(char *file);
 
 void				ft_close(int fd);
 

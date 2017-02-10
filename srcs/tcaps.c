@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/09 15:01:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/04 12:05:40 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 int				dsh_putchar(int c)
 {
 	return (ft_putchar(c));
+	/*
+	char	d;
+
+	d = c;
+	return (write(1, &d, 1));
+	*/
 }
 
 int 			tcaps(t_env *e)
