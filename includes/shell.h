@@ -140,7 +140,6 @@ char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
 
 void				ft_close(int fd);
-
 /*
 **		Realloc
 */
@@ -188,6 +187,8 @@ void				tcaps_ctrl_end(t_env *e);
 void				xputs(char *tag);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
+int					is_paste(char *buf);
+int					ft_paste(t_env *e, char *buf);
 
 /*
 **	Magic struct

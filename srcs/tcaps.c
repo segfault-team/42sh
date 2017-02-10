@@ -1,26 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_tcaps.c	                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/04 12:05:40 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 int				dsh_putchar(int c)
 {
 	return (ft_putchar(c));
-	/*
-	char	d;
-
-	d = c;
-	return (write(1, &d, 1));
-	*/
 }
 
 int 			tcaps(t_env *e)
@@ -51,8 +33,9 @@ int 			tcaps(t_env *e)
 		tcaps_cut_paste(e);
 	else if (tcaps_check_key(BUF, 27, 91, 51))
 		tcaps_del_fwd(e);
-//	else if (BUF[0])
-//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
-	//ft_printf("%d | %d\n", TCAPS.nb_read, TCAPS.nb_move);
+	else if (is_paste(BUF))
+		ft_paste(e, BUF);
+	//	else if (BUF[0])
+	//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
 }

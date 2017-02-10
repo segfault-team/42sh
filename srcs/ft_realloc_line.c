@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:40:25 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/10 13:35:11 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	ft_realloc_insert_str(t_env *e, char *str)
 	e->line = ft_strjoin(tmp, new);
 	free(tmp);
 	free(new);
-	// nb_move += cut
-	// nb_read = e->line;
 }
 
 /*
