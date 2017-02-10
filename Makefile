@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/17 15:39:34 by lfabbro           #+#    #+#              #
-#    Updated: 2017/02/06 17:59:17 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/10 19:05:28 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC_NAME	= main.c ft_init.c ft_parse.c ft_exec.c ft_banner.c\
 			  tcaps_positions.c tcaps_cut_paste.c ft_realloc_tab.c \
 				struct_tools.c struct_strsplit.c struct_strsplit_quote.c \
 				struct_get_type.c remove_space.c \
-				ft_cmds_split.c
+				ft_cmds_split.c redir_iteration.c
 
 #SRC_TERM_NAME = delete.c arrow.c insert.c ctrl.c
 
@@ -43,7 +43,7 @@ LIB			= $(addprefix -L, $(LIB_PATH)) -lncurses
 INC			= $(addprefix -I ,$(INC_PATH))
 
 CC			= @gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= #-Wall -Wextra -Werror
 
 RED			= \033[31;44m
 GREEN		= \033[32;44m

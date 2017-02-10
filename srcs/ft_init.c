@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 11:59:06 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/10 15:36:15 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.hist_move = -1;
 	TCAPS.nb_line = 1;
 	TCAPS.nb_col = 0;
+	FD.stdin = dup(STDIN_FILENO);
+	FD.stdout = dup(STDOUT_FILENO);
+	FD.stderr = dup(STDERR_FILENO);
+	FD.last_red = NULL;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)

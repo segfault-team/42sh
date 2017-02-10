@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 12:15:07 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/10 19:14:57 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,32 @@ void		ft_close(int fd)
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-			ft_printf("fd : %d\n", fd);
+//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
 }
+
+
+/*
+
+	POSSIBLE SOLUTION POUR LES CMDS TYPE :
+	ls > test1 > test2 > [...]
+
+
+if (FD.last_red && !ft_strcmp(FD.last_red, ">") &&
+			 e->magic[e->i_mag].cmd)// && !ft_strcmp(e->magic[e->i_mag].cmd, ">"))
+	{
+		if ((fd = open(cmd[0], TWO_RED_FLAGS, OPENFLAGS)) == -1)
+			ft_printf("MANAGE ERROR");
+		while (get_next_line(fd, &buf) > 0)
+			write(FD.fd[1], &buf, (int)ft_strlen(buf));
+		ft_close(fd);
+	}
+
+*/
+
+
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
@@ -123,12 +144,22 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	if (pid == 0)
 	{
-		if (ft_redirect(FD.in, STDIN_FILENO) || ft_redirect(FD.fd[1], STDOUT_FILENO))
-			return (-1);
-		execve(exec, &cmd[0], e->env);
+		if (redir_check_red(e, "|"))
+		{
+			if (ft_redirect(FD.in, STDIN_FILENO) ||
+				ft_redirect(FD.fd[1], STDOUT_FILENO))
+				return (-1);
+			FD.last_red = ft_strdup(e->magic[e->i_mag].cmd);
+			execve(exec, &cmd[0], e->env);
+		}
+		else
+			execve(exec, &cmd[0], e->env);
+		if (e->i_mag > 0 && e->magic[e->i_mag].cmd)
+			FD.last_red = ft_strdup(e->magic[e->i_mag].cmd);
 	}
 	ft_close(FD.fd[1]);
 	ft_close(FD.in);
+// manage this
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);

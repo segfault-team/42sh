@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 12:04:54 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/10 19:10:53 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,21 +102,18 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 
 	i = -1;
 	FD.in = STDIN_FILENO;
-//	ft_printf("IN: %d\n", in);
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);
-	while (e->cat[++i + 1])
+	while (e->cat[++i + 1] && ret != -1)
+		ret = redir_exec_open(i, e); // WIP
+	ret = redir_last_cmd(i, e);
+	if (FD.last_red)
 	{
-		if (pipe(FD.fd) < 0)
-			return (ft_error(SH_NAME, "Pipe failed.", NULL));
-//		ft_printf("fd[0]: %d	fd[1]: %d\n", fd[0], fd[1]);
-		ret = ft_exec_cmd(e, e->cat[i]);
-		FD.in = FD.fd[0];
+		free(FD.last_red);
+		FD.last_red = NULL;
 	}
-	FD.fd[1] = STDOUT_FILENO;
-	ret = ft_exec_cmd(e, e->cat[i]);
 	ft_triple_free(e);
 	magic_free(e);
 	return (ret);

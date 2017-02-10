@@ -1,3 +1,4 @@
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -48,6 +49,8 @@
 
 # define WS_COL		TCAPS.ws.ws_col
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+# define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
+# define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
 
 typedef struct		s_magic
 {
@@ -57,8 +60,12 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
+	char			*last_red;
 	int				fd[2];
 	int				in;
+	int				stdin;
+	int				stdout;
+	int				stderr;
 }					t_fd;
 
 typedef struct		s_term
@@ -106,8 +113,14 @@ void				ft_banner(t_env *e);
 **		Exec
 */
 int					ft_exec(char **cmd, t_env *e);
+int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
+int					redir_exec_open(int i, t_env *e);
+int					redir_last_cmd(int i, t_env *e);
+int					redir_check_red(t_env *e, char *red);
+
+
 
 /*
 **		Init - Reset

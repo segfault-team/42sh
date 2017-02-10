@@ -17,6 +17,8 @@ ctrl+arrow left/right with 'word-word' has to move to the -
 
 define __attribute__((unused)) in .h
 
+- in ft_exec.c: delete waitpid and replace it with something who permit : ls -R / | grep string
+
 BAREME:
 -add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
 -add couper/coller
