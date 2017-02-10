@@ -12,6 +12,7 @@ void		clear_cmd(t_env *e)
 	TCAPS.nb_read = 0;
 	xputs("dl");
 	xputs("ce");
+	xputs("ed");
 	tputs(e->prompt, 1, dsh_putchar);
 }
 
@@ -88,7 +89,6 @@ void	tcaps_history_up(t_env *e)
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
-		//	--TCAPS.hist_move;
 		if (e->line)
 			free(e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
@@ -97,7 +97,6 @@ void	tcaps_history_up(t_env *e)
 		TCAPS.nb_move = TCAPS.nb_read;
 	}
 	tcaps_recalc_pos(e);
-//	ft_printf("%d\n", TCAPS.hist_move);
 }
 
 /*
@@ -140,30 +139,16 @@ int		tcaps_history_down(t_env *e)
 			if (e->line)
 				free(e->line);
 			e->line = ft_strdup(e->history[TCAPS.hist_move]);
-//			++TCAPS.hist_move;
 		}
 	}
-	if (TCAPS.hist_move == tab_len)
+	if (TCAPS.hist_move == tab_len - 1)
 	{
 		clear_cmd(e);
-		xputs("cr");
-		xputs("dm");
-		while (--TCAPS.nb_read > 0)
-		{
-			xputs("le");
-			xputs("dc");
-		}
-		xputs("dl");
-		xputs("ce");
-		xputs("ed");
-		tputs(e->prompt, 1, dsh_putchar);
 		tputs(e->line, 1, dsh_putchar);
-//		TCAPS.hist_move = -1;
 		last_nb_read = ft_strlen(e->line);
 		if (e->line)
 			free(e->line);
 		e->line = NULL;
-//		TCAPS.hist_move = -1;
 	}
 	tcaps_recalc_pos(e);
 	return (0);

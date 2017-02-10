@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:31:39 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/10 12:31:44 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	tcaps_history(t_env *e)
 	xputs("cr");
 	while (--l)
 		xputs("up");
-//	clear_cmd(e);
 	xputs("cd");
 	ft_putstr(e->prompt);
 	tputs(e->line, 1, dsh_putchar);
@@ -59,21 +58,10 @@ void	tcaps_history(t_env *e)
 **	INSTRUCTION FOR RIGHT
 **		ARROW KEYS
 **
-**  nd: move cursor once on the right
 */
 
 void	tcaps_right(t_env *e)
 {
-/*	if (TCAPS.nb_col == TCAPS.ws.ws_col - 1)
-	  {
-		xputs("do");
-		xputs("cr");
-	    TCAPS.nb_col = 0;
-	  }
-	else
-		xputs("nd");
-	++TCAPS.nb_move;
-	tcaps_recalc_pos(e);*/
 	move_right(e);
 }
 
