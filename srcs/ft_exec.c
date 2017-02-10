@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 15:51:00 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/10 10:34:15 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 	}
 	ft_close(fd[1]);
 	ft_close(in);
-	//waitpid(pid, &status, WUNTRACED);
+	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
 }

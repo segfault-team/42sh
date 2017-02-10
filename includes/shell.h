@@ -42,6 +42,8 @@
 # define FD			e.fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
+
+# define HISTORY_FILE "/tmp/.history"
 //# define WS_COL		e->tcaps.ws.ws_col
 
 # define WS_COL		TCAPS.ws.ws_col

@@ -12,10 +12,10 @@ static void		tcaps_enter(t_env *e)
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
 	if (!ft_strstr(e->line, "exit"))
 		ft_putstr(e->prompt);
+	TCAPS.nb_move = 0;
+	TCAPS.nb_read = 0;
 	if (e->line)
 		free(e->line);
 	e->line = NULL;
@@ -48,13 +48,6 @@ int				main(int ac, char **av, char **env)
 		if (ft_check_ctrlc(0))
 			ft_reset_line(&e);
 		tcaps_recalc_pos(&e);
-/*		ioctl(0, TIOCGWINSZ, &(e.tcaps.ws));
-		e.tcaps.nb_line = (e.tcaps.nb_move / e.tcaps.ws.ws_col) + 1;
-		if (e.tcaps.nb_line == 1)
-		e.tcaps.nb_col = e.tcaps.nb_move % (e.tcaps.ws.ws_col - (ft_strlen(e.prompt) - 1));
-		else
-		  e.tcaps.nb_col = e.tcaps.nb_move % e.tcaps.ws.ws_col; */
-		//			ft_printf("%d | %d | %d\n", e.tcaps.ws.ws_col, e.tcaps.nb_line, e.tcaps.nb_col);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (tcaps_check_read(e.buf))

@@ -10,11 +10,11 @@ int		ft_store_history(char *cmd)
 	int		fd;
 	static char	*last_cmd = NULL;
 
-	if (last_cmd && !ft_strcmp(cmd[0], last_cmd))
+	if (last_cmd && !ft_strcmp(cmd, last_cmd))
 		return (0);
 	if (last_cmd)
 		free(last_cmd);
-	last_cmd = ft_strdup(cmd[0]);
+	last_cmd = ft_strdup(cmd);
 	if ((fd = open(HISTORY_FILE, O_RDWR | O_CREAT | O_APPEND, OPENFLAGS)) == -1)
 		// We have a error because we try to open it with read AND WRITE rights
 		// Error is managed like this because it's useless to report
@@ -22,13 +22,7 @@ int		ft_store_history(char *cmd)
 		// So trying to open file once on startup and in case
 		// report error is enough.
 		return (-1);
-	i = -1;
-	while (cmd[++i])
-	{
-		ft_putstr_fd(cmd[i], fd);
-		if (cmd[i + 1])
-			ft_putchar_fd(' ', fd);
-	}
+	ft_putstr_fd(cmd, fd);
 	ft_putchar_fd('\n', fd);
 	if (close(fd) == -1)
 		return (ft_error("close", "Could not close file", "/tmp/.history"));
