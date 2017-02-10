@@ -39,7 +39,7 @@
 # define ITALIC		"\x1b[3m"
 # define SH_NAME	"21sh"
 # define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
-# define FD			e.fd
+# define FD			e->fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
 
@@ -57,9 +57,8 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
-	int				stdin;
-	int				stdout;
-	int				stderr;
+	int				fd[2];
+	int				in;
 }					t_fd;
 
 typedef struct		s_term
@@ -90,6 +89,7 @@ typedef struct		s_env
 	size_t			cmd_len;
 
 	int				check_remove_tab;
+	size_t			i_mag;
 	t_magic			*magic;
 
 	char			buf[3];
@@ -105,7 +105,7 @@ void				ft_banner(t_env *e);
 /*
 **		Exec
 */
-int					ft_exec(char **cmd, char **env, int in, int fd[2]);
+int					ft_exec(char **cmd, t_env *e);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 

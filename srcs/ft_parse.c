@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 15:47:22 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/10 12:04:54 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int		ft_exec_builtin(t_env *e)
 	return (ret);
 }
 
-int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
+int				ft_exec_cmd(t_env *e, char **cmd)
 {
 	int		ret;
 
@@ -88,7 +88,7 @@ int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 		if ((ret = ft_exec_builtin(e)))
 			;
 		else
-			ret = ft_exec(cmd, e->env, in, fd);
+			ret = ft_exec(cmd, e);
 	}
 	ft_check_history(e);
 	e->cmd_len = 0;
@@ -98,12 +98,10 @@ int				ft_exec_cmd(t_env *e, char **cmd, int in, int fd[2])
 int				ft_iter_pipes(t_env *e, char *cmds_i)
 {
 	int		i;
-	int		in;
-	int		fd[2];
 	int		ret;
 
 	i = -1;
-	in = STDIN_FILENO;
+	FD.in = STDIN_FILENO;
 //	ft_printf("IN: %d\n", in);
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
@@ -111,14 +109,14 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	magic_type(e);
 	while (e->cat[++i + 1])
 	{
-		if (pipe(fd) < 0)
+		if (pipe(FD.fd) < 0)
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
 //		ft_printf("fd[0]: %d	fd[1]: %d\n", fd[0], fd[1]);
-		ret = ft_exec_cmd(e, e->cat[i], in, fd);
-		in = fd[0];
+		ret = ft_exec_cmd(e, e->cat[i]);
+		FD.in = FD.fd[0];
 	}
-	fd[1] = STDOUT_FILENO;
-	ret = ft_exec_cmd(e, e->cat[i], in, fd);
+	FD.fd[1] = STDOUT_FILENO;
+	ret = ft_exec_cmd(e, e->cat[i]);
 	ft_triple_free(e);
 	magic_free(e);
 	return (ret);

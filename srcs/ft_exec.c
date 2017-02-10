@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 10:34:15 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/10 12:15:07 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void		ft_close(int fd)
 	}
 }
 
-static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
+static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t	pid;
 	int		status;
@@ -123,18 +123,18 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 	}
 	if (pid == 0)
 	{
-		if (ft_redirect(in, STDIN_FILENO) || ft_redirect(fd[1], STDOUT_FILENO))
+		if (ft_redirect(FD.in, STDIN_FILENO) || ft_redirect(FD.fd[1], STDOUT_FILENO))
 			return (-1);
-		execve(exec, &cmd[0], env);
+		execve(exec, &cmd[0], e->env);
 	}
-	ft_close(fd[1]);
-	ft_close(in);
+	ft_close(FD.fd[1]);
+	ft_close(FD.in);
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
 }
 
-int				ft_exec(char **cmd, char **env, int in, int fd[2])
+int				ft_exec(char **cmd, t_env *e)
 {
 	int		status;
 	char	**paths;
@@ -142,7 +142,7 @@ int				ft_exec(char **cmd, char **env, int in, int fd[2])
 
 	status = 0;
 	exec = NULL;
-	paths = ft_find_paths(env);
+	paths = ft_find_paths(e->env);
 	exec = ft_find_exec(paths, cmd[0]);
 	if (access(exec, F_OK))
 	{
@@ -151,7 +151,7 @@ int				ft_exec(char **cmd, char **env, int in, int fd[2])
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		status = ft_fork_exec(exec, cmd, env, in, fd);
+		status = ft_fork_exec(exec, cmd, e);
 	else
 		ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);

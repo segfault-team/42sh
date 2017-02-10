@@ -60,6 +60,7 @@ int				main(int ac, char **av, char **env)
 			tcaps(&e);
 		ft_bzero(&e.buf, 3);
 		e.check_remove_tab = 0;
+		e.i_mag = 0;
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;
 	}
