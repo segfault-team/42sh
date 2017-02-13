@@ -1,5 +1,9 @@
 #include "shell.h"
 
+/*
+**		Clear line when history ends (comes back at begin).
+*/
+
 void		clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
@@ -16,73 +20,18 @@ void		clear_cmd(t_env *e)
 	tputs(e->prompt, 1, dsh_putchar);
 }
 
-/*
- **	OPEN /tmp/.history AND STORE IT IN
- **	e->history TAB
- */
-
-
-int		ft_read_history(t_env *e)
-{
-	int			fd;
-	int 		i;
-
-	i = 0;
-	if ((fd = open("/tmp/.history", O_RDONLY, OPENFLAGS)) == -1)
-		// MANAGE ERROR
-		return (ft_printf(""));
-	e->history = malloc(sizeof(e->history) * 4096);
-	while (get_next_line(fd, &e->history[i]) > 0)
-		++i;
-	e->history[i] = NULL;
-	if (close(fd) == -1)
-		ft_printfd(2, "MANAGE ERROR");
-	return (0);
-}
 
 /*
- **	ADD NEW CMD TO THE END OF HTE HISTORY TAB
- */
-
-void	ft_check_history(t_env *e)
-{
-	int		i;
-	int		accs;
-	char	**tmp;
-
-	accs = access("/tmp/.history", F_OK);
-	ft_store_history(e->line);
-	tmp = NULL;
-	if (accs != -1)
-	{
-		i = ft_tablen(e->history);
-		if (!ft_strcmp(e->history[i], e->line))
-		{
-			tmp = e->history;
-			e->history = ft_tabcat(e->history, e->line);
-			if (tmp)
-				ft_free_tab(tmp);
-		}
-	}
-	else if (e->history)
-	{
-		ft_free_tab(e->history);
-		ft_read_history(e);
-	}
-	else
-		ft_read_history(e);
-}
-/*
- **	MANAGE THE TERMCAPS HISTORY
- **	FOR UP ARROW
- */
+**		MANAGE THE TERMCAPS HISTORY
+**		FOR UP ARROW
+*/
 
 void	tcaps_history_up(t_env *e)
 {
 	TCAPS.nb_move = TCAPS.nb_read;
 	if (TCAPS.hist_move == -1)
 		TCAPS.hist_move = (int)ft_tablen(e->history);
-	if (e->history && e->history[0] && access("/tmp/.history", F_OK) != -1 &&
+	if (e->history && e->history[0] && access(HIST_FILE, F_OK) != -1 &&
 				TCAPS.hist_move >= 0)
 	{
 		clear_cmd(e);

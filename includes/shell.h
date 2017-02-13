@@ -43,11 +43,10 @@
 # define FD			e->fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
+# define WS_COL		e->tcaps.ws.ws_col
 
-# define HISTORY_FILE "/tmp/.history"
-//# define WS_COL		e->tcaps.ws.ws_col
+# define HIST_FILE	"/tmp/.history"
 
-# define WS_COL		TCAPS.ws.ws_col
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
 # define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
@@ -119,8 +118,7 @@ char				*ft_find_exec(char **paths, char *cmd);
 int					redir_exec_open(int i, t_env *e);
 int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
-
-
+void				ft_close(int fd);
 
 /*
 **		Init - Reset
@@ -140,9 +138,7 @@ void				ft_sig_handler(int sig);
 */
 int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
-int 				ft_read_history(t_env *e);
 void				ft_env_free(t_env *e);
-void 				ft_check_history(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 void				move_right(t_env *e);
@@ -152,7 +148,12 @@ void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
 
-void				ft_close(int fd);
+/*		
+**		History
+*/
+int 				ft_read_history(t_env *e);
+void 				ft_check_history(t_env *e);
+
 /*
 **		Realloc
 */
@@ -185,9 +186,9 @@ int					tcaps_check_key(char buf[3], int a, int b, int c);
 int					tcaps_check_read(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
+void				tcaps_history(t_env *e);
 void				tcaps_del(t_env *e);
 void				tcaps_del_fwd(t_env *e);
-void				tcaps_history(t_env *e);
 void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
