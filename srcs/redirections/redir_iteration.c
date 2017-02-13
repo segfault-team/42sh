@@ -21,7 +21,8 @@ static void     struct_find_red(t_env *e)
 
 int		redir_check_red(t_env *e, char *red)
 {
-	if (e->magic[e->i_mag].cmd && red && !ft_strcmp(e->magic[e->i_mag].cmd, red))
+	if (e->i_mag && e->magic[e->i_mag].cmd && \
+			red && !ft_strcmp(e->magic[e->i_mag].cmd, red))
 		return (1);
 	return (0);
 }

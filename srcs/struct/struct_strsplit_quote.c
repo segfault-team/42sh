@@ -22,7 +22,9 @@ static int		ft_count_words(char const *s, char c)
 			quote = '\0';
 			++count;
 		}
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		else if (quote == '\0' && 
+				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"')) ||
+				(i == 0 && (s[i] == '\'' || s[i] == '\"'))))
 			quote = s[i];
 		if (quote == '\0' && ((i > 0 && s[i] != c && s[i - 1] == c) || \
 					(i == 0 && s[i] != c)))
@@ -44,7 +46,13 @@ static int		ft_strlen_ch(char const *s, char c, int i)
 		if (quote != '\0' && s[i] == quote)
 			quote = '\0';
 		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+			/*
+		else if (quote == '\0' && 
+				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"')) ||
+				(i == 0 && (s[i] == '\'' || s[i] == '\"'))))
+				*/
 			quote = s[i];
+
 		else if (s[i] != quote)
 			++len;
 		++i;
@@ -68,7 +76,13 @@ static char		*ft_strcpy_ch(char const *s, char c, int i)
 		if (quote != '\0' && s[i] == quote)
 			quote = '\0';
 		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+			/*
+		else if (quote == '\0' && 
+				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"')) ||
+				(i == 0 && (s[i] == '\'' || s[i] == '\"'))))
+				*/
 			quote = s[i];
+
 		else if (s[i] != quote)
 		{
 			str[k] = s[i];
@@ -80,7 +94,7 @@ static char		*ft_strcpy_ch(char const *s, char c, int i)
 	return (str);
 }
 
-static int				ft_skiplen(char const *s, char c, int i)
+static int		ft_skiplen(char const *s, char c, int i)
 {
 	int		k;
 	char	quote;
@@ -92,14 +106,20 @@ static int				ft_skiplen(char const *s, char c, int i)
 		if (quote != '\0' && s[i] == quote)
 			quote = '\0';
 		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+			/*
+		else if (quote == '\0' && 
+				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"')) ||
+				(i == 0 && (s[i] == '\'' || s[i] == '\"'))))
+				*/
 			quote = s[i];
+
 		++i;
 		++k;
 	}
 	return (k);
 }
 
-static void struct_init(int len, t_magic *magic)
+static void 	struct_init(int len, t_magic *magic)
 {
 	int i;
 

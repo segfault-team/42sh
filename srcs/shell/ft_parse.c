@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/13 18:36:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/13 20:04:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,16 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	return (ret);
 }
 
+void			ft_putmagic(t_env *e)
+{
+	int		i = -1;
+
+	while (e->magic[++i].cmd)
+	{
+		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);
+	}
+}
+
 int				ft_iter_pipes(t_env *e, char *cmds_i)
 {
 	int		i;
@@ -111,6 +121,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
 			*/
 	magic_type(e);
+	ft_putmagic(e);
 	while (e->cat[++i + 1] && ret != -1)
 		ret = redir_exec_open(i, e); // WIP
 	ret = redir_last_cmd(i, e);
@@ -119,6 +130,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 		free(FD.last_red);
 		FD.last_red = NULL;
 	}
+	ft_tabfree(e->cmd);
 	ft_triple_free(e);
 	magic_free(e);
 	return (ret);
