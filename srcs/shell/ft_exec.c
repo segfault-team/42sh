@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 19:14:57 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/13 13:40:59 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,7 @@ static int		ft_redirect(int oldfd, int newfd)
 				return (ft_error(SH_NAME, "Failed closing fd", NULL));
 		}
 		else
-		{
-			// REMOVE ME
-			ft_printf("old: %d		new: %d\n", oldfd, newfd);
-			perror(NULL);
 			return (ft_error(SH_NAME, "dup2 failed", NULL));
-		}
 	}
 	return (0);
 }

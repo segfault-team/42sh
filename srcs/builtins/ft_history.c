@@ -17,9 +17,6 @@ void	ft_check_history(t_env *e)
 	{
 		i = ft_tablen(e->history);
 
-		// REMOVE ME
-		ft_printf("e->hist[%d]: %s\n", i, e->history[i]);
-
 		if (!ft_strcmp(e->history[i], e->line))
 		{
 			tmp = e->history;
