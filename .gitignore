@@ -43,3 +43,11 @@ log
 
 # Folders
 tests
+
+# Temp files
+*~
+\#*\#
+*.swp
+
+# Test files
+*test*

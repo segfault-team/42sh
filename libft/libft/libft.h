@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:44:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 14:21:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/01/26 13:02:15 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ char			**ft_tabdup(char **tab_bis);
 char			**ft_tabndup(char **tab_bis, size_t b);
 char			**ft_tabcat(char **tab_bis, char *str);
 char			**ft_tabpop(char **tab_bis, size_t pop);
-void			ft_tabfree(char **tab_bis);
 void			ft_free_tab(char **tab_bis);
 
 /*

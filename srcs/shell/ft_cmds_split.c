@@ -1,5 +1,11 @@
 #include "shell.h"
 
+
+/*
+**	COUNT THE NUMBER OF REDIRECTIONS IN CMD
+**	TODO: ajouter reconnaissance de "&&" "||" "n%>n"
+*/
+
 static int	ft_nb_cmds(t_env *e)
 {
 	int	len;
@@ -8,7 +14,8 @@ static int	ft_nb_cmds(t_env *e)
 	len = 0;
 	i = -1;
 	while (e->magic[++i].cmd)
-		if (!ft_strcmp(e->magic[i].cmd, "|"))
+		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
+			!ft_strcmp(e->magic[i].cmd, ">"))
 			++len;
 	return (len + 1);
 }
@@ -18,7 +25,8 @@ static int	ft_size_cmd(t_env *e, int *z)
 	int	len;
 
 	len = 0;
-	while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|"))
+	while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ) &&
+		   ft_strcmp(e->magic[*z].cmd, ">" ) && ft_strcmp(e->magic[*z].cmd, "<" ))
 		++len;
 	return (len);
 }

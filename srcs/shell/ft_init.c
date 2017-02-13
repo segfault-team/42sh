@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 18:14:16 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/13 18:29:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	(void)av;
 	e->history = NULL;
 	e->env = ft_tabdup(env);
-	ft_check_file_perm(HISTORY_FILE);
+	ft_check_file_perm(HIST_FILE);
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if (ft_read_history(e) < 0)

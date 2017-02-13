@@ -1,20 +1,25 @@
 TODO:
 
+!?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
+
 -check memory leaks for history : "memory still reachable"
 
 -gestion d'erreur
 
 -REDIRECTIONS
 
--utilisation history : bug to fix: double up/down needed
-
 -parsing pour '\'
 
 -ls |
 pipe:
 
+-manage last history : up down down
 
 ctrl+arrow left/right with 'word-word' has to move to the -
+
+define __attribute__((unused)) in .h
+
+- in ft_exec.c: delete waitpid and replace it with something who permit : ls -R / | grep string
 
 BAREME:
 -add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
@@ -36,10 +41,10 @@ NEW FEATURES:
 
 DONE:
 - mvt ctrl + fleche
--add Ctrl + a || home && Ctrl + e || end
+- add Ctrl + a || home && Ctrl + e || end
 - integration multi ligne
--gerer l'affichage apres la cmd sur plusieurs ligne
--manage history when "rm /tmp/.history"
--gestion du tilde dans les commandes
-
-
+- gerer l'affichage apres la cmd sur plusieurs ligne
+- manage history when "rm /tmp/.history"
+- gestion du tilde dans les commandes
+- utilisation history : bug to fix: double up/down needed
+- couper/coller avec ctrl+k / ctrl+p

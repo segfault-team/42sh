@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/06 18:47:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/13 13:40:59 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,28 +90,44 @@ static int		ft_redirect(int oldfd, int newfd)
 				return (ft_error(SH_NAME, "Failed closing fd", NULL));
 		}
 		else
-		{
-			// REMOVE ME
-			ft_printf("old: %d		new: %d\n", oldfd, newfd);
-			perror(NULL);
 			return (ft_error(SH_NAME, "dup2 failed", NULL));
-		}
 	}
 	return (0);
 }
 
-static void		ft_close(int fd)
+void		ft_close(int fd)
 {
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-			ft_printf("fd : %d\n", fd);
+//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
 }
 
-static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
+
+/*
+
+	POSSIBLE SOLUTION POUR LES CMDS TYPE :
+	ls > test1 > test2 > [...]
+
+
+if (FD.last_red && !ft_strcmp(FD.last_red, ">") &&
+			 e->magic[e->i_mag].cmd)// && !ft_strcmp(e->magic[e->i_mag].cmd, ">"))
+	{
+		if ((fd = open(cmd[0], TWO_RED_FLAGS, OPENFLAGS)) == -1)
+			ft_printf("MANAGE ERROR");
+		while (get_next_line(fd, &buf) > 0)
+			write(FD.fd[1], &buf, (int)ft_strlen(buf));
+		ft_close(fd);
+	}
+
+*/
+
+
+
+static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t	pid;
 	int		status;
@@ -123,18 +139,28 @@ static int		ft_fork_exec(char *exec, char **cmd, char **env, int in, int fd[2])
 	}
 	if (pid == 0)
 	{
-		if (ft_redirect(in, STDIN_FILENO) || ft_redirect(fd[1], STDOUT_FILENO))
-			return (-1);
-		execve(exec, &cmd[0], env);
+		if (redir_check_red(e, "|"))
+		{
+			if (ft_redirect(FD.in, STDIN_FILENO) ||
+				ft_redirect(FD.fd[1], STDOUT_FILENO))
+				return (-1);
+			FD.last_red = ft_strdup(e->magic[e->i_mag].cmd);
+			execve(exec, &cmd[0], e->env);
+		}
+		else
+			execve(exec, &cmd[0], e->env);
+		if (e->i_mag > 0 && e->magic[e->i_mag].cmd)
+			FD.last_red = ft_strdup(e->magic[e->i_mag].cmd);
 	}
-	ft_close(fd[1]);
-	ft_close(in);
+	ft_close(FD.fd[1]);
+	ft_close(FD.in);
+// manage this
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
 }
 
-int				ft_exec(char **cmd, char **env, int in, int fd[2])
+int				ft_exec(char **cmd, t_env *e)
 {
 	int		status;
 	char	**paths;
@@ -142,7 +168,7 @@ int				ft_exec(char **cmd, char **env, int in, int fd[2])
 
 	status = 0;
 	exec = NULL;
-	paths = ft_find_paths(env);
+	paths = ft_find_paths(e->env);
 	exec = ft_find_exec(paths, cmd[0]);
 	if (access(exec, F_OK))
 	{
@@ -151,7 +177,7 @@ int				ft_exec(char **cmd, char **env, int in, int fd[2])
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		status = ft_fork_exec(exec, cmd, env, in, fd);
+		status = ft_fork_exec(exec, cmd, e);
 	else
 		ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 18:50:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/13 18:21:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void		tcaps_enter(t_env *e)
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
 	if (e->x)
 		ft_putstr(e->prompt);
+	TCAPS.nb_move = 0;
+	TCAPS.nb_read = 0;
 	if (e->line)
 		free(e->line);
 	e->line = NULL;
@@ -50,10 +50,9 @@ int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
-	ft_banner();
 	ft_init(&e, ac, av, env);
+	ft_banner(&e);
 	ft_set_sig_handler();
-	ft_putstr(e.prompt);
 	while (e.x)
 	{
 		read(0, e.buf, 3);
@@ -72,6 +71,7 @@ int				main(int ac, char **av, char **env)
 			tcaps(&e);
 		ft_bzero(&e.buf, 3);
 		e.check_remove_tab = 0;
+		e.i_mag = 0;
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;
 	}

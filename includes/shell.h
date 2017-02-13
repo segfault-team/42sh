@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 19:02:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/13 18:33:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define DEBUG(x) ft_printf("%d\n", x)
 # define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
+# define UATTR __attribute__((unused))
+
 # include <unistd.h>
 # include <sys/wait.h>
 # include <dirent.h>
@@ -41,22 +43,24 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-# define RED			"\033[31m"
-# define WHITE			"\033[;0m"
-# define GREEN			"\033[32m"
-# define BLUE			"\033[34m"
-# define YELLOW			"\033[33m"
-# define ITALIC			"\x1b[3m"
-# define SH_NAME		"21sh"
-# define PATH			"/usr/bin:/bin:/usr/sbin:/sbin"
-# define HISTORY_FILE	"/tmp/.history"
-# define FD				e.fd
-# define BUF			e->buf
-# define TCAPS			e->tcaps
-//# define WS_COL			e->tcaps.ws.ws_col
+# define RED		"\033[31m"
+# define WHITE		"\033[;0m"
+# define GREEN		"\033[32m"
+# define BLUE		"\033[34m"
+# define YELLOW		"\033[33m"
+# define ITALIC		"\x1b[3m"
+# define SH_NAME	"21sh"
+# define PATH		"/usr/bin:/bin:/usr/sbin:/sbin"
+# define FD			e->fd
+# define BUF		e->buf
+# define TCAPS		e->tcaps
+# define WS_COL		e->tcaps.ws.ws_col
 
-# define WS_COL		TCAPS.ws.ws_col
+# define HIST_FILE	"/tmp/.history"
+
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+# define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
+# define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
 
 typedef struct		s_magic
 {
@@ -66,6 +70,9 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
+	char			*last_red;
+	int				fd[2];
+	int				in;
 	int				stdin;
 	int				stdout;
 	int				stderr;
@@ -99,6 +106,7 @@ typedef struct		s_env
 	size_t			cmd_len;
 
 	int				check_remove_tab;
+	size_t			i_mag;
 	t_magic			*magic;
 
 	char			buf[3];
@@ -109,14 +117,19 @@ typedef struct		s_env
 
 int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
-void				ft_banner(void);
+void				ft_banner(t_env *e);
 
 /*
 **		Exec
 */
-int					ft_exec(char **cmd, char **env, int in, int fd[2]);
+int					ft_exec(char **cmd, t_env *e);
+int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
+int					redir_exec_open(int i, t_env *e);
+int					redir_last_cmd(int i, t_env *e);
+int					redir_check_red(t_env *e, char *red);
+void				ft_close(int fd);
 
 /*
 **		Init - Reset
@@ -146,9 +159,9 @@ char				***ft_cmds_split(t_env *e);
 /*
 **		History
 */
+int					ft_check_file_perm(char *file);
 int 				ft_read_history(t_env *e);
 void 				ft_check_history(t_env *e);
-int					ft_check_file_perm(char *file);
 
 /*
 **		Tcaps Tools
@@ -184,7 +197,7 @@ int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e);
 int					ft_echo(t_env *e);
 int					ft_where(t_env *e);
-int					ft_store_history(char **cmd);
+int					ft_store_history(char *cmd);
 int					ft_history(t_env *e);
 
 /*
@@ -197,8 +210,8 @@ int					tcaps_check_read(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_del_bkw(t_env *e);
-void				tcaps_del_fwd(t_env *e);
 void				tcaps_history(t_env *e);
+void				tcaps_del_fwd(t_env *e);
 void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
@@ -210,6 +223,8 @@ void				tcaps_ctrl_mov(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
+int					is_paste(char *buf);
+int					ft_paste(t_env *e, char *buf);
 
 /*
 **	Magic struct
