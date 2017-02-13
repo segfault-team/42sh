@@ -15,7 +15,7 @@
 
 */
 
-# define DEBUG(x) ft_printf("%d\n", x)
+# define DEBUG(x) dprintf(2, "%s\n", x)
 # define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
 # define UATTR __attribute__((unused))
@@ -43,6 +43,7 @@
 # define BUF		e->buf
 # define TCAPS		e->tcaps
 # define WS_COL		e->tcaps.ws.ws_col
+# define RED_INDEX	e->i_mag
 
 # define HIST_FILE	"/tmp/.history"
 
@@ -114,10 +115,15 @@ int					ft_exec(char **cmd, t_env *e);
 int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
+void				ft_close(int fd);
+
+/*
+**		REDIRECTIONS
+*/
 int					redir_exec_open(int i, t_env *e);
 int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
-void				ft_close(int fd);
+int					redir_fill_output(t_env *e);
 
 /*
 **		Init - Reset
@@ -147,7 +153,7 @@ void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
 
-/*		
+/*
 **		History
 */
 int 				ft_read_history(t_env *e);
@@ -214,5 +220,6 @@ void				struct_arg_red(int i, t_env *e);
 int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
+void				struct_find_red(t_env *e);
 
 #endif
