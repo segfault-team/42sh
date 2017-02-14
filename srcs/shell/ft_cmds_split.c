@@ -16,10 +16,10 @@ static int	ft_nb_cmds(t_env *e)
 	while (e->magic[++i].cmd)
 	{
 		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
-			!ft_strcmp(e->magic[i].cmd, ">"))
+			!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
 		{
 			++len;
-			if (!ft_strcmp(e->magic[i].cmd, ">"))
+			if (!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
 				return (len + 1);
 		}
 	}
@@ -36,16 +36,17 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	{
 		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
 		{
-			if (ft_strcmp(e->magic[*z].cmd, ">"))
+			if (ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
 				++len;
 		}
 		last_cmd = 0;
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">"))
+		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">")\
+			&& ft_strcmp(e->magic[*z].cmd, ">>"))
 			++len;
-		if (!ft_strcmp(e->magic[*z].cmd, ">"))
+		if (!ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
 			++last_cmd;
 	}
 	return (len);
@@ -67,7 +68,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 	rtr[len] = NULL;
 	while (j < len && e->magic[++k].cmd)
 	{
-		if (ft_strcmp(e->magic[k].cmd, ">"))
+		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
 			rtr[j++] = ft_strdup(e->magic[k].cmd);
 	}
 	return (rtr);

@@ -62,7 +62,7 @@ int		redir_last_cmd(int i, t_env *e)
 	}
 	else
 	{
-		if (redir_check_red(e, ">"))
+		if (redir_check_red(e, ">") || redir_check_red(e, ">>"))
 			redir_fill_output(e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
