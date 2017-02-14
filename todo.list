@@ -27,6 +27,7 @@ define __attribute__((unused)) in .h
 		3.
 
 BAREME:
+
 - add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
 - add couper/coller
 - add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
@@ -38,10 +39,12 @@ BAREME:
 
 
 Idea BONUS:
+
 - recherche dans l'historique
 - SEE table de hachage pour binaire
 
 NEW FEATURES:
+
 - Ctrl + a && Ctrl + e
 
 CRASH TESTS :
@@ -49,6 +52,7 @@ CRASH TESTS :
 - tester robustesse 'ls -R' avec une dizaine de redirections '>'
 
 DONE:
+
 - mvt ctrl + fleche
 - add Ctrl + a || home && Ctrl + e || end
 - integration multi ligne
@@ -57,3 +61,4 @@ DONE:
 - gestion du tilde dans les commandes
 - utilisation history : bug to fix: double up/down needed
 - couper/coller avec ctrl+k / ctrl+p
+- multi redirections sur fichiers / multi pipes / wombo-combo des 2
