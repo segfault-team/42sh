@@ -1,0 +1,59 @@
+TODO:
+
+!?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
+
+- check memory leaks for history : "memory still reachable"
+
+- gestion d'erreur
+
+REDIRECTIONS
+
+- parsing pour '\'
+
+- ls |
+pipe:
+
+- manage last history : up down down
+
+- ctrl+arrow left/right with 'word-word' has to move to the -
+
+define __attribute__((unused)) in .h
+
+- in ft_exec.c: delete waitpid and replace it with something who permit : ls -R / | grep string
+
+- POUR: ls -la | grep 21 | wc -l > test1 > test2
+  		1. wc -l n'est pas execute (tester avec et sans '>')
+		2. appelle test1 et test2 alors que les deux doivent etre geres ensemble dans redir_fill_output
+		3.
+
+BAREME:
+- add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
+- add couper/coller
+- add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
+- gestion fin `de cmd avec " ' \ { [ (
+- add gestion du tilde
+- add verification du type de fichier a executer lors de cmd avec une modif du PATH (ex: setenv PATH ~ && Desktop)
+- RETESTER ECHO
+- gestion des && et || (ex: ls something ||/&& ls)
+
+
+Idea BONUS:
+- recherche dans l'historique
+- SEE table de hachage pour binaire
+
+NEW FEATURES:
+- Ctrl + a && Ctrl + e
+
+CRASH TESTS :
+
+- tester robustesse 'ls -R' avec une dizaine de redirections '>'
+
+DONE:
+- mvt ctrl + fleche
+- add Ctrl + a || home && Ctrl + e || end
+- integration multi ligne
+- gerer l'affichage apres la cmd sur plusieurs ligne
+- manage history when "rm /tmp/.history"
+- gestion du tilde dans les commandes
+- utilisation history : bug to fix: double up/down needed
+- couper/coller avec ctrl+k / ctrl+p
