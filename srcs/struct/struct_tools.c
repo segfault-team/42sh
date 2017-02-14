@@ -64,7 +64,7 @@ void	magic_free(t_env *e)
 				e->magic[i].type = NULL;
 			}
 		}
-
-//		free(e->magic);
+		free(e->magic);
+		e->magic = NULL;
 	}
 }

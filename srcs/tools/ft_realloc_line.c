@@ -23,7 +23,7 @@ char    *ft_realloc_delete_char(t_env *e)
 		len = TCAPS.nb_read;
 	else
 		len = 1;
-	if ((new = ft_strnew(sizeof(char) * (len))) == NULL)
+	if (!(new = ft_strnew(sizeof(char) * (len))))
 		return (NULL);
 	i = 0;
 	j = -1;
@@ -35,8 +35,6 @@ char    *ft_realloc_delete_char(t_env *e)
 			else
 				++i;
 		}
-	else if (TCAPS.nb_read == 1)
-		new[0] = '\0';
 	if (e->line)
 	{
 		free(e->line);

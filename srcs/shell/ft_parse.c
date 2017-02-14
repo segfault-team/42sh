@@ -82,6 +82,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	int		ret;
 
 	i = -1;
+	ret = 0;
 	FD.in = STDIN_FILENO;
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
@@ -101,6 +102,8 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
+	ft_free_tab(e->cmd);
+	e->cmd = NULL;
 	return (ret);
 }
 
