@@ -2,20 +2,20 @@ TODO:
 
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
--check memory leaks for history : "memory still reachable"
+- check memory leaks for history : "memory still reachable"
 
--gestion d'erreur
+- gestion d'erreur
 
--REDIRECTIONS
+REDIRECTIONS
 
--parsing pour '\'
+- parsing pour '\'
 
--ls |
+- ls |
 pipe:
 
--manage last history : up down down
+- manage last history : up down down
 
-ctrl+arrow left/right with 'word-word' has to move to the -
+- ctrl+arrow left/right with 'word-word' has to move to the -
 
 define __attribute__((unused)) in .h
 
@@ -27,22 +27,26 @@ define __attribute__((unused)) in .h
 		3.
 
 BAREME:
--add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
--add couper/coller
--add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
--gestion fin `de cmd avec " ' \ { [ (
--add gestion du tilde
--add verification du type de fichier a executer lors de cmd avec une modif du PATH (ex: setenv PATH ~ && Desktop)
--RETESTER ECHO
--gestion des && et || (ex: ls something ||/&& ls)
+- add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
+- add couper/coller
+- add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
+- gestion fin `de cmd avec " ' \ { [ (
+- add gestion du tilde
+- add verification du type de fichier a executer lors de cmd avec une modif du PATH (ex: setenv PATH ~ && Desktop)
+- RETESTER ECHO
+- gestion des && et || (ex: ls something ||/&& ls)
 
 
 Idea BONUS:
--recherche dans l'historique
--SEE table de hachage pour binaire
+- recherche dans l'historique
+- SEE table de hachage pour binaire
 
 NEW FEATURES:
--Ctrl + a && Ctrl + e
+- Ctrl + a && Ctrl + e
+
+CRASH TESTS :
+
+- tester robustesse 'ls -R' avec une dizaine de redirections '>'
 
 DONE:
 - mvt ctrl + fleche

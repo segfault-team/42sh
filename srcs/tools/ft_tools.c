@@ -37,16 +37,15 @@ int			ft_matchquotes(char *s)
 void		ft_env_free(t_env *e)
 {
 	if (e->line)
-		free(e->line);
+		strfree(&e->line);
 	if (e->home)
-		free(e->home);
+		strfree(&e->home);
 	if (TCAPS.term_name)
-		free(TCAPS.term_name);
-// DOUBLE FREE ??
-//	if (e->history)
-//		ft_free_tab(e->history);
+		strfree(&TCAPS.term_name);
+	if (e->history)
+		ft_free_tab(e->history);
 	if (e->prompt)
-		free(e->prompt);
+		strfree(&e->prompt);
 	if (e->env)
 		ft_free_tab(e->env);
 	if (e->magic)
@@ -81,16 +80,17 @@ char		*ft_getenv(char **env, char *name)
 	char	*tmp;
 
 	value = NULL;
+	tmp = NULL;
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
-//		free(tmp);
+	//	free(tmp);
 	}
 	return (value);
 }
 
 /*
-** RAZ LE CUL DE TOUT REECRIRE !
+** RAZ LE CUL/BOL DE TOUT REECRIRE !
 */
 
 void	xputs(char *tag)
@@ -112,4 +112,13 @@ void	move_right(t_env *e)
 		xputs("nd");
 	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
+}
+
+void	strfree(char **str)
+{
+	if (*str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }

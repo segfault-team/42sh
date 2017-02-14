@@ -28,6 +28,7 @@ void	ft_check_history(t_env *e)
 	else if (e->history)
 	{
 		ft_free_tab(e->history);
+		e->history = NULL;
 		ft_read_history(e);
 	}
 	else

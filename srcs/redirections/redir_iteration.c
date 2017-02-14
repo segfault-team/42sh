@@ -8,9 +8,7 @@ void     struct_find_red(t_env *e)
 {
 	++(RED_INDEX);
 	while (e->magic[RED_INDEX].cmd && ft_strcmp(e->magic[RED_INDEX].type, "red"))
-	{
 		++(RED_INDEX);
-	}
 	if (!(e->magic[RED_INDEX].cmd))
 		RED_INDEX = 0;
 }
@@ -28,15 +26,6 @@ int		redir_check_red(t_env *e, char *red)
 
 /*
 **	CONTENUE DE L'ITERATION DE e->cat[i] (contient les cmds split par "red")
-**	REDIRECT EM FONCTION DU TYPE DE REDIRECTION
-**	'>' && '>>' 	== open
-**	'|'				== exec
-*/
-
-/*		if (!FD.last_red && (FD.fd[1] = open(e->magic[RED_INDEX + 1].cmd, ONE_RED_FLAGS, OPENFLAGS)) == -1)
-			ft_printf("MANAGE ERROR");
-		dup2(FD.fd[1], STDOUT_FILENO);
-		dup2(FD.in, STDIN_FILENO);
 */
 
 int		redir_exec_open(int i, t_env *e)
@@ -49,19 +38,16 @@ int		redir_exec_open(int i, t_env *e)
 	struct_find_red(e);
 	if (pipe(FD.fd) < 0)
 		return (ft_error(SH_NAME, "Pipe failed.", NULL));
-	if (redir_check_red(e, ">"))
-		redir_fill_output(e);
-	else
-	{
-		ret = ft_exec_cmd(e, e->cat[i]);
-		FD.in = FD.fd[0];
-	}
+	ret = ft_exec_cmd(e, e->cat[i]);
+	FD.in = FD.fd[0];
 	return (ret);
 }
 
 /*
 **	INSTRUCTION POUR LA DERNIERE CMD (OU LA SEULE) A EXECUTER
 **	restauration des fd
+**  '>' && '>>' 	== open
+**	'|'				== exec
 */
 
 int		redir_last_cmd(int i, t_env *e)
@@ -76,6 +62,8 @@ int		redir_last_cmd(int i, t_env *e)
 	}
 	else
 	{
+		if (redir_check_red(e, ">"))
+			redir_fill_output(e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);

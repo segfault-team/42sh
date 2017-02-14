@@ -116,6 +116,8 @@ int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 void				ft_close(int fd);
+char				**ft_trim_split_cmd(t_env *e);
+int					ft_exec_builtin(t_env *e);
 
 /*
 **		REDIRECTIONS
@@ -152,6 +154,9 @@ void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
+char				*ft_tilde(t_env *e, char *current);
+int					ft_subs_tilde(t_env *e);
+void				strfree(char **str);
 
 /*
 **		History

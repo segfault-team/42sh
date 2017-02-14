@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-static char		*ft_tilde(t_env *e, char *current)
+char		*ft_tilde(t_env *e, char *current)
 {
 	char	*ret;
 	char	*home;
@@ -24,7 +24,7 @@ static char		*ft_tilde(t_env *e, char *current)
 	return (ret);
 }
 
-static int		ft_subs_tilde(t_env *e)
+int		ft_subs_tilde(t_env *e)
 {
 	int		k;
 	char	*tmp;
@@ -41,7 +41,7 @@ static int		ft_subs_tilde(t_env *e)
 	return (0);
 }
 
-static char		**ft_trim_split_cmd(t_env *e)
+char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
@@ -52,7 +52,7 @@ static char		**ft_trim_split_cmd(t_env *e)
 	return (cmds);
 }
 
-static int		ft_exec_builtin(t_env *e)
+int		ft_exec_builtin(t_env *e)
 {
 	char	ret;
 
@@ -73,25 +73,6 @@ static int		ft_exec_builtin(t_env *e)
 		ft_where(e);
 	else if (ft_strequ(e->cmd[0], "history") && ++ret)
 		ft_history(e);
-	return (ret);
-}
-
-int				ft_exec_cmd(t_env *e, char **cmd)
-{
-	int		ret;
-
-	ret = 0;
-	e->cmd_len = ft_tablen(cmd);
-	ft_subs_tilde(e);
-	if (e->cmd_len)
-	{
-		if ((ret = ft_exec_builtin(e)))
-			;
-		else
-			ret = ft_exec(cmd, e);
-	}
-	ft_check_history(e);
-	e->cmd_len = 0;
 	return (ret);
 }
 
@@ -117,6 +98,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 		free(FD.last_red);
 		FD.last_red = NULL;
 	}
+	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
 	return (ret);

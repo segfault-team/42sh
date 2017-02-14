@@ -106,27 +106,6 @@ void		ft_close(int fd)
 	}
 }
 
-
-/*
-
-	POSSIBLE SOLUTION POUR LES CMDS TYPE :
-	ls > test1 > test2 > [...]
-
-
-if (FD.last_red && !ft_strcmp(FD.last_red, ">") &&
-			 e->magic[RED_INDEX].cmd)// && !ft_strcmp(e->magic[RED_INDEX].cmd, ">"))
-	{
-		if ((fd = open(cmd[0], TWO_RED_FLAGS, OPENFLAGS)) == -1)
-			ft_printf("MANAGE ERROR");
-		while (get_next_line(fd, &buf) > 0)
-			write(FD.fd[1], &buf, (int)ft_strlen(buf));
-		ft_close(fd);
-	}
-
-*/
-
-
-
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t	pid;
@@ -139,7 +118,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	if (pid == 0)
 	{
-		if (redir_check_red(e, "|"))
+		if (redir_check_red(e, "|") || redir_check_red(e, ">"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -172,8 +151,9 @@ int				ft_exec(char **cmd, t_env *e)
 	exec = ft_find_exec(paths, cmd[0]);
 	if (access(exec, F_OK))
 	{
-		free(exec);
+		strfree(&exec);
 		ft_free_tab(paths);
+		paths = NULL;
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
@@ -181,6 +161,25 @@ int				ft_exec(char **cmd, t_env *e)
 	else
 		ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
-	free(exec);
+	paths = NULL;
+	strfree(&exec);
 	return (status);
+}
+
+int				ft_exec_cmd(t_env *e, char **cmd)
+{
+	int		ret;
+
+	ret = 0;
+	e->cmd_len = ft_tablen(cmd);
+	ft_subs_tilde(e);
+	if (e->cmd_len)
+	{
+		if ((ret = ft_exec_builtin(e)))
+			;
+		else
+			ret = ft_exec(cmd, e);
+	}
+	e->cmd_len = 0;
+	return (ret);
 }

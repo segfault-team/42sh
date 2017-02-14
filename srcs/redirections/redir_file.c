@@ -40,8 +40,9 @@ static int		redir_file_output(t_env *e, char *ret_output)
 	fd_output = 0;
 	while (nb_red-- && struct_find_out(e))
 	{
-		if ((fd_output = open(e->magic[RED_INDEX + 1].cmd, ONE_RED_FLAGS, OPENFLAGS)) > -1)
+		if ((fd_output = open(e->magic[++RED_INDEX].cmd, ONE_RED_FLAGS, OPENFLAGS)) > -1)
 		{
+			// NE PAS ENLEVER
 			ft_printfd(fd_output, "%s", ret_output);
 			ft_close(fd_output);
 		}
@@ -73,7 +74,5 @@ int				redir_fill_output(t_env *e)
 				ret_output = tmp_join;
 		}
 	}
-	// DEBUG
-	dprintf(2, "%s\n", ret_output);
 	return (redir_file_output(e, ret_output));
 }
