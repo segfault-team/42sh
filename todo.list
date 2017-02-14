@@ -21,10 +21,6 @@ define __attribute__((unused)) in .h
 
 - in ft_exec.c: delete waitpid and replace it with something who permit : ls -R / | grep string
 
-- POUR: ls -la | grep 21 | wc -l > test1 > test2
-  		1. wc -l n'est pas execute (tester avec et sans '>')
-		2. appelle test1 et test2 alors que les deux doivent etre geres ensemble dans redir_fill_output
-		3.
 
 BAREME:
 
@@ -62,3 +58,6 @@ DONE:
 - utilisation history : bug to fix: double up/down needed
 - couper/coller avec ctrl+k / ctrl+p
 - multi redirections sur fichiers / multi pipes / wombo-combo des 2
+- POUR: ls -la | grep 21 | wc -l > test1 > test2
+  		1. wc -l n'est pas execute (tester avec et sans '>')
+		2. appelle test1 et test2 alors que les deux doivent etre geres ensemble dans redir_fill_output
