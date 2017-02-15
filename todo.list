@@ -3,6 +3,18 @@ TODO:
 
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
+
+/!\ WARNING /!\
+
+
+- CHECK FONCTION magic_type
+  - est-il utile de supprimer les redirection de e->cmd sachant que execve utilise e->cat[i]
+  - idee de resolution: lors du split de e->cmd: ajouter conditioon d'arret des qu'il y a une redirection
+
+
+/!\ WARNING /!\
+
+
 - check memory leaks for history : "memory still reachable"
 
 - gestion d'erreur
@@ -22,6 +34,7 @@ define __attribute__((unused)) in .h
 
 - in ft_exec.c: delete waitpid and replace it with something who permit : ls -R / | grep string
 
+- gestion de l'environnement via termios a chaque execution de commande
 
 BAREME:
 

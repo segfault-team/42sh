@@ -193,7 +193,7 @@ int					ft_history(t_env *e);
 int					dsh_putchar(int c);
 int					tcaps(t_env *e);
 int					tcaps_check_key(char buf[3], int a, int b, int c);
-int					tcaps_check_read(char buf[3]);
+int					tcaps_is_printable(char buf[3]);
 void				tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_history(t_env *e);

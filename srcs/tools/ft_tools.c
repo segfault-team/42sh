@@ -89,10 +89,6 @@ char		*ft_getenv(char **env, char *name)
 	return (value);
 }
 
-/*
-** RAZ LE CUL/BOL DE TOUT REECRIRE !
-*/
-
 void	xputs(char *tag)
 {
 	char	*res;

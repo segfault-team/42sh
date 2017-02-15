@@ -11,7 +11,7 @@ int 			tcaps(t_env *e)
 		TCAPS.hist_move = -1;
 	if (BUF[0] == 4)
 		ft_exit(e);
-	else if (tcaps_check_read(BUF))
+	else if (tcaps_is_printable(BUF))
 		tcaps_insert(e);
 	else if (tcaps_check_key(BUF, 12, 0, 0))
 		tcaps_clear(e);

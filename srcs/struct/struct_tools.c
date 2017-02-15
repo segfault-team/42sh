@@ -11,6 +11,15 @@ int	struct_len(t_magic *magic)
 	return (len);
 }
 
+/*
+**     REMPLIT LE TABLEAU DE STRUCTURE MAGIC ET ASSOCIE CHAQUE ELEMENTS
+**     DE LA CMD AVEC LE TYPE DE L'ELEM. EX: ls -l > test
+**	ls	-> "cmd"
+**	-l	-> "cmd"
+**	>	-> "red"
+**	test	-> "output"
+*/
+
 void	magic_type(t_env *e)
 {
 	int	i;
@@ -25,25 +34,18 @@ void	magic_type(t_env *e)
 		else if (red_strstr(e->magic[i].cmd))
 		{
 			e->magic[i].type = ft_strdup("red");
-//			ft_printf("check: %d\n", e->check_remove_tab);
 			ft_remove_tab(e->cmd, i, e->check_remove_tab++);
 			++check;
 		}
 		else if (check)
 		{
 			ft_remove_tab(e->cmd, i, e->check_remove_tab++);
-//			ft_printf("check: %d\n", e->check_remove_tab);
 			struct_arg_red(i, e);
 		}
 	}
 	magic_realloc(e);
-//	for (int j = 0; e->magic[j].cmd != NULL ; j++)
-//		ft_printf("M.cmd: %s | M.type: %s\n", e->magic[j].cmd, e->magic[j].type);
 }
 
-// POSSIBLE ERREUR SUR LE DERNIER FREE
-// ON AVANCE A L AVEUGLE
-// INDIANA JONES
 void	magic_free(t_env *e)
 {
 	int	i;

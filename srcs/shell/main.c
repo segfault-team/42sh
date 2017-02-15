@@ -26,13 +26,20 @@ static void		tcaps_enter(t_env *e)
 **	WITH PRINTABLE CHAR
 */
 
-static void		tcaps_printable_char(t_env *e)
+static void		tcaps_manage_printable_char(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
 		e->line = ft_realloc_insert_char(e, BUF[0]);
 	TCAPS.nb_read = ft_strlen(e->line);
+}
+
+static int		tcaps_is_delete_key(t_env *e)
+{
+	if (e->line && e->buf[0] == 127)
+		return (1);
+	return (0);
 }
 
 int				main(int ac, char **av, char **env)
@@ -50,9 +57,9 @@ int				main(int ac, char **av, char **env)
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
-		if (tcaps_check_read(e.buf))
-			tcaps_printable_char(&e);
-		else if (e.line && e.buf[0] == 127)
+		if (tcaps_is_printable(e.buf))
+			tcaps_manage_printable_char(&e);
+		else if (tcaps_is_delete_key(&e))
 			e.line = ft_realloc_delete_char(&e);
 		if (tcaps_check_key(e.buf, 10, 0, 0))
 			tcaps_enter(&e);
