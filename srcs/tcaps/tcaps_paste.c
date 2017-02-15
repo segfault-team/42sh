@@ -16,7 +16,7 @@ int				is_paste(char *buf)
 	return (0);
 }
 
-int				ft_paste(t_env *e, char *buf)
+int				tcaps_paste(t_env *e, char *buf)
 {
 	int		i;
 

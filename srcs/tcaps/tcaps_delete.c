@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/04 12:06:23 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/15 18:49:58 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	tcaps_del_fwd(t_env *e)
  **		ed: end delete mode
  */
 
-static void	tcaps_del_end(t_env *e)
+static void	tcaps_del_bkw_end(t_env *e)
 {
 	xputs("dm");
 	xputs("le");
@@ -61,10 +61,10 @@ static void	tcaps_del_end(t_env *e)
 	xputs("ed");
 }
 
-void		tcaps_del(t_env *e)
+void		tcaps_del_bkw(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
-		tcaps_del_end(e);
+		tcaps_del_bkw_end(e);
 	else
 	{
 		if (!TCAPS.nb_read && e->line)

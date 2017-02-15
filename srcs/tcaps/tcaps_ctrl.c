@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/04 11:56:00 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/15 18:57:30 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,34 @@ void	tcaps_ctrl_mov_right(t_env *e)
 }
 
 /*
+ **  INSTRUCTION FOR "Ctrl + ARROW <-" KEYS
+ */
+
+void	tcaps_ctrl_mov_left(t_env *e)
+{
+	int	i;
+
+	i = TCAPS.nb_move;
+	while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
+	{
+		xputs("le");
+		--TCAPS.nb_move;
+		--i;
+	}
+	while ((i && e->line[i - 1] != ' '))
+	{
+		xputs("le");
+		--TCAPS.nb_move;
+		--i;
+	}
+	while (e->line[i] == '-')
+	{
+		move_right(e);
+		++i;
+	}
+}
+
+/*
 **  INSTRUCTION FOR "Ctrl + ARROW" UP
 **	65 = UP
 **	66 = DOWN
@@ -138,29 +166,8 @@ void	tcaps_ctrl_mov(t_env *e)
 	if (tcaps_check_key(buf, 59, 53, 67))
 		tcaps_ctrl_mov_right(e);
 	else if (tcaps_check_key(buf, 59, 53, 68))
-	{
-		i = TCAPS.nb_move;
-		while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
-		{
-			xputs("le");
-			--TCAPS.nb_move;
-			--i;
-		}
-		while ((i && e->line[i - 1] != ' '))
-		{
-			xputs("le");
-			--TCAPS.nb_move;
-			--i;
-		}
-		while (e->line[i] == '-')
-		{
-			move_right(e);
-			++i;
-		}
-	}
-	else if (tcaps_check_key(buf, 59, 53, 65))
-		tcaps_ctrl_up_down(e, buf);
-	else if (tcaps_check_key(buf, 59, 53, 66))
+		tcaps_ctrl_mov_left(e);
+	else
 		tcaps_ctrl_up_down(e, buf);
 	tcaps_recalc_pos(e);
 }

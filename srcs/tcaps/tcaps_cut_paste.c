@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tcaps_cut_paste.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/02 12:25:50 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/02/02 14:00:08 by vlistrat         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
-static void		tcaps_cut(t_env *e)
+static void		tcaps_ctrl_k(t_env *e)
 {
 	int		i;
 	int		j;
@@ -48,7 +36,7 @@ static void		tcaps_cut(t_env *e)
 	TCAPS.nb_read -= (int)ft_strlen(e->cut);
 }
 
-static void		tcaps_paste(t_env *e)
+static void		tcaps_ctrl_p(t_env *e)
 {
 	int	i;
 
@@ -76,7 +64,7 @@ static void		tcaps_paste(t_env *e)
 void			tcaps_cut_paste(t_env *e)
 {
 	if (BUF[0] == 11)
-		tcaps_cut(e);
+		tcaps_ctrl_k(e);
 	else if (BUF[0] == 16)
-		tcaps_paste(e);
+		tcaps_ctrl_p(e);
 }

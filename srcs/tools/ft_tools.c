@@ -1,19 +1,5 @@
 #include "shell.h"
 
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
-
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
-	{
-		check = 0;
-		return (1);
-	}
-	return (0);
-}
-
 int			ft_matchquotes(char *s)
 {
 	int		i;

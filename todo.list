@@ -36,6 +36,13 @@ define __attribute__((unused)) in .h
 
 - gestion de l'environnement via termios a chaque execution de commande
 
+- manage afficha du prompt avec Ctrl+C lors d'un processus fils
+
+- MAYBE: gerer differement l'insertion de caractere en milieu de ligne avec une cmd sur plusieurs lignes. On calcul le dernier caractere de chaque ligne qui va etre ecraser et on l'insert au debut de la la ligne suivante
+
+- gerer le multi ligne lors du Ctrl + D
+
+- segfault lors de Ctrl +k / Ctrl + p
 BAREME:
 
 - add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")

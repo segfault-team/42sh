@@ -9,32 +9,32 @@ int 			tcaps(t_env *e)
 {
 	if (!tcaps_check_key(BUF, 27, 91, 65) && !tcaps_check_key(BUF, 27, 91, 66))
 		TCAPS.hist_move = -1;
-	if (BUF[0] == 4)
+	if (BUF[0] == 4) // ctrl + d
 		ft_exit(e);
-	else if (tcaps_is_printable(BUF))
+	else if (tcaps_is_printable(BUF)) // all printable char
 		tcaps_insert(e);
-	else if (tcaps_check_key(BUF, 12, 0, 0))
+	else if (tcaps_check_key(BUF, 12, 0, 0)) // Ctrl + L
 		tcaps_clear(e);
 	else if (tcaps_check_key(BUF, 27, 91, 65) || tcaps_check_key(BUF, 27, 91, 66))
-		tcaps_history(e);
+		tcaps_history(e); // arrow up/down
 	else if (tcaps_check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
-		tcaps_right(e);
+		tcaps_right(e); // arrow right
 	else if (tcaps_check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
-		tcaps_left(e);
+		tcaps_left(e); // arrow left
 	else if (BUF[0] == 127 && TCAPS.nb_read && TCAPS.nb_move > 0)
-		tcaps_del(e);
+		tcaps_del_bkw(e); // backspace(delete) key
 	else if (tcaps_check_key(BUF, 27, 91, 49))
-		tcaps_ctrl_mov(e);
+		tcaps_ctrl_mov(e); // ctrl + arrow
 	else if (tcaps_check_key(BUF, 5, 0, 0) || tcaps_check_key(BUF, 27, 91, 70))
-		tcaps_ctrl_end(e);
+		tcaps_ctrl_end(e); // (ctrl + e)/end
 	else if (tcaps_check_key(BUF, 1, 0, 0) || tcaps_check_key(BUF, 27, 91, 72))
-		tcaps_ctrl_home(e);
+		tcaps_ctrl_home(e); // (ctrl + a)/home
 	else if (tcaps_check_key(BUF, 11, 0, 0) || tcaps_check_key(BUF, 16, 0, 0))
-		tcaps_cut_paste(e);
+		tcaps_cut_paste(e); // ctrl + k / ctrl + p
 	else if (tcaps_check_key(BUF, 27, 91, 51))
-		tcaps_del_fwd(e);
+		tcaps_del_fwd(e); // delete key
 	else if (is_paste(BUF))
-		ft_paste(e, BUF);
+		tcaps_paste(e, BUF); // Ctrl + v
 	//	else if (BUF[0])
 	//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
