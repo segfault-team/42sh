@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:24:01 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 11:31:19 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 				c = '\0';
 			}
 		}
-	if (e->line)
-		strfree(&e->line);
+	strfree(&e->line);
 	return (new);
 }
 
@@ -85,12 +84,12 @@ void	ft_realloc_insert_str(t_env *e, char *str)
 
 	new = ft_strsub(e->line, 0, TCAPS.nb_move);
 	tmp = ft_strjoin(new, str);
-	free(new);
+	strfree(&new);
 	new = ft_strsub(e->line, TCAPS.nb_move, TCAPS.nb_read - TCAPS.nb_move);
 	free(e->line);
 	e->line = ft_strjoin(tmp, new);
-	free(tmp);
-	free(new);
+	strfree(&tmp);
+	strfree(&new);
 }
 
 /*
@@ -123,38 +122,3 @@ char    *ft_realloc_line(t_env *e, char c)
 		strfree(&e->line);
 	return (new);
 }
-
-/*
-**	sc: save position curosr
-**	cr: carriage return (debut de ligne)
-**	dm: start delete mode
-**	le: left
-**	dc: delete one char
-**	dl: delete line
-**	ce: delete line from cursor
-**	ed: end delete mode
-**	rc: recover cursor position
-*/
-
-int		tcaps_putstr(t_env *e, char *str)
-{
-	int		l;
-
-	xputs("sc");
-	xputs("cr");
-	xputs("dm");
-	l = TCAPS.nb_read;
-	while (--l > 0)
-	{
-		xputs("le");
-		xputs("dc");
-	}
-	xputs("dl");
-	xputs("ce");
-	xputs("ed");
-	tputs(e->prompt, 1, dsh_putchar);
-	tputs(str, 1, dsh_putchar);
-	xputs("rc");
-	return (0);
-}
-

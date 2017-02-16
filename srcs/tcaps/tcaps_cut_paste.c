@@ -8,15 +8,13 @@ static void		tcaps_ctrl_k(t_env *e)
 
 	i = TCAPS.nb_move - 1;
 	j = -1;
-	if (e->cut)
-		free(e->cut);
+	strfree(&e->cut);
 	e->cut = ft_strnew(TCAPS.nb_read - TCAPS.nb_move);
 	while (e->line[i++])
 		e->cut[++j] = e->line[i];
 	i = TCAPS.nb_move - 1;
 	tmp = ft_strsub(e->line, 0, TCAPS.nb_move);
-	if (e->line)
-		free(e->line);
+	strfree(&e->line);
 	e->line = tmp;
 	xputs("sc");
 	xputs("dm");
@@ -36,25 +34,36 @@ static void		tcaps_ctrl_k(t_env *e)
 	TCAPS.nb_read -= (int)ft_strlen(e->cut);
 }
 
+static void		move_nb_char_prompt(char *str)
+{
+	int	len;
+
+	len = (int)ft_strlen(str);
+	while (len--)
+		xputs("nd");
+}
+
 static void		tcaps_ctrl_p(t_env *e)
 {
-	int	i;
+	int	cut_len;
 
 	if (e->cut)
 	{
-		i = TCAPS.nb_move - 1;
+		cut_len = (int)ft_strlen(e->cut);
+		xputs("sc");
+		clear_cmd(e);
 		ft_realloc_insert_str(e, e->cut);
-		TCAPS.nb_move += (int)ft_strlen(e->cut) - 1;
-		TCAPS.nb_read = (int)ft_strlen(e->line) - 1;
-		tcaps_putstr(e, e->line);
-		while (i++ < TCAPS.nb_move)
-			if (i  % (WIN_WIDTH - 1) == 0)
-			{
-				xputs("do");
-				xputs("cr");
-			}
-			else
-				xputs("nd");
+		TCAPS.nb_read = (int)ft_strlen(e->line);
+		TCAPS.nb_move += cut_len - 1;
+		xputs("cr");
+		if (TCAPS.nb_col > (int)ft_strlen(e->prompt))
+			ft_putstr(e->prompt);
+		else
+			move_nb_char_prompt(e->prompt);
+		ft_putstr(e->line);
+		xputs("rc");
+		while (cut_len--)
+			move_right(e);
 	}
 	TCAPS.nb_move++;
 	TCAPS.nb_read++;

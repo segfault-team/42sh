@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/16 10:38:53 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 11:23:17 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static int	ctrl_up_is_not_on_prompt(t_env *e)
 **  INSTRUCTION FOR "Ctrl + l" KEYS
 **
 **  cl: clear active window
-**  To do : reset positions after clear && check buffer after ctrl+l
 */
 
 void	tcaps_clear(t_env *e)
 {
 	xputs("cl");
-	ft_putstr(e->prompt);
+	strfree(&e->line);
+	clear_cmd(e);
 }
 
 /*
@@ -67,7 +67,6 @@ void	tcaps_ctrl_home(t_env *e)
 void	tcaps_ctrl_end(t_env *e)
 {
 	tcaps_recalc_pos(e);
-//	dprintf(1, "\n\nnb_move
 	while (TCAPS.nb_move < TCAPS.nb_read)
 		move_right(e);
 }

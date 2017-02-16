@@ -18,8 +18,6 @@ REDIRECTIONS
 - ls |
 pipe:
 
-- manage last history : up down down
-
 - ctrl+arrow left/right with 'word-word' has to move to the -
 
 define __attribute__((unused)) in .h
@@ -62,8 +60,9 @@ define __attribute__((unused)) in .h
 
 - Historique ( avec les !! !)
 
-
 - historique: up + down + new cmd
+
+- tcaps_cut_paste : pas fonctionnel du tout
 
 BAREME:
 
@@ -106,3 +105,5 @@ DONE:
 		2. appelle test1 et test2 alors que les deux doivent etre geres ensemble dans redir_fill_output
 - segault: Ctrl + arrow up/down && delete jusqu'au prompt et plus encore
 - block ctrl + up on prompt (tcaps)
+- manage last history : up down down : HISTORY IS NOW FULLY WORKING
+- ctrl + l (=clear) needed to clean e->line and TCAPS value
