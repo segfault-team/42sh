@@ -16,8 +16,7 @@ static void		tcaps_enter(t_env *e)
 		ft_putstr(e->prompt);
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
-	if (e->line)
-		free(e->line);
+	strfree(&e->line);
 	e->line = NULL;
 }
 
@@ -31,13 +30,16 @@ static void		tcaps_manage_printable_char(t_env *e)
 	if (TCAPS.nb_move == TCAPS.nb_read)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
+	{
 		e->line = ft_realloc_insert_char(e, BUF[0]);
+		tcaps_putstr(e, e->line);
+	}
 	TCAPS.nb_read = ft_strlen(e->line);
 }
 
 static int		tcaps_is_delete_key(t_env *e)
 {
-	if (e->line && e->buf[0] == 127)
+	if (e->line && e->buf[0] == 127 && TCAPS.nb_move > 0)
 		return (1);
 	return (0);
 }
@@ -66,7 +68,6 @@ int				main(int ac, char **av, char **env)
 		else
 			tcaps(&e);
 		ft_bzero(&e.buf, 3);
-		e.check_remove_tab = 0;
 		e.i_mag = 0;
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;

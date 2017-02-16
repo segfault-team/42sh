@@ -4,17 +4,6 @@ TODO:
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
 
-/!\ WARNING /!\
-
-
-- CHECK FONCTION magic_type
-  - est-il utile de supprimer les redirection de e->cmd sachant que execve utilise e->cat[i]
-  - idee de resolution: lors du split de e->cmd: ajouter conditioon d'arret des qu'il y a une redirection
-
-
-/!\ WARNING /!\
-
-
 - check memory leaks for history : "memory still reachable"
 
 - gestion d'erreur
@@ -43,6 +32,37 @@ define __attribute__((unused)) in .h
 - gerer le multi ligne lors du Ctrl + D
 
 - segfault lors de Ctrl +k / Ctrl + p
+
+- gestion des commandes avec pipe + redirections && separetrur ';'
+
+- lors d'un ctrl + arrow up, check si le mouvement ne ramene pas vers le prompt et dans ce cas, bloquer le deplacement
+
+- builtin in pipes
+
+- (NO) builtin posix
+
+- inhibitors --> ft_strsplit_quote
+
+- OPERATEUR LOGIC
+
+- Backquotes  "$> echo `pwd`"
+
+- Globing  * ? [] {} (pas utiliser la fonction glob())
+
+- Sub-shells ()
+
+- Manipulation de fichiers (builtin read)
+
+- Auto completion
+
+- Variables locales (dans env)
+
+- Historique ( avec les !! !)
+
+- segault: Ctrl + arrow up/down && delete jusqu'au prompt et plus encore
+
+
+
 BAREME:
 
 - add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")

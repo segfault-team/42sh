@@ -59,7 +59,6 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
-	char			*last_red;
 	int				fd[2];
 	int				in;
 	int				stdin;
@@ -94,7 +93,6 @@ typedef struct		s_env
 	char			***cat;
 	size_t			cmd_len;
 
-	int				check_remove_tab;
 	size_t			i_mag;
 	t_magic			*magic;
 
@@ -150,7 +148,6 @@ char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 void				move_right(t_env *e);
 int					red_strstr(char *str);
-void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);

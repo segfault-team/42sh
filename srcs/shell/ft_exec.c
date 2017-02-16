@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/15 19:26:23 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:52:41 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ char			*ft_find_exec(char **paths, char *cmd)
 		{
 			tmp = ft_strjoin(paths[i], "/");
 			path = ft_strjoin(tmp, exec);
-			free(tmp);
-			free(exec);
+			strfree(&tmp);
+			strfree(&exec);
 			break ;
 		}
 	return (path);
@@ -75,7 +75,7 @@ char			**ft_find_paths(char **env)
 	else
 	{
 		paths = ft_strsplit(value, ':');
-		free(value);
+		strfree(&value);
 	}
 	return (paths);
 }
@@ -123,17 +123,13 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
-			FD.last_red = ft_strdup(e->magic[RED_INDEX].cmd);
 			execve(exec, &cmd[0], e->env);
 		}
 		else
 			execve(exec, &cmd[0], e->env);
-		if (RED_INDEX > 0 && e->magic[RED_INDEX].cmd)
-			FD.last_red = ft_strdup(e->magic[RED_INDEX].cmd);
 	}
 	ft_close(FD.fd[1]);
 	ft_close(FD.in);
-// manage this
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);

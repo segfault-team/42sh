@@ -28,7 +28,7 @@ static int	ft_nb_cmds(t_env *e)
 
 static int	ft_nb_elem_cmd(t_env *e, int *z)
 {
-	int	len;
+	int			len;
 	static int	last_cmd = 0;
 
 	len = 0;

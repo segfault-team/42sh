@@ -34,14 +34,10 @@ void	magic_type(t_env *e)
 		else if (red_strstr(e->magic[i].cmd))
 		{
 			e->magic[i].type = ft_strdup("red");
-			ft_remove_tab(e->cmd, i, e->check_remove_tab++);
 			++check;
 		}
 		else if (check)
-		{
-			ft_remove_tab(e->cmd, i, e->check_remove_tab++);
 			struct_arg_red(i, e);
-		}
 	}
 	magic_realloc(e);
 }

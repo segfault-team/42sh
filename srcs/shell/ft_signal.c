@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/15 19:26:20 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:05:00 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			ft_handle_ret_signal(int status)
 				return (-1);
 		uknw_sig = ft_itoa(sig);
 		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
-		strfree(uknw_sig);
+		strfree(&uknw_sig);
 		return (-1);
 	}
 	return (0);
