@@ -6,6 +6,7 @@ $$$$ PROPOSITIONS $$$$
 
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
+- HISTORY : gerer movement + last history
 
 - check memory leaks for history : "memory still reachable"
 
