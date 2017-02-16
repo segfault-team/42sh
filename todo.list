@@ -7,7 +7,6 @@ $$$$ PROPOSITIONS $$$$
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
 
-
 - check memory leaks for history : "memory still reachable"
 
 - gestion d'erreur
@@ -67,7 +66,6 @@ BAREME:
 
 - add gestion de cmd sur plusieurs ligne (ex: "ls \-l \ -r")
 - add couper/coller
-- add dplct haut/bas pour cmd sur plusieurs ligne (avec arrows up/down)
 - gestion fin `de cmd avec " ' \ { [ (
 - add gestion du tilde
 - add verification du type de fichier a executer lors de cmd avec une modif du PATH (ex: setenv PATH ~ && Desktop)

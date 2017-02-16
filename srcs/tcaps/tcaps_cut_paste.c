@@ -34,15 +34,6 @@ static void		tcaps_ctrl_k(t_env *e)
 	TCAPS.nb_read -= (int)ft_strlen(e->cut);
 }
 
-static void		move_nb_char_prompt(char *str)
-{
-	int	len;
-
-	len = (int)ft_strlen(str);
-	while (len--)
-		xputs("nd");
-}
-
 static void		tcaps_ctrl_p(t_env *e)
 {
 	int	cut_len;
@@ -53,21 +44,16 @@ static void		tcaps_ctrl_p(t_env *e)
 		xputs("sc");
 		clear_cmd(e);
 		ft_realloc_insert_str(e, e->cut);
-		TCAPS.nb_read = (int)ft_strlen(e->line);
+		TCAPS.nb_read = (int)ft_strlen(e->line) + 1;
 		TCAPS.nb_move += cut_len - 1;
 		xputs("cr");
-		if (TCAPS.nb_col > (int)ft_strlen(e->prompt))
-			ft_putstr(e->prompt);
-		else
-			move_nb_char_prompt(e->prompt);
+		ft_putstr(e->prompt);
 		ft_putstr(e->line);
 		xputs("rc");
 		while (cut_len--)
 			move_right(e);
+		tcaps_recalc_pos(e);
 	}
-	TCAPS.nb_move++;
-	TCAPS.nb_read++;
-	tcaps_recalc_pos(e);
 }
 
 /*
