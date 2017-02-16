@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/15 18:49:58 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 10:13:03 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	tcaps_del_bkw_end(t_env *e)
 	if (TCAPS.nb_move)
 		--TCAPS.nb_move;
 	tcaps_recalc_pos(e);
-	if (TCAPS.nb_col == WS_COL - 1)
+	if (TCAPS.nb_col == WIN_WIDTH - 1)
 		xputs("cd");
 	xputs("dc");
 	--TCAPS.nb_read;

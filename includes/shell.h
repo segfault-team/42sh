@@ -42,7 +42,7 @@
 # define FD			e->fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
-# define WS_COL		e->tcaps.ws.ws_col
+# define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
 
 # define HIST_FILE	"/tmp/.history"
@@ -50,6 +50,15 @@
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
 # define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
+
+/*
+**	DEFINE FOR TCAPS KEY
+*/
+# define ARROW_UP	65
+# define ARROW_DOWN	66
+# define CTRL_D		4
+# define CTRL_K		11
+# define CTRL_P		16
 
 typedef struct		s_magic
 {

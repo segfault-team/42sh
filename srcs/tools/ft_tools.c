@@ -85,7 +85,7 @@ void	xputs(char *tag)
 
 void	move_right(t_env *e)
 {
-	if (TCAPS.nb_col == (WS_COL - 1))
+	if (TCAPS.nb_col == (WIN_WIDTH - 1))
 	{
 		xputs("do");
 		xputs("cr");

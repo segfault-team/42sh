@@ -6,11 +6,18 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/15 18:57:30 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 10:28:30 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+static int	ctrl_up_is_not_on_prompt(t_env *e)
+{
+	if (TCAPS.nb_line == 2 && TCAPS.nb_col < (int)ft_strlen(e->prompt))
+		return (0);
+	return (-1);
+}
 
 /*
 **  INSTRUCTION FOR "Ctrl + l" KEYS
@@ -120,18 +127,18 @@ void	tcaps_ctrl_mov_left(t_env *e)
 }
 
 /*
-**  INSTRUCTION FOR "Ctrl + ARROW" UP
-**	65 = UP
-**	66 = DOWN
+**  INSTRUCTION FOR "Ctrl + ARROW UP/DOWN"
+**	ARROW_UP	== 65
+**	ARROW_DOWN	== 66
 */
 
 static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 {
 	int		line;
 
-	line = WS_COL;
+	line = WIN_WIDTH;
 	tcaps_recalc_pos(e);
-	if (buf[2] == 65)
+	if (buf[2] == ARROW_UP && ctrl_up_is_not_on_prompt(e))
 	{
 		if (TCAPS.nb_line > 1)
 		{
@@ -143,7 +150,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 			tcaps_recalc_pos(e);
 		}
 	}
-	else if (buf[2] == 66)
+	else if (buf[2] == ARROW_DOWN)
 	{
 		while (line-- && TCAPS.nb_move < TCAPS.nb_read)
 			move_right(e);

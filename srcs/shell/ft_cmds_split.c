@@ -77,7 +77,6 @@ static char	**ft_find_tab(t_env *e, int *z)
 void	ft_triple_free(t_env *e)
 {
 	int	i;
-	int	j;
 
 	i = -1;
 	while (e->cat[++i])

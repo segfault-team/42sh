@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/15 19:05:04 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/16 10:29:13 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ INC					= $(addprefix -I ,$(INC_PATH))
 
 ## COMPILER ##
 CC					= @gcc
-CFLAGS				= #-Wall -Wextra -Werror
+CFLAGS				= -Wall -Wextra -Werror
 
 ## COLORS ##
 RED					= \033[31;44m

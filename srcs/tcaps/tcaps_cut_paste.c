@@ -23,7 +23,7 @@ static void		tcaps_ctrl_k(t_env *e)
 	while (i++ < TCAPS.nb_read)
 	{
 		xputs("ce");
-		if (i  % (WS_COL - 1) == 0)
+		if (i  % (WIN_WIDTH - 1) == 0)
 		{
 			xputs("do");
 			xputs("cr");
@@ -48,7 +48,7 @@ static void		tcaps_ctrl_p(t_env *e)
 		TCAPS.nb_read = (int)ft_strlen(e->line) - 1;
 		tcaps_putstr(e, e->line);
 		while (i++ < TCAPS.nb_move)
-			if (i  % (WS_COL - 1) == 0)
+			if (i  % (WIN_WIDTH - 1) == 0)
 			{
 				xputs("do");
 				xputs("cr");
@@ -61,10 +61,15 @@ static void		tcaps_ctrl_p(t_env *e)
 	tcaps_recalc_pos(e);
 }
 
+/*
+**	CTRL_K	== 11
+**	CTRL_P	== 16
+*/
+
 void			tcaps_cut_paste(t_env *e)
 {
-	if (BUF[0] == 11)
+	if (BUF[0] == CTRL_K)
 		tcaps_ctrl_k(e);
-	else if (BUF[0] == 16)
+	else if (BUF[0] == CTRL_P)
 		tcaps_ctrl_p(e);
 }

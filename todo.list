@@ -1,5 +1,8 @@
 TODO:
 
+$$$$ PROPOSITIONS $$$$
+-faire un define pour e->tcaps.ws.ws_col qui n'est pas franchement tres clair
+
 
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
@@ -59,9 +62,8 @@ define __attribute__((unused)) in .h
 
 - Historique ( avec les !! !)
 
-- segault: Ctrl + arrow up/down && delete jusqu'au prompt et plus encore
 
-
+- historique: up + down + new cmd
 
 BAREME:
 
@@ -102,3 +104,5 @@ DONE:
 - POUR: ls -la | grep 21 | wc -l > test1 > test2
   		1. wc -l n'est pas execute (tester avec et sans '>')
 		2. appelle test1 et test2 alors que les deux doivent etre geres ensemble dans redir_fill_output
+- segault: Ctrl + arrow up/down && delete jusqu'au prompt et plus encore
+- block ctrl + up on prompt (tcaps)

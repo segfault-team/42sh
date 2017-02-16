@@ -9,7 +9,7 @@ int 			tcaps(t_env *e)
 {
 	if (!tcaps_check_key(BUF, 27, 91, 65) && !tcaps_check_key(BUF, 27, 91, 66))
 		TCAPS.hist_move = -1;
-	if (BUF[0] == 4) // ctrl + d
+	if (BUF[0] == CTRL_D) // ctrl + d
 		ft_exit(e);
 	else if (tcaps_is_printable(BUF)) // all printable char
 		tcaps_insert(e);
