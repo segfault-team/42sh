@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/16 10:28:30 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 10:38:53 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	tcaps_ctrl_home(t_env *e)
 void	tcaps_ctrl_end(t_env *e)
 {
 	tcaps_recalc_pos(e);
+//	dprintf(1, "\n\nnb_move
 	while (TCAPS.nb_move < TCAPS.nb_read)
 		move_right(e);
 }

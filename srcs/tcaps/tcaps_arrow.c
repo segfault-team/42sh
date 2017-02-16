@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 10:12:12 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 11:09:57 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **  cd: clear the line
 */
 
-void	tcaps_history(t_env *e)
+void	tcaps_history_first_step(t_env *e)
 {
 	int		l;
 
@@ -32,25 +32,9 @@ void	tcaps_history(t_env *e)
 	ft_putstr(e->prompt);
 	tputs(e->line, 1, dsh_putchar);
 	if (tcaps_check_key(BUF, 27, 91, 65) && TCAPS.hist_move) // arrown up
-	{
-		if (TCAPS.hist_move == -1)
-			TCAPS.hist_move = (int)ft_tablen(e->history) - 1;
-		else if (TCAPS.hist_move > 0)
-			--TCAPS.hist_move;
 		tcaps_history_up(e);
-	}
 	else if (tcaps_check_key(BUF, 27, 91, 66)) // arrow down
-	{
-		if (TCAPS.hist_move < (int)ft_tablen(e->history) && TCAPS.hist_move != -1)
-			++TCAPS.hist_move;
-		if (TCAPS.hist_move == (int)ft_tablen(e->history))
-		{
-			clear_cmd(e);
-			TCAPS.hist_move = -1;
-		}
-		else if (e->line)
 			tcaps_history_down(e);
-	}
 	tcaps_recalc_pos(e);
 }
 
