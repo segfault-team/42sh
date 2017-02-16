@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SHB=/bin/bash
-SH=./42SH
+SH=./21sh
 OUT=tmp
 OUTB=tmp2
 

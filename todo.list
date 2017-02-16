@@ -6,7 +6,7 @@ $$$$ PROPOSITIONS $$$$
 
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
-- HISTORY : gerer movement + last history
+
 
 - check memory leaks for history : "memory still reachable"
 
@@ -36,8 +36,6 @@ define __attribute__((unused)) in .h
 - segfault lors de Ctrl +k / Ctrl + p
 
 - gestion des commandes avec pipe + redirections && separetrur ';'
-
-- lors d'un ctrl + arrow up, check si le mouvement ne ramene pas vers le prompt et dans ce cas, bloquer le deplacement
 
 - builtin in pipes
 
@@ -108,3 +106,4 @@ DONE:
 - block ctrl + up on prompt (tcaps)
 - manage last history : up down down : HISTORY IS NOW FULLY WORKING
 - ctrl + l (=clear) needed to clean e->line and TCAPS value
+- HISTORY : gerer movement + last history (based on csh)

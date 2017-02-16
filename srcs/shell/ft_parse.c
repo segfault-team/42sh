@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:52:23 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 13:24:51 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ char		**ft_trim_split_cmd(t_env *e)
 	char	*trline;
 
 	trline = ft_strxtrim_quote(e->line, '\t');
-	cmds = ft_strsplit(trline, ';');
-	strfree(&trline);
+	cmds = ft_strsplit_quote(trline, ';');
+	ft_strdel(&trline);
 	return (cmds);
 }
 

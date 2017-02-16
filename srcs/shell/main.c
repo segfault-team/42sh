@@ -2,18 +2,19 @@
 
 /*
 **	INSTRUCTIONS FOR ENTER KEY
+**	tcaps_ctrl_end moves the cursor to the eol,
+**	this avoid writing over multi lines
 */
 
 static void		tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
-//	ft_putchar('\n');
-	TCAPS.hist_move = -1;
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
-	if (!ft_strstr(e->line, "exit"))
+	if (e->x)
 		ft_putstr(e->prompt);
+	TCAPS.hist_move = -1;
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
 	strfree(&e->line);

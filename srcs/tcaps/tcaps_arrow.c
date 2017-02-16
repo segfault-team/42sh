@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 11:09:57 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 14:53:19 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,10 @@
 
 void	tcaps_history_first_step(t_env *e)
 {
-	int		l;
-
-	l = TCAPS.nb_line;
-	xputs("cr");
-	while (--l)
-		xputs("up");
-	xputs("cd");
-	ft_putstr(e->prompt);
-	tputs(e->line, 1, dsh_putchar);
 	if (tcaps_check_key(BUF, 27, 91, 65) && TCAPS.hist_move) // arrown up
 		tcaps_history_up(e);
 	else if (tcaps_check_key(BUF, 27, 91, 66)) // arrow down
-			tcaps_history_down(e);
+		tcaps_history_down(e);
 	tcaps_recalc_pos(e);
 }
 
