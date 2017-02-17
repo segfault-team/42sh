@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:26:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:40:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ typedef struct		s_fd
 
 typedef struct		s_term
 {
-	char			*term_name;
-	struct termios	termos;
-	struct termios	save;
+//	char			*term_name;
+//	struct termios	termos;
+//	struct termios	save;
 	int				check_move;
 	int				hist_move;
 	int				nb_move;
@@ -221,6 +221,9 @@ int					ft_history(t_env *e);
 **		Termcaps
 */
 int					dsh_putchar(int c);
+void				tcaps_init(t_env *e);
+int					tcaps_set(void);
+int					tcaps_reset(void);
 int					tcaps(t_env *e);
 int					tcaps_check_key(char buf[3], int a, int b, int c);
 int					tcaps_is_printable(char buf[3]);

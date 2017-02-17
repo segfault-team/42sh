@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/17 14:23:16 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/02/17 21:36:33 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
 ## TCAPS FOLDER ##
-SRC_TCAPS_NAME		= tcaps_paste.c tcaps.c tcaps_arrow.c tcaps_check.c tcaps_ctrl.c \
+SRC_TCAPS_NAME		= tcaps_init.c tcaps_paste.c tcaps.c tcaps_arrow.c \
+					  tcaps_check.c tcaps_ctrl.c \
 					  tcaps_cut_paste.c tcaps_delete.c tcaps_history.c \
 					  tcaps_putstr.c tcaps_insert.c tcaps_positions.c tcaps_tools.c
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))

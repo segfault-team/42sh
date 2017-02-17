@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:32:39 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:43:55 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void		ft_env_free(t_env *e)
 		strfree(&e->line);
 	if (e->home)
 		strfree(&e->home);
-	if (TCAPS.term_name)
-		strfree(&TCAPS.term_name);
 	if (e->history)
 		ft_free_tab(e->history);
 	if (e->prompt)

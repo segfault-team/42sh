@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:26:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:43:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int		ft_set_home(t_env *e)
 	if ((tmp = ft_getenv(e->env, "HOME")))
 	{
 		e->home = ft_strdup(tmp);
-		strfree(&tmp);
 		return (1);
 	}
 	return (0);
@@ -40,37 +39,12 @@ static void		ft_set_shlvl(t_env *e)
 	if ((lvl = ft_getenv(e->env, "SHLVL")))
 	{
 		tmp = ft_atoi(lvl) + 1;
-		free(lvl);
 		lvl = ft_itoa(tmp);
 		ft_setenv(&e->env, "SHLVL", lvl);
 		free(lvl);
 	}
 	else
 		ft_setenv(&e->env, "SHLVL", "1");
-}
-
-static void		ft_init_tcaps(t_env *e)
-{
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
-	TCAPS.check_move = 0;
-	TCAPS.hist_move = -1;
-	TCAPS.nb_line = 1;
-	TCAPS.nb_col = 0;
-	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)
-		TCAPS.term_name = ft_strdup("xterm");
-	if (tgetent(NULL, TCAPS.term_name) == ERR)
-		ft_printf("GERRER L'ERROR");
-	if (tcgetattr(0, &TCAPS.termos) == -1 || tcgetattr(0, &TCAPS.save) == -1)
-		ft_printf("GERRER L'ERROR");
-	TCAPS.termos.c_lflag &= ~(ICANON);
-	TCAPS.termos.c_lflag &= ~(ECHO);
-	TCAPS.termos.c_cc[VMIN] = 1;
-	TCAPS.termos.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_printf("GERRER L'ERROR");
-	xputs("am");
-	xputs("bw");
 }
 
 void			ft_init(t_env *e, int ac, char **av, char **env)
@@ -96,5 +70,5 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	ft_bzero(e->buf, 3);
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
-	ft_init_tcaps(e);
+	tcaps_init(e);
 }
