@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/13 20:04:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:01:21 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
 			*/
 	magic_type(e);
-	ft_putmagic(e);
+//	ft_putmagic(e);
 	while (e->cat[++i + 1] && ret != -1)
 		ret = redir_exec_open(i, e); // WIP
 	ret = redir_last_cmd(i, e);
