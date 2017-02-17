@@ -6,11 +6,18 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:25:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:55:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void			ft_prompt(char *prompt)
+{
+	ft_putstr(GREEN);
+	ft_putstr(prompt);
+	ft_putstr(ENDC);
+}
 
 /*
 **	INSTRUCTIONS FOR ENTER KEY
@@ -25,7 +32,7 @@ static void		tcaps_enter(t_env *e)
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)
-		ft_putstr(e->prompt);
+		ft_prompt(e->prompt);
 	TCAPS.hist_move = -1;
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
@@ -64,6 +71,7 @@ int				main(int ac, char **av, char **env)
 	ft_init(&e, ac, av, env);
 	ft_banner(&e);
 	ft_set_sig_handler();
+	ft_prompt(e.prompt);
 	while (e.x)
 	{
 		read(0, e.buf, 3);

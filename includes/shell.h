@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 21:40:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:56:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # include "libft.h"
 
 # define RED		"\033[31m"
+# define ENDC		"\033[;0m"
 # define WHITE		"\033[;0m"
 # define GREEN		"\033[32m"
 # define BLUE		"\033[34m"
@@ -125,7 +126,7 @@ typedef struct		s_env
 
 int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
-void				ft_banner(t_env *e);
+void				ft_banner(void);
 
 /*
 **		Exec
