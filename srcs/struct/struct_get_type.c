@@ -38,8 +38,7 @@ int				struct_check_red(int i, t_env *e)
 
 void			del_elem_magic(int i, t_env *e)
 {
-	if (e->magic[i - 1].type)
-		free(e->magic[i - 1].type);
+	strfree(&e->magic[i - 1].type);
 	if (ft_strcmp("red", e->magic[i - 1].type))
 		e->magic[i - 1].type = ft_strdup("ignore");
 }

@@ -1,25 +1,6 @@
 #include "shell.h"
 
 /*
-**	DELETE ELEMENT IN TAB
-**	AT INDEX
-*/
-
-void	ft_remove_tab(char **pas_tab, int i, int check)
-{
-	i -= check;
-	while (pas_tab[i + 1])
-	{
-		free(pas_tab[i]);
-		pas_tab[i] = ft_strdup(pas_tab[i + 1]);
-		i++;
-	}
-	free(pas_tab[i]);
-	pas_tab[i] = NULL;
-	++check;
-}
-
-/*
 **	DELETE ALL ELEMENT IN TAB
 **	AFTER INDEX
 */

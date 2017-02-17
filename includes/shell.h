@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/13 18:33:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:26:55 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 */
 
-# define DEBUG(x) ft_printf("%d\n", x)
+# define DEBUG(x) dprintf(2, "%s\n", x)
 # define VALUE ft_printf("m:%d | c:%d | w:%d | l:%d\n", TCAPS.nb_move, TCAPS.nb_col, WS_COL, TCAPS.nb_line)
 
 # define UATTR __attribute__((unused))
@@ -54,13 +54,23 @@
 # define FD			e->fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
-# define WS_COL		e->tcaps.ws.ws_col
+# define WIN_WIDTH	e->tcaps.ws.ws_col
+# define RED_INDEX	e->i_mag
 
 # define HIST_FILE	"/tmp/.history"
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
 # define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
+
+/*
+**	DEFINE FOR TCAPS KEY
+*/
+# define ARROW_UP	65
+# define ARROW_DOWN	66
+# define CTRL_D		4
+# define CTRL_K		11
+# define CTRL_P		16
 
 typedef struct		s_magic
 {
@@ -70,7 +80,6 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
-	char			*last_red;
 	int				fd[2];
 	int				in;
 	int				stdin;
@@ -105,7 +114,6 @@ typedef struct		s_env
 	char			***cat;
 	size_t			cmd_len;
 
-	int				check_remove_tab;
 	size_t			i_mag;
 	t_magic			*magic;
 
@@ -126,10 +134,17 @@ int					ft_exec(char **cmd, t_env *e);
 int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
+void				ft_close(int fd);
+char				**ft_trim_split_cmd(t_env *e);
+int					ft_exec_builtin(t_env *e);
+
+/*
+**		REDIRECTIONS
+*/
 int					redir_exec_open(int i, t_env *e);
 int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
-void				ft_close(int fd);
+int					redir_fill_output(t_env *e);
 
 /*
 **		Init - Reset
@@ -140,6 +155,7 @@ int					ft_reset_line(t_env *e);
 /*
 **		Signals
 */
+int					ft_check_ctrlc(int ctrlc);
 int					ft_handle_ret_signal(int status);
 void				ft_set_sig_handler(void);
 void				ft_sig_handler(int sig);
@@ -147,14 +163,14 @@ void				ft_sig_handler(int sig);
 /*
 **		Tools
 */
-int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 int					red_strstr(char *str);
-void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
+//char				*ft_tilde(t_env *e, char *current);
+int					ft_subs_tilde(t_env *e);
 
 /*
 **		History
@@ -183,6 +199,7 @@ void				ft_realloc_insert_str(t_env *e, char *str);
 void				ft_free_line(t_env *e);
 void				ft_env_free(t_env *e);
 void				ft_triple_free(t_env *e);
+void				strfree(char **str);
 
 
 /*
@@ -206,8 +223,9 @@ int					ft_history(t_env *e);
 int					dsh_putchar(int c);
 int					tcaps(t_env *e);
 int					tcaps_check_key(char buf[3], int a, int b, int c);
-int					tcaps_check_read(char buf[3]);
-void				tcaps_history_up(t_env *e);
+int					tcaps_is_printable(char buf[3]);
+void				tcaps_history_first_step(t_env *e);
+int					tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_del_bkw(t_env *e);
 void				tcaps_history(t_env *e);
@@ -224,7 +242,7 @@ void				tcaps_ctrl_end(t_env *e);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
 int					is_paste(char *buf);
-int					ft_paste(t_env *e, char *buf);
+int					tcaps_paste(t_env *e, char *buf);
 
 /*
 **	Magic struct
@@ -237,5 +255,6 @@ void				struct_arg_red(int i, t_env *e);
 int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
+void				struct_find_red(t_env *e);
 
 #endif

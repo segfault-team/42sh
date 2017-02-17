@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:24:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 12:16:41 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:32:25 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static int		ft_arg_isdouble(char **args, char *arg, int i)
 	while (args[++i])
 		if (ft_strnequ(args[i], eval, ft_strlen(eval)))
 		{
-			free(eval);
+			strfree(&eval);
 			return (1);
 		}
-	free(eval);
+	strfree(&eval);
 	return (0);
 }
 

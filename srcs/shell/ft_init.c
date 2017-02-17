@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/14 15:13:22 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:26:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		ft_set_home(t_env *e)
 	if ((tmp = ft_getenv(e->env, "HOME")))
 	{
 		e->home = ft_strdup(tmp);
-		free(tmp);
+		strfree(&tmp);
 		return (1);
 	}
 	return (0);
@@ -41,11 +41,9 @@ static void		ft_set_shlvl(t_env *e)
 	{
 		tmp = ft_atoi(lvl) + 1;
 		free(lvl);
-		if ((lvl = ft_itoa(tmp)))
-		{
-			ft_setenv(&e->env, "SHLVL", lvl);
-			free(lvl);
-		}
+		lvl = ft_itoa(tmp);
+		ft_setenv(&e->env, "SHLVL", lvl);
+		free(lvl);
 	}
 	else
 		ft_setenv(&e->env, "SHLVL", "1");
@@ -94,7 +92,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->line = NULL;
 	e->cmd = NULL;
 	e->cut = NULL;
-	e->check_remove_tab = 0;
 	e->cat = NULL;
 	ft_bzero(e->buf, 3);
 	ft_set_prompt(e);

@@ -6,25 +6,11 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/13 20:04:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:04:02 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
-
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
-	{
-		check = 0;
-		return (1);
-	}
-	return (0);
-}
 
 int			ft_matchquotes(char *s)
 {
@@ -77,10 +63,10 @@ char		*ft_getenv(char **env, char *name)
 	char	*tmp;
 
 	value = NULL;
+	tmp = NULL;
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
-//		free(tmp);
 	}
 	return (value);
 }

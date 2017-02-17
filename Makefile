@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/02/13 14:50:23 by lfabbro           #+#    #+#              #
-#    Updated: 2017/02/13 18:35:21 by lfabbro          ###   ########.fr        #
+#    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
+#    Updated: 2017/02/17 14:23:16 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
-SRC_RED_NAME 		= redir_iteration.c #redir_output.c
+SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##
@@ -32,7 +32,7 @@ SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
 ## TCAPS FOLDER ##
-SRC_TCAPS_NAME		= ft_paste.c tcaps.c tcaps_arrow.c tcaps_check.c tcaps_ctrl.c \
+SRC_TCAPS_NAME		= tcaps_paste.c tcaps.c tcaps_arrow.c tcaps_check.c tcaps_ctrl.c \
 					  tcaps_cut_paste.c tcaps_delete.c tcaps_history.c \
 					  tcaps_putstr.c tcaps_insert.c tcaps_positions.c tcaps_tools.c
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))

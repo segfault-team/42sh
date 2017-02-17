@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:33:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/23 14:51:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:31:52 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static int	ft_chdir_env(t_env *e, char *dir)
 	oldpwd = getcwd(oldpwd, 0);
 	if (chdir(dir) == -1)
 	{
-		free(oldpwd);
+		strfree(&oldpwd);
 		return (ft_chdir_error(dir));
 	}
 	pwd = getcwd(pwd, 0);
 	ft_setenv(&e->env, "OLDPWD", oldpwd);
 	ft_setenv(&e->env, "PWD", pwd);
-	free(oldpwd);
-	free(pwd);
+	strfree(&oldpwd);
+	strfree(&pwd);
 	return (0);
 }
 
@@ -61,7 +61,7 @@ int			ft_chdir(t_env *e)
 	}
 	if (ft_strequ(e->cmd[1], "-"))
 	{
-		free(e->cmd[1]);
+		strfree(&e->cmd[1]);
 		if ((e->cmd[1] = ft_getenv(e->env, "OLDPWD")) == NULL)
 			return (ft_error("cd", "no oldpwd in env", NULL));
 	}

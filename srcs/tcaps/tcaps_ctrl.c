@@ -6,23 +6,30 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/04 11:56:00 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:27:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+static int	ctrl_up_is_not_on_prompt(t_env *e)
+{
+	if (TCAPS.nb_line == 2 && TCAPS.nb_col < (int)ft_strlen(e->prompt))
+		return (0);
+	return (-1);
+}
+
 /*
 **  INSTRUCTION FOR "Ctrl + l" KEYS
 **
 **  cl: clear active window
-**  To do : reset positions after clear && check buffer after ctrl+l
 */
 
 void	tcaps_clear(t_env *e)
 {
 	xputs("cl");
-	ft_putstr(e->prompt);
+	strfree(&e->line);
+	clear_cmd(e);
 }
 
 /*
@@ -92,18 +99,46 @@ void	tcaps_ctrl_mov_right(t_env *e)
 }
 
 /*
-**  INSTRUCTION FOR "Ctrl + ARROW" UP
-**	65 = UP
-**	66 = DOWN
+ **  INSTRUCTION FOR "Ctrl + ARROW <-" KEYS
+ */
+
+void	tcaps_ctrl_mov_left(t_env *e)
+{
+	int	i;
+
+	i = TCAPS.nb_move;
+	while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
+	{
+		xputs("le");
+		--TCAPS.nb_move;
+		--i;
+	}
+	while ((i && e->line[i - 1] != ' '))
+	{
+		xputs("le");
+		--TCAPS.nb_move;
+		--i;
+	}
+	while (e->line[i] == '-')
+	{
+		move_right(e);
+		++i;
+	}
+}
+
+/*
+**  INSTRUCTION FOR "Ctrl + ARROW UP/DOWN"
+**	ARROW_UP	== 65
+**	ARROW_DOWN	== 66
 */
 
 static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 {
 	int		line;
 
-	line = WS_COL;
+	line = WIN_WIDTH;
 	tcaps_recalc_pos(e);
-	if (buf[2] == 65)
+	if (buf[2] == ARROW_UP && ctrl_up_is_not_on_prompt(e))
 	{
 		if (TCAPS.nb_line > 1)
 		{
@@ -115,7 +150,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 			tcaps_recalc_pos(e);
 		}
 	}
-	else if (buf[2] == 66)
+	else if (buf[2] == ARROW_DOWN)
 	{
 		while (line-- && TCAPS.nb_move < TCAPS.nb_read)
 			move_right(e);
@@ -131,36 +166,14 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 
 void	tcaps_ctrl_mov(t_env *e)
 {
-	int		i;
 	char	buf[3];
 
 	read(0, buf, 3);
 	if (tcaps_check_key(buf, 59, 53, 67))
 		tcaps_ctrl_mov_right(e);
 	else if (tcaps_check_key(buf, 59, 53, 68))
-	{
-		i = TCAPS.nb_move;
-		while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
-		{
-			xputs("le");
-			--TCAPS.nb_move;
-			--i;
-		}
-		while ((i && e->line[i - 1] != ' '))
-		{
-			xputs("le");
-			--TCAPS.nb_move;
-			--i;
-		}
-		while (e->line[i] == '-')
-		{
-			move_right(e);
-			++i;
-		}
-	}
-	else if (tcaps_check_key(buf, 59, 53, 65))
-		tcaps_ctrl_up_down(e, buf);
-	else if (tcaps_check_key(buf, 59, 53, 66))
+		tcaps_ctrl_mov_left(e);
+	else
 		tcaps_ctrl_up_down(e, buf);
 	tcaps_recalc_pos(e);
 }

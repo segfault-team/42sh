@@ -6,34 +6,33 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 18:56:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:32:39 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_free_line(t_env *e)
+void	strfree(char **str)
 {
-	if (e->line)
+	if (*str)
 	{
-		free(e->line);
-		e->line = NULL;
+		free(*str);
+		*str = NULL;
 	}
 }
 
 void		ft_env_free(t_env *e)
 {
 	if (e->line)
-		free(e->line);
+		strfree(&e->line);
 	if (e->home)
-		free(e->home);
+		strfree(&e->home);
 	if (TCAPS.term_name)
-		free(TCAPS.term_name);
-	// DOUBLE FREE ??
-	//	if (e->history)
-	//		ft_free_tab(e->history);
+		strfree(&TCAPS.term_name);
+	if (e->history)
+		ft_free_tab(e->history);
 	if (e->prompt)
-		free(e->prompt);
+		strfree(&e->prompt);
 	if (e->env)
 		ft_free_tab(e->env);
 	if (e->magic)

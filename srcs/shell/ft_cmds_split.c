@@ -14,20 +14,41 @@ static int	ft_nb_cmds(t_env *e)
 	len = 0;
 	i = -1;
 	while (e->magic[++i].cmd)
+	{
 		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
-			!ft_strcmp(e->magic[i].cmd, ">"))
+			!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+		{
 			++len;
+			if (!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+				return (len + 1);
+		}
+	}
 	return (len + 1);
 }
 
-static int	ft_size_cmd(t_env *e, int *z)
+static int	ft_nb_elem_cmd(t_env *e, int *z)
 {
-	int	len;
+	int			len;
+	static int	last_cmd = 0;
 
 	len = 0;
-	while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ) &&
-		   ft_strcmp(e->magic[*z].cmd, ">" ) && ft_strcmp(e->magic[*z].cmd, "<" ))
-		++len;
+	if (last_cmd)
+	{
+		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
+		{
+			if (ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+				++len;
+		}
+		last_cmd = 0;
+	}
+	else
+	{
+		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">")\
+			&& ft_strcmp(e->magic[*z].cmd, ">>"))
+			++len;
+		if (!ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+			++last_cmd;
+	}
 	return (len);
 }
 
@@ -38,21 +59,24 @@ static char	**ft_find_tab(t_env *e, int *z)
 	int		j;
 	int		k;
 
-	j = -1;
+	j = 0;
 	k = *z;
-	len = ft_size_cmd(e, z);
+	len = ft_nb_elem_cmd(e, z);
 	if (!(rtr = (char **)malloc(sizeof(*rtr) * (len + 1))))
 //MANAGE ERROR
 		return (NULL);
 	rtr[len] = NULL;
-	while (++j < len)
-		rtr[j] = ft_strdup(e->magic[++k].cmd);
+	while (j < len && e->magic[++k].cmd)
+	{
+		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
+			rtr[j++] = ft_strdup(e->magic[k].cmd);
+	}
 	return (rtr);
 }
 
 /*
 **	CREATE AND RETURN A 3D TAB
-**	WHO CONTAIN ALL CMDS
+**	WHICH CONTAINS ALL CMDS
 */
 
 char	***ft_cmds_split(t_env *e)

@@ -6,18 +6,31 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/13 18:24:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 14:08:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
 /*
- ** nb_read		= strlen de line
- ** nb_move		= position curseur sur line
- ** ws.ws_col	= nombre de colones dans la fenetre
- ** nb_col		= emplacement du curseur sur UNE ligne par rapport a ws_col
- ** nb_line		= numero de la ligne
+ **	DELETES KEYS INSTRUCTIONS
+ **
+ **		tcaps_del_bkw : BACKSPACE
+ **		tcaps_del_fwd : DELETE
+ **
+ **		dm: start delete mode
+ **		le : move left
+ **		nd : move right
+ **		dc : delete char
+ **		ed: end delete mode
+ **
+ **
+ **	LEGENDA
+ ** 	nb_read		= strlen de line
+ ** 	nb_move		= position curseur sur line
+ ** 	ws.ws_col	= nombre de colones dans la fenetre
+ ** 	nb_col		= emplacement du curseur sur UNE ligne par rapport a ws_col
+ ** 	nb_line		= numero de la ligne
  */
 
 void	tcaps_del_fwd(t_env *e)
@@ -47,27 +60,14 @@ void	tcaps_del_fwd(t_env *e)
 	}
 }
 
-/*
- **	INSTRUCTIONS FOR DELETES KEYS
- **
- **		tcaps_del_bkw : BACKSPACE
- **		tcaps_del_fwd : DELETE
- **
- **		dm: start delete mode
- **		le : move left
- **		nd : move right
- **		dc : delete char
- **		ed: end delete mode
- */
-
-static void	tcaps_del_end(t_env *e)
+static void	tcaps_del_bkw_end(t_env *e)
 {
 	xputs("dm");
 	xputs("le");
 	if (TCAPS.nb_move)
 		--TCAPS.nb_move;
 	tcaps_recalc_pos(e);
-	if (TCAPS.nb_col == WS_COL - 1)
+	if (TCAPS.nb_col == WIN_WIDTH - 1)
 		xputs("cd");
 	xputs("dc");
 	--TCAPS.nb_read;
@@ -77,7 +77,7 @@ static void	tcaps_del_end(t_env *e)
 void		tcaps_del_bkw(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
-		tcaps_del_end(e);
+		tcaps_del_bkw_end(e);
 	else
 	{
 		if (!TCAPS.nb_read && e->line)
