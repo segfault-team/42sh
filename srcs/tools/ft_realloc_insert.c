@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:24:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/09 18:51:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 20:45:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	ft_realloc_insert_str(t_env *e, char *str)
 	new = ft_strsub(e->line, 0, TCAPS.nb_move);
 	tmp = ft_strjoin(new, str);
 	free(new);
-	new = ft_strsub(e->line, TCAPS.nb_move, TCAPS.nb_read - TCAPS.nb_move);
+	if (TCAPS.nb_read > TCAPS.nb_move)
+		new = ft_strsub(e->line, TCAPS.nb_move, TCAPS.nb_read - TCAPS.nb_move);
+	else
+		new = NULL;
 	free(e->line);
 	e->line = ft_strjoin(tmp, new);
 	free(tmp);

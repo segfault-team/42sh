@@ -6,14 +6,12 @@ static void		tcaps_ctrl_k(t_env *e)
 	int		j;
 	char	*tmp;
 
-	if (!TCAPS.nb_read)
-		return ;
 	i = TCAPS.nb_move - 1;
 	j = -1;
 	strfree(&e->cut);
-	e->cut = ft_strnew(ft_strlen(e->line) - TCAPS.nb_move);
-	ft_strcpy(e->cut, &e->line[i]);
-	tmp = ft_strsub(e->line, 0, TCAPS.nb_move);
+	e->cut = ft_strnew(TCAPS.nb_read - TCAPS.nb_move);
+	while (e->line[i++])
+		e->cut[++j] = e->line[i];
 	i = TCAPS.nb_move - 1;
 	tmp = ft_strsub(e->line, 0, TCAPS.nb_move);
 	strfree(&e->line);

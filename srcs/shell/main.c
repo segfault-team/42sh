@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 20:28:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 20:32:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int				main(int ac, char **av, char **env)
 			ft_reset_line(&e);
 		if (ft_check_signals(0, SIGTSTP))
 			tcaps_init(&e);
+		// peut etre utiliser directement:
+		// ft_init(&e, ac, av, env);   ???
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
