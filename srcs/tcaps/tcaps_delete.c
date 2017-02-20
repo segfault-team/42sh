@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:08:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:27:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,35 @@
  ** 	nb_line		= numero de la ligne
  */
 
+int		more_than_a_line(t_env *e)
+{
+	unsigned short	len;
+
+	len = (unsigned short)ft_strlen(e->line);
+	if (len > TCAPS.ws.ws_row - 3)
+		return (1);
+	return (0);
+}
+
 void	tcaps_del_fwd(t_env *e)
 {
-	char	*res;
 	char	buf[3];
 
 	ft_bzero(buf, 3);
 	read(0, buf, 3);
-	if (tcaps_check_key(buf, 126, 0, 0))
+	if (tcaps_check_key(buf, 126, 0, 0) && TCAPS.nb_move != TCAPS.nb_read)
 	{
-		res = tgetstr("dm", NULL);
-		tputs(res, 1, dsh_putchar);
-		res = tgetstr("dc", NULL);
-		tputs(res, 1, dsh_putchar);
-		res = tgetstr("ed", NULL);
-		tputs(res, 1, dsh_putchar);
-		if (!TCAPS.nb_read && e->line)
+		if (!TCAPS.nb_read)
+			strfree(&e->line);
+		e->line = ft_realloc_delete_char(e, TCAPS.nb_move);
+		if (more_than_a_line(e))
+			tcaps_putstr(e, e->line);
+		else
 		{
-			free(e->line);
-			e->line = NULL;
+			xputs("dm");
+			xputs("dc");
+			xputs("ed");
 		}
-		ft_realloc_delete_char(e, TCAPS.nb_move + 1);
 		tcaps_recalc_pos(e);
 		if (TCAPS.nb_read)
 			--TCAPS.nb_read;
@@ -80,12 +88,11 @@ void		tcaps_del_bkw(t_env *e)
 		tcaps_del_bkw_end(e);
 	else
 	{
-		if (!TCAPS.nb_read && e->line)
-		{
-			free(e->line);
-			e->line = NULL;
-		}
+		// Pourquoi si on a rien lu on efface line?
+		if (!TCAPS.nb_read)
+			strfree(&e->line);
 		xputs("le");
+		// nb_read peut etre < 0 ?
 		--TCAPS.nb_read;
 		if (TCAPS.nb_move)
 			--TCAPS.nb_move;

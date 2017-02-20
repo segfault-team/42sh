@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:05:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:00:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 	int		j;
 
 	if (e->line)
-		len = TCAPS.nb_read;
+		len = ft_strlen(e->line);
+		//len = TCAPS.nb_read;
 	else
 		len = 1;
 	if (!(new = ft_strnew(sizeof(char) * (len))))

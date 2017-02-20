@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 21:43:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 18:15:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cmd = NULL;
 	e->cut = NULL;
 	e->cat = NULL;
+	e->magic = NULL;
 	ft_bzero(e->buf, 3);
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
