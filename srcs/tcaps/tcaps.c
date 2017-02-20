@@ -16,7 +16,7 @@ int 			tcaps(t_env *e)
 	else if (tcaps_check_key(BUF, 27, 91, 65) || tcaps_check_key(BUF, 27, 91, 66))
 		tcaps_history_first_step(e); // arrow up/down
 	else if (tcaps_check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
-		tcaps_right(e); // arrow right
+		move_right(e); // arrow right
 	else if (tcaps_check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
 		tcaps_left(e); // arrow left
 	else if (BUF[0] == 127 && TCAPS.nb_read && TCAPS.nb_move > 0)

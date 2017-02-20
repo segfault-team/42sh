@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 14:53:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/20 13:59:34 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,6 @@ void	tcaps_history_first_step(t_env *e)
 	else if (tcaps_check_key(BUF, 27, 91, 66)) // arrow down
 		tcaps_history_down(e);
 	tcaps_recalc_pos(e);
-}
-
-/*
-**	INSTRUCTION FOR RIGHT
-**		ARROW KEYS
-**
-*/
-
-void	tcaps_right(t_env *e)
-{
-	move_right(e);
 }
 
 /*

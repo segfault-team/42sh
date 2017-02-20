@@ -208,7 +208,6 @@ int					tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_del_bkw(t_env *e);
 void				tcaps_del_fwd(t_env *e);
-void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);

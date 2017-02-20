@@ -1,11 +1,5 @@
 TODO:
 
----------------------- URGENT -------------------------------
-
-INSERTION DE CARACTERES PAS A LA FIN ET SUR PLUSIEURS LIGNES
-
--------------------------------------------------------------
-
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
 
@@ -19,7 +13,6 @@ REDIRECTIONS
 
 - ls |
 pipe:
-
 
 define __attribute__((unused)) in .h
 
