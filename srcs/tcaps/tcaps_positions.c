@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 09:54:24 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/02/20 12:53:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 18:00:39 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	tcaps_recalc_pos(t_env *e)
 	if (TCAPS.nb_line > 1 && TCAPS.ws.ws_col)
 		TCAPS.nb_col = tmp % (TCAPS.ws.ws_col);
 	else
-		TCAPS.nb_col = (tmp % (TCAPS.ws.ws_col + 1))/* + ft_strlen(e->prompt) - 1*/;
+		TCAPS.nb_col = tmp % (TCAPS.ws.ws_col + 1);
 }

@@ -45,18 +45,50 @@ static void		tcaps_enter(t_env *e)
 **	WITH PRINTABLE CHAR
 */
 
+static void		tcaps_del_prompt(t_env *e)
+{
+	int		len;
+
+	len = (int)ft_strlen(e->prompt);
+	while (len-- >= 0)
+	{
+		xputs("le");
+		xputs("ce");
+	}
+}
+
 static void		tcaps_manage_printable_char(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
 	{
+		int		l = NB_READ;
+		int		s_move = 0;
+
 		e->line = ft_realloc_insert_char(e, BUF[0]);
-		tcaps_putstr(e, e->line);
-		xputs("nd");
+		xputs("dm");
+		while (--l > 0)
+		{
+			xputs("le");
+			xputs("ce");
+		}
+		tcaps_del_prompt(e);
+		ft_putstr(e->prompt);
+		s_move += ft_putstr(e->line);
+		while (s_move-- > NB_MOVE)
+			xputs("le");
+		tcaps_recalc_pos(e);
+		if (TCAPS.nb_col == (WIN_WIDTH - 1))
+		{
+			xputs("do");
+			xputs("cr");
+		}
+		else
+			xputs("nd");
 	}
 	++NB_MOVE;
-	TCAPS.nb_read = ft_strlen(e->line);
+	++NB_READ;
 }
 
 static int		tcaps_is_delete_key(t_env *e)

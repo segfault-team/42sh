@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:20 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 10:14:51 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/20 13:09:37 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ void	tcaps_insert(t_env *e)
 	xputs("im");
 	tputs(&BUF[0], 1, dsh_putchar);
 	xputs("ei");
-	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
 }

@@ -1,11 +1,5 @@
 TODO:
 
----------------------- URGENT -------------------------------
-
-INSERTION DE CARACTERES PAS A LA FIN ET SUR PLUSIEURS LIGNES
-
--------------------------------------------------------------
-
 !?!?!?!?  MODIFIER FICHIER AUTEUR POUR LE 21SH  !?!?!?!?
 
 
@@ -15,12 +9,12 @@ INSERTION DE CARACTERES PAS A LA FIN ET SUR PLUSIEURS LIGNES
 
 REDIRECTIONS
 
+!! GERER REDIRECTIONS AVEC BUILTINS !!
+
 - parsing pour '\'
 
 - ls |
 pipe:
-
-- ctrl+arrow left/right with 'word-word' has to move to the -
 
 define __attribute__((unused)) in .h
 
@@ -107,3 +101,4 @@ DONE:
 - manage last history : up down down : HISTORY IS NOW FULLY WORKING
 - ctrl + l (=clear) needed to clean e->line and TCAPS value
 - HISTORY : gerer movement + last history (based on csh)
+- ctrl+arrow left/right with 'word-word' has to move to the -
