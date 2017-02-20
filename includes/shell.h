@@ -58,6 +58,9 @@
 # define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
 
+# define NB_MOVE	TCAPS.nb_move
+# define NB_READ	TCAPS.nb_read
+
 # define HIST_FILE	"/tmp/.history"
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)

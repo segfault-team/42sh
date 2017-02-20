@@ -53,7 +53,9 @@ static void		tcaps_manage_printable_char(t_env *e)
 	{
 		e->line = ft_realloc_insert_char(e, BUF[0]);
 		tcaps_putstr(e, e->line);
+		xputs("nd");
 	}
+	++NB_MOVE;
 	TCAPS.nb_read = ft_strlen(e->line);
 }
 
