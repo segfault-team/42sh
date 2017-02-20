@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:27:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:34:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,13 @@
  ** 	nb_line		= numero de la ligne
  */
 
-int		more_than_a_line(t_env *e)
+/*
+**		Calculates if line is more than a line, considering ws_row size.
+**		Why am I using ws_row - 3 ? 
+**		I Dunno... Ask Jesus.
+*/
+
+int		is_more_than_a_line(t_env *e)
 {
 	unsigned short	len;
 
@@ -54,7 +60,7 @@ void	tcaps_del_fwd(t_env *e)
 		if (!TCAPS.nb_read)
 			strfree(&e->line);
 		e->line = ft_realloc_delete_char(e, TCAPS.nb_move);
-		if (more_than_a_line(e))
+		if (is_more_than_a_line(e))
 			tcaps_putstr(e, e->line);
 		else
 		{

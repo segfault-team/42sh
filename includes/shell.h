@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:24:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:34:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ int					ft_history(t_env *e);
 **		Termcaps
 */
 int					dsh_putchar(int c);
+int					is_more_than_a_line(t_env *e);
 void				tcaps_init(t_env *e);
 int					tcaps_set(void);
 int					tcaps_reset(void);
