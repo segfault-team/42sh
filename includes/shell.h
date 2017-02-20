@@ -223,7 +223,7 @@ int					is_paste(char *buf);
 int					tcaps_paste(t_env *e, char *buf);
 
 /*
-**	Magic struct
+**		Magic struct
 */
 t_magic				*struct_strsplit(char const *str, char div);
 t_magic				*struct_strsplit_quote(char const *s, char c);
@@ -234,5 +234,11 @@ int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
 void				struct_find_red(t_env *e);
+
+/*
+**		Auto Completion
+*/
+int					auto_completion(t_env *e);
+char				**get_valid_content_from_path(char *curr_path, char *arg);
 
 #endif
