@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:00:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:49:12 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 			else
 				++i;
 		}
-	//<<<<<<< HEAD
-	//else if (TCAPS.nb_read == 1)
-	//	new[0] = '\0';
 	if (e->line)
 		strfree(&e->line);
 	return (new);

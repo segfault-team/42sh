@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:13:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 20:28:12 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ int				main(int ac, char **av, char **env)
 	while (e.x)
 	{
 		read(0, e.buf, 3);
-		if (ft_check_ctrlc(0))
+		if (ft_check_signals(0, SIGINT))
 			ft_reset_line(&e);
+		if (ft_check_signals(0, SIGTSTP))
+			tcaps_init(&e);
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:34:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:51:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		is_more_than_a_line(t_env *e)
 	return (0);
 }
 
-void	tcaps_del_fwd(t_env *e)
+int		tcaps_del_fwd(t_env *e)
 {
 	char	buf[3];
 
@@ -59,9 +59,10 @@ void	tcaps_del_fwd(t_env *e)
 	{
 		if (!TCAPS.nb_read)
 			strfree(&e->line);
-		e->line = ft_realloc_delete_char(e, TCAPS.nb_move);
+		if ((e->line = ft_realloc_delete_char(e, TCAPS.nb_move)) == NULL)
+			return (ft_error(SH_NAME, "malloc failed.", NULL));
 		if (is_more_than_a_line(e))
-			tcaps_putstr(e, e->line);
+			tcaps_rewrite_line(e, e->line);
 		else
 		{
 			xputs("dm");
@@ -72,6 +73,7 @@ void	tcaps_del_fwd(t_env *e)
 		if (TCAPS.nb_read)
 			--TCAPS.nb_read;
 	}
+	return (0);
 }
 
 static void	tcaps_del_bkw_end(t_env *e)
@@ -102,6 +104,6 @@ void		tcaps_del_bkw(t_env *e)
 		--TCAPS.nb_read;
 		if (TCAPS.nb_move)
 			--TCAPS.nb_move;
-		tcaps_putstr(e, e->line);
+		tcaps_rewrite_line(e, e->line);
 	}
 }

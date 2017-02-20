@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tcaps_putstr.c                                     :+:      :+:    :+:   */
+/*   tcaps_rewrite_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:04:57 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:06:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 19:50:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 **	rc: recover cursor position
 */
 
-int		tcaps_putstr(t_env *e, char *str)
+int		tcaps_rewrite_line(t_env *e, char *str)
 {
 	int		l;
 

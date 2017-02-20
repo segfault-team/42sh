@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:34:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/20 20:12:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int					ft_reset_line(t_env *e);
 /*
 **		Signals
 */
-int					ft_check_ctrlc(int ctrlc);
+int					ft_check_signals(int call, int sig);
 int					ft_handle_ret_signal(int status);
 void				ft_set_sig_handler(void);
 void				ft_sig_handler(int sig);
@@ -237,13 +237,13 @@ int					tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_del_bkw(t_env *e);
 void				tcaps_history(t_env *e);
-void				tcaps_del_fwd(t_env *e);
+int					tcaps_del_fwd(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
 void				tcaps_ctrl_home(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
-int					tcaps_putstr(t_env *e, char *str);
+int					tcaps_rewrite_line(t_env *e, char *str);
 void				tcaps_ctrl_arrow(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
 void				tcaps_cut_paste(t_env *e);
