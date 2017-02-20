@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tcaps_ctrl.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/01 13:08:16 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/20 12:57:54 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static int	ctrl_up_is_not_on_prompt(t_env *e)
@@ -17,19 +5,6 @@ static int	ctrl_up_is_not_on_prompt(t_env *e)
 	if (TCAPS.nb_line == 2 && TCAPS.nb_col < (int)ft_strlen(e->prompt))
 		return (0);
 	return (-1);
-}
-
-/*
-**  INSTRUCTION FOR "Ctrl + l" KEYS
-**
-**  cl: clear active window
-**  To do : reset positions after clear && check buffer after ctrl+l
-*/
-
-void	tcaps_clear(t_env *e)
-{
-	xputs("cl");
-	ft_putstr(e->prompt);
 }
 
 /*
@@ -116,7 +91,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
  **	NOT YET tcaps_check_key(buf, 59, 53, 67)): Ctrl + RIGHT arrow
  */
 
-void	tcaps_ctrl_mov(t_env *e)
+void	tcaps_ctrl_arrow(t_env *e)
 {
 	int		i;
 	char	buf[3];

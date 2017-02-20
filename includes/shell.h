@@ -215,7 +215,7 @@ void				tcaps_clear(t_env *e);
 void				tcaps_ctrl_home(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
 int					tcaps_putstr(t_env *e, char *str);
-void				tcaps_ctrl_mov(t_env *e);
+void				tcaps_ctrl_arrow(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
 void				xputs(char *tag);
 void				tcaps_cut_paste(t_env *e);

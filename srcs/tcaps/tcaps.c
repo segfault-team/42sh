@@ -22,7 +22,7 @@ int 			tcaps(t_env *e)
 	else if (BUF[0] == 127 && TCAPS.nb_read && TCAPS.nb_move > 0)
 		tcaps_del_bkw(e); // backspace(delete) key
 	else if (tcaps_check_key(BUF, 27, 91, 49))
-		tcaps_ctrl_mov(e); // ctrl + arrow
+		tcaps_ctrl_arrow(e); // ctrl + arrow
 	else if (tcaps_check_key(BUF, 5, 0, 0) || tcaps_check_key(BUF, 27, 91, 70))
 		tcaps_ctrl_end(e); // (ctrl + e)/end
 	else if (tcaps_check_key(BUF, 1, 0, 0) || tcaps_check_key(BUF, 27, 91, 72))

@@ -20,7 +20,6 @@ REDIRECTIONS
 - ls |
 pipe:
 
-- ctrl+arrow left/right with 'word-word' has to move to the -
 
 define __attribute__((unused)) in .h
 
@@ -107,3 +106,4 @@ DONE:
 - manage last history : up down down : HISTORY IS NOW FULLY WORKING
 - ctrl + l (=clear) needed to clean e->line and TCAPS value
 - HISTORY : gerer movement + last history (based on csh)
+- ctrl+arrow left/right with 'word-word' has to move to the -
