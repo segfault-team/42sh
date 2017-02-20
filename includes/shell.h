@@ -42,14 +42,26 @@
 # define FD			e->fd
 # define BUF		e->buf
 # define TCAPS		e->tcaps
-# define WS_COL		e->tcaps.ws.ws_col
+# define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
+
+# define NB_MOVE	TCAPS.nb_move
+# define NB_READ	TCAPS.nb_read
 
 # define HIST_FILE	"/tmp/.history"
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
 # define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
+
+/*
+**	DEFINE FOR TCAPS KEY
+*/
+# define ARROW_UP	65
+# define ARROW_DOWN	66
+# define CTRL_D		4
+# define CTRL_K		11
+# define CTRL_P		16
 
 typedef struct		s_magic
 {
@@ -59,7 +71,6 @@ typedef struct		s_magic
 
 typedef struct		s_fd
 {
-	char			*last_red;
 	int				fd[2];
 	int				in;
 	int				stdin;
@@ -94,7 +105,6 @@ typedef struct		s_env
 	char			***cat;
 	size_t			cmd_len;
 
-	int				check_remove_tab;
 	size_t			i_mag;
 	t_magic			*magic;
 
@@ -136,6 +146,7 @@ int					ft_reset_line(t_env *e);
 /*
 **		Signals
 */
+int					ft_check_ctrlc(int ctrlc);
 int					ft_handle_ret_signal(int status);
 void				ft_set_sig_handler(void);
 void				ft_sig_handler(int sig);
@@ -143,14 +154,12 @@ void				ft_sig_handler(int sig);
 /*
 **		Tools
 */
-int					ft_check_ctrlc(int ctrlc);
 int					ft_matchquotes(char *str);
 void				ft_env_free(t_env *e);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 void				move_right(t_env *e);
 int					red_strstr(char *str);
-void				ft_remove_tab(char **pas_tab, int index, int check);
 void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 void				ft_triple_free(t_env *e);
@@ -193,11 +202,11 @@ int					ft_history(t_env *e);
 int					dsh_putchar(int c);
 int					tcaps(t_env *e);
 int					tcaps_check_key(char buf[3], int a, int b, int c);
-int					tcaps_check_read(char buf[3]);
-void				tcaps_history_up(t_env *e);
+int					tcaps_is_printable(char buf[3]);
+void				tcaps_history_first_step(t_env *e);
+int					tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
-void				tcaps_history(t_env *e);
-void				tcaps_del(t_env *e);
+void				tcaps_del_bkw(t_env *e);
 void				tcaps_del_fwd(t_env *e);
 void				tcaps_right(t_env *e);
 void				tcaps_left(t_env *e);
@@ -206,13 +215,13 @@ void				tcaps_clear(t_env *e);
 void				tcaps_ctrl_home(t_env *e);
 void				tcaps_recalc_pos(t_env *e);
 int					tcaps_putstr(t_env *e, char *str);
-void				tcaps_ctrl_mov(t_env *e);
+void				tcaps_ctrl_arrow(t_env *e);
 void				tcaps_ctrl_end(t_env *e);
 void				xputs(char *tag);
 void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
 int					is_paste(char *buf);
-int					ft_paste(t_env *e, char *buf);
+int					tcaps_paste(t_env *e, char *buf);
 
 /*
 **	Magic struct

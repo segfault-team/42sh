@@ -6,11 +6,25 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 10:31:12 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:05:00 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+int			ft_check_ctrlc(int ctrlc)
+{
+	static int	check = 0;
+
+	if (ctrlc)
+		check = 1;
+	else if (!ctrlc && check)
+	{
+		check = 0;
+		return (1);
+	}
+	return (0);
+}
 
 static int	ft_sigcheck(int sig)
 {
@@ -56,7 +70,7 @@ int			ft_handle_ret_signal(int status)
 				return (-1);
 		uknw_sig = ft_itoa(sig);
 		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
-		free(uknw_sig);
+		strfree(&uknw_sig);
 		return (-1);
 	}
 	return (0);
@@ -69,14 +83,11 @@ void		ft_set_sig_handler(void)
 	sig = 0;
 	while (++sig <= 31)
 	{
-/*		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL || sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
+		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
+				|| sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
 			signal(sig, SIG_DFL);
 		else
 			signal(sig, ft_sig_handler);
-*/		if (sig == SIGINT)
-			signal(sig, ft_sig_handler);
-		else
-			signal(sig, SIG_DFL);
 	}
 }
 

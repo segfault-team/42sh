@@ -1,19 +1,5 @@
 #include "shell.h"
 
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
-
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
-	{
-		check = 0;
-		return (1);
-	}
-	return (0);
-}
-
 int			ft_matchquotes(char *s)
 {
 	int		i;
@@ -89,10 +75,6 @@ char		*ft_getenv(char **env, char *name)
 	return (value);
 }
 
-/*
-** RAZ LE CUL/BOL DE TOUT REECRIRE !
-*/
-
 void	xputs(char *tag)
 {
 	char	*res;
@@ -103,7 +85,7 @@ void	xputs(char *tag)
 
 void	move_right(t_env *e)
 {
-	if (TCAPS.nb_col == (WS_COL - 1))
+	if (TCAPS.nb_col == (WIN_WIDTH - 1))
 	{
 		xputs("do");
 		xputs("cr");

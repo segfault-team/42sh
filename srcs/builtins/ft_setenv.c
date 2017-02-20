@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:16:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/06 17:31:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:33:28 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char		*ft_setentry(char *name, char *value)
 
 	tmp = ft_strjoin(name, "=");
 	entry = ft_strjoin(tmp, value);
-	free(tmp);
+	strfree(&tmp);
 	return (entry);
 }
 
@@ -39,15 +39,15 @@ int				ft_setenv(char ***env, char *name, char *value)
 		{
 			if (ft_strnequ(tmp[i], nameequ, ft_strlen(nameequ)))
 			{
-				free(nameequ);
-				free(tmp[i]);
+				strfree(&nameequ);
+				strfree(&tmp[i]);
 				tmp[i] = entry;
 				return (0);
 			}
 		}
-	free(nameequ);
+	strfree(&nameequ);
 	*env = ft_tabcat(*env, entry);
-	free(entry);
+	strfree(&entry);
 	ft_free_tab(tmp);
 	return (0);
 }

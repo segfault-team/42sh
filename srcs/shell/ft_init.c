@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/10 15:36:15 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static void		ft_set_prompt(t_env *e)
@@ -26,7 +14,7 @@ static int		ft_set_home(t_env *e)
 	if ((tmp = ft_getenv(e->env, "HOME")))
 	{
 		e->home = ft_strdup(tmp);
-		free(tmp);
+		strfree(&tmp);
 		return (1);
 	}
 	return (0);
@@ -40,10 +28,10 @@ static void		ft_set_shlvl(t_env *e)
 	if ((lvl = ft_getenv(e->env, "SHLVL")))
 	{
 		tmp = ft_atoi(lvl) + 1;
-		free(lvl);
+		strfree(&lvl);
 		lvl = ft_itoa(tmp);
 		ft_setenv(&e->env, "SHLVL", lvl);
-		free(lvl);
+		strfree(&lvl);
 	}
 	else
 		ft_setenv(&e->env, "SHLVL", "1");
@@ -66,7 +54,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->env = ft_tabdup(env);
 	e->cmd = NULL;
 	e->cut = NULL;
-	e->check_remove_tab = 0;
 	e->cat = NULL;
 	e->i_mag = 0;
 	ft_set_prompt(e);
@@ -80,7 +67,6 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	FD.stdin = dup(STDIN_FILENO);
 	FD.stdout = dup(STDOUT_FILENO);
 	FD.stderr = dup(STDERR_FILENO);
-	FD.last_red = NULL;
 	if (e->env == NULL || !ft_set_home(e))
 		ft_error("minishell", "warning: no home set", NULL);
 	if ((TCAPS.term_name = ft_getenv(e->env, "TERM")) == NULL)

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 18:58:17 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/07 00:08:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/16 09:34:01 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			ft_where(t_env *e)
 		if ((path = ft_find_exec(paths, e->cmd[i])))
 		{
 			ft_putendl(path);
-			free(path);
+			strfree(&path);
 		}
 	}
 	ft_free_tab(paths);

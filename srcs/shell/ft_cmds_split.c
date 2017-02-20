@@ -28,7 +28,7 @@ static int	ft_nb_cmds(t_env *e)
 
 static int	ft_nb_elem_cmd(t_env *e, int *z)
 {
-	int	len;
+	int			len;
 	static int	last_cmd = 0;
 
 	len = 0;
@@ -77,7 +77,6 @@ static char	**ft_find_tab(t_env *e, int *z)
 void	ft_triple_free(t_env *e)
 {
 	int	i;
-	int	j;
 
 	i = -1;
 	while (e->cat[++i])

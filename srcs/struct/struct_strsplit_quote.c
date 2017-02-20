@@ -1,9 +1,8 @@
 #include "shell.h"
 
 /*
-**	Description:
-**		behave like ft_strsplit(), but keeps hold string into quotes.
-**		returns a char **tab.
+**	Description for strsplit_quote:
+**		behave like strsplit(), but keeps hold string into quotes.
 */
 
 static int		ft_count_words(char const *s, char c)
