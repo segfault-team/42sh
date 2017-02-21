@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/20 13:19:08 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/21 13:19:05 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,6 @@ SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 ## REDIRECTIONS FOLDER ##
 SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
-
-## TOOLS FOLDER ##
-SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_tools.c ft_remove_space.c
-SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
@@ -42,6 +37,11 @@ SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
 					  ft_reset.c ft_setenv.c ft_unsetenv.c ft_where.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
+
+## TOOLS FOLDER ##
+SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
+					  ft_tools.c ft_remove_space.c ft_tabzero.c
+SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##
 SRC_NAME			= $(SRC_SHELL) $(SRC_RED) $(SRC_TOOLS) $(SRC_STRUCT) \

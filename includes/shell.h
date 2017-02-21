@@ -166,6 +166,7 @@ void				ft_triple_free(t_env *e);
 char				*ft_tilde(t_env *e, char *current);
 int					ft_subs_tilde(t_env *e);
 void				strfree(char **str);
+void				ft_tabzero(char **dbl_tab, int tab_len);
 
 /*
 **		History
