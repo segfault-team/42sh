@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/20 18:19:53 by kboddez          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME				= 21sh
 
 ## ROOT FOLDER ##
@@ -20,11 +8,6 @@ SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 ## REDIRECTIONS FOLDER ##
 SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
-
-## TOOLS FOLDER ##
-SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_tools.c ft_remove_space.c
-SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
@@ -46,6 +29,11 @@ SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 ## AUTO COMPLETION FOLDER ##
 SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c
 SRC_COMPLETION		= $(addprefix auto_completion/,$(SRC_COMPLETION_NAME))
+
+## TOOLS FOLDER ##
+SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
+					  ft_tools.c ft_remove_space.c ft_tabzero.c
+SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##
 SRC_NAME			= $(SRC_SHELL) $(SRC_RED) $(SRC_TOOLS) $(SRC_STRUCT) \

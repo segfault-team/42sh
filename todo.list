@@ -9,6 +9,8 @@ TODO:
 
 REDIRECTIONS
 
+!! GERER REDIRECTIONS AVEC BUILTINS !!
+
 - parsing pour '\'
 
 - ls |
@@ -27,8 +29,6 @@ define __attribute__((unused)) in .h
 - gerer le multi ligne lors du Ctrl + D
 
 - segfault lors de Ctrl +k / Ctrl + p
-
-- gestion des commandes avec pipe + redirections && separetrur ';'
 
 - builtin in pipes
 
@@ -100,3 +100,4 @@ DONE:
 - ctrl + l (=clear) needed to clean e->line and TCAPS value
 - HISTORY : gerer movement + last history (based on csh)
 - ctrl+arrow left/right with 'word-word' has to move to the -
+- gestion des commandes avec pipe + redirections && separetrur ';'

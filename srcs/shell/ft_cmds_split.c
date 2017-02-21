@@ -36,7 +36,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	{
 		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
 		{
-			if (ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+			if (ft_strcmp(e->magic[*z].cmd, ">") || ft_strcmp(e->magic[*z].cmd, ">>"))
 				++len;
 		}
 		last_cmd = 0;
@@ -54,7 +54,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 
 static char	**ft_find_tab(t_env *e, int *z)
 {
-	char	**rtr;
+	char	**ret;
 	int		len;
 	int		j;
 	int		k;
@@ -62,16 +62,16 @@ static char	**ft_find_tab(t_env *e, int *z)
 	j = 0;
 	k = *z;
 	len = ft_nb_elem_cmd(e, z);
-	if (!(rtr = (char **)malloc(sizeof(*rtr) * (len + 1))))
-//MANAGE ERROR
+	if (!(ret = (char **)malloc(sizeof(*ret) * (len + 1))))
+// MANAGE ERROR
 		return (NULL);
-	rtr[len] = NULL;
+	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
 		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
-			rtr[j++] = ft_strdup(e->magic[k].cmd);
+			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
-	return (rtr);
+	return (ret);
 }
 
 void	ft_triple_free(t_env *e)
@@ -81,8 +81,11 @@ void	ft_triple_free(t_env *e)
 	i = -1;
 	while (e->cat[++i])
 		ft_free_tab(e->cat[i]);
-	free(e->cat);
-	e->cat = NULL;
+	if (e->cat)
+	{
+		free(e->cat);
+		e->cat = NULL;
+	}
 }
 
 /*

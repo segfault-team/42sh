@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include "libft.h"
+#include "shell.h"
 
 static int	ft_start_with(char *str, char *comp)
 {
