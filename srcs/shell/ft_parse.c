@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 13:15:10 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/21 15:08:25 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	while (e->cat[++i + 1] && ret != -1)
 		ret = redir_exec_open(i, e);
 	ret = redir_last_cmd(i, e);
-	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
 	RED_INDEX = 0;
@@ -115,6 +114,7 @@ int				ft_parse_line(t_env *e)
 	ret = 0;
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
+		ft_check_history(e);
 		while (cmds[++i])
 		{
 			if (ft_matchquotes(cmds[i]) == 0)
