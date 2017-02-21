@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_new.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/01 13:38:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:13 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/02/21 15:59:09 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/21 16:37:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			ft_echo(t_env *e, char **cmd)
+t_job		*ft_new_job(t_job *next, int pid)
 {
-	int		i;
-	int		nl;
-	size_t	cmd_len;
+	t_job	*new;
 
-	i = 0;
-	if (e)
-		;
-	cmd_len = ft_tablen(cmd);
-	if ((nl = ft_strequ(cmd[1], "-n")))
-		++i;
-	while (cmd[++i])
-	{
-		if ((!nl && i == 2) || (i > 2 && i < (int)cmd_len))
-			ft_putchar_fd(' ', 1);
-		ft_putstr_fd(cmd[i], 1);
-	}
-	if (!nl)
-		ft_putchar_fd('\n', 1);
-	return (0);
+	if ((new = malloc(sizeof(*new))) == NULL)
+		return (NULL);
+	new->next = next;
+	new->pid = pid;
+	return (new);
 }

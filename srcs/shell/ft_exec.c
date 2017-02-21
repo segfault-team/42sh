@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 15:31:40 by ggane            ###   ########.fr       */
+/*   Updated: 2017/02/21 16:37:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ void		ft_close(int fd)
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
+	t_job	*son;
 	pid_t	pid;
-	int		status;
+//	int		status;
 
-	status = 0;
+//	status = 0;
 	if ((pid = fork()) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
@@ -114,11 +115,14 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		else
 			execve(exec, &cmd[0], e->env);
 	}
+	if ((son = ft_new_job(e->jobs, pid)) == NULL)
+		return (ft_error(SH_NAME, "malloc failed", NULL));
+	e->jobs = son;
 	ft_close(FD.fd[1]);
 	ft_close(FD.in);
-	waitpid(pid, &status, WUNTRACED);
-	ft_handle_ret_signal(status);
-	return (status);
+//	waitpid(pid, &status, WUNTRACED);
+//	ft_handle_ret_signal(status);
+	return (0);
 }
 
 int				ft_exec(char **cmd, t_env *e)

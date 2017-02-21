@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 14:48:08 by ggane            ###   ########.fr       */
+/*   Updated: 2017/02/21 16:37:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ typedef struct		s_term
 	struct winsize	ws;
 }					t_term;
 
+typedef struct		s_job
+{
+	pid_t			pid;
+	struct s_job	*next;
+}					t_job;
+
 typedef struct		s_env
 {
 	t_fd			fd;
@@ -120,6 +126,8 @@ typedef struct		s_env
 
 	size_t			i_mag;
 	t_magic			*magic;
+
+	t_job			*jobs;
 
 	char			buf[3];
 	t_term			tcaps;
@@ -177,6 +185,7 @@ void				ft_cut_tab(char **pas_tab, int index);
 char				***ft_cmds_split(t_env *e);
 //char				*ft_tilde(t_env *e, char *current);
 int					ft_subs_tilde(t_env *e);
+t_job				*ft_new_job(t_job *next, int pid);
 
 /*
 **		History

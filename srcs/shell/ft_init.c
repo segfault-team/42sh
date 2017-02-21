@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:39:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 16:37:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;
+	e->jobs = NULL;
 	e->cmd = NULL;
 	e->cut = NULL;
 	e->cat = NULL;

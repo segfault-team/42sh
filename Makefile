@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/20 19:51:28 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/02/21 16:00:22 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_realloc_insert.c ft_tools.c ft_remove_space.c ft_free.c
+					  ft_realloc_insert.c ft_tools.c ft_remove_space.c \
+					  ft_free.c ft_new.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##

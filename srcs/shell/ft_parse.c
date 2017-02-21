@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 15:27:27 by ggane            ###   ########.fr       */
+/*   Updated: 2017/02/21 16:37:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		ft_exec_builtin(char **cmd, t_env *e)
 	char	ret;
 
 	ret = 0;
-	ft_redir_builtin(e);
+	//ft_redir_builtin(e);
 	if (ft_strequ(e->cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (ft_strequ(e->cmd[0], "env") && ++ret)
@@ -89,6 +89,25 @@ void			ft_putmagic(t_env *e)
 	}
 }
 
+int				ft_waitsons(t_env *e)
+{
+	t_job		*ptr;
+	t_job		*tmp;
+	int			status;
+
+	ptr = e->jobs;
+	while (ptr)
+	{
+		waitpid(ptr->pid, &status, WUNTRACED);
+		ft_handle_ret_signal(status);
+		tmp = ptr;
+		free(ptr);
+		ptr = tmp->next;
+	}
+	e->jobs = NULL;
+	return (0);
+}
+
 int				ft_iter_pipes(t_env *e, char *cmds_i)
 {
 	int		i;
@@ -101,22 +120,12 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);
-	/*
-	ft_printf("---MAGIC---\n");
-	ft_putmagic(e);
-	ft_printf("-----------\n");
-	ft_printf("---CAT-----\n");
-	*/
 	while (e->cat[++i + 1] && ret != -1)
 	{
-		//ft_printf("cat[%d]:\n", i);
-		//ft_puttab(e->cat[i]);
 		ret = redir_exec_open(i, e);
 	}
-	//ft_printf("cat[%d]:\n", i);
-	//ft_puttab(e->cat[i]);
-	//ft_printf("-----------\n");
 	ret = redir_last_cmd(i, e);
+	ft_waitsons(e);
 	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
