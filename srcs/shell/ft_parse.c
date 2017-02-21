@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 17:45:48 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	{
 		ret = redir_exec_open(i, e);
 	}
-	ret = redir_last_cmd(i, e);
+	if (ret != -1)
+		ret = redir_last_cmd(i, e);
 	ft_waitsons(e);
 	ft_check_history(e);
 	ft_triple_free(e);
