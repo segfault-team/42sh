@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 16:35:05 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/21 13:04:00 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,11 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
-/*	for (int j = 0 ; e->cat[j]; j++)
+/*
+  for (int j = 0 ; e->cat[j]; j++)
 		for (int k = 0; e->cat[j][k]; k++)
-			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);*/
+			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
+*/
 	magic_type(e);
 	while (e->cat[++i + 1] && ret != -1)
 		ret = redir_exec_open(i, e);
@@ -97,6 +99,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
+	RED_INDEX = 0;
 	ft_free_tab(e->cmd);
 	e->cmd = NULL;
 	return (ret);
