@@ -36,7 +36,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	{
 		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
 		{
-			if (ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+			if (ft_strcmp(e->magic[*z].cmd, ">") || ft_strcmp(e->magic[*z].cmd, ">>"))
 				++len;
 		}
 		last_cmd = 0;

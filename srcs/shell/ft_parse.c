@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:13:42 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 13:19:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
+	RED_INDEX = 0;
 	ft_tabfree(e->cmd);
 	e->cmd = NULL;
 	return (ret);

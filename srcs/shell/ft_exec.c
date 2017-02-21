@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:26:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 13:19:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	if (pid == 0)
 	{
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		if (redir_check_red(e, "|") || redir_check_red(e, ">") || \
+				redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
