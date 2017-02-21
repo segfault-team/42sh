@@ -241,5 +241,6 @@ void				struct_find_red(t_env *e);
 */
 int					auto_completion(t_env *e);
 char				**get_valid_content_from_path(char *curr_path, char *arg);
+void				print_auto_completion(t_env *e, char *arg);
 
 #endif

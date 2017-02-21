@@ -35,7 +35,7 @@ int 			tcaps(t_env *e)
 		tcaps_paste(e, BUF); // Ctrl + v
 	else if (tcaps_check_key(BUF, 9, 0, 0))
 		auto_completion(e);
-	else if (BUF[0])
-		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
+//	else if (BUF[0])
+//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
 }

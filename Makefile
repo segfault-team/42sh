@@ -27,7 +27,8 @@ SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## AUTO COMPLETION FOLDER ##
-SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c
+SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c \
+					  print_auto_completion.c
 SRC_COMPLETION		= $(addprefix auto_completion/,$(SRC_COMPLETION_NAME))
 
 ## TOOLS FOLDER ##
