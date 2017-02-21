@@ -30,8 +30,6 @@ define __attribute__((unused)) in .h
 
 - segfault lors de Ctrl +k / Ctrl + p
 
-- gestion des commandes avec pipe + redirections && separetrur ';'
-
 - builtin in pipes
 
 - (NO) builtin posix
@@ -102,3 +100,4 @@ DONE:
 - ctrl + l (=clear) needed to clean e->line and TCAPS value
 - HISTORY : gerer movement + last history (based on csh)
 - ctrl+arrow left/right with 'word-word' has to move to the -
+- gestion des commandes avec pipe + redirections && separetrur ';'

@@ -63,6 +63,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 	k = *z;
 	len = ft_nb_elem_cmd(e, z);
 	if (!(ret = (char **)malloc(sizeof(*ret) * (len + 1))))
+// MANAGE ERROR
 		return (NULL);
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
