@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 13:19:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 15:27:27 by ggane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ char		**ft_trim_split_cmd(t_env *e)
 	return (cmds);
 }
 
-int		ft_exec_builtin(t_env *e)
+int		ft_exec_builtin(char **cmd, t_env *e)
 {
 	char	ret;
 
 	ret = 0;
+	ft_redir_builtin(e);
 	if (ft_strequ(e->cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (ft_strequ(e->cmd[0], "env") && ++ret)
@@ -68,11 +69,13 @@ int		ft_exec_builtin(t_env *e)
 	else if (ft_strequ(e->cmd[0], "cd") && ++ret)
 		ft_chdir(e);
 	else if (ft_strequ(e->cmd[0], "echo") && ++ret)
-		ft_echo(e);
+		ft_echo(e, cmd);
 	else if (ft_strequ(e->cmd[0], "where") && ++ret)
 		ft_where(e);
 	else if (ft_strequ(e->cmd[0], "history") && ++ret)
 		ft_history(e);
+	//ft_close(FD.fd[1]);
+	//ft_close(FD.in);
 	return (ret);
 }
 
@@ -98,9 +101,21 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);
-//	ft_putmagic(e);
+	/*
+	ft_printf("---MAGIC---\n");
+	ft_putmagic(e);
+	ft_printf("-----------\n");
+	ft_printf("---CAT-----\n");
+	*/
 	while (e->cat[++i + 1] && ret != -1)
+	{
+		//ft_printf("cat[%d]:\n", i);
+		//ft_puttab(e->cat[i]);
 		ret = redir_exec_open(i, e);
+	}
+	//ft_printf("cat[%d]:\n", i);
+	//ft_puttab(e->cat[i]);
+	//ft_printf("-----------\n");
 	ret = redir_last_cmd(i, e);
 	ft_check_history(e);
 	ft_triple_free(e);

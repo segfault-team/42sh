@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 13:19:51 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/21 15:31:40 by ggane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,6 @@ char			**ft_find_paths(char **env)
 		strfree(&value);
 	}
 	return (paths);
-}
-
-static int		ft_redirect(int oldfd, int newfd)
-{
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) != -1)
-		{
-			if (close(oldfd) < 0)
-				return (ft_error(SH_NAME, "Failed closing fd", NULL));
-		}
-		else
-			return (ft_error(SH_NAME, "dup2 failed", NULL));
-	}
-	return (0);
 }
 
 void		ft_close(int fd)
@@ -172,7 +157,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ft_subs_tilde(e);
 	if (e->cmd_len)
 	{
-		if ((ret = ft_exec_builtin(e)))
+		if ((ret = ft_exec_builtin(cmd, e)))
 			;
 		else
 			ret = ft_exec(cmd, e);
