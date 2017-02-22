@@ -94,17 +94,25 @@ void		ft_close(int fd)
 	}
 }
 
+pid_t singletonne(pid_t pid)
+{
+	static pid_t REAL = 0;
+
+	if (pid != -42)
+		REAL = pid;
+	return (REAL);
+}
+
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	pid_t	pid;
 	int		status;
 
 	status = 0;
-	if ((pid = fork()) < 0)
+	if ((singletonne(fork())) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid)
+	if (singletonne(-42))
 	{
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
@@ -117,9 +125,11 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
 		}
+		TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
 		execve(exec, &cmd[0], e->env);
 	}
-	waitpid(pid, &status, WUNTRACED);
+//	waitpid(singletonne, &status, WUNTRACED);
+	TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
 	ft_handle_ret_signal(status);
 	return (status);
 }

@@ -1,3 +1,4 @@
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -237,5 +238,7 @@ int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
 void				struct_find_red(t_env *e);
+
+pid_t	singletonne(pid_t pid);
 
 #endif
