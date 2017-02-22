@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_exec.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 12:58:55 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static char		*ft_find_exec_readdir(char *paths, char *cmd)
@@ -80,7 +68,7 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-static int		ft_redirect(int oldfd, int newfd)
+int		ft_redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
 	{
@@ -116,20 +104,21 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid == 0)
+	if (pid)
+	{
+		ft_close(FD.fd[1]);
+		ft_close(FD.in);
+	}
+	else
 	{
 		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
-			execve(exec, &cmd[0], e->env);
 		}
-		else
-			execve(exec, &cmd[0], e->env);
+		execve(exec, &cmd[0], e->env);
 	}
-	ft_close(FD.fd[1]);
-	ft_close(FD.in);
 	waitpid(pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	return (status);
@@ -171,8 +160,8 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ft_subs_tilde(e);
 	if (e->cmd_len)
 	{
-		if ((ret = ft_exec_builtin(e)))
-			;
+		if (ft_is_builtin(cmd[0]))
+			ret = ft_exec_builtin(e, cmd);
 		else
 			ret = ft_exec(cmd, e);
 	}
