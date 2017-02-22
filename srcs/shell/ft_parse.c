@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 13:04:00 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/21 17:06:28 by ggane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ int		ft_exec_builtin(t_env *e)
 	char	ret;
 
 	ret = 0;
+	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+	{
+		if (ft_redirect(FD.in, STDIN_FILENO) ||
+			ft_redirect(FD.fd[1], STDOUT_FILENO))
+				return (-1);
+	}
 	if (ft_strequ(e->cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (ft_strequ(e->cmd[0], "env") && ++ret)
@@ -73,6 +79,7 @@ int		ft_exec_builtin(t_env *e)
 		ft_where(e);
 	else if (ft_strequ(e->cmd[0], "history") && ++ret)
 		ft_history(e);
+	FD.in = FD.fd[0];
 	return (ret);
 }
 
@@ -87,11 +94,9 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
-/*
-  for (int j = 0 ; e->cat[j]; j++)
+  	for (int j = 0 ; e->cat[j]; j++)
 		for (int k = 0; e->cat[j][k]; k++)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
-*/
 	magic_type(e);
 	while (e->cat[++i + 1] && ret != -1)
 		ret = redir_exec_open(i, e);

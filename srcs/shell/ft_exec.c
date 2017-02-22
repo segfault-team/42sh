@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 12:58:55 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/21 17:02:17 by ggane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-static int		ft_redirect(int oldfd, int newfd)
+int				ft_redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
 	{

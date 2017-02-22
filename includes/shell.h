@@ -125,6 +125,7 @@ int					ft_exec(char **cmd, t_env *e);
 int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
+int					ft_redirect(int oldfd, int newfd);
 void				ft_close(int fd);
 char				**ft_trim_split_cmd(t_env *e);
 int					ft_exec_builtin(t_env *e);

@@ -57,6 +57,7 @@ int		redir_last_cmd(int i, t_env *e)
 	ret = 0;
 	if (redir_check_red(e, "|") || !RED_INDEX)
 	{
+		dprintf(2, "lol");
 		FD.fd[1] = STDOUT_FILENO;
 		ret = ft_exec_cmd(e, e->cat[i]);
 	}
