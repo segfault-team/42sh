@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/22 16:41:29 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/23 15:12:39 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ void		ft_sig_handler(int sig)
 	{
 //		ft_check_ctrlc(1);
 		if (!singletonne(-42))
+		{
+	//		A FAIRE + STRFREE E->LINE !!
+	//		while (NB_MOVE < NB_READ)
+	//			move_right(e);
 			ft_putstr_fd("\n$> ", 1);
+		}
 	}
 }

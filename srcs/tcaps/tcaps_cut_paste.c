@@ -36,22 +36,33 @@ static void		tcaps_ctrl_k(t_env *e)
 
 static void		tcaps_ctrl_p(t_env *e)
 {
-	int	cut_len;
+	int		cut_len;
+	int		tmp;
 
+	cut_len = 0;
+	tmp = 0;
 	if (e->cut)
 	{
 		cut_len = (int)ft_strlen(e->cut);
-		xputs("sc");
-		clear_cmd(e);
 		ft_realloc_insert_str(e, e->cut);
-		TCAPS.nb_read = (int)ft_strlen(e->line) + 1;
-		TCAPS.nb_move += cut_len - 1;
+		xputs("dm");
+		tmp = NB_READ;
+		while (--tmp + ((int)ft_strlen(e->prompt) + 1) > 0)
+		{
+			xputs("le");
+			xputs("ce");
+		}
+		NB_READ = (int)ft_strlen(e->line) + 1;
+		tmp = NB_READ - (NB_MOVE + cut_len) - 1;
 		xputs("cr");
 		ft_putstr(e->prompt);
 		ft_putstr(e->line);
-		xputs("rc");
-		while (cut_len--)
-			move_right(e);
+		NB_MOVE = NB_READ - 1;
+		while (tmp--)
+		{
+			xputs("le");
+			--NB_MOVE;
+		}
 		tcaps_recalc_pos(e);
 	}
 }
