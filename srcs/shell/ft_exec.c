@@ -117,9 +117,13 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
 		}
+		if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
+			ft_printf("GERRER ERREUR");
 		execve(exec, &cmd[0], e->env);
 	}
 	waitpid(pid, &status, WUNTRACED);
+	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
+		ft_printf("GERRER ERREUR");
 	ft_handle_ret_signal(status);
 	return (status);
 }
