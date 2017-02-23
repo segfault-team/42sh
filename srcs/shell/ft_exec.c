@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/23 14:58:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,12 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid == 0)
+	if (pid)
+	{
+		ft_close(FD.fd[1]);
+		ft_close(FD.in);
+	}
+	else
 	{
 		if (redir_check_red(e, "|") || redir_check_red(e, ">") || \
 				redir_check_red(e, ">>"))
@@ -110,18 +115,17 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
-			execve(exec, &cmd[0], e->env);
 		}
-		else
-			execve(exec, &cmd[0], e->env);
+		execve(exec, &cmd[0], e->env);
 	}
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
-	ft_close(FD.fd[1]);
-	ft_close(FD.in);
+//	ft_close(FD.fd[1]);
+//	ft_close(FD.in);
 //	waitpid(pid, &status, WUNTRACED);
 //	ft_handle_ret_signal(status);
+//	return (status);
 	return (0);
 }
 
@@ -161,8 +165,8 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ft_subs_tilde(e);
 	if (e->cmd_len)
 	{
-		if ((ret = ft_exec_builtin(cmd, e)))
-			;
+		if (ft_is_builtin(cmd[0]))
+			ret = ft_exec_builtin(e, cmd);
 		else
 			ret = ft_exec(cmd, e);
 	}

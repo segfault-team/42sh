@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 17:45:48 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/23 15:06:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,42 @@ char		**ft_trim_split_cmd(t_env *e)
 	return (cmds);
 }
 
-int		ft_exec_builtin(char **cmd, t_env *e)
+int		ft_is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "env") ||
+		!ft_strcmp(cmd, "setenv") || !ft_strcmp(cmd, "unsetenv") ||
+		!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo") ||
+		!ft_strcmp(cmd, "where") || !ft_strcmp(cmd, "history"))
+		return (1);
+	return (0);
+}
+
+int		ft_exec_builtin(t_env *e, char **cmd)
 {
 	char	ret;
 
 	ret = 0;
-	//ft_redir_builtin(e);
-	if (ft_strequ(e->cmd[0], "exit") && ++ret)
+	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+	{
+		if (/*ft_redirect(FD.in, STDIN_FILENO) ||
+			 */ft_redirect(FD.fd[1], STDOUT_FILENO))
+			return (-1);
+	}
+	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
-	else if (ft_strequ(e->cmd[0], "env") && ++ret)
+	else if (!ft_strcmp(cmd[0], "env") && ++ret)
 		ft_env(e);
-	else if (ft_strequ(e->cmd[0], "setenv") && ++ret)
+	else if (!ft_strcmp(cmd[0], "setenv") && ++ret)
 		ft_setenv_blt(e);
-	else if (ft_strequ(e->cmd[0], "unsetenv") && ++ret)
+	else if (!ft_strcmp(cmd[0], "unsetenv") && ++ret)
 		ft_unsetenv_blt(e);
-	else if (ft_strequ(e->cmd[0], "cd") && ++ret)
+	else if (!ft_strcmp(cmd[0], "cd") && ++ret)
 		ft_chdir(e);
-	else if (ft_strequ(e->cmd[0], "echo") && ++ret)
-		ft_echo(e, cmd);
-	else if (ft_strequ(e->cmd[0], "where") && ++ret)
+	else if (!ft_strcmp(cmd[0], "echo") && ++ret)
+		ft_echo(cmd);
+	else if (!ft_strcmp(cmd[0], "where") && ++ret)
 		ft_where(e);
-	else if (ft_strequ(e->cmd[0], "history") && ++ret)
+	else if (!ft_strcmp(cmd[0], "history") && ++ret)
 		ft_history(e);
 	//ft_close(FD.fd[1]);
 	//ft_close(FD.in);
@@ -100,9 +115,9 @@ int				ft_waitsons(t_env *e)
 	{
 		waitpid(ptr->pid, &status, WUNTRACED);
 		ft_handle_ret_signal(status);
-		tmp = ptr;
+		tmp = ptr->next;
 		free(ptr);
-		ptr = tmp->next;
+		ptr = tmp;
 	}
 	e->jobs = NULL;
 	return (0);
@@ -120,14 +135,17 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);
+	ft_create_file(e);
 	while (e->cat[++i + 1] && ret != -1)
 	{
 		ret = redir_exec_open(i, e);
+		dup2(FD.stdin, STDIN_FILENO);
+		dup2(FD.stdout, STDOUT_FILENO);
+		dup2(FD.stderr, STDERR_FILENO);
 	}
-	if (ret != -1)
-		ret = redir_last_cmd(i, e);
+	ret = redir_last_cmd(i, e);
 	ft_waitsons(e);
-	ft_check_history(e);
+//	ft_check_history(e);
 	ft_triple_free(e);
 	magic_free(e);
 	RED_INDEX = 0;
@@ -146,6 +164,7 @@ int				ft_parse_line(t_env *e)
 	ret = 0;
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
+		ft_check_history(e);
 		while (cmds[++i])
 		{
 			if (ft_matchquotes(cmds[i]) == 0)
@@ -157,3 +176,4 @@ int				ft_parse_line(t_env *e)
 	ft_free_tab(cmds);
 	return (ret);
 }
+

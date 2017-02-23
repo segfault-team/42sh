@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/23 15:05:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 		ft_free_tab(e->history);
 		e->history = NULL;
 	}
+	FD.stdin = dup(STDIN_FILENO);
+	FD.stdout = dup(STDOUT_FILENO);
+	FD.stderr = dup(STDERR_FILENO);
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;

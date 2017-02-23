@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/23 14:45:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 void				ft_close(int fd);
 char				**ft_trim_split_cmd(t_env *e);
-int					ft_exec_builtin(char **cmd, t_env *e);
+int					ft_exec_builtin(t_env *e, char **cmd);
+int					ft_is_builtin(char *cmd);
 
 /*
 **		Redirections
@@ -159,6 +160,8 @@ int					redir_exec_open(int i, t_env *e);
 int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
 int					redir_fill_output(t_env *e);
+int					ft_redirect(int oldfd, int newfd);
+void				ft_create_file(t_env *e);
 
 /*
 **		Init - Reset
@@ -186,6 +189,8 @@ char				***ft_cmds_split(t_env *e);
 //char				*ft_tilde(t_env *e, char *current);
 int					ft_subs_tilde(t_env *e);
 t_job				*ft_new_job(t_job *next, int pid);
+void				strfree(char **str);
+void				ft_tabzero(char **dbl_tab, int tab_len);
 
 /*
 **		History
@@ -227,7 +232,7 @@ int					ft_setenv(char ***env, char *name, char *value);
 int					ft_unsetenv_blt(t_env *e);
 int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e);
-int					ft_echo(t_env *e, char **cmd);
+int					ft_echo(char **args);
 int					ft_where(t_env *e);
 int					ft_store_history(char *cmd);
 int					ft_history(t_env *e);
