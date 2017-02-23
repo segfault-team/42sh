@@ -138,6 +138,7 @@ int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
 int					redir_fill_output(t_env *e);
 int					ft_redirect(int oldfd, int newfd);
+void				ft_create_file(t_env *e);
 
 /*
 **		Init - Reset

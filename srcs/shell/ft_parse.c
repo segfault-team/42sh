@@ -97,6 +97,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
 */
 	magic_type(e);
+	ft_create_file(e);
 	while (e->cat[++i + 1] && ret != -1)
 	{
 		ret = redir_exec_open(i, e);

@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/22 12:03:45 by kboddez          ###   ########.fr        #
+#    Updated: 2017/02/23 13:07:01 by vlistrat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
-SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c
+SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## STRUCT FOLDER ##
