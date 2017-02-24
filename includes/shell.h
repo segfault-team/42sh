@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/23 14:45:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 18:40:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct		s_env
 int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
 void				ft_banner(void);
+void				ft_prompt(char *prompt);
 
 /*
 **		Exec

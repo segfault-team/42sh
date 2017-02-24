@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/23 14:58:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:14:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void		ft_close(int fd)
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
@@ -116,8 +115,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
 		}
+		tcaps_reset();
 		execve(exec, &cmd[0], e->env);
 	}
+	//tcaps_set();
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;

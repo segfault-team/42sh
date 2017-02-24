@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/23 14:50:08 by lfabbro          ###   ########.fr        #
+#    Updated: 2017/02/24 18:40:03 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					  ft_realloc_insert.c ft_tools.c ft_remove_space.c \
-					  ft_free.c ft_new.c ft_tabzero.c
+					  ft_free.c ft_new.c ft_tabzero.c ft_reset.c 
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
@@ -43,7 +43,7 @@ SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 
 ## BUILTINS FOLDER ##
 SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
-					  ft_reset.c ft_setenv.c ft_unsetenv.c ft_where.c
+					  ft_setenv.c ft_unsetenv.c ft_where.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## TOOLS FOLDER ##

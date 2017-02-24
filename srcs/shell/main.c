@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 20:32:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:03:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int				main(int ac, char **av, char **env)
 		read(0, e.buf, 3);
 		if (ft_check_signals(0, SIGINT))
 			ft_reset_line(&e);
+		// for now we handle ctrl-z, later on we will get rid of that
 		if (ft_check_signals(0, SIGTSTP))
 			tcaps_init(&e);
 		// peut etre utiliser directement:

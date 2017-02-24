@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/21 16:37:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:03:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ void		ft_set_sig_handler(void)
 		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
 				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
+		// Since we may have errors we don't ignore ctrl-z signal for now
+//		else if (sig == SIGTSTP)
+//			signal(sig, SIG_DFL);
 		else
 			signal(sig, ft_sig_handler);
 	}
@@ -116,7 +119,7 @@ void		ft_sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_check_signals(1, sig);
-		ft_putstr_fd("\n$> ", 1);
+		ft_prompt("\n$> ");
 	}
 	else if (sig == SIGTSTP)
 	{
