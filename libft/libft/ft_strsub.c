@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/28 11:01:10 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/21 12:14:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:54:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	size_t		i;
 
 	i = 0;
-	if (s)
+	if (s && len)
 	{
-		if ((trun = (char *)malloc(sizeof(*trun) * len)) == NULL)
+		if ((trun = (char *)malloc(sizeof(*trun) * (len + 1))) == NULL)
 			return (NULL);
 		while (i < len)
 		{

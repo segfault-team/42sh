@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 19:14:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:17:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		tcaps_reset();
 		execve(exec, &cmd[0], e->env);
 	}
-	//tcaps_set();
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
