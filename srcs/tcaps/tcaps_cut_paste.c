@@ -7,6 +7,8 @@ static void		tcaps_ctrl_k(t_env *e)
 	char	*tmp;
 
 	j = -1;
+	if (NB_MOVE >= ft_strlen(e->line))
+		return ;
 	strfree(&e->cut);
 	e->cut = ft_strdup(&e->line[NB_MOVE]);
 	i = NB_MOVE;

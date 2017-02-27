@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/28 20:23:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/21 18:41:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/27 18:51:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ size_t		ft_strlen(const char *s)
 	size_t		len;
 
 	len = 0;
-	while (s[len] != '\0')
-		++len;
+	if (s)
+		while (s[len] != '\0')
+			++len;
 	return (len);
 }
