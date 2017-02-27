@@ -65,10 +65,13 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 	if (len != 1)
 		while (e->line[i])
 		{
-			if (i == NB_MOVE)
-				new[++j] = c;
-			else
+			if (i != TCAPS.nb_move || !c)
 				new[++j] = e->line[i++];
+			else
+			{
+				new[++j] = c;
+				c = '\0';
+			}
 		}
 	else
 		new[0] = c;

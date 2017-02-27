@@ -12,6 +12,7 @@ char		*ft_tilde(t_env *e, char *current)
 	return (ret);
 }
 
+
 int		ft_subs_tilde(t_env *e)
 {
 	int		k;
@@ -98,6 +99,8 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 */
 	magic_type(e);
 	ft_create_file(e);
+	if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
+		ft_printf("GERRER ERREUR");
 	while (e->cat[++i + 1] && ret != -1)
 	{
 		ret = redir_exec_open(i, e);

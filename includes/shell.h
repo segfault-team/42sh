@@ -63,6 +63,12 @@
 # define CTRL_K		11
 # define CTRL_P		16
 
+typedef struct		s_pid_list
+{
+	pid_t			pid;
+	void			*next;
+}					t_pid_list;
+
 typedef struct		s_magic
 {
 	char			*cmd;
@@ -104,10 +110,10 @@ typedef struct		s_env
 	char			**cmd;
 	char			***cat;
 	size_t			cmd_len;
-
+	t_pid_list		*pid_list;
+	t_pid_list		*actual_pid; 
 	size_t			i_mag;
 	t_magic			*magic;
-
 	char			buf[3];
 	t_term			tcaps;
 	char 			**history;

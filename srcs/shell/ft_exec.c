@@ -94,26 +94,43 @@ void		ft_close(int fd)
 	}
 }
 
-pid_t singletonne(pid_t pid)
+int		 singletonne(int running)
 {
-	static pid_t REAL = 0;
+	static int child_running = 0;
 
-	if (pid != -42)
-		REAL = pid;
-	return (REAL);
+	if (running != -42)
+		child_running = running;
+	return (child_running);
+}
+
+static void		ft_add_pid(t_env *e, pid_t id)
+{
+	if (!e->pid_list)
+	{
+		e->pid_list = (t_pid_list *)malloc(sizeof(t_pid_list));
+		e->actual_pid = e->pid_list;
+	}
+	else
+	{
+		e->actual_pid->next = (t_pid_list *)malloc(sizeof(t_pid_list));
+		e->actual_pid = e->actual_pid->next;
+	}
+	e->actual_pid->pid = id;
+	e->actual_pid->next = NULL;
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	int		status;
+	pid_t	id;
 
 	status = 0;
-	if ((singletonne(fork())) < 0)
-	{
+
+	if ((id = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);
-	}
-	if (singletonne(-42))
+	if (id)
 	{
+		singletonne(1);
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
 	}
@@ -125,8 +142,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
 		}
-//		if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
-//			ft_printf("GERRER ERREUR");
 		execve(exec, &cmd[0], e->env);
 	}
 //	waitpid(singletonne, &status, WUNTRACED);
@@ -134,6 +149,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 //		ft_printf("GERRER ERREUR");
 //		TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
 //	TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
+	ft_add_pid(e, id);
 	ft_handle_ret_signal(status);
 	return (status);
 }
