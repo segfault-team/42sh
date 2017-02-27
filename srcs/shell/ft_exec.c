@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 19:17:11 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/27 21:18:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ void		ft_close(int fd)
 	}
 }
 
+pid_t		singletonne(pid_t pid)
+{
+	static pid_t REAL = 0;
+
+	if (pid != -42)
+		REAL = pid;
+	return (REAL);
+}
+
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	t_job	*son;
@@ -97,11 +106,11 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 //	int		status;
 
 //	status = 0;
-	if ((pid = fork()) < 0)
+	if ((pid = fork()) < 0 || (singletonne(pid)) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid)
+	if (singletonne(-42))
 	{
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
@@ -115,7 +124,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
 		}
-		tcaps_reset();
 		execve(exec, &cmd[0], e->env);
 	}
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
@@ -163,6 +171,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	e->cmd_len = ft_tablen(cmd);
 	ft_subs_tilde(e);
+	tcaps_reset();
 	if (e->cmd_len)
 	{
 		if (ft_is_builtin(cmd[0]))
