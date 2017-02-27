@@ -56,6 +56,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cut = NULL;
 	e->cat = NULL;
 	e->i_mag = 0;
+	e->magic = NULL;
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
 	TCAPS.nb_move = 0;

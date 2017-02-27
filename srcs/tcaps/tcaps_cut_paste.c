@@ -6,22 +6,19 @@ static void		tcaps_ctrl_k(t_env *e)
 	int		j;
 	char	*tmp;
 
-	i = TCAPS.nb_move - 1;
 	j = -1;
 	strfree(&e->cut);
-	e->cut = ft_strnew(TCAPS.nb_read - TCAPS.nb_move);
-	while (e->line[i++])
-		e->cut[++j] = e->line[i];
-	i = TCAPS.nb_move - 1;
-	tmp = ft_strsub(e->line, 0, TCAPS.nb_move);
+	e->cut = ft_strdup(&e->line[NB_MOVE]);
+	i = NB_MOVE;
+	tmp = ft_strsub(e->line, 0, NB_MOVE);
 	strfree(&e->line);
 	e->line = tmp;
 	xputs("sc");
 	xputs("dm");
-	while (i++ < TCAPS.nb_read)
+	while (i++ <= NB_READ)
 	{
 		xputs("ce");
-		if (i  % (WIN_WIDTH - 1) == 0)
+		if (i && (i  % (WIN_WIDTH - 1) == 0))
 		{
 			xputs("do");
 			xputs("cr");
@@ -31,7 +28,7 @@ static void		tcaps_ctrl_k(t_env *e)
 	}
 	xputs("ed");
 	xputs("rc");
-	TCAPS.nb_read -= (int)ft_strlen(e->cut);
+	NB_READ -= (int)ft_strlen(e->cut);
 }
 
 static void		tcaps_ctrl_p(t_env *e)
@@ -74,7 +71,7 @@ static void		tcaps_ctrl_p(t_env *e)
 
 void			tcaps_cut_paste(t_env *e)
 {
-	if (BUF[0] == CTRL_K)
+	if (BUF[0] == CTRL_K && NB_READ)
 		tcaps_ctrl_k(e);
 	else if (BUF[0] == CTRL_P)
 		tcaps_ctrl_p(e);

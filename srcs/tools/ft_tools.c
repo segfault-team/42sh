@@ -22,20 +22,16 @@ int			ft_matchquotes(char *s)
 
 void		ft_env_free(t_env *e)
 {
-	if (e->line)
-		strfree(&e->line);
-	if (e->home)
-		strfree(&e->home);
-	if (TCAPS.term_name)
-		strfree(&TCAPS.term_name);
+	strfree(&e->line);
+	strfree(&e->home);
+	strfree(&TCAPS.term_name);
+	strfree(&e->cut);
+	strfree(&e->prompt);
 	if (e->history)
 		ft_free_tab(e->history);
-	if (e->prompt)
-		strfree(&e->prompt);
 	if (e->env)
 		ft_free_tab(e->env);
-	if (e->magic)
-		magic_free(e);
+	magic_free(e);
 }
 
 char		*ft_issetenv(char **env, char *name)

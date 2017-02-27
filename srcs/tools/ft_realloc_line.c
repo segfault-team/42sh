@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 11:31:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/27 13:37:12 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char    *ft_realloc_delete_char(t_env *e)
 	int		j;
 
 	if (e->line)
-		len = TCAPS.nb_read;
+		len = TCAPS.nb_read - 1;
 	else
-		len = 1;
-	if (!(new = ft_strnew(sizeof(char) * (len))))
+		return (NULL);
+	if (!(new = ft_strnew(len)))
 		return (NULL);
 	i = 0;
 	j = -1;
@@ -58,21 +58,20 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 		len = ft_strlen(e->line) + 1;
 	else
 		len = 1;
-	if ((new = ft_strnew(sizeof(char) * (len + 1))) == NULL)
+	if (!(new = ft_strnew(len)))
 		return (NULL);
 	i = 0;
 	j = -1;
 	if (len != 1)
 		while (e->line[i])
 		{
-			if (i != TCAPS.nb_move || !c)
-				new[++j] = e->line[i++];
-			else
-			{
+			if (i == NB_MOVE)
 				new[++j] = c;
-				c = '\0';
-			}
+			else
+				new[++j] = e->line[i++];
 		}
+	else
+		new[0] = c;
 	strfree(&e->line);
 	return (new);
 }
@@ -86,7 +85,7 @@ void	ft_realloc_insert_str(t_env *e, char *str)
 	tmp = ft_strjoin(new, str);
 	strfree(&new);
 	new = ft_strsub(e->line, TCAPS.nb_move, TCAPS.nb_read - TCAPS.nb_move);
-	free(e->line);
+	strfree(&e->line);
 	e->line = ft_strjoin(tmp, new);
 	strfree(&tmp);
 	strfree(&new);
@@ -108,7 +107,7 @@ char    *ft_realloc_line(t_env *e, char c)
 		len = ft_strlen(e->line) + 1;
 	else
 		len = 1;
-	if ((new = ft_strnew(sizeof(char) * (len + 1))) == NULL)
+	if (!(new = ft_strnew(len)))
 		return (NULL);
 	i = 0;
 	if (len != 1)

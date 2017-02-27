@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/23 15:12:39 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/27 12:09:25 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void		ft_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-//		ft_check_ctrlc(1);
+		ft_check_ctrlc(1);
 		if (!singletonne(-42))
 		{
 	//		A FAIRE + STRFREE E->LINE !!
