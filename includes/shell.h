@@ -123,6 +123,8 @@ typedef struct		s_env
 	char 			**history;
 	char			*cut;
 	char			*multiline;
+	int 			child_running;
+	int 			check_ctrl_c;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -160,10 +162,10 @@ int					ft_reset_line(t_env *e);
 /*
 **		Signals
 */
-int					ft_check_ctrlc(int ctrlc);
 int					ft_handle_ret_signal(int status);
 void				ft_set_sig_handler(void);
 void				ft_sig_handler(int sig);
+t_env				*env_access(t_env *e);
 
 /*
 **		Tools
@@ -181,6 +183,7 @@ char				*ft_tilde(t_env *e, char *current);
 int					ft_subs_tilde(t_env *e);
 void				strfree(char **str);
 void				ft_tabzero(char **dbl_tab, int tab_len);
+int 				ft_multiline(t_env *e);
 
 /*
 **		History
@@ -236,6 +239,7 @@ void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
 int					is_paste(char *buf);
 int					tcaps_paste(t_env *e, char *buf);
+void				tcaps_ctrl_d(t_env *e);
 
 /*
 **	Magic struct
@@ -249,7 +253,5 @@ int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
 void				struct_find_red(t_env *e);
-
-pid_t	singletonne(pid_t pid);
 
 #endif

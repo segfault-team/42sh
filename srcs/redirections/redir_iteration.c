@@ -101,7 +101,7 @@ int		redir_last_cmd(int i, t_env *e)
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
 		ft_printf("GERRER ERREUR");
 	ft_free_list_pid(e);
-	singletonne(0);
+	e->child_running = 0;
 	//wait(&status);
 	//RESTORE TERM HERE
 	return (ret);

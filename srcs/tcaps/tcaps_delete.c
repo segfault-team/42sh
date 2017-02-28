@@ -17,20 +17,24 @@ void	tcaps_del_fwd(t_env *e)
 	char	*res;
 	char	buf[3];
 
-	read(0, buf, 3);
-	if (tcaps_check_key(buf, 126, 0, 0))
+	ft_bzero(buf, 3);
+	if (BUF[0] != CTRL_D)
+		read(0, buf, 3);
+	else
+		buf[0] = 126;
+	if (tcaps_check_key(buf, 126, 0, 0) && NB_READ && NB_MOVE != NB_READ)
 	{
-		res = tgetstr("dm", NULL);
-		tputs(res, 1, dsh_putchar);
-		res = tgetstr("dc", NULL);
-		tputs(res, 1, dsh_putchar);
-		res = tgetstr("ed", NULL);
-		tputs(res, 1, dsh_putchar);
-		if (!TCAPS.nb_read && e->line)
-		{
-			free(e->line);
-			e->line = NULL;
-		}
+		xputs("dm");
+		xputs("dc");
+		xputs("ed");
+		++NB_MOVE;
+		if (!(NB_READ - 1))
+			strfree(&e->line);
+		e->line = ft_realloc_delete_char(e);
+		--NB_MOVE;
+		if (!NB_READ && e->line)
+			strfree(&e->line);
+		--NB_READ;
 	}
 }
 

@@ -40,7 +40,8 @@ SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_tools.c ft_remove_space.c ft_tabzero.c
+					  ft_tools.c ft_remove_space.c ft_tabzero.c multiline.c \
+					  ft_singletone.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##

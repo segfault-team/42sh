@@ -7,8 +7,9 @@ int				dsh_putchar(int c)
 
 int 			tcaps(t_env *e)
 {
-	if (BUF[0] == CTRL_D) // ctrl + d
-		ft_exit(e);
+	if (BUF[0] == CTRL_D)
+		tcaps_ctrl_d(e);
+	//	ft_exit(e);
 	else if (tcaps_is_printable(BUF) && NB_MOVE == NB_READ) // all printable char
 		tcaps_insert(e);
 	else if (tcaps_check_key(BUF, 12, 0, 0)) // Ctrl + L

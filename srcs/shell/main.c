@@ -8,8 +8,13 @@
 
 static void		tcaps_enter(t_env *e)
 {
+	char 	*tmp;
+
+	if (!ft_multiline(e))
+		return ;
 	tcaps_ctrl_end(e);
-	ft_putchar('\n');
+	//if (!e->x)
+		ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)
@@ -18,7 +23,7 @@ static void		tcaps_enter(t_env *e)
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
 	strfree(&e->line);
-	e->line = NULL;
+	strfree(&MULTI);
 }
 
 /*
@@ -83,13 +88,14 @@ int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
+	env_access(&e);
 	ft_init(&e, ac, av, env);
 	ft_banner(&e);
 	ft_set_sig_handler();
 	while (e.x)
 	{
 		read(0, e.buf, 3);
-		if (ft_check_ctrlc(0))
+		if (e.check_ctrl_c)
 			ft_reset_line(&e);
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)

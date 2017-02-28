@@ -12,20 +12,6 @@
 
 #include "shell.h"
 
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
-
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
-	{
-		check = 0;
-		return (1);
-	}
-	return (0);
-}
-
 static int	ft_sigcheck(int sig)
 {
 	if (sig == SIGINT)
@@ -93,14 +79,18 @@ void		ft_set_sig_handler(void)
 
 void		ft_sig_handler(int sig)
 {
+	t_env *e;
+
+	e = env_access(NULL);
 	if (sig == SIGINT)
 	{
-		ft_check_ctrlc(1);
-		if (!singletonne(-42))
+		e->check_ctrl_c = 1;
+		if (!e->child_running)
 		{
-	//		A FAIRE + STRFREE E->LINE !!
+	//		A FAIRE !! singletone
 	//		while (NB_MOVE < NB_READ)
 	//			move_right(e);
+			tcaps_ctrl_end(e);
 			ft_putstr_fd("\n$> ", 1);
 		}
 	}
