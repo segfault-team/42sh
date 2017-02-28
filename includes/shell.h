@@ -44,11 +44,15 @@
 # define TCAPS		e->tcaps
 # define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
+# define MULTI		e->multiline
 
 # define NB_MOVE	TCAPS.nb_move
 # define NB_READ	TCAPS.nb_read
 
 # define HIST_FILE	"/tmp/.history"
+# define STD_PROMPT	"$> "
+# define H_PROMPT	"heredoc> "
+# define BS_PROMPT	"> "
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
@@ -118,6 +122,7 @@ typedef struct		s_env
 	t_term			tcaps;
 	char 			**history;
 	char			*cut;
+	char			*multiline;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
