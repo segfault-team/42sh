@@ -62,8 +62,9 @@ static char	**ft_find_tab(t_env *e, int *z)
 	j = 0;
 	k = *z;
 	len = ft_nb_elem_cmd(e, z);
-	if (!(ret = (char **)malloc(sizeof(*ret) * (len + 1))))
+	if (!(ret = tabnew(len + 1)))
 // MANAGE ERROR
+// Erreur gerer au mieux voire ou la fonction retoure. Meilleurs idees?
 		return (NULL);
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
@@ -93,6 +94,9 @@ char	***ft_cmds_split(t_env *e)
 		return (NULL);
 	cat[len] = NULL;
 	while (++i < len)
-		cat[i] = ft_find_tab(e, &z);
+	{
+		if ((cat[i] = ft_find_tab(e, &z)) == NULL)
+			return (cat);
+	}
 	return (cat);
 }
