@@ -91,15 +91,15 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 	FD.in = STDIN_FILENO;
 	e->cmd = ft_strsplit_quote(cmds_i, ' ');
 	e->magic = struct_strsplit_quote(cmds_i, ' ');
-	e->cat = ft_cmds_split(e);
-/*
-  for (int j = 0 ; e->cat[j]; j++)
+	magic_type(e);
+/*	for (int z = 0; e->magic[z].cmd ; ++z)
+		ft_printf("magic[%d]: %s\n", z, e->magic[z].cmd);
+*/	e->cat = ft_cmds_split(e);
+	ft_create_file(e);
+/*	for (int j = 0 ; e->cat[j]; j++)
 		for (int k = 0; e->cat[j][k]; k++)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
-*/
-	magic_type(e);
-	ft_create_file(e);
-	if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
+*/	if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
 		ft_printf("GERRER ERREUR");
 	while (e->cat[++i + 1] && ret != -1)
 	{

@@ -6,7 +6,7 @@
 #    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/23 13:07:01 by vlistrat         ###   ########.fr        #
+#    Updated: 2017/02/28 17:33:22 by kboddez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
-SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c
+SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c \
+					  check_redirections.c redirToAggregator.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## STRUCT FOLDER ##
@@ -40,7 +41,7 @@ SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_tools.c ft_remove_space.c ft_tabzero.c
+					  ft_tools.c ft_remove_space.c ft_tabzero.c isOnlyNumbers.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##

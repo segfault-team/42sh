@@ -125,7 +125,7 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 		struct_init(len, magic);
 		i = 0;
 		k = 0;
-		while (k < ft_count_words(s, c) && s[i] != '\0')
+		while (k < len /*ft_count_words(s, c)*/ && s[i] != '\0')
 		{
 			while (s[i] == c)
 				++i;

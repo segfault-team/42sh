@@ -111,7 +111,7 @@ typedef struct		s_env
 	char			***cat;
 	size_t			cmd_len;
 	t_pid_list		*pid_list;
-	t_pid_list		*actual_pid; 
+	t_pid_list		*actual_pid;
 	size_t			i_mag;
 	t_magic			*magic;
 	char			buf[3];
@@ -145,6 +145,12 @@ int					redir_check_red(t_env *e, char *red);
 int					redir_fill_output(t_env *e);
 int					ft_redirect(int oldfd, int newfd);
 void				ft_create_file(t_env *e);
+int					isRedirection(t_env *e, int i);
+int					isOutputRedir(t_env *e, int i);
+int					isRedirPipe(t_env *e, int i);
+int					isAggregator(t_env *e, int i);
+int					isInputRedir(t_env *e, int i);
+void				redirToAggregator(t_env *e);
 
 /*
 **		Init - Reset
@@ -176,6 +182,8 @@ char				*ft_tilde(t_env *e, char *current);
 int					ft_subs_tilde(t_env *e);
 void				strfree(char **str);
 void				ft_tabzero(char **dbl_tab, int tab_len);
+int					isNumber(char );
+int					isOnlyNumbers(char *str);
 
 /*
 **		History
@@ -244,6 +252,7 @@ int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
 void				struct_find_red(t_env *e);
+int					isMagic(t_env *e, int i);
 
 pid_t	singletonne(pid_t pid);
 

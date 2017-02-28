@@ -138,5 +138,5 @@
 
 	FT_NB_ELEM_CMD; <t_env *e> <index permettant de se balader dans e->magic>
 - calcul le nbre d elemts present dans la prochaine commande (ex: ls -l > test1 --> 2)
-- stock les fichiers de redirections (1er if)
+- stock les fichiers de redirections (1er if) ex: ls > test1 >> test2 => stockera test1, test2
 - stock les elems de la cmd sans les redirections
