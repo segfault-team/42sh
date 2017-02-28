@@ -53,7 +53,9 @@ int		redir_exec_open(int i, t_env *e)
 int		redir_last_cmd(int i, t_env *e)
 {
 	int	ret;
+	int	status;
 
+	status = 0;
 	ret = 0;
 	if (redir_check_red(e, "|") || !RED_INDEX)
 	{
@@ -68,5 +70,6 @@ int		redir_last_cmd(int i, t_env *e)
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
+	wait(&status);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 16:34:55 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/28 18:23:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,59 +80,54 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-static int		ft_redirect(int oldfd, int newfd)
-{
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) != -1)
-		{
-			if (close(oldfd) < 0)
-				return (ft_error(SH_NAME, "Failed closing fd", NULL));
-		}
-		else
-			return (ft_error(SH_NAME, "dup2 failed", NULL));
-	}
-	return (0);
-}
-
-void		ft_close(int fd)
+void			ft_close(int fd)
 {
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
 }
 
+pid_t			singletonne(pid_t pid)
+{
+	static pid_t REAL = 0;
+
+	if (pid != -42)
+		REAL = pid;
+	return (REAL);
+}
+
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
+	t_job	*son;
 	pid_t	pid;
-	int		status;
 
-	status = 0;
-	if ((pid = fork()) < 0)
+	if ((pid = fork()) < 0 || (singletonne(pid)) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (pid == 0)
+	if (singletonne(-42))
 	{
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		ft_close(FD.fd[1]);
+		ft_close(FD.in);
+	}
+	else
+	{
+		if (redir_check_red(e, "|") || redir_check_red(e, ">") || \
+				redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
 				return (-1);
-			execve(exec, &cmd[0], e->env);
 		}
-		else
-			execve(exec, &cmd[0], e->env);
+		execve(exec, &cmd[0], e->env);
 	}
-	ft_close(FD.fd[1]);
-	ft_close(FD.in);
-	waitpid(pid, &status, WUNTRACED);
-	ft_handle_ret_signal(status);
-	return (status);
+	if ((son = ft_new_job(e->jobs, pid)) == NULL)
+		return (ft_error(SH_NAME, "malloc failed", NULL));
+	e->jobs = son;
+	return (0);
 }
 
 int				ft_exec(char **cmd, t_env *e)
@@ -169,10 +164,11 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	e->cmd_len = ft_tablen(cmd);
 	ft_subs_tilde(e);
+	tcaps_reset();
 	if (e->cmd_len)
 	{
-		if ((ret = ft_exec_builtin(e)))
-			;
+		if (ft_is_builtin(cmd[0]))
+			ret = ft_exec_builtin(e, cmd);
 		else
 			ret = ft_exec(cmd, e);
 	}

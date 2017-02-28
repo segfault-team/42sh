@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 13:54:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/08 13:16:36 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/17 13:53:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define BUFF_SIZE 1
-# define MAX_FD 256
-# define I_SIZE 2
+# define BUFF_SIZE	20
+# define MAX_FD		256
+# define I_SIZE		2
 
 typedef struct		s_gnl
 {

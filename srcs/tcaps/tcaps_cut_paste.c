@@ -1,27 +1,38 @@
 #include "shell.h"
 
+/*
+ *
+ *	sc : save the current cursor position
+ *	dm : enter delete mode
+ *	ce : clear from the cursor to the end of the line
+ *	do : move cursor vertically down (DO n lines)
+ *	cr : move the cursor to the beginning of the line it is on
+ *	nd : move the cursor right one column (!!UB when cursor is at the right margin)
+ *	ed : end delete mode
+ *	rc : restore the last saved cursor position
+ *
+ */
+
 static void		tcaps_ctrl_k(t_env *e)
 {
 	int		i;
-	int		j;
+	size_t	len;
 	char	*tmp;
 
-	i = TCAPS.nb_move - 1;
-	j = -1;
+	if (!e->line || (len = ft_strlen(e->line) - (size_t)TCAPS.nb_move) <= 0)
+		return ;
 	strfree(&e->cut);
-	e->cut = ft_strnew(TCAPS.nb_read - TCAPS.nb_move);
-	while (e->line[i++])
-		e->cut[++j] = e->line[i];
-	i = TCAPS.nb_move - 1;
-	tmp = ft_strsub(e->line, 0, TCAPS.nb_move);
+	e->cut = ft_strdup(&e->line[NB_MOVE]);
+	i = NB_MOVE;
+	tmp = ft_strsub(e->line, 0, NB_MOVE);
 	strfree(&e->line);
 	e->line = tmp;
 	xputs("sc");
 	xputs("dm");
-	while (i++ < TCAPS.nb_read)
+	while (i++ <= NB_READ)
 	{
 		xputs("ce");
-		if (i  % (WIN_WIDTH - 1) == 0)
+		if (i && (i  % (WIN_WIDTH - 1) == 0))
 		{
 			xputs("do");
 			xputs("cr");
@@ -31,27 +42,38 @@ static void		tcaps_ctrl_k(t_env *e)
 	}
 	xputs("ed");
 	xputs("rc");
-	TCAPS.nb_read -= (int)ft_strlen(e->cut);
+	NB_READ -= (int)ft_strlen(e->cut);
 }
 
 static void		tcaps_ctrl_p(t_env *e)
 {
-	int	cut_len;
+	int		cut_len;
+	int		tmp;
 
+	cut_len = 0;
+	tmp = 0;
 	if (e->cut)
 	{
 		cut_len = (int)ft_strlen(e->cut);
-		xputs("sc");
-		clear_cmd(e);
 		ft_realloc_insert_str(e, e->cut);
-		TCAPS.nb_read = (int)ft_strlen(e->line) + 1;
-		TCAPS.nb_move += cut_len - 1;
+		xputs("dm");
+		tmp = NB_READ;
+		while (--tmp + ((int)ft_strlen(e->prompt) + 1) > 0)
+		{
+			xputs("le");
+			xputs("ce");
+		}
+		NB_READ = (int)ft_strlen(e->line) + 1;
+		tmp = NB_READ - (NB_MOVE + cut_len) - 1;
 		xputs("cr");
 		ft_putstr(e->prompt);
 		ft_putstr(e->line);
-		xputs("rc");
-		while (cut_len--)
-			move_right(e);
+		NB_MOVE = NB_READ - 1;
+		while (tmp--)
+		{
+			xputs("le");
+			--NB_MOVE;
+		}
 		tcaps_recalc_pos(e);
 	}
 }
@@ -63,7 +85,7 @@ static void		tcaps_ctrl_p(t_env *e)
 
 void			tcaps_cut_paste(t_env *e)
 {
-	if (BUF[0] == CTRL_K)
+	if (BUF[0] == CTRL_K && NB_READ)
 		tcaps_ctrl_k(e);
 	else if (BUF[0] == CTRL_P)
 		tcaps_ctrl_p(e);
