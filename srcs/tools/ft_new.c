@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_new.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/23 16:09:05 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 20:07:41 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/02/21 15:59:09 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/21 16:37:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char			*ft_strdup(const char *s1)
+t_job		*ft_new_job(t_job *next, int pid)
 {
-	int		i;
-	char	*dup;
+	t_job	*new;
 
-	i = 0;
-	if ((dup = ft_strnew(ft_strlen(s1) + 1)) == NULL)
+	if ((new = malloc(sizeof(*new))) == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
-		dup[i] = s1[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+	new->next = next;
+	new->pid = pid;
+	return (new);
 }

@@ -1,4 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/24 19:17:17 by lfabbro          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
+
+void			ft_prompt(char *prompt)
+{
+	ft_putstr(GREEN);
+	ft_putstr(prompt);
+	ft_putstr(ENDC);
+}
 
 /*
 **	INSTRUCTIONS FOR ENTER KEY
@@ -13,7 +32,7 @@ static void		tcaps_enter(t_env *e)
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)
-		ft_putstr(e->prompt);
+		ft_prompt(e->prompt);
 	TCAPS.hist_move = -1;
 	TCAPS.nb_move = 0;
 	TCAPS.nb_read = 0;
@@ -84,20 +103,26 @@ int				main(int ac, char **av, char **env)
 	t_env	e;
 
 	ft_init(&e, ac, av, env);
-	ft_banner(&e);
+	ft_banner();
 	ft_set_sig_handler();
+	ft_prompt(e.prompt);
 	while (e.x)
 	{
 		read(0, e.buf, 3);
-		if (ft_check_ctrlc(0))
+		if (ft_check_signals(0, SIGINT))
 			ft_reset_line(&e);
+		// for now we handle ctrl-z, later on we will get rid of that
+		if (ft_check_signals(0, SIGTSTP))
+			tcaps_init(&e);
+		// peut etre utiliser directement:
+		// ft_init(&e, ac, av, env);   ???
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;
 		if (tcaps_is_printable(e.buf))
 			tcaps_manage_printable_char(&e);
 		else if (tcaps_is_delete_key(&e))
-			e.line = ft_realloc_delete_char(&e);
+			e.line = ft_realloc_delete_char(&e, e.tcaps.nb_move - 1);
 		if (tcaps_check_key(e.buf, 10, 0, 0))
 			tcaps_enter(&e);
 		else

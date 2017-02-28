@@ -43,20 +43,6 @@ int		redir_exec_open(int i, t_env *e)
 	return (ret);
 }
 
-static void	ft_free_list_pid(t_env *e)
-{
-	void *ptr;
-
-	e->actual_pid = e->pid_list;
-	while (e->actual_pid)
-	{
-		ptr = e->actual_pid;
-		e->actual_pid = e->actual_pid->next;
-		ft_memdel(&ptr);
-	}
-	e->pid_list = NULL;
-}
-
 /*
 **	INSTRUCTION POUR LA DERNIERE CMD (OU LA SEULE) A EXECUTER
 **	restauration des fd
@@ -68,9 +54,9 @@ int		redir_last_cmd(int i, t_env *e)
 {
 	int	ret;
 	int	status;
-	int tmp;
 
 	status = 0;
+	ret = 0;
 	if (redir_check_red(e, "|") || !RED_INDEX)
 	{
 		FD.fd[1] = STDOUT_FILENO;
@@ -84,25 +70,6 @@ int		redir_last_cmd(int i, t_env *e)
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
-	ret = 0;
-	while (!ret)
-	{
-		ret = 42;
-		e->actual_pid = e->pid_list;
-		while (e->actual_pid)
-		{
-			tmp = waitpid(e->actual_pid->pid, &status, WNOHANG);
-			if (!tmp)
-				ret = tmp;
-			e->actual_pid = e->actual_pid->next;
-		}
-		usleep(5);
-	}
-	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_printf("GERRER ERREUR");
-	ft_free_list_pid(e);
-	singletonne(0);
-	//wait(&status);
-	//RESTORE TERM HERE
+	wait(&status);
 	return (ret);
 }

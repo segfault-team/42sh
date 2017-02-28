@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlistrat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 14:57:37 by vlistrat          #+#    #+#             */
-/*   Updated: 2015/12/02 14:20:54 by vlistrat         ###   ########.fr       */
+/*   Created: 2015/11/28 11:01:10 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/27 21:11:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char	*copie;
-	int		i;
+	char	*trun;
+	size_t	i;
 
 	i = 0;
-	if (s)
+	if (s && len)
 	{
-		if (!(copie = ft_strnew(len)))
+		if ((trun = ft_strnew(len)) == NULL)
 			return (NULL);
-		while (len-- > 0)
-			copie[i++] = (char)s[start++];
-		return (copie);
+		while (i < len)
+		{
+			trun[i] = s[start + i];
+			++i;
+		}
+		return (trun);
 	}
 	return (NULL);
 }

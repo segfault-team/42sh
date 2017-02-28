@@ -6,22 +6,42 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/27 12:09:25 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/02/27 21:17:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
+/*
+**	Function which controls which signals are called. It is called in main and
+**	on function catching (handler).
+*/
 
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
+int			ft_check_signals(int call, int sig)
+{
+	static int	ctrlc = 0;
+	static int	tstp = 0;
+
+	if (call)
 	{
-		check = 0;
-		return (1);
+		if (sig == SIGINT)
+			ctrlc = 1;
+		if (sig == SIGTSTP)
+			tstp = 1;
+	}
+	else
+	{
+		if (ctrlc && sig == SIGINT)
+		{
+			ctrlc = 0;
+			return (1);
+		}
+		else if (tstp && sig == SIGTSTP)
+		{
+			tcaps_set();
+			tstp = 0;
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -69,7 +89,7 @@ int			ft_handle_ret_signal(int status)
 			if (ft_sigcheck(sig))
 				return (-1);
 		uknw_sig = ft_itoa(sig);
-		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
+		ft_error("Process terminated with unknown signal", uknw_sig, NULL);
 		strfree(&uknw_sig);
 		return (-1);
 	}
@@ -84,8 +104,11 @@ void		ft_set_sig_handler(void)
 	while (++sig <= 31)
 	{
 		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
-				|| sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
+				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
+		// Since we may have errors we don't ignore ctrl-z signal for now
+//		else if (sig == SIGTSTP)
+//			signal(sig, SIG_DFL);
 		else
 			signal(sig, ft_sig_handler);
 	}
@@ -95,13 +118,14 @@ void		ft_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_check_ctrlc(1);
-		if (!singletonne(-42))
-		{
-	//		A FAIRE + STRFREE E->LINE !!
-	//		while (NB_MOVE < NB_READ)
-	//			move_right(e);
-			ft_putstr_fd("\n$> ", 1);
-		}
+		ft_check_signals(1, sig);
+		ft_prompt("\n$> ");
+	}
+	else if (sig == SIGTSTP)
+	{
+		ft_check_signals(1, sig);
+		tcaps_reset();
+		signal(sig, SIG_DFL);
+		raise(sig);
 	}
 }

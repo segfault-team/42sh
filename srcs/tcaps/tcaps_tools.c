@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   tcaps_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/23 16:09:05 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 20:07:41 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/02/09 18:28:29 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/17 14:30:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-char			*ft_strdup(const char *s1)
+/*
+** RAZ LE BOL DE TOUT REECRIRE !
+*/
+
+void	xputs(char *tag)
 {
-	int		i;
-	char	*dup;
+	char	*res;
 
-	i = 0;
-	if ((dup = ft_strnew(ft_strlen(s1) + 1)) == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
+	res = tgetstr(tag, NULL);
+	tputs(res, 1, dsh_putchar);
+}
+
+void	move_right(t_env *e)
+{
+	if (TCAPS.nb_col == (WIN_WIDTH - 1))
 	{
-		dup[i] = s1[i];
-		i++;
+		xputs("do");
+		xputs("cr");
 	}
-	dup[i] = '\0';
-	return (dup);
+	else
+		xputs("nd");
+	++TCAPS.nb_move;
+	tcaps_recalc_pos(e);
 }

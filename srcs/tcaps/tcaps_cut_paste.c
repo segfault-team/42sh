@@ -1,13 +1,25 @@
 #include "shell.h"
 
+/*
+ *
+ *	sc : save the current cursor position
+ *	dm : enter delete mode
+ *	ce : clear from the cursor to the end of the line
+ *	do : move cursor vertically down (DO n lines)
+ *	cr : move the cursor to the beginning of the line it is on
+ *	nd : move the cursor right one column (!!UB when cursor is at the right margin)
+ *	ed : end delete mode
+ *	rc : restore the last saved cursor position
+ *
+ */
+
 static void		tcaps_ctrl_k(t_env *e)
 {
 	int		i;
-	int		j;
+	size_t	len;
 	char	*tmp;
 
-	j = -1;
-	if (NB_MOVE >= ft_strlen(e->line))
+	if (!e->line || (len = ft_strlen(e->line) - (size_t)TCAPS.nb_move) <= 0)
 		return ;
 	strfree(&e->cut);
 	e->cut = ft_strdup(&e->line[NB_MOVE]);

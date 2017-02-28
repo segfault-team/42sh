@@ -93,7 +93,6 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 
 void	tcaps_ctrl_arrow(t_env *e)
 {
-	int		i;
 	char	buf[3];
 
 	read(0, buf, 3);

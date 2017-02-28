@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/28 18:23:03 by lfabbro          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static char		*ft_find_exec_readdir(char *paths, char *cmd)
@@ -68,75 +80,43 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-int		ft_redirect(int oldfd, int newfd)
-{
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) != -1)
-		{
-			if (close(oldfd) < 0)
-				return (ft_error(SH_NAME, "Failed closing fd", NULL));
-		}
-		else
-			return (ft_error(SH_NAME, "dup2 failed", NULL));
-	}
-	return (0);
-}
-
-void		ft_close(int fd)
+void			ft_close(int fd)
 {
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
 }
 
-int		 singletonne(int running)
+pid_t			singletonne(pid_t pid)
 {
-	static int child_running = 0;
+	static pid_t REAL = 0;
 
-	if (running != -42)
-		child_running = running;
-	return (child_running);
-}
-
-static void		ft_add_pid(t_env *e, pid_t id)
-{
-	if (!e->pid_list)
-	{
-		e->pid_list = (t_pid_list *)malloc(sizeof(t_pid_list));
-		e->actual_pid = e->pid_list;
-	}
-	else
-	{
-		e->actual_pid->next = (t_pid_list *)malloc(sizeof(t_pid_list));
-		e->actual_pid = e->actual_pid->next;
-	}
-	e->actual_pid->pid = id;
-	e->actual_pid->next = NULL;
+	if (pid != -42)
+		REAL = pid;
+	return (REAL);
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	int		status;
-	pid_t	id;
+	t_job	*son;
+	pid_t	pid;
 
-	status = 0;
-
-	if ((id = fork()) < 0)
-		ft_error(SH_NAME, "failed to fork process", NULL);
-	if (id)
+	if ((pid = fork()) < 0 || (singletonne(pid)) < 0)
 	{
-		singletonne(1);
+		ft_error(SH_NAME, "failed to fork process", NULL);
+	}
+	if (singletonne(-42))
+	{
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
 	}
 	else
 	{
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		if (redir_check_red(e, "|") || redir_check_red(e, ">") || \
+				redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -144,14 +124,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		}
 		execve(exec, &cmd[0], e->env);
 	}
-//	waitpid(singletonne, &status, WUNTRACED);
-//	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-//		ft_printf("GERRER ERREUR");
-//		TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
-//	TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
-	ft_add_pid(e, id);
-	ft_handle_ret_signal(status);
-	return (status);
+	if ((son = ft_new_job(e->jobs, pid)) == NULL)
+		return (ft_error(SH_NAME, "malloc failed", NULL));
+	e->jobs = son;
+	return (0);
 }
 
 int				ft_exec(char **cmd, t_env *e)
@@ -188,6 +164,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	e->cmd_len = ft_tablen(cmd);
 	ft_subs_tilde(e);
+	tcaps_reset();
 	if (e->cmd_len)
 	{
 		if (ft_is_builtin(cmd[0]))
