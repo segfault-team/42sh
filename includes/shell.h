@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 18:07:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/28 19:48:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct		s_env
 	char			*prompt;
 	char			*home;
 	char			*line;
+	char			*line_bkp;
 	char			**cmd;
 	char			***cat;
 	size_t			cmd_len;
