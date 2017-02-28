@@ -14,7 +14,7 @@ static void		tcaps_enter(t_env *e)
 		return ;
 	tcaps_ctrl_end(e);
 	//if (!e->x)
-		ft_putchar('\n');
+	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)

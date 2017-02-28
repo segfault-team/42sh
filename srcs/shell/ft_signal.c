@@ -87,10 +87,8 @@ void		ft_sig_handler(int sig)
 		e->check_ctrl_c = 1;
 		if (!e->child_running)
 		{
-	//		A FAIRE !! singletone
-	//		while (NB_MOVE < NB_READ)
-	//			move_right(e);
 			tcaps_ctrl_end(e);
+			strfree(&MULTI);
 			ft_putstr_fd("\n$> ", 1);
 		}
 	}

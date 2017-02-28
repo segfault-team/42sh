@@ -2,9 +2,7 @@
 
 void	tcaps_ctrl_d(t_env *e)
 {
-	if (NB_READ && NB_MOVE == NB_READ)
-		return ;
-	else if (NB_READ)
+	if (MULTI || NB_READ)
 		tcaps_del_fwd(e);
 	else
 		ft_exit(e);
