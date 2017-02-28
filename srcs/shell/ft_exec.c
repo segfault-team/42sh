@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/27 21:18:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/28 17:44:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	t_job	*son;
 	pid_t	pid;
-//	int		status;
 
-//	status = 0;
 	if ((pid = fork()) < 0 || (singletonne(pid)) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
@@ -129,11 +127,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
-//	ft_close(FD.fd[1]);
-//	ft_close(FD.in);
-//	waitpid(pid, &status, WUNTRACED);
-//	ft_handle_ret_signal(status);
-//	return (status);
 	return (0);
 }
 

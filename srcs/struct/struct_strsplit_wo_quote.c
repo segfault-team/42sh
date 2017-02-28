@@ -1,8 +1,9 @@
 #include "shell.h"
 
 /*
-**	Description for strsplit_quote:
+**	Description for strsplit_wo_quote:
 **		behave like strsplit(), but keeps hold string into quotes.
+**	Like strsplit_quote, but it avoids copying quotes
 */
 
 static size_t	ft_count_words(char const *s, char c)
@@ -46,8 +47,8 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+		if ((quote && s[i] != quote) ||
+				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 		++i;
 	}
@@ -74,8 +75,8 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+		if ((quote && s[i] != quote) ||
+				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			cpy[j++] = s[i];
 		++i;
 	}
@@ -102,31 +103,6 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-/*
-char			**ft_strsplit_quote(char const *s, char c)
-{
-	char	**tab;
-	size_t	nw;
-	size_t	i;
-
-	tab = NULL;
-	if (s)
-	{
-		i = -1;
-		nw = ft_count_words(s, c);
-		if ((tab = ft_tabnew(nw + 1)) == NULL)
-			return (NULL);
-		while (++i < nw)
-		{
-			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
-				return (tab);
-			s += ft_skip(s, c);
-		}
-	}
-	return (tab);
-}
-*/
-
 static void 	struct_init(int len, t_magic *magic)
 {
 	int i;
@@ -139,7 +115,7 @@ static void 	struct_init(int len, t_magic *magic)
 	}
 }
 
-t_magic			*struct_strsplit_quote(char const *s, char c)
+t_magic			*struct_strsplit_wo_quote(char const *s, char c)
 {
 	size_t		k;
 	size_t		len;
@@ -152,10 +128,8 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 			return (NULL);
 		struct_init(len, magic);
 		k = 0;
-		while (k < ft_count_words(s, c) && *s != '\0')
+		while (k < len && *s != '\0')
 		{
-			while (*s == c)
-				++s;
 			magic[k].cmd = ft_strcpy_chr(s, c);
 			if (magic[k].cmd == NULL)
 				return (NULL);

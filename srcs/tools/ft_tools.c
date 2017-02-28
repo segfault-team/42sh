@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/27 21:00:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/28 17:18:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ int			ft_matchquotes(char *s)
 		if (quote != '\0' && s[i] == quote)
 			quote = '\0';
 		else if (quote == '\0' && 
-				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"')) ||
-				(i == 0 && (s[i] == '\'' || s[i] == '\"'))))
-
+				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"'))
+				 || (i == 0 && (s[i] == '\'' || s[i] == '\"'))))
 			quote = s[i];
 		++i;
 	}
 	if (quote != '\0')
-		return (quote);
-	return (0);
+		return (0);
+	return (1);
 }
 
 char		*ft_issetenv(char **env, char *name)

@@ -59,6 +59,7 @@ SRC = ft_strlen.c\
 		ft_strxtrim_quote.c\
 		ft_strsplit.c\
 		ft_strsplit_quote.c\
+		ft_strsplit_wo_quote.c\
 		ft_tablen.c\
 		ft_tabnew.c\
 		ft_tabcpy.c\

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 18:40:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/28 18:07:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,7 @@ int					tcaps_paste(t_env *e, char *buf);
 */
 t_magic				*struct_strsplit(char const *str, char div);
 t_magic				*struct_strsplit_quote(char const *s, char c);
+t_magic				*struct_strsplit_wo_quote(char const *s, char c);
 int					struct_len(t_magic *magic);
 void				magic_free(t_env *e);
 void				struct_arg_red(int i, t_env *e);

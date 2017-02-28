@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/24 18:40:03 by lfabbro          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME				= 21sh
 
@@ -30,7 +19,7 @@ SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
-					  struct_tools.c
+					  struct_strsplit_wo_quote.c struct_tools.c
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
 ## TCAPS FOLDER ##
