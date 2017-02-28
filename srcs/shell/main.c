@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 19:17:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/28 20:18:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ static void		tcaps_enter(t_env *e)
 		ft_putchar('\n');
 	if (e->x)
 		ft_prompt(e->prompt);
-	TCAPS.hist_move = -1;
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
-	strfree(&e->line);
-	e->line = NULL;
+//	TCAPS.hist_move = -1;
+	ft_reset_line(e);
 }
 
 /*
