@@ -139,4 +139,3 @@ int				ft_parse_line(t_env *e)
 	ft_free_tab(cmds);
 	return (ret);
 }
-

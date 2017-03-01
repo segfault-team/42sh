@@ -19,7 +19,8 @@ SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
 SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c \
-					  check_redirections.c redirToAggregator.c
+					  check_redirections.c redirToAggregator.c isolateAggregatorFd.c \
+					  findAndCheckAggregator.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## STRUCT FOLDER ##

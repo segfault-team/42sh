@@ -34,7 +34,7 @@ int				struct_check_cmd(int i, t_env *e)
 		return (1);
 	return (0);
 }
-
+/*
 int				struct_check_red(int i, t_env *e)
 {
 	if (e->magic[i - 1].cmd && !red_strstr(e->magic[i - 1].cmd) &&
@@ -42,7 +42,7 @@ int				struct_check_red(int i, t_env *e)
 		return (1);
 	return (0);
 }
-
+*/
 void			del_elem_magic(int i, t_env *e)
 {
 	strfree(&e->magic[i - 1].type);

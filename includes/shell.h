@@ -150,7 +150,10 @@ int					isOutputRedir(t_env *e, int i);
 int					isRedirPipe(t_env *e, int i);
 int					isAggregator(t_env *e, int i);
 int					isInputRedir(t_env *e, int i);
-void				redirToAggregator(t_env *e);
+int					redirToAggregator(t_env *e);
+int					isolateFdDestination(t_env *e);
+int					isolateFdSource(t_env *e);
+int					findAggregatorType(t_env *e);
 
 /*
 **		Init - Reset

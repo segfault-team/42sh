@@ -1,59 +1,30 @@
 #include "shell.h"
 
-#define DEFAULT_VALUE 1
-#define MINUS -42
+#define ERROR		 	-420
+#define INPUT_AGGRE     0
+#define OUTPUT_AGGRE    1
 
-static int	isolateFd(t_env *e, int red_index, int start)
-{
-	int	fd;
-
-	fd = 0;
-	while (isMagic(e, red_index) && isNumber(e->magic[red_index].cmd[start]))
-	{
-		fd = fd * 10 + (e->magic[red_index].cmd[start] - '0');
-		++start;
-	}
-	return (fd);
-}
-
-static int	isolateFdSource(t_env *e)
-{
-	int	fd;
-
-	fd = DEFAULT_VALUE;
-	if (isNumber(e->magic[RED_INDEX].cmd[0]))
-		fd = isolateFd(e, RED_INDEX, 0);
-	else if (isOnlyNumbers(e->magic[RED_INDEX - 1].cmd))
-		fd = isolateFd(e, RED_INDEX - 1, 0);
-	return (fd);
-}
-
-static int isolateFdDestination(t_env *e)
-{
-	int	fd;
-	int	start;
-
-	fd = -1;
-	start = ft_strlen(e->magic[RED_INDEX].cmd) - 1;
-	if (e->magic[RED_INDEX].cmd[start] == '-' ||
-		(isMagic(e, RED_INDEX + 1) && e->magic[RED_INDEX + 1].cmd[0] == '-'))
-		return (MINUS);
-	if (isNumber(e->magic[RED_INDEX].cmd[start]))
-	{
-		while(isNumber(e->magic[RED_INDEX].cmd[start - 1]))
-			--start;
-		fd = isolateFd(e, RED_INDEX, start);
-	}
-	else if (isMagic(e, RED_INDEX + 1) && isOnlyNumbers(e->magic[RED_INDEX + 1].cmd))
-		fd = isolateFd(e, RED_INDEX + 1, 0);
-	return (fd);
-}
-
-void		redirToAggregator(t_env *e)
+int			redirToAggregator(t_env *e)
 {
 	int	fd_src;
 	int	fd_dst;
+	int	aggregatorType;
 
 	fd_src = isolateFdSource(e);
 	fd_dst = isolateFdDestination(e);
+	if (fcntl(fd_src, F_GETFD) || fcntl(fd_dst, F_GETFD))
+		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
+	aggregatorType = findAggregatorType(e);
+	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
+	if (fd_dst == ERROR ||
+		(fd_src == ERROR && aggregatorType == OUTPUT_AGGRE))
+		return (dprintf(STDERR_FILENO, "sh: syntax error in your aggregator\n"));
+//NEED TO MANAGE HERE WITH THE FD.in FD.fd[0] FD.fd[1]
+	if (aggregatorType == ERROR)
+		return (ERROR);
+	else if (aggregatorType == INPUT_AGGRE)
+		dup2(fd_dst, STDIN_FILENO);
+	else
+		dup2(fd_dst, fd_src);
+	return (1);
 }
