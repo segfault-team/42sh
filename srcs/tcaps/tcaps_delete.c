@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 10:13:03 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:40:24 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	tcaps_del_fwd(t_env *e)
 		if (!NB_READ && e->line)
 			strfree(&e->line);
 		--NB_READ;
+		tcaps_putstr(e, e->line);
 	}
 }
 
@@ -71,15 +72,12 @@ void		tcaps_del_bkw(t_env *e)
 		tcaps_del_bkw_end(e);
 	else
 	{
-		if (!TCAPS.nb_read && e->line)
-		{
-			free(e->line);
-			e->line = NULL;
-		}
+		if (!NB_READ && e->line)
+			strfree(&e->line);
 		xputs("le");
-		--TCAPS.nb_read;
-		if (TCAPS.nb_move)
-			--TCAPS.nb_move;
+		--NB_READ;
+		if (NB_MOVE)
+			--NB_MOVE;
 		tcaps_putstr(e, e->line);
 	}
 }
