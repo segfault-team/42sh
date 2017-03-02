@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 18:07:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:40:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void				ft_sig_handler(int sig);
 **		Tools
 */
 int					ft_matchquotes(char *str);
+char				**ft_split_cmds(char *s, char c);
 char				*ft_issetenv(char **env, char *name);
 char				*ft_getenv(char **env, char *name);
 int					red_strstr(char *str);

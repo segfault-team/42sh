@@ -14,7 +14,7 @@ SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					  ft_realloc_insert.c ft_tools.c ft_remove_space.c \
-					  ft_free.c ft_new.c ft_tabzero.c ft_reset.c 
+					  ft_free.c ft_new.c ft_tabzero.c ft_reset.c ft_split_cmds.c 
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
@@ -34,9 +34,6 @@ SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
 					  ft_setenv.c ft_unsetenv.c ft_where.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
-
-## TOOLS FOLDER ##
-SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##
 SRC_NAME			= $(SRC_SHELL) $(SRC_RED) $(SRC_TOOLS) $(SRC_STRUCT) \
