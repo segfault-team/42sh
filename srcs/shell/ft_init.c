@@ -55,6 +55,8 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cmd = NULL;
 	e->cut = NULL;
 	e->cat = NULL;
+	e->child_running = 0;
+	e->check_ctrl_c = 0;
 	e->i_mag = 0;
 	e->magic = NULL;
 	e->pid_list = NULL;
@@ -67,6 +69,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	TCAPS.hist_move = -1;
 	TCAPS.nb_line = 1;
 	TCAPS.nb_col = 0;
+	MULTI = NULL;
 	FD.stdin = dup(STDIN_FILENO);
 	FD.stdout = dup(STDOUT_FILENO);
 	FD.stderr = dup(STDERR_FILENO);

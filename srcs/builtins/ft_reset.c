@@ -18,5 +18,6 @@ int		ft_reset_line(t_env *e)
 		strfree(&e->line);
 	e->tcaps.nb_move = 0;
 	e->tcaps.nb_read = 0;
+	e->check_ctrl_c = 0;
 	return (0);
 }

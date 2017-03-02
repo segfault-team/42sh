@@ -20,17 +20,20 @@ char    *ft_realloc_delete_char(t_env *e)
 	int		j;
 
 	if (e->line)
-		len = TCAPS.nb_read - 1;
+		len = NB_READ - 1;
 	else
 		return (NULL);
 	if (!(new = ft_strnew(len)))
+	{
+		strfree(&e->line);
 		return (NULL);
+	}
 	i = 0;
 	j = -1;
 	if (len > 1)
 		while (e->line[i])
 		{
-			if (i != TCAPS.nb_move - 1)
+			if (i != NB_MOVE - 1)
 				new[++j] = e->line[i++];
 			else
 				++i;

@@ -76,7 +76,7 @@ void	xputs(char *tag)
 	char	*res;
 
 	res = tgetstr(tag, NULL);
-	tputs(res, 1, dsh_putchar);
+	ft_putstr(res);
 }
 
 void	move_right(t_env *e)

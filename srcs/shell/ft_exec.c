@@ -94,15 +94,6 @@ void		ft_close(int fd)
 	}
 }
 
-int		 singletonne(int running)
-{
-	static int child_running = 0;
-
-	if (running != -42)
-		child_running = running;
-	return (child_running);
-}
-
 static void		ft_add_pid(t_env *e, pid_t id)
 {
 	if (!e->pid_list)
@@ -130,7 +121,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	if (id)
 	{
-		singletonne(1);
+		++e->child_running;
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
 	}

@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/02/13 14:50:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/02/28 17:33:22 by kboddez          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME				= 21sh
 
 ## ROOT FOLDER ##
@@ -42,7 +30,9 @@ SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
-					  ft_tools.c ft_remove_space.c ft_tabzero.c isOnlyNumbers.c
+					  ft_tools.c ft_remove_space.c ft_tabzero.c multiline.c \
+					  ft_singletone.c isOnlyNumbers.c
+
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## ALL FILES ##
