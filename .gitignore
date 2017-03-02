@@ -52,3 +52,4 @@ tests
 
 # Test files
 *test*
+*.DS_Store

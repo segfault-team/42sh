@@ -120,6 +120,7 @@ typedef struct		s_env
 	char			*prompt;
 	char			*home;
 	char			*line;
+	char			*line_bkp;
 	char			**cmd;
 	char			***cat;
 	size_t			cmd_len;

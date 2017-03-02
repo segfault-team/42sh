@@ -80,7 +80,7 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-void		ft_close(int fd)
+void			ft_close(int fd)
 {
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
@@ -90,7 +90,7 @@ void		ft_close(int fd)
 	}
 }
 
-pid_t		singletonne(pid_t pid)
+pid_t			singletonne(pid_t pid)
 {
 	static pid_t REAL = 0;
 

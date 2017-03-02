@@ -73,7 +73,7 @@ int		ft_read_history(t_env *e)
 		++i;
 	e->history[i] = NULL;
 	if (close(fd) == -1)
-		ft_printfd(2, "MANAGE ERROR");
+		return (ft_error(SH_NAME, "close failed.", NULL));
 	return (0);
 }
 

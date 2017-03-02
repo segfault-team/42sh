@@ -33,11 +33,8 @@ static void		tcaps_enter(t_env *e)
 		ft_putchar('\n');
 	if (e->x)
 		ft_prompt(e->prompt);
-	TCAPS.hist_move = -1;
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
-	strfree(&e->line);
-	e->line = NULL;
+//	TCAPS.hist_move = -1;
+	ft_reset_line(e);
 }
 
 /*

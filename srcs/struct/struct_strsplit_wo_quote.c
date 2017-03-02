@@ -267,6 +267,7 @@ char			**ft_strsplit_wo_quote_bs(char const *s, char c)
 	}
 	return (tabb);
 }
+
 static void 	struct_init(int len, t_magic *magic)
 {
 	int i;
