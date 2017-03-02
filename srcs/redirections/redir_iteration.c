@@ -76,10 +76,9 @@ int		redir_last_cmd(int i, t_env *e)
 		FD.fd[1] = STDOUT_FILENO;
 		ret = ft_exec_cmd(e, e->cat[i]);
 	}
-	else// if (isOutputRedir(e, RED_INDEX))
-		redir_fill_output(e);
+	else if (isOutputRedir(e, RED_INDEX))
 	{
-		ret = ft_exec_cmd(e, e->cat[i]);
+		redir_fill_output(e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);

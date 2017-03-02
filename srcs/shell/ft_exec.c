@@ -136,6 +136,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	else
 	{
+		if (isAggregator(e, RED_INDEX))
+			redirToAggregator(e);
 		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
@@ -144,13 +146,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		}
 		execve(exec, &cmd[0], e->env);
 	}
-//	waitpid(singletonne, &status, WUNTRACED);
-//	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-//		ft_printf("GERRER ERREUR");
-//		TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
-//	TCAPS.save.c_lflag = ~TCAPS.save.c_lflag;
 	ft_add_pid(e, id);
 	ft_handle_ret_signal(status);
+// DELETE
+	sleep(1);
 	return (status);
 }
 

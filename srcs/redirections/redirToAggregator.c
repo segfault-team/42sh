@@ -25,6 +25,12 @@ int			redirToAggregator(t_env *e)
 	else if (aggregatorType == INPUT_AGGRE)
 		dup2(fd_dst, STDIN_FILENO);
 	else
-		dup2(fd_dst, fd_src);
+	{
+		if (fd_src == 2)
+			dup2(0, STDERR_FILENO);
+		else
+			dup2(FD.fd[1], fd_src);
+	}
+	struct_find_red(e);
 	return (1);
 }
