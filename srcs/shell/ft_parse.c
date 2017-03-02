@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 18:21:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:51:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ char		**ft_trim_split_cmd(t_env *e)
 	char	**cmds;
 	char	*trline;
 
-	//trline is now useless cause tab is not inserted (tcaps directions)
+	//trline is now useless cause tab is not inserted (tcaps directives)
 	trline = ft_strxtrim_quote(e->line, '\t');
-	cmds = ft_strsplit_quote(trline, ';');
+	cmds = ft_split_cmds(trline, ';');
+//	ft_printf("----------------\n");
+//	ft_puttab(cmds);
+//	ft_printf("----------------\n");
 	ft_strdel(&trline);
 	return (cmds);
 }
@@ -131,7 +134,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ret = 0;
 	FD.in = STDIN_FILENO;
 //	ft_printf("cmds: %s\n", cmds_i);
-	e->cmd = ft_strsplit_wo_quote(cmds_i, ' ');
+	e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ');
 //	ft_puttab(e->cmd);
 	e->magic = struct_strsplit_wo_quote(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:03:34 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 17:18:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:46:48 by lfabbro          ###   ########.fr       */a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,24 @@
 int			ft_matchquotes(char *s)
 {
 	int		i;
+	int		bs;
 	char	quote;
 
 	i = 0;
+	bs = 0;
 	quote = '\0';
 	while (s[i])
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && 
-				((i > 0 && s[i - 1] != '\\' && (s[i] == '\'' || s[i] == '\"'))
-				 || (i == 0 && (s[i] == '\'' || s[i] == '\"'))))
-			quote = s[i];
+		if (!bs && s[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
+		{
+			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
+				quote = s[i];
+			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
+				quote = '\0';
+			bs = 0;
+		}
 		++i;
 	}
 	if (quote != '\0')
