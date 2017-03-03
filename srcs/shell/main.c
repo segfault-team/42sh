@@ -6,11 +6,18 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 19:17:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 01:31:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void			tcaps_prompt(char *prompt)
+{
+	tputs(GREEN, 1, dsh_putchar);
+	tputs(prompt, 1, dsh_putchar);
+	tputs(ENDC, 1, dsh_putchar);
+}
 
 void			ft_prompt(char *prompt)
 {

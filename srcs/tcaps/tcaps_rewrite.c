@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:04:57 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:50:52 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 01:32:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		tcaps_rewrite_line(t_env *e, char *str)
 	xputs("dl");
 	xputs("ce");
 	xputs("ed");
-	tputs(e->prompt, 1, dsh_putchar);
+	tcaps_prompt(e->prompt);
 	tputs(str, 1, dsh_putchar);
 	xputs("rc");
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/02 17:40:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 01:31:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int					ft_parse_line(t_env *e);
 int					ft_error(char *util, char *msg, char *what);
 void				ft_banner(void);
 void				ft_prompt(char *prompt);
+void				tcaps_prompt(char *prompt);
 
 /*
 **		Exec

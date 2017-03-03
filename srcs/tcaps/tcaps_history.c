@@ -17,7 +17,7 @@ void		clear_cmd(t_env *e)
 	xputs("dl");
 	xputs("ce");
 	xputs("ed");
-	tputs(e->prompt, 1, dsh_putchar);
+	tcaps_prompt(e->prompt);
 }
 
 static void	print_new_cmd_from_history(t_env *e)
