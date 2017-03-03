@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/27 12:09:25 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/02 18:10:15 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void		ft_sig_handler(int sig)
 		{
 			tcaps_ctrl_end(e);
 			strfree(&MULTI);
+			TCAPS.hist_move = -1;
 			ft_putstr_fd("\n$> ", 1);
 		}
 	}
