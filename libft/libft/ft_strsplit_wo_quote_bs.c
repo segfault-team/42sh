@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 17:59:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 19:35:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -53,7 +53,7 @@ static size_t	ft_count_words(char const *s, char c)
 		}
 		++i;
 	}
-	ft_printf("nw: %d\n", nw);
+	//ft_printf("nw: %d\n", nw);
 	return (nw);
 }
 
@@ -90,7 +90,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 		}
 		++i;
 	}
-	ft_printf("len: %d\n", len);
+	//ft_printf("len: %d\n", len);
 	return (len);
 }
 
@@ -170,7 +170,6 @@ char			**ft_strsplit_wo_quote_bs(char const *s, char c)
 	size_t	i;
 
 	tab = NULL;
-	ft_putendl(s);
 	if (s)
 	{
 		i = -1;

@@ -69,13 +69,14 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//		if ((quote && s[i] != quote) ||
-			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+			//if ((quote && s[i] != quote) ||
+			//		(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
 			++len;
 			bs = 0;
 		}
 		++i;
 	}
+	//ft_printf("len: %d\n", len);
 	return (len);
 }
 
@@ -109,12 +110,13 @@ static char		*ft_strcpy_chr(char const *s, char c)
 					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
 			if ((quote && (s[i] != quote || bs)) ||
-					(!quote && ((s[i] != '\'' && s[i] != '\"'))))// || bs)))
-			cpy[j++] = s[i];
+					(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
+				cpy[j++] = s[i];
 			bs = 0;
 		}
 		++i;
 	}
+	//ft_printf("s: %s\n", cpy);
 	return (cpy);
 }
 
@@ -144,29 +146,6 @@ static int		ft_skip(char const *s, char c)
 		++i;
 	}
 	return (i);
-}
-
-char			**ft_strsplit_wo_quote_bs(char const *s, char c)
-{
-	char	**tabb;
-	size_t	nw;
-	size_t	i;
-
-	tabb = NULL;
-	if (s)
-	{
-		i = -1;
-		nw = ft_count_words(s, c);
-		if ((tabb = ft_tabnew(nw + 1)) == NULL)
-			return (NULL);
-		while (++i < nw)
-		{
-			if ((tabb[i] = ft_strcpy_chr(s, c)) == NULL)
-				return (tabb);
-			s += ft_skip(s, c);
-		}
-	}
-	return (tabb);
 }
 
 static void 	struct_init(int len, t_magic *magic)

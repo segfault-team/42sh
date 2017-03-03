@@ -106,9 +106,9 @@ char		**ft_trim_split_cmd(t_env *e)
 	//trline is now useless cause tab is not inserted (tcaps directives)
 	trline = ft_strxtrim_quote(e->line, '\t');
 	cmds = ft_split_cmds(trline, ';');
-	ft_printf("----------------\n");
-	ft_puttab(cmds);
-	ft_printf("----------------\n");
+//	ft_printf("----------------\n");
+//	ft_puttab(cmds);
+//	ft_printf("----------------\n");
 	ft_strdel(&trline);
 	return (cmds);
 }
