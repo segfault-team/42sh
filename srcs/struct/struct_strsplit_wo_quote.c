@@ -6,105 +6,6 @@
 **	Like strsplit_quote, but it avoids copying quotes
 */
 
-/*
-static size_t	ft_count_words(char const *s, char c)
-{
-	size_t	nw;
-	int		i;
-	char	quote;
-
-	i = 0;
-	nw = 0;
-	quote = '\0';
-	while (s[i] && s[i] == c)
-		++i;
-	while (s[i])
-	{
-		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))	
-			quote = s[i];
-		else if (s[i] == quote)
-			quote = '\0';
-		if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
-			++nw;
-		++i;
-	}
-	return (nw);
-}
-
-static size_t	ft_strlen_chr(char const *s, char c)
-{
-	size_t	len;
-	int		i;
-	char	quote;
-
-	len = 0;
-	i = 0;
-	quote = '\0';
-	while (s[i] == c)
-		++i;
-	while (s[i] && (s[i] != c || quote))
-	{
-		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
-		else if (s[i] == quote)
-			quote = '\0';
-		if ((quote && s[i] != quote) ||
-				(!quote && (s[i] != '\'' && s[i] != '\"')))
-			++len;
-		++i;
-	}
-	return (len);
-}
-
-static char		*ft_strcpy_chr(char const *s, char c)
-{
-	char	*cpy;
-	int		i;
-	int		j;
-	char	quote;
-
-	if ((cpy = ft_strnew(ft_strlen_chr(s, c))) == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	quote = '\0';
-	while (s[i] == c)
-		++i;
-	while (s[i] && (s[i] != c || quote))
-	{
-		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
-		else if (s[i] == quote)
-			quote = '\0';
-		if ((quote && s[i] != quote) ||
-				(!quote && (s[i] != '\'' && s[i] != '\"')))
-			cpy[j++] = s[i];
-		++i;
-	}
-	return (cpy);
-}
-
-static int		ft_skip(char const *s, char c)
-{
-	int		i;
-	char	quote;
-
-	i = 0;
-	quote = '\0';
-	while (s[i] == c)
-		++i;
-	while (s[i] && (s[i] != c || quote))
-	{
-		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
-		else if (s[i] == quote)
-			quote = '\0';
-		++i;
-	}
-	return (i);
-}
-*/
-
 static size_t	ft_count_words(char const *s, char c)
 {
 	size_t	nw;
@@ -130,10 +31,10 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = '\0';
 			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
 			{
-				if (!bs || s[i] == '\\')
-					++nw;
+				//if (!bs) // || s[i] == '\\')
+				++nw;
 			}
-			else if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
@@ -205,10 +106,10 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
-						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-					if ((quote && (s[i] != quote || bs)) ||
-							(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
+			if ((quote && (s[i] != quote || bs)) ||
+					(!quote && ((s[i] != '\'' && s[i] != '\"'))))// || bs)))
 			cpy[j++] = s[i];
 			bs = 0;
 		}

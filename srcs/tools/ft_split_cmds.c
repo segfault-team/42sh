@@ -6,11 +6,20 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/02 17:45:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 11:33:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "libft.h"
+
+/*
+**
+**	Description:
+**		this function split the line by the char ';',
+**		it keeps hold '\' '\\' '\;' and things in quotes.
+**		How it works? .. again, it's black magic.
+**
+*/
 
 static size_t	ft_count_words(char const *s, char c)
 {
@@ -37,15 +46,16 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = '\0';
 			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
 			{
-				if (!bs || s[i] == '\\')
-					++nw;
+				//if (!bs)// || s[i] == '\\')
+				++nw;
 			}
-			else if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
 		++i;
 	}
+	//ft_printf("nw: %d\n", nw);
 	return (nw);
 }
 
