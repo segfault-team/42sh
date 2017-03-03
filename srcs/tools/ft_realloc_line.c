@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_realloc_line.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 11:30:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/27 21:01:56 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 char    *ft_realloc_delete_char(t_env *e, int pos)
@@ -20,12 +8,14 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 	int		j;
 
 	if (e->line)
-		//len = ft_strlen(e->line);
-		len = TCAPS.nb_read - 1;
+		len = NB_READ - 1;
 	else
 		return (NULL);
 	if (!(new = ft_strnew(len)))
+	{
+		strfree(&e->line);
 		return (NULL);
+	}
 	i = 0;
 	j = -1;
 	if (len > 1)

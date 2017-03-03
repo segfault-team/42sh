@@ -1,5 +1,12 @@
 #include "shell.h"
 
+int isMagic(t_env *e, int i)
+{
+	if (e->magic[i].cmd)
+		return (1);
+	return (0);
+}
+
 int	struct_len(t_magic *magic)
 {
 	int	len;
@@ -40,6 +47,7 @@ void	magic_type(t_env *e)
 			struct_arg_red(i, e);
 	}
 	magic_realloc(e);
+
 }
 
 void	magic_free(t_env *e)

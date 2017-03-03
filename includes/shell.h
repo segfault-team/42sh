@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 01:31:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 16:16:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,15 @@
 # define TCAPS		e->tcaps
 # define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
+# define MULTI		e->multiline
 
 # define NB_MOVE	TCAPS.nb_move
 # define NB_READ	TCAPS.nb_read
 
 # define HIST_FILE	"/tmp/.history"
+# define STD_PROMPT	GREEN"$> "ENDC
+# define H_PROMPT	"heredoc> "
+# define BS_PROMPT	"> "
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
@@ -111,6 +115,12 @@ typedef struct		s_job
 	struct s_job	*next;
 }					t_job;
 
+typedef struct		s_pid_list
+{
+	pid_t			pid;
+	void			*next;
+}					t_pid_list;
+
 typedef struct		s_env
 {
 	t_fd			fd;
@@ -124,16 +134,22 @@ typedef struct		s_env
 	char			**cmd;
 	char			***cat;
 	size_t			cmd_len;
-
 	size_t			i_mag;
 	t_magic			*magic;
 
+	//??
+	t_pid_list		*pid_list;
+	t_pid_list		*actual_pid;
 	t_job			*jobs;
 
 	char			buf[3];
 	t_term			tcaps;
 	char 			**history;
 	char			*cut;
+	char			*multiline;
+	int 			child_running;
+	int 			check_ctrl_c;
+	int 			check_sigtstp;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -165,6 +181,15 @@ int					redir_check_red(t_env *e, char *red);
 int					redir_fill_output(t_env *e);
 int					ft_redirect(int oldfd, int newfd);
 void				ft_create_file(t_env *e);
+int					isRedirection(t_env *e, int i);
+int					isOutputRedir(t_env *e, int i);
+int					isRedirPipe(t_env *e, int i);
+int					isAggregator(t_env *e, int i);
+int					isInputRedir(t_env *e, int i);
+int					redirToAggregator(t_env *e);
+int					isolateFdDestination(t_env *e);
+int					isolateFdSource(t_env *e);
+int					findAggregatorType(t_env *e);
 
 /*
 **		Init - Reset
@@ -175,10 +200,11 @@ int					ft_reset_line(t_env *e);
 /*
 **		Signals
 */
-int					ft_check_signals(int call, int sig);
+//int					ft_check_signals(int call, int sig);
 int					ft_handle_ret_signal(int status);
 void				ft_set_sig_handler(void);
 void				ft_sig_handler(int sig);
+t_env				*env_access(t_env *e);
 
 /*
 **		Tools
@@ -195,6 +221,9 @@ int					ft_subs_tilde(t_env *e);
 t_job				*ft_new_job(t_job *next, int pid);
 void				strfree(char **str);
 void				ft_tabzero(char **dbl_tab, int tab_len);
+int					isNumber(char );
+int					isOnlyNumbers(char *str);
+int 				ft_multiline(t_env *e);
 
 /*
 **		History
@@ -245,6 +274,7 @@ int					ft_history(t_env *e);
 **		Termcaps
 */
 int					dsh_putchar(int c);
+int					tcaps_putstr(t_env *e, char *str);
 int					is_more_than_a_line(t_env *e);
 void				tcaps_init(t_env *e);
 int					tcaps_set(void);
@@ -257,7 +287,7 @@ int					tcaps_history_up(t_env *e);
 int					tcaps_history_down(t_env *e);
 void				tcaps_del_bkw(t_env *e);
 void				tcaps_history(t_env *e);
-int					tcaps_del_fwd(t_env *e);
+void				tcaps_del_fwd(t_env *e);
 void				tcaps_left(t_env *e);
 void				tcaps_insert(t_env *e);
 void				tcaps_clear(t_env *e);
@@ -270,13 +300,14 @@ void				tcaps_cut_paste(t_env *e);
 void				clear_cmd(t_env *e);
 int					is_paste(char *buf);
 int					tcaps_paste(t_env *e, char *buf);
+void				tcaps_ctrl_d(t_env *e);
 
 /*
 **	Magic struct
 */
 t_magic				*struct_strsplit(char const *str, char div);
 t_magic				*struct_strsplit_quote(char const *s, char c);
-t_magic				*struct_strsplit_wo_quote(char const *s, char c);
+t_magic				*struct_strsplit_wo_quote_bs(char const *s, char c);
 int					struct_len(t_magic *magic);
 void				magic_free(t_env *e);
 void				struct_arg_red(int i, t_env *e);
@@ -284,7 +315,6 @@ int					struct_check_cmd(int i, t_env *e);
 void				magic_type(t_env *e);
 void				magic_realloc(t_env *e);
 void				struct_find_red(t_env *e);
-
-pid_t	singletonne(pid_t pid);
+int					isMagic(t_env *e, int i);
 
 #endif

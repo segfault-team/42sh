@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_exec.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/25 19:22:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 17:44:52 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static char		*ft_find_exec_readdir(char *paths, char *cmd)
@@ -90,33 +78,44 @@ void			ft_close(int fd)
 	}
 }
 
-pid_t			singletonne(pid_t pid)
+/*
+static void		ft_add_pid(t_env *e, pid_t id)
 {
-	static pid_t REAL = 0;
-
-	if (pid != -42)
-		REAL = pid;
-	return (REAL);
+	if (!e->pid_list)
+	{
+		e->pid_list = (t_pid_list *)malloc(sizeof(t_pid_list));
+		e->actual_pid = e->pid_list;
+	}
+	else
+	{
+		e->actual_pid->next = (t_pid_list *)malloc(sizeof(t_pid_list));
+		e->actual_pid = e->actual_pid->next;
+	}
+	e->actual_pid->pid = id;
+	e->actual_pid->next = NULL;
 }
+*/
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	t_job	*son;
 	pid_t	pid;
 
-	if ((pid = fork()) < 0 || (singletonne(pid)) < 0)
+	if ((pid = fork()) < 0)
 	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	}
-	if (singletonne(-42))
+	if (pid)
 	{
+		++e->child_running;
 		ft_close(FD.fd[1]);
 		ft_close(FD.in);
 	}
 	else
 	{
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || \
-				redir_check_red(e, ">>"))
+		if (isAggregator(e, RED_INDEX))
+			redirToAggregator(e);
+		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -124,9 +123,11 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		}
 		execve(exec, &cmd[0], e->env);
 	}
+	// ?? jobs
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
+	//ft_add_pid(e, id);
 	return (0);
 }
 

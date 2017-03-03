@@ -1,23 +1,30 @@
 #include "shell.h"
 
-static int      red_check_sign(char c)
+static int      isRedirSign(char c)
 {
 	if (c == '<' || c == '>' || c == '|' || c == '&')
 		return (1);
 	return (0);
 }
 
+/*
+**	CHECK IF A REDIRECTION IS IN 'str'
+*/
 int				red_strstr(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i])
-		if (red_check_sign(str[i]))
+		if (isRedirSign(str[i]))
 			return (1);
 	return (0);
 }
 
+/*
+**	CHECK IF CURRENT e->magic[i].cmd IS NOT A REDIRECTION
+**	OR A FILE FOR REDIRECTION
+*/
 int				struct_check_cmd(int i, t_env *e)
 {
 	if (i > 0 && e->magic[i - 1].cmd && !red_strstr(e->magic[i - 1].cmd) &&
@@ -27,7 +34,7 @@ int				struct_check_cmd(int i, t_env *e)
 		return (1);
 	return (0);
 }
-
+/*
 int				struct_check_red(int i, t_env *e)
 {
 	if (e->magic[i - 1].cmd && !red_strstr(e->magic[i - 1].cmd) &&
@@ -35,7 +42,7 @@ int				struct_check_red(int i, t_env *e)
 		return (1);
 	return (0);
 }
-
+*/
 void			del_elem_magic(int i, t_env *e)
 {
 	strfree(&e->magic[i - 1].type);
@@ -73,6 +80,8 @@ void			struct_arg_red(int i, t_env *e)
 		e->magic[i].type = ft_strdup("input");
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
+	else if (isOnlyNumbers(e->magic[i].cmd) || !ft_strcmp(e->magic[i].cmd, "-"))
+		e->magic[i].type = ft_strdup("fd_aggregator");
 	if (i > 0 && (!ft_strcmp(e->magic[i - 1].type, "input") ||
 		 !ft_strcmp(e->magic[i - 1].type, "output")))
 		del_elem_magic(i, e);

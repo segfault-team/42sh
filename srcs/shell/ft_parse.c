@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_parse.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 18:55:15 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 11:31:20 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 char		*ft_tilde(t_env *e, char *current)
@@ -39,21 +27,6 @@ int		ft_subs_tilde(t_env *e)
 			e->cmd[k] = tmp;
 		}
 	return (0);
-}
-
-char		**ft_trim_split_cmd(t_env *e)
-{
-	char	**cmds;
-	char	*trline;
-
-	//trline is now useless cause tab is not inserted (tcaps directives)
-	trline = ft_strxtrim_quote(e->line, '\t');
-	cmds = ft_split_cmds(trline, ';');
-//	ft_printf("----------------\n");
-//	ft_puttab(cmds);
-//	ft_printf("----------------\n");
-	ft_strdel(&trline);
-	return (cmds);
 }
 
 int		ft_is_builtin(char *cmd)
@@ -125,6 +98,21 @@ int				ft_waitsons(t_env *e)
 	return (0);
 }
 
+char		**ft_trim_split_cmd(t_env *e)
+{
+	char	**cmds;
+	char	*trline;
+
+	//trline is now useless cause tab is not inserted (tcaps directives)
+	trline = ft_strxtrim_quote(e->line, '\t');
+	cmds = ft_split_cmds(trline, ';');
+	ft_printf("----------------\n");
+	ft_puttab(cmds);
+	ft_printf("----------------\n");
+	ft_strdel(&trline);
+	return (cmds);
+}
+
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;
@@ -136,7 +124,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 //	ft_printf("cmds: %s\n", cmds_i);
 	e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ');
 //	ft_puttab(e->cmd);
-	e->magic = struct_strsplit_wo_quote(cmds_i, ' ');
+	e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);
 //	ft_putmagic(e);
@@ -166,11 +154,11 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
+	ft_check_history(e);
 	if (ft_matchquotes(e->line))
 	{
 		if ((cmds = ft_trim_split_cmd(e)) != NULL)
 		{
-			ft_check_history(e);
 			while (cmds[++i])
 			{
 				ret = ft_iter_cmds(e, cmds[i]);
@@ -183,4 +171,3 @@ int				ft_parse_line(t_env *e)
 		ft_error(NULL, "Unmatched quote", NULL);
 	return (ret);
 }
-

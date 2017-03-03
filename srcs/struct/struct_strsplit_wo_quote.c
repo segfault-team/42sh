@@ -181,7 +181,7 @@ static void 	struct_init(int len, t_magic *magic)
 	}
 }
 
-t_magic			*struct_strsplit_wo_quote(char const *s, char c)
+t_magic			*struct_strsplit_wo_quote_bs(char const *s, char c)
 {
 	size_t		k;
 	size_t		len;

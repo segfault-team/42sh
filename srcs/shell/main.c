@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 17:15:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 01:31:30 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 void			tcaps_prompt(char *prompt)
@@ -34,13 +22,14 @@ void			ft_prompt(char *prompt)
 
 static void		tcaps_enter(t_env *e)
 {
+	if (!ft_multiline(e))
+		return ;
 	tcaps_ctrl_end(e);
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)
 		ft_prompt(e->prompt);
-//	TCAPS.hist_move = -1;
 	ft_reset_line(e);
 }
 
@@ -106,6 +95,7 @@ int				main(int ac, char **av, char **env)
 {
 	t_env	e;
 
+	env_access(&e);
 	ft_init(&e, ac, av, env);
 	ft_banner();
 	ft_set_sig_handler();
@@ -113,10 +103,10 @@ int				main(int ac, char **av, char **env)
 	while (e.x)
 	{
 		read(0, e.buf, 3);
-		if (ft_check_signals(0, SIGINT))
+		if (e.check_ctrl_c)
 			ft_reset_line(&e);
 		// for now we handle ctrl-z, later on we will get rid of that
-		if (ft_check_signals(0, SIGTSTP))
+		if (e.check_sigtstp)
 			tcaps_init(&e);
 		// peut etre utiliser directement:
 		// ft_init(&e, ac, av, env);   ???

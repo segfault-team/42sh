@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/17 21:25:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/24 19:02:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 16:12:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int			tcaps_reset(void)
 
 void			tcaps_init(t_env *e)
 {
-	TCAPS.nb_move = 0;
-	TCAPS.nb_read = 0;
+	e->check_sigtstp = 0;
+	NB_MOVE = 0;
+	NB_READ = 0;
 	TCAPS.check_move = 0;
 	TCAPS.hist_move = -1;
 	TCAPS.nb_line = 1;

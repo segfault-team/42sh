@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 20:01:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 15:53:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	FD.stdin = dup(STDIN_FILENO);
 	FD.stdout = dup(STDOUT_FILENO);
 	FD.stderr = dup(STDERR_FILENO);
+	MULTI = NULL;
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;
@@ -67,6 +68,9 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cmd = NULL;
 	e->cut = NULL;
 	e->cat = NULL;
+	e->child_running = 0;
+	e->check_ctrl_c = 0;
+	e->i_mag = 0;
 	e->magic = NULL;
 	ft_bzero(e->buf, 3);
 	ft_set_prompt(e);

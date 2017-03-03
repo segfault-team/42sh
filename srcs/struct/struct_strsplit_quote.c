@@ -102,31 +102,6 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-/*
-char			**ft_strsplit_quote(char const *s, char c)
-{
-	char	**tab;
-	size_t	nw;
-	size_t	i;
-
-	tab = NULL;
-	if (s)
-	{
-		i = -1;
-		nw = ft_count_words(s, c);
-		if ((tab = ft_tabnew(nw + 1)) == NULL)
-			return (NULL);
-		while (++i < nw)
-		{
-			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
-				return (tab);
-			s += ft_skip(s, c);
-		}
-	}
-	return (tab);
-}
-*/
-
 static void 	struct_init(int len, t_magic *magic)
 {
 	int i;
@@ -152,7 +127,7 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 			return (NULL);
 		struct_init(len, magic);
 		k = 0;
-		while (k < ft_count_words(s, c) && *s != '\0')
+		while (k < len /*ft_count_words(s, c)*/ && *s != '\0')
 		{
 			while (*s == c)
 				++s;

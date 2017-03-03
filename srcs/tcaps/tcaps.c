@@ -6,7 +6,7 @@
 /*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/02/20 19:47:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/03 16:16:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,20 @@ int				dsh_putchar(int c)
 
 int 			tcaps(t_env *e)
 {
-	if (BUF[0] == CTRL_D) // ctrl + d
-		ft_exit(e);
+	if (BUF[0] == CTRL_D)
+		tcaps_ctrl_d(e);
+	//	ft_exit(e);
 	else if (tcaps_is_printable(BUF) && NB_MOVE == NB_READ) // all printable char
 		tcaps_insert(e);
 	else if (tcaps_check_key(BUF, 12, 0, 0)) // Ctrl + L
 		tcaps_clear(e);
 	else if (tcaps_check_key(BUF, 27, 91, 65) || tcaps_check_key(BUF, 27, 91, 66))
 		tcaps_history_first_step(e); // arrow up/down
-	else if (tcaps_check_key(BUF, 27, 91, 67) && TCAPS.nb_move < TCAPS.nb_read)
+	else if (tcaps_check_key(BUF, 27, 91, 67) && NB_MOVE < NB_READ)
 		move_right(e); // arrow right
-	else if (tcaps_check_key(BUF, 27, 91, 68) && TCAPS.nb_move > 0)
+	else if (tcaps_check_key(BUF, 27, 91, 68) && NB_MOVE > 0)
 		tcaps_left(e); // arrow left
-	else if (BUF[0] == 127 && TCAPS.nb_read && TCAPS.nb_move > 0)
+	else if (BUF[0] == 127 && NB_READ && NB_MOVE > 0)
 		tcaps_del_bkw(e); // backspace(delete) key
 	else if (tcaps_check_key(BUF, 27, 91, 49))
 		tcaps_ctrl_arrow(e); // ctrl + arrow

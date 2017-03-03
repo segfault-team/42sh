@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tcaps_delete.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 11:27:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 19:51:47 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 /*
@@ -33,77 +21,59 @@
  ** 	nb_line		= numero de la ligne
  */
 
-/*
-**		Calculates if line is more than a line, considering ws_row size.
-**		Why am I using ws_row - 3 ? 
-**		I Dunno... Ask Jesus.
-*/
-
-int		is_more_than_a_line(t_env *e)
-{
-	unsigned short	len;
-
-	len = (unsigned short)ft_strlen(e->line);
-	if (len > TCAPS.ws.ws_row - 3)
-		return (1);
-	return (0);
-}
-
-int		tcaps_del_fwd(t_env *e)
+void	tcaps_del_fwd(t_env *e)
 {
 	char	buf[3];
 
 	ft_bzero(buf, 3);
-	read(0, buf, 3);
-	if (tcaps_check_key(buf, 126, 0, 0) && TCAPS.nb_move != TCAPS.nb_read)
+	if (BUF[0] != CTRL_D)
+		read(0, buf, 3);
+	else
+		buf[0] = 126;
+	if (tcaps_check_key(buf, 126, 0, 0) && NB_READ && NB_MOVE != NB_READ)
 	{
-		if (!TCAPS.nb_read)
+		xputs("dm");
+		xputs("dc");
+		xputs("ed");
+		// voir cette condition
+		if (!(NB_READ - 1))
 			strfree(&e->line);
-		if ((e->line = ft_realloc_delete_char(e, TCAPS.nb_move)) == NULL)
-			return (ft_error(SH_NAME, "malloc failed.", NULL));
-		if (is_more_than_a_line(e))
-			tcaps_rewrite_line(e, e->line);
-		else
-		{
-			xputs("dm");
-			xputs("dc");
-			xputs("ed");
-		}
-		tcaps_recalc_pos(e);
-		if (TCAPS.nb_read)
-			--TCAPS.nb_read;
+		e->line = ft_realloc_delete_char(e, NB_MOVE);
+		// voir cette condition
+		if (!NB_READ && e->line)
+			strfree(&e->line);
+		--NB_READ;
+		tcaps_putstr(e, e->line);
 	}
-	return (0);
 }
 
 static void	tcaps_del_bkw_end(t_env *e)
 {
 	xputs("dm");
 	xputs("le");
-	if (TCAPS.nb_move)
-		--TCAPS.nb_move;
+	if (NB_MOVE)
+		--NB_MOVE;
 	tcaps_recalc_pos(e);
 	if (TCAPS.nb_col == WIN_WIDTH - 1)
 		xputs("cd");
 	xputs("dc");
-	--TCAPS.nb_read;
+	--NB_READ;
 	xputs("ed");
 }
 
 void		tcaps_del_bkw(t_env *e)
 {
-	if (TCAPS.nb_move == TCAPS.nb_read)
+	if (NB_MOVE == NB_READ)
 		tcaps_del_bkw_end(e);
 	else
 	{
 		// Pourquoi si on a rien lu on efface line?
-		if (!TCAPS.nb_read)
+		if (!NB_READ)
 			strfree(&e->line);
 		xputs("le");
-		// nb_read peut etre < 0 ?
-		--TCAPS.nb_read;
-		if (TCAPS.nb_move)
-			--TCAPS.nb_move;
-		tcaps_rewrite_line(e, e->line);
+		--NB_READ;
+		if (NB_MOVE)
+			--NB_MOVE;
+		tcaps_putstr(e, e->line);
 	}
 }

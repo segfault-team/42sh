@@ -58,18 +58,41 @@ int		redir_last_cmd(int i, t_env *e)
 	status = 0;
 	ret = 0;
 	if (redir_check_red(e, "|") || !RED_INDEX)
+	//if (!RED_INDEX || isRedirPipe(e, RED_INDEX))
 	{
 		FD.fd[1] = STDOUT_FILENO;
 		ret = ft_exec_cmd(e, e->cat[i]);
 	}
-	else
+	else if (isOutputRedir(e, RED_INDEX))
 	{
-		if (redir_check_red(e, ">") || redir_check_red(e, ">>"))
-			redir_fill_output(e);
+		redir_fill_output(e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
+	//?? jobs
 	wait(&status);
+	/*
+=======
+	ret = 0;
+	while (!ret)
+	{
+		ret = 42;
+		e->actual_pid = e->pid_list;
+		while (e->actual_pid)
+		{
+			tmp = waitpid(e->actual_pid->pid, &status, WNOHANG);
+			if (!tmp)
+				ret = tmp;
+			e->actual_pid = e->actual_pid->next;
+		}
+		usleep(5);
+	}
+	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
+		ft_printf("GERRER ERREUR");
+	ft_free_list_pid(e);
+	e->child_running = 0;
+>>>>>>> origin/redirections_clean
+	*/
 	return (ret);
 }
