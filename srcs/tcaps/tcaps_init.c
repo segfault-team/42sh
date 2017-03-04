@@ -21,11 +21,12 @@ int			tcaps_get_term_name(char **env)
 	char	*term;
 
 	if (!(term = ft_getenv(env, "TERM")))
-		return (ft_error(SH_NAME, "TERM environment variable is not set", NULL));
-	if (tgetent(NULL, ft_strchr(term, '=')) != 1)
+		ft_error(SH_NAME, "WARNING", "TERM environment variable is not set");
+	term = ft_strdup("=xterm");
+	if (tgetent(NULL, "xterm") != 1)
 	{
 		free(term);
-		return (ft_error(SH_NAME, "could not find terminfo database", NULL));
+		return (ft_error(SH_NAME, "WARNING", "could not find terminfo database"));
 	}
 	free(term);
 	return (0);
@@ -40,7 +41,7 @@ int			tcaps_set(void)
 	struct termios	tcs;
 
 	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
-		return (ft_error(SH_NAME, "could not find termios structure", NULL));
+		return (ft_error(SH_NAME, "WARNING", "could not find termios structure"));
 	tcs.c_cc[VMIN] = 1;
 	tcs.c_cc[VTIME] = 0;
 	tcs.c_lflag &= ~(ICANON | ECHO);
@@ -79,12 +80,15 @@ void			tcaps_init(t_env *e)
 	TCAPS.hist_move = -1;
 	TCAPS.nb_line = 1;
 	TCAPS.nb_col = 0;
-	// search for term name, if not found is not a big deal
+	// search for term name, if TERM is not set what can we do?
+	// duplicating "=xterm" seems not a very good idea...
 	tcaps_get_term_name(e->env);
-	// sets termios structure for the shell. If cannot, it is a deal, so deal it.
+	// sets termios structure for the shell.
+	// If cannot, it is a deal, so deal it.
 	if (tcaps_set())
 	{
-		//no termios 
+		// no termios 
+		// launching minishell (?)
 		return ;
 	}
 	xputs("am");

@@ -5,7 +5,11 @@ char		*ft_tilde(t_env *e, char *current)
 	char	*ret;
 	char	*home;
 
-	if (!(home = ft_getenv(e->env, "HOME")))
+	if (e->home)
+		home = ft_strdup(e->home);
+	else
+		home = ft_getenv(e->env, "HOME");
+	if (!home)
 		return (NULL);
 	ret = ft_strjoin(home, &current[1]);
 	strfree(&home);
@@ -123,7 +127,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	FD.in = STDIN_FILENO;
 //	ft_printf("cmds: %s\n", cmds_i);
 	e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ');
-//	ft_puttab(e->cmd);
 	e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ');
 	e->cat = ft_cmds_split(e);
 	magic_type(e);

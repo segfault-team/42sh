@@ -80,12 +80,12 @@ static size_t	ft_strlen_chr(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (bs && (//(s[i] == '\'' && quote != '\'') ||
+			if (bs && ((quote == '\'' && s[i] == '\\') ||
 					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			if ((quote && (s[i] != quote || bs)) ||
-				(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
-				++len;
+		//	if ((quote && (s[i] != quote || bs)) ||
+		//		(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
+			++len;
 			bs = 0;
 		}
 		++i;
@@ -120,12 +120,12 @@ static char		*ft_strcpy_chr(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (bs && (//(quote == '\'' && s[i] == '\\') ||
+			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-			if ((quote && (s[i] != quote || bs)) ||
-				(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
-				cpy[j++] = s[i];
+	//		if ((quote && (s[i] != quote || bs)) ||
+	//			(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
+			cpy[j++] = s[i];
 			bs = 0;
 		}
 		++i;

@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "shell.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 static void		ft_set_prompt(t_env *e)
 {
@@ -19,9 +22,24 @@ static void		ft_set_prompt(t_env *e)
 
 static int		ft_set_home(t_env *e)
 {
+	int				uid;
+	struct passwd	*pwd;
+
 	e->home = NULL;
 	if ((e->home = ft_getenv(e->env, "HOME")))
 		return (1);
+	if ((uid = getuid()))
+	{
+		if ((pwd = getpwuid(uid)))
+		{
+			if (pwd->pw_dir)
+			{
+				e->home = ft_strdup(pwd->pw_dir);
+				ft_setenv(&e->env, "HOME", pwd->pw_dir);
+				return (1);
+			}
+		}
+	}
 	return (0);
 }
 
@@ -49,8 +67,8 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->history = NULL;
 	e->env = ft_tabdup(env);
 	ft_check_file_perm(HIST_FILE);
-	if (e->env == NULL || !ft_set_home(e))
-		ft_error(SH_NAME, "warning: no home set", NULL);
+	if (!ft_set_home(e))
+		ft_error(SH_NAME, "WARNING: no home set", NULL);
 	if (ft_read_history(e) < 0)
 	{
 		ft_free_tab(e->history);
