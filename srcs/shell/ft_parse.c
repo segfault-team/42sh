@@ -100,7 +100,7 @@ int				ft_iter_pipes(t_env *e, char *cmds_i)
 		for (int k = 0; e->cat[j][k]; k++)
 			ft_printf("cat[%d][%d] : %s\n", j, k, e->cat[j][k]);
 */	if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
-		ft_error(SH_NAME, "could not manage terminal parameters", NULL)
+		ft_error(SH_NAME, "could not manage terminal parameters", NULL);
 	while (e->cat[++i + 1] && ret != -1)
 	{
 		ret = redir_exec_open(i, e);

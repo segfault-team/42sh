@@ -79,18 +79,18 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 		ft_error(SH_NAME, "TERM environment variable is not set", NULL);
 	if (tgetent(NULL, TCAPS.term_name) == ERR)
 	{
-		strfree(&term);
+		strfree(&TCAPS.term_name);
 		ft_error(SH_NAME, "could not find terminfo database", NULL);
 	}
 	if (tcgetattr(0, &TCAPS.termos) == -1 || tcgetattr(0, &TCAPS.save) == -1)
-		ft_error(SH_NAME, "could not find termios structure", NULL)
+		ft_error(SH_NAME, "could not find termios structure", NULL);
 	ft_memcpy(&TCAPS.save, &TCAPS.termos, sizeof(struct termios));
 	TCAPS.termos.c_lflag &= ~(ICANON);
 	TCAPS.termos.c_lflag &= ~(ECHO);
 	TCAPS.termos.c_cc[VMIN] = 1;
 	TCAPS.termos.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_error(SH_NAME, "could not manage terminal parameters", NULL)
+		ft_error(SH_NAME, "could not manage terminal parameters", NULL);
 	xputs("am");
 	xputs("bw");
 }
