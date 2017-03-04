@@ -11,7 +11,7 @@ static void	outputAggre(t_env *e, int fd_src, int fd_dst)
 		if (isRedirPipe(e, RED_INDEX + 1))
 			ft_redirect(FD.fd[1], STDERR_FILENO);
 		else
-			ft_redirect(STDOUT_FILENO, STDERR_FILENO);
+			ft_redirect(STDERR_FILENO, STDOUT_FILENO);
 	}
 	else
 		dup2(fd_dst, fd_src);

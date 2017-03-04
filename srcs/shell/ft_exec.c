@@ -128,7 +128,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (isAggregator(e, RED_INDEX))
 			redirToAggregator(e);
-		else if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
