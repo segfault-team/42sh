@@ -116,7 +116,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	pid_t	id;
 
 	status = 0;
-
 	if ((id = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	if (id)
@@ -129,7 +128,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (isAggregator(e, RED_INDEX))
 			redirToAggregator(e);
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		else if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -139,8 +138,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	ft_add_pid(e, id);
 	ft_handle_ret_signal(status);
-// DELETE
-	sleep(1);
 	return (status);
 }
 

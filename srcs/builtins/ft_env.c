@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:24:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:32:25 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/04 12:45:42 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,12 @@ int				ft_env(t_env *e)
 {
 	char	**env_cpy;
 	int		i;
-	int		fd[2];
 
 	env_cpy = ft_tabdup(e->env);
 	if (e->cmd_len > 1)
 	{
 		if ((i = ft_env_opt(e, &env_cpy)) > 0)
-		{
-			fd[0] = 1;
-			fd[1] = 0;
 			ft_exec(&e->cmd[i], e);
-		}
 	}
 	else
 		ft_puttab(e->env);

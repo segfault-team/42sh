@@ -6,7 +6,7 @@ SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
-SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c \
+SRC_RED_NAME 		= redir_iteration.c redir_file.c ft_create_file.c \
 					  check_redirections.c redirToAggregator.c isolateAggregatorFd.c \
 					  findAndCheckAggregator.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))

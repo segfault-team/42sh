@@ -7,9 +7,6 @@ static int		is_print(char c)
 
 int				is_paste(char *buf)
 {
-	int		i;
-
-	i = -1;
 	if (buf && buf[0] && buf[1] && buf[2])
 		if (is_print(buf[0]) && is_print(buf[1]) && (is_print(buf[2]) || buf[2] == 0))
 			return (1);
@@ -18,7 +15,7 @@ int				is_paste(char *buf)
 
 int				tcaps_paste(t_env *e, char *buf)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	xputs("im");

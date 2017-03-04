@@ -8,8 +8,6 @@
 
 static void		tcaps_enter(t_env *e)
 {
-	char 	*tmp;
-
 	if (!ft_multiline(e))
 		return ;
 	tcaps_ctrl_end(e);

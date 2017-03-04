@@ -31,9 +31,7 @@ int		redir_check_red(t_env *e, char *red)
 int		redir_exec_open(int i, t_env *e)
 {
 	int	ret;
-	int	cpy_red_index;
 
-	cpy_red_index = RED_INDEX;
 	ret = 0;
 	struct_find_red(e);
 	if (pipe(FD.fd) < 0)

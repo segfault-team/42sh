@@ -30,7 +30,7 @@ int isAggregator(t_env *e, int i)
 
 int	isRedirPipe(t_env *e, int i)
 {
-	if (!ft_strcmp(e->magic[i].cmd, "|"))
+	if (e->magic[i].cmd && !ft_strcmp(e->magic[i].cmd, "|"))
 		return (1);
 	return (0);
 }
