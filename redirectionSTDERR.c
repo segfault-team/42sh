@@ -16,14 +16,16 @@ int main(int ac, char **av, char **env)
 	cat[0][0] = "/bin/ls";
 	cat[0][1] = "-K";
 	cat[0][2] = NULL;
-	char *grep[3];
 	cat[1][0] = "/usr/bin/sort";
 	cat[1][1] = "-r";
 	cat[1][2] = NULL;
-	cat[2][0] = NULL;
+	cat[2][0] = "/usr/bin/wc";
+	cat[2][1] = "-l";
+	cat[2][2] = NULL;
+	cat[3][0] = NULL;
 	in = STDIN_FILENO;
 
-	while (++i < 2)
+	while (cat[++i][0] != NULL)
 	{
 		pipe(fd);
 
