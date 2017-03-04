@@ -102,15 +102,12 @@ int				ft_env(t_env *e)
 {
 	char	**env_cpy;
 	int		i;
-	int		fd[2];
 
 	env_cpy = ft_tabdup(e->env);
 	if (e->cmd_len > 1)
 	{
 		if ((i = ft_env_opt(e, &env_cpy)) > 0)
 		{
-			fd[0] = 1;
-			fd[1] = 0;
 			ft_exec(&e->cmd[i], e);
 		}
 	}
