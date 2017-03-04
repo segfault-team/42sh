@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:25:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/23 13:42:54 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/04 09:24:13 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ void		ft_exit(t_env *e)
 		e->exit = 0;
 	e->x = 0;
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.save) == -1)
-		ft_printf("GERRER L'ERROR");
+		ft_error(SH_NAME, "cannot reset termios structure", NULL);
 }

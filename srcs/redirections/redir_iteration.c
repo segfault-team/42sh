@@ -98,7 +98,7 @@ int		redir_last_cmd(int i, t_env *e)
 		usleep(5);
 	}
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_printf("GERRER ERREUR");
+		ft_error(SH_NAME, "could not manage terminal parameters", NULL)
 	ft_free_list_pid(e);
 	e->child_running = 0;
 	return (ret);
