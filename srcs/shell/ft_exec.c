@@ -133,11 +133,11 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 
 int				ft_exec(char **cmd, t_env *e)
 {
-	int		status;
+	int		ret;
 	char	**paths;
 	char	*exec;
 
-	status = 0;
+	ret = 0;
 	exec = NULL;
 	paths = ft_find_paths(e->env);
 	exec = ft_find_exec(paths, cmd[0]);
@@ -149,29 +149,50 @@ int				ft_exec(char **cmd, t_env *e)
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		status = ft_fork_exec(exec, cmd, e);
+		ret = ft_fork_exec(exec, cmd, e);
 	else
-		ft_error(exec, "Permission denied", NULL);
+		ret = ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
 	paths = NULL;
 	strfree(&exec);
-	return (status);
+	return (ret);
 }
 
 int				ft_exec_cmd(t_env *e, char **cmd)
 {
-	int		ret;
+	int			ret;
+	int			stat;
+	t_logic		*ptr;
 
 	ret = 0;
+	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
 	ft_subs_tilde(e);
 	tcaps_reset();
 	if (e->cmd_len)
 	{
-		if (ft_is_builtin(cmd[0]))
-			ret = ft_exec_builtin(e, cmd);
-		else
-			ret = ft_exec(cmd, e);
+		e->logix = ft_split_logic(e->logix, cmd);
+		if (e->logix == NULL)
+			return (ft_error(SH_NAME, "malloc failed.", NULL));
+		ptr = e->logix;
+		while (ptr)
+		{
+			if (ptr->op > 0)
+			{
+				stat = ft_waitlogix(e);
+		//		ft_printf("stat: %d  ret: %d  cmd: %s\n", stat, ret, ptr->atom[0]);
+			}
+			if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
+					(ptr->op == OR && (ret || stat)))
+			{
+				if (ft_is_builtin(ptr->atom[0]))
+					ret = ft_exec_builtin(e, ptr->atom);
+				else
+					ret = ft_exec(ptr->atom, e);
+			}
+			ptr = ptr->next;
+		}
+		ft_freelogic(e->logix);
 	}
 	e->cmd_len = 0;
 	return (ret);

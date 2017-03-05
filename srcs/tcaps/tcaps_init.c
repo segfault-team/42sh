@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/17 21:25:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 16:12:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/05 20:12:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int			tcaps_get_term_name(char **env)
 {
 	char	*term;
 
-	if (!(term = ft_getenv(env, "TERM")))
+	if ((term = ft_getenv(env, "TERM")) == NULL)
+	{
 		ft_error(SH_NAME, "WARNING", "TERM environment variable is not set");
-	term = ft_strdup("=xterm");
+		term = ft_strdup("=xterm");
+	}
 	if (tgetent(NULL, "xterm") != 1)
 	{
 		free(term);

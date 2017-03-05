@@ -47,9 +47,11 @@ static int		ft_check_line(t_env *e)
 {
 	if (!e->line)
 		//return (-1);
-		return (1);
+		return (0);
 	if (ft_check_pipe(e))
 		return (0);
+//	if (!ft_matchquotes(e->line))
+//		return (0);
 	return (1);
 }
 

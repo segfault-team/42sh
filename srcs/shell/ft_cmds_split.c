@@ -64,7 +64,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 	len = ft_nb_elem_cmd(e, z);
 	if (!(ret = ft_tabnew(len + 1)))
 // MANAGE ERROR
-// Erreur gerer au mieux voire ou la fonction retoure. Meilleurs idees?
+// Erreur gerer au mieux voire ou la fonction retourne. Meilleurs idees?
 		return (NULL);
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)

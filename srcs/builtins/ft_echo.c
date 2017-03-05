@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 13:38:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/23 15:11:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/05 22:06:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ int	ft_echo(char **args)
 	}
 	if (cr)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (1);
+	return (0);
 }

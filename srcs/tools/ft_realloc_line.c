@@ -11,6 +11,7 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 		len = NB_READ - 1;
 	else
 		return (NULL);
+	// Ne sert pas a grande chose de reallouer si on a assez d'espace
 	if (!(new = ft_strnew(len)))
 	{
 		strfree(&e->line);
@@ -26,15 +27,13 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 			else
 				++i;
 		}
-	if (e->line)
-		strfree(&e->line);
+	strfree(&e->line);
 	return (new);
 }
 
 /*
-**	ALLOC NEW STR, FREE OLD,
-**	COPY OLD IN NEW AND ADD CHAR C
-**	AT THE END
+**	Appends new character at the end of line
+**	(realloc it)
 */
 
 char    *ft_realloc_line(t_env *e, char c)
@@ -57,7 +56,6 @@ char    *ft_realloc_line(t_env *e, char c)
 			++i;
 		}
 	new[i] = c;
-	if (e->line)
-		strfree(&e->line);
+	strfree(&e->line);
 	return (new);
 }

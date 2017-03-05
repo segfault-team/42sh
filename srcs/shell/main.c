@@ -52,7 +52,7 @@ static void		tcaps_del_prompt(t_env *e)
 
 static void		tcaps_manage_printable_char(t_env *e)
 {
-	if (TCAPS.nb_move == TCAPS.nb_read)
+	if (NB_MOVE == NB_READ)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
 	{
@@ -86,7 +86,7 @@ static void		tcaps_manage_printable_char(t_env *e)
 
 static int		tcaps_is_delete_key(t_env *e)
 {
-	if (e->line && e->buf[0] == 127 && TCAPS.nb_move > 0)
+	if (e->line && e->buf[0] == 127 && NB_MOVE > 0)
 		return (1);
 	return (0);
 }
@@ -108,8 +108,6 @@ int				main(int ac, char **av, char **env)
 		// for now we handle ctrl-z, later on we will get rid of that
 		if (e.check_sigtstp)
 			tcaps_init(&e);
-		// peut etre utiliser directement:
-		// ft_init(&e, ac, av, env);   ???
 		tcaps_recalc_pos(&e);
 		if (!e.tcaps.check_move)
 			e.tcaps.nb_move = e.tcaps.nb_read;

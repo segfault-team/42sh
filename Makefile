@@ -2,7 +2,7 @@ NAME				= 21sh
 
 ## ROOT FOLDER ##
 SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
-					  ft_cmds_split.c
+					  ft_cmds_split.c ft_split_logic.c
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##

@@ -30,7 +30,7 @@ int		redir_check_red(t_env *e, char *red)
 
 int		redir_exec_open(int i, t_env *e)
 {
-	int	ret;
+	int		ret;
 	//int	cpy_red_index;
 
 	//cpy_red_index = RED_INDEX;
@@ -72,7 +72,7 @@ int		redir_last_cmd(int i, t_env *e)
 	}
 	//?? jobs
 	wait(&status);
-	/*
+/*
 =======
 	ret = 0;
 	while (!ret)

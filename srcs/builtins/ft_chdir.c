@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:33:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:31:52 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/05 21:40:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,24 @@ static int	ft_chdir_env(t_env *e, char *dir)
 	return (0);
 }
 
-int			ft_chdir(t_env *e)
+int			ft_chdir(t_env *e, char **cmd)
 {
-	if (e->cmd_len > 2)
+	size_t	len;
+
+	len = ft_tablen(cmd);
+	if (len > 2)
 		return (ft_error("cd", "too many arguments", NULL));
-	if (e->cmd_len == 1)
+	if (len == 1)
 	{
 		if (!ft_issetenv(e->env, "HOME") && e->home == NULL)
 			return (ft_error("cd", "no home set", NULL));
 		return (ft_chdir_env(e, e->home));
 	}
-	if (ft_strequ(e->cmd[1], "-"))
+	if (ft_strequ(cmd[1], "-"))
 	{
-		strfree(&e->cmd[1]);
-		if ((e->cmd[1] = ft_getenv(e->env, "OLDPWD")) == NULL)
+		strfree(&cmd[1]);
+		if ((cmd[1] = ft_getenv(e->env, "OLDPWD")) == NULL)
 			return (ft_error("cd", "no oldpwd in env", NULL));
 	}
-	return (ft_chdir_env(e, e->cmd[1]));
+	return (ft_chdir_env(e, cmd[1]));
 }

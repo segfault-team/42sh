@@ -6,11 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:35:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 13:42:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/05 19:44:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+// this function is not protected against malloc failure
 
 char		**ft_tabcat(char **tab, char *str)
 {

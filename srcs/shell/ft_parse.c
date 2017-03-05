@@ -57,22 +57,23 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
-		ft_env(e);
+		ret = ft_env(e, cmd);
 	else if (!ft_strcmp(cmd[0], "setenv") && ++ret)
-		ft_setenv_blt(e);
+		ret = ft_setenv_blt(e, cmd);
 	else if (!ft_strcmp(cmd[0], "unsetenv") && ++ret)
-		ft_unsetenv_blt(e);
+		ret = ft_unsetenv_blt(e, cmd);
 	else if (!ft_strcmp(cmd[0], "cd") && ++ret)
-		ft_chdir(e);
+		ret = ft_chdir(e, cmd);
 	else if (!ft_strcmp(cmd[0], "echo") && ++ret)
-		ft_echo(cmd);
+		ret = ft_echo(cmd);
 	else if (!ft_strcmp(cmd[0], "where") && ++ret)
-		ft_where(e);
+		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
-		ft_history(e);
+		ret = ft_history(e);
 	return (ret);
 }
 
+/*
 void			ft_putmagic(t_env *e)
 {
 	int		i = -1;
@@ -82,6 +83,7 @@ void			ft_putmagic(t_env *e)
 		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);
 	}
 }
+*/
 
 int				ft_waitsons(t_env *e)
 {
@@ -126,20 +128,26 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ret = 0;
 	FD.in = STDIN_FILENO;
 //	ft_printf("cmds: %s\n", cmds_i);
-	e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ');
-	e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ');
-	e->cat = ft_cmds_split(e);
+	if ((e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
+		return (-1);
+//	or use this ?? :
+//		return (ft_error(SH_NAME, "malloc failed.", NULL));
+	if ((e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
+		return (-1);
+	if ((e->cat = ft_cmds_split(e)) == NULL)
+		return (-1);
 	magic_type(e);
 //	ft_putmagic(e);
 	ft_create_file(e);
 	while (e->cat[++i + 1] && ret != -1)
 	{
-		redir_exec_open(i, e);
+		ret = redir_exec_open(i, e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
-	ret = redir_last_cmd(i, e);
+	if (ret != -1)
+		ret = redir_last_cmd(i, e);
 	ft_waitsons(e);
 	ft_triple_free(e);
 	magic_free(e);

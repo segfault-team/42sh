@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 17:05:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:33:48 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/05 21:44:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,25 @@ int			ft_unsetenv(char ***env, char *name)
 	return (-1);
 }
 
-int			ft_unsetenv_blt(t_env *e)
+int			ft_unsetenv_blt(t_env *e, char **cmd)
 {
 	int		i;
+	size_t	len;
 
 	i = 0;
-	if (e->cmd_len > 1)
+	len = ft_tablen(cmd);
+	if (len > 1)
 	{
-		while (++i < (int)e->cmd_len)
+		while (++i < (int)len)
 		{
-			if (ft_strequ(e->cmd[i], "all"))
+			// we can probably get rid of that (all) ...
+			if (ft_strequ(cmd[i], "all"))
 			{
 				ft_free_tab(e->env);
 				e->env = NULL;
 			}
 			else
-				ft_unsetenv(&e->env, e->cmd[i]);
+				ft_unsetenv(&e->env, cmd[i]);
 		}
 		return (0);
 	}

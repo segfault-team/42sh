@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 16:16:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/05 22:14:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@
 # define WIN_WIDTH	e->tcaps.ws.ws_col
 # define RED_INDEX	e->i_mag
 # define MULTI		e->multiline
+//# define ML			e->ml
 
 # define NB_MOVE	TCAPS.nb_move
 # define NB_READ	TCAPS.nb_read
+
+# define AND		1
+# define OR			2
 
 # define HIST_FILE	"/tmp/.history"
 # define STD_PROMPT	GREEN"$> "ENDC
@@ -72,7 +76,7 @@
 # define TWO_RED_FLAGS (O_RDWR | O_CREAT | O_APPEND)
 
 /*
-**	DEFINE FOR TCAPS KEY
+**	DEFINE TCAPS KEYS
 */
 # define ARROW_UP	65
 # define ARROW_DOWN	66
@@ -109,6 +113,15 @@ typedef struct		s_term
 	struct winsize	ws;
 }					t_term;
 
+typedef struct s_logic	t_logic;
+
+struct s_logic
+{
+	char			**atom;
+	int				op;
+	t_logic			*next;
+};
+
 typedef struct		s_job
 {
 	pid_t			pid;
@@ -136,6 +149,7 @@ typedef struct		s_env
 	size_t			cmd_len;
 	size_t			i_mag;
 	t_magic			*magic;
+	t_logic			*logix;
 
 	//??
 	t_pid_list		*pid_list;
@@ -157,6 +171,9 @@ int					ft_error(char *util, char *msg, char *what);
 void				ft_banner(void);
 void				ft_prompt(char *prompt);
 void				tcaps_prompt(char *prompt);
+t_logic				*ft_split_logic(t_logic * x, char **cmd);
+int					ft_waitlogix(t_env *e);
+void				ft_freelogic(t_logic *x);
 
 /*
 **		Exec
@@ -259,14 +276,14 @@ void				strfree(char **str);
 **		Builtins
 */
 void				ft_exit(t_env *e);
-int					ft_env(t_env *e);
-int					ft_setenv_blt(t_env *e);
+int					ft_env(t_env *e, char **cmd);
+int					ft_setenv_blt(t_env *e, char **cmd);
 int					ft_setenv(char ***env, char *name, char *value);
-int					ft_unsetenv_blt(t_env *e);
+int					ft_unsetenv_blt(t_env *e, char **cmd);
 int					ft_unsetenv(char ***env, char *name);
-int					ft_chdir(t_env *e);
+int					ft_chdir(t_env *e, char **cmd);
 int					ft_echo(char **args);
-int					ft_where(t_env *e);
+int					ft_where(t_env *e, char **cmd);
 int					ft_store_history(char *cmd);
 int					ft_history(t_env *e);
 

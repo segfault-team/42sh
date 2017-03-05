@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:16:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:33:28 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/05 21:44:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,19 @@ int				ft_setenv(char ***env, char *name, char *value)
 	return (0);
 }
 
-int				ft_setenv_blt(t_env *e)
+int				ft_setenv_blt(t_env *e, char **cmd)
 {
-	if (e->cmd_len == 3)
+	size_t	len;
+
+	len = ft_tablen(cmd);
+	if (len == 3)
 	{
-		if (ft_isalpha_str(e->cmd[1]))
+		if (ft_isalpha_str(cmd[1]))
 		{
 			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
 					ft_strequ(e->cmd[1], "HOME"))
 				e->home = ft_strdup(e->cmd[2]);
-			return (ft_setenv(&e->env, e->cmd[1], e->cmd[2]));
+			return (ft_setenv(&e->env, cmd[1], cmd[2]));
 		}
 		return (ft_error("setenv", \
 					"variable name must contain only alphanumerics", NULL));
