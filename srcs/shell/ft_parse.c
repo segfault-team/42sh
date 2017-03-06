@@ -128,26 +128,43 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ret = 0;
 	FD.in = STDIN_FILENO;
 //	ft_printf("cmds: %s\n", cmds_i);
+//	ft_printf("UNO\n");
 	if ((e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
 		return (-1);
+//	ft_printf("DOS\n");
 //	or use this ?? :
 //		return (ft_error(SH_NAME, "malloc failed.", NULL));
 	if ((e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
 		return (-1);
+//	ft_printf("TRES\n");
+	magic_type(e);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-	magic_type(e);
+//	ft_printf("QUATRO\n");
+//	ft_printf("CINCO\n");
 //	ft_putmagic(e);
 	ft_create_file(e);
-	while (e->cat[++i + 1] && ret != -1)
+//	ft_printf("SEIS\n");
+//	for (int k = 0 ; e->cat[k] ; ++k)
+	//	ft_puttab(e->cat[k]);
+	while (e->cat[++i] && ret != -1)
 	{
-		ret = redir_exec_open(i, e);
+		if (isOutputRedir(e, RED_INDEX))
+			redir_fill_output(e);
+		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
+			(!RED_INDEX && redir_check_red(e, "|")))
+		{
+			FD.fd[1] = STDOUT_FILENO;
+			ret = ft_exec_cmd(e, e->cat[i]);
+		}
+		else
+			ret = redir_exec_open(i, e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
-	if (ret != -1)
-		ret = redir_last_cmd(i, e);
+//	if (ret != -1)
+//		ret = redir_last_cmd(i, e);
 	ft_waitsons(e);
 	ft_triple_free(e);
 	magic_free(e);

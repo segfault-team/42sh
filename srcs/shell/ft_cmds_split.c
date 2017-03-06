@@ -15,11 +15,10 @@ static int	ft_nb_cmds(t_env *e)
 	i = -1;
 	while (e->magic[++i].cmd)
 	{
-		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
-			!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+		if (isRedirection(e, i))
 		{
 			++len;
-			if (!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+			if (isOutputRedir(e, i))
 				return (len + 1);
 		}
 	}
@@ -34,19 +33,18 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	len = 0;
 	if (last_cmd)
 	{
-		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
+		while (e->magic[++(*z)].cmd && !isRedirPipe(e, *z))
 		{
-			if (ft_strcmp(e->magic[*z].cmd, ">") || ft_strcmp(e->magic[*z].cmd, ">>"))
+			if (!isOutputRedir(e, *z))
 				++len;
 		}
 		last_cmd = 0;
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">")\
-			&& ft_strcmp(e->magic[*z].cmd, ">>"))
+		while (e->magic[++(*z)].cmd && !isRedirection(e, *z))
 			++len;
-		if (!ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+		if (e->magic[*z].cmd && isOutputRedir(e, *z))
 			++last_cmd;
 	}
 	return (len);
@@ -69,7 +67,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
-		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
+		if (!isOutputRedir(e, k))
 			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
 	return (ret);
@@ -95,7 +93,7 @@ char	***ft_cmds_split(t_env *e)
 	cat[len] = NULL;
 	while (++i < len)
 	{
-		if ((cat[i] = ft_find_tab(e, &z)) == NULL)
+		if (!(cat[i] = ft_find_tab(e, &z)))
 			return (cat);
 	}
 	return (cat);
