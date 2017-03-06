@@ -43,12 +43,12 @@ int		ft_is_builtin(char *cmd)
 	return (0);
 }
 
-int		ft_exec_builtin(t_env *e, char **cmd)
+int		ft_exec_builtin(t_env *e, char **cmd, int op)
 {
 	char	ret;
 
 	ret = 0;
-	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+	if (op <= 0 && (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>")))
 	{
 		if (/*ft_redirect(FD.in, STDIN_FILENO) ||
 		*/ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -57,7 +57,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
-		ret = ft_env(e, cmd);
+		ret = ft_env(e, cmd, op);
 	else if (!ft_strcmp(cmd[0], "setenv") && ++ret)
 		ret = ft_setenv_blt(e, cmd);
 	else if (!ft_strcmp(cmd[0], "unsetenv") && ++ret)
