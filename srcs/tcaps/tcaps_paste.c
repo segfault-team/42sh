@@ -19,7 +19,7 @@ int				tcaps_paste(t_env *e, char *buf)
 
 	i = -1;
 	xputs("im");
-	while (buf[++i])
+	while (buf[++i] && i < 3)
 	{
 		if (is_print(buf[i]))
 		{
