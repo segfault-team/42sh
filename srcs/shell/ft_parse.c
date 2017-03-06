@@ -73,7 +73,6 @@ int		ft_exec_builtin(t_env *e, char **cmd, int op)
 	return (ret);
 }
 
-/*
 void			ft_putmagic(t_env *e)
 {
 	int		i = -1;
@@ -83,15 +82,16 @@ void			ft_putmagic(t_env *e)
 		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);
 	}
 }
-*/
 
 int				ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
-	t_job		*tmp;
+	//t_job		*tmp;
+	int			tmp;
 	int			status;
+	int			ret;
 
-	ptr = e->jobs;
+	/*
 	while (ptr)
 	{
 		waitpid(ptr->pid, &status, WUNTRACED);
@@ -100,7 +100,29 @@ int				ft_waitsons(t_env *e)
 		free(ptr);
 		ptr = tmp;
 	}
+	*/
+	ret = 0;
+	while (!ret)
+	{
+		ret = 42;
+		ptr = e->jobs;
+		while (ptr)
+		{
+			tmp = waitpid(ptr->pid, &status, WNOHANG);
+			if (!tmp)
+				ret = tmp;
+			else
+			{
+				ptr->pid = -1;
+				ft_handle_ret_signal(status);
+			}
+			ptr = ptr->next;
+		}
+		usleep(5);
+	}
 	e->jobs = NULL;
+	ft_free_jobs(e->jobs);
+	e->child_running = 0;
 	return (0);
 }
 
@@ -130,6 +152,9 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 //	ft_printf("cmds: %s\n", cmds_i);
 	if ((e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
 		return (-1);
+	ft_printf("cmds: %s\n", cmds_i);
+	ft_puttab(e->cmd);
+	ft_printf("_______\n");
 //	or use this ?? :
 //		return (ft_error(SH_NAME, "malloc failed.", NULL));
 	if ((e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
@@ -137,7 +162,9 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	magic_type(e);
-//	ft_putmagic(e);
+	ft_printf("mg_______\n");
+	ft_putmagic(e);
+	ft_printf("_______\n");
 	ft_create_file(e);
 	while (e->cat[++i + 1] && ret != -1)
 	{

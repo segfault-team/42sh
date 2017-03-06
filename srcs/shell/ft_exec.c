@@ -125,7 +125,9 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e, int op)
 	}
 	// ?? jobs
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
+	{
 		return (ft_error(SH_NAME, "malloc failed", NULL));
+	}
 	e->jobs = son;
 	//ft_add_pid(e, id);
 	return (0);
@@ -185,7 +187,9 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 			if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
 					(ptr->op == OR && (ret || stat)))
 			{
-	//			ft_printf("\nexec: %s   op: %d\n", ptr->atom[0], ptr->op);
+				//ft_printf("_______\n");
+				//ft_puttab(ptr->atom);
+				//ft_printf("_______\n");
 				if (ft_is_builtin(ptr->atom[0]))
 					ret = ft_exec_builtin(e, ptr->atom, ptr->op);
 				else

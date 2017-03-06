@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 19:35:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/06 16:08:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -42,10 +42,10 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (!quote && !bs && s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (!quote && /*!bs &&*/ s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 			{
 				//if (!bs || s[i] == '\\')
-					++nw;
+				++nw;
 			}
 			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
@@ -81,10 +81,10 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
-					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-		//	if ((quote && (s[i] != quote || bs)) ||
-		//		(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
+			//if ((quote && (s[i] != quote || bs)) ||
+			//		(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
 			++len;
 			bs = 0;
 		}
@@ -123,9 +123,9 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-	//		if ((quote && (s[i] != quote || bs)) ||
-	//			(!quote && ((s[i] == '\'' || s[i] == '\"') || bs)))
-			cpy[j++] = s[i];
+			if ((quote && (s[i] != quote || bs)) ||
+					(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
+				cpy[j++] = s[i];
 			bs = 0;
 		}
 		++i;

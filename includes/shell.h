@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/06 12:11:06 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -67,6 +55,7 @@
 # define OR			2
 
 # define HIST_FILE	"/tmp/.history"
+//# define STD_PROMPT	GREEN"$> "ENDC
 # define STD_PROMPT	GREEN"$> "ENDC
 # define H_PROMPT	"heredoc> "
 # define BS_PROMPT	"> "
@@ -266,6 +255,7 @@ void				ft_realloc_insert_str(t_env *e, char *str);
 /*
 **		Free
 */
+void				ft_free_jobs(t_job *ptr);
 void				ft_free_line(t_env *e);
 void				ft_env_free(t_env *e);
 void				ft_triple_free(t_env *e);

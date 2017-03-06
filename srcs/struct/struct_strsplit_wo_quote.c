@@ -29,7 +29,7 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
+			if (!quote && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
 			{
 				//if (!bs) // || s[i] == '\\')
 				++nw;
@@ -69,7 +69,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//if ((quote && s[i] != quote) ||
+			//if ((quote && (s[i] != quote || bs)) ||
 			//		(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
 			++len;
 			bs = 0;
@@ -107,7 +107,7 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
-					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
 			if ((quote && (s[i] != quote || bs)) ||
 					(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))

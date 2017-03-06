@@ -6,11 +6,23 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 21:43:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/06 15:35:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void	ft_free_jobs(t_job *ptr)
+{
+	t_job	*tmp;
+
+	while (ptr)
+	{
+		tmp = ptr;
+		ptr = ptr->next;
+		free(tmp);
+	}
+}
 
 void	strfree(char **str)
 {
