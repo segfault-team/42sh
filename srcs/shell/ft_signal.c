@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/02 18:10:15 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/03 16:11:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int			ft_handle_ret_signal(int status)
 			if (ft_sigcheck(sig))
 				return (-1);
 		uknw_sig = ft_itoa(sig);
-		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
+		ft_error("Process terminated with unknown signal", uknw_sig, NULL);
 		strfree(&uknw_sig);
 		return (-1);
 	}
@@ -70,8 +70,11 @@ void		ft_set_sig_handler(void)
 	while (++sig <= 31)
 	{
 		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
-				|| sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
+				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
+		// Since we may have errors we don't ignore ctrl-z signal for now
+//		else if (sig == SIGTSTP)
+//			signal(sig, SIG_DFL);
 		else
 			signal(sig, ft_sig_handler);
 	}
@@ -92,5 +95,13 @@ void		ft_sig_handler(int sig)
 			TCAPS.hist_move = -1;
 			ft_putstr_fd("\n$> ", 1);
 		}
+	}
+	else if (sig == SIGTSTP)
+	{
+		e->check_sigtstp = 1;
+		tcaps_ctrl_end(e);
+		tcaps_reset();
+		signal(sig, SIG_DFL);
+		raise(sig);
 	}
 }

@@ -15,10 +15,11 @@ static int	ft_nb_cmds(t_env *e)
 	i = -1;
 	while (e->magic[++i].cmd)
 	{
-		if (isRedirection(e, i))
+		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
+			!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
 		{
 			++len;
-			if (isOutputRedir(e, i) || isInputRedir(e, i))
+			if (!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
 				return (len + 1);
 		}
 	}
@@ -33,23 +34,20 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	len = 0;
 	if (last_cmd)
 	{
-		while (e->magic[++(*z)].cmd && !isRedirPipe(e, *z))
+		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
 		{
-			if (!isOutputRedir(e, *z))
+			if (ft_strcmp(e->magic[*z].cmd, ">") || ft_strcmp(e->magic[*z].cmd, ">>"))
 				++len;
 		}
 		last_cmd = 0;
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && !isRedirection(e, *z))
+		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">")\
+			&& ft_strcmp(e->magic[*z].cmd, ">>"))
 			++len;
-		if (isRedirection(e, *z) && !isRedirPipe(e, *z))
-		{
-			if (isAggregator(e, *z) && *z > 0 && isOnlyNumbers(e->magic[*z - 1].cmd))
-				--len;
+		if (!ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
 			++last_cmd;
-		}
 	}
 	return (len);
 }
@@ -64,27 +62,17 @@ static char	**ft_find_tab(t_env *e, int *z)
 	j = 0;
 	k = *z;
 	len = ft_nb_elem_cmd(e, z);
-	if (!(ret = (char **)malloc(sizeof(*ret) * (len + 1))))
+	if (!(ret = ft_tabnew(len + 1)))
 // MANAGE ERROR
+// Erreur gerer au mieux voire ou la fonction retourne. Meilleurs idees?
 		return (NULL);
 	ft_tabzero(ret, len);
-	while (j < len && e->magic[++k].cmd && !isRedirection(e, k))
-			ret[j++] = ft_strdup(e->magic[k].cmd);
-	return (ret);
-}
-
-void	ft_triple_free(t_env *e)
-{
-	int	i;
-
-	i = -1;
-	while (e->cat[++i])
-		ft_free_tab(e->cat[i]);
-	if (e->cat)
+	while (j < len && e->magic[++k].cmd)
 	{
-		free(e->cat);
-		e->cat = NULL;
+		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
+			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
+	return (ret);
 }
 
 /*
@@ -106,6 +94,9 @@ char	***ft_cmds_split(t_env *e)
 		return (NULL);
 	cat[len] = NULL;
 	while (++i < len)
-		cat[i] = ft_find_tab(e, &z);
+	{
+		if ((cat[i] = ft_find_tab(e, &z)) == NULL)
+			return (cat);
+	}
 	return (cat);
 }

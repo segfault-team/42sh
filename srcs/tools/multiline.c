@@ -46,9 +46,12 @@ static int 		ft_check_pipe(t_env *e)
 static int		ft_check_line(t_env *e)
 {
 	if (!e->line)
-		return (-1);
+		//return (-1);
+		return (0);
 	if (ft_check_pipe(e))
 		return (0);
+//	if (!ft_matchquotes(e->line))
+//		return (0);
 	return (1);
 }
 
@@ -63,7 +66,9 @@ int		ft_multiline(t_env *e)
 		e->prompt = ft_strdup(STD_PROMPT);
 		return (1);
 	}
-	if ((e->line && e->line[NB_READ - 1] == '\\') || !check)
+	if ((e->line && NB_READ >= 2 && 
+				e->line[NB_READ - 1] == '\\' && e->line[NB_READ - 2] != '\\')
+			|| !check)
 	{
 		strfree(&e->prompt);
 		e->prompt = ft_strdup(BS_PROMPT);

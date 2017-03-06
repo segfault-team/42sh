@@ -10,5 +10,5 @@
 void    tcaps_clear(t_env *e)
 {
 	xputs("cl");
-	ft_putstr(e->prompt);
+	tcaps_prompt(e->prompt);
 }

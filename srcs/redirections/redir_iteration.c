@@ -30,8 +30,10 @@ int		redir_check_red(t_env *e, char *red)
 
 int		redir_exec_open(int i, t_env *e)
 {
-	int	ret;
+	int		ret;
+	//int	cpy_red_index;
 
+	//cpy_red_index = RED_INDEX;
 	ret = 0;
 	struct_find_red(e);
 	if (pipe(FD.fd) < 0)
@@ -39,20 +41,6 @@ int		redir_exec_open(int i, t_env *e)
 	ret = ft_exec_cmd(e, e->cat[i]);
 	FD.in = FD.fd[0];
 	return (ret);
-}
-
-static void	ft_free_list_pid(t_env *e)
-{
-	void *ptr;
-
-	e->actual_pid = e->pid_list;
-	while (e->actual_pid)
-	{
-		ptr = e->actual_pid;
-		e->actual_pid = e->actual_pid->next;
-		ft_memdel(&ptr);
-	}
-	e->pid_list = NULL;
 }
 
 /*
@@ -66,10 +54,11 @@ int		redir_last_cmd(int i, t_env *e)
 {
 	int	ret;
 	int	status;
-	int tmp;
 
 	status = 0;
-	if (!RED_INDEX || isRedirPipe(e, RED_INDEX))
+	ret = 0;
+	if (redir_check_red(e, "|") || !RED_INDEX)
+	//if (!RED_INDEX || isRedirPipe(e, RED_INDEX))
 	{
 		FD.fd[1] = STDOUT_FILENO;
 		ret = ft_exec_cmd(e, e->cat[i]);
@@ -81,6 +70,10 @@ int		redir_last_cmd(int i, t_env *e)
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
 	}
+	//?? jobs
+	wait(&status);
+/*
+=======
 	ret = 0;
 	while (!ret)
 	{
@@ -96,8 +89,10 @@ int		redir_last_cmd(int i, t_env *e)
 		usleep(5);
 	}
 	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_error(SH_NAME, "could not manage terminal parameters", NULL);
+		ft_printf("GERRER ERREUR");
 	ft_free_list_pid(e);
 	e->child_running = 0;
+>>>>>>> origin/redirections_clean
+	*/
 	return (ret);
 }

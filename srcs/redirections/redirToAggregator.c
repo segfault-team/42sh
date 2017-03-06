@@ -4,19 +4,6 @@
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
 
-static void	outputAggre(t_env *e, int fd_src, int fd_dst)
-{
-	if (fd_src == 2 && fd_dst == 1)
-	{
-		if (isRedirPipe(e, RED_INDEX + 1))
-			ft_redirect(FD.fd[1], STDERR_FILENO);
-		else
-			ft_redirect(STDERR_FILENO, STDOUT_FILENO);
-	}
-	else
-		dup2(fd_dst, fd_src);
-}
-
 int			redirToAggregator(t_env *e)
 {
 	int	fd_src;
@@ -25,19 +12,25 @@ int			redirToAggregator(t_env *e)
 
 	fd_src = isolateFdSource(e);
 	fd_dst = isolateFdDestination(e);
-	if (!isatty(fd_src) || !isatty(fd_dst))
-		return (ft_error(SH_NAME, "bad file descriptor", NULL));
+	if (fcntl(fd_src, F_GETFD) || fcntl(fd_dst, F_GETFD))
+		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
 	aggregatorType = findAggregatorType(e);
-//	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
+	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
 	if (fd_dst == ERROR ||
 		(fd_src == ERROR && aggregatorType == OUTPUT_AGGRE))
-		return (ft_error(SH_NAME, "syntax error in your aggregator", NULL));
+		return (dprintf(STDERR_FILENO, "sh: syntax error in your aggregator\n"));
+//NEED TO MANAGE HERE WITH THE FD.in FD.fd[0] FD.fd[1]
 	if (aggregatorType == ERROR)
 		return (ERROR);
 	else if (aggregatorType == INPUT_AGGRE)
 		dup2(fd_dst, STDIN_FILENO);
 	else
-		outputAggre(e, fd_src, fd_dst);
+	{
+		if (fd_src == 2)
+			dup2(0, STDERR_FILENO);
+		else
+			dup2(FD.fd[1], fd_src);
+	}
 	struct_find_red(e);
 	return (1);
 }

@@ -68,32 +68,17 @@ char			**ft_find_paths(char **env)
 	return (paths);
 }
 
-int		ft_redirect(int oldfd, int newfd)
-{
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) != -1)
-		{
-			if (close(oldfd) < 0)
-				return (ft_error(SH_NAME, "Failed closing fd", NULL));
-		}
-		else
-			return (ft_error(SH_NAME, "dup2 failed", NULL));
-	}
-	return (0);
-}
-
-void		ft_close(int fd)
+void			ft_close(int fd)
 {
 	if (fd != 1 && fd != 0) {
 		if (close(fd) == -1)
 		{
-//			ft_printf("fd : %d\n", fd);
 			ft_error(SH_NAME, "Close failed on fd", NULL);
 		}
 	}
 }
 
+/*
 static void		ft_add_pid(t_env *e, pid_t id)
 {
 	if (!e->pid_list)
@@ -109,16 +94,18 @@ static void		ft_add_pid(t_env *e, pid_t id)
 	e->actual_pid->pid = id;
 	e->actual_pid->next = NULL;
 }
+*/
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	int		status;
-	pid_t	id;
+	t_job	*son;
+	pid_t	pid;
 
-	status = 0;
-	if ((id = fork()) < 0)
+	if ((pid = fork()) < 0)
+	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
-	if (id)
+	}
+	if (pid)
 	{
 		++e->child_running;
 		ft_close(FD.fd[1]);
@@ -136,18 +123,21 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		}
 		execve(exec, &cmd[0], e->env);
 	}
-	ft_add_pid(e, id);
-	ft_handle_ret_signal(status);
-	return (status);
+	// ?? jobs
+	if ((son = ft_new_job(e->jobs, pid)) == NULL)
+		return (ft_error(SH_NAME, "malloc failed", NULL));
+	e->jobs = son;
+	//ft_add_pid(e, id);
+	return (0);
 }
 
 int				ft_exec(char **cmd, t_env *e)
 {
-	int		status;
+	int		ret;
 	char	**paths;
 	char	*exec;
 
-	status = 0;
+	ret = 0;
 	exec = NULL;
 	paths = ft_find_paths(e->env);
 	exec = ft_find_exec(paths, cmd[0]);
@@ -159,28 +149,50 @@ int				ft_exec(char **cmd, t_env *e)
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		status = ft_fork_exec(exec, cmd, e);
+		ret = ft_fork_exec(exec, cmd, e);
 	else
-		ft_error(exec, "Permission denied", NULL);
+		ret = ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
 	paths = NULL;
 	strfree(&exec);
-	return (status);
+	return (ret);
 }
 
 int				ft_exec_cmd(t_env *e, char **cmd)
 {
-	int		ret;
+	int			ret;
+	int			stat;
+	t_logic		*ptr;
 
 	ret = 0;
+	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
 	ft_subs_tilde(e);
+	tcaps_reset();
 	if (e->cmd_len)
 	{
-		if (ft_is_builtin(cmd[0]))
-			ret = ft_exec_builtin(e, cmd);
-		else
-			ret = ft_exec(cmd, e);
+		e->logix = ft_split_logic(e->logix, cmd);
+		if (e->logix == NULL)
+			return (ft_error(SH_NAME, "malloc failed.", NULL));
+		ptr = e->logix;
+		while (ptr)
+		{
+			if (ptr->op > 0)
+			{
+				stat = ft_waitlogix(e);
+		//		ft_printf("stat: %d  ret: %d  cmd: %s\n", stat, ret, ptr->atom[0]);
+			}
+			if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
+					(ptr->op == OR && (ret || stat)))
+			{
+				if (ft_is_builtin(ptr->atom[0]))
+					ret = ft_exec_builtin(e, ptr->atom);
+				else
+					ret = ft_exec(ptr->atom, e);
+			}
+			ptr = ptr->next;
+		}
+		ft_freelogic(e->logix);
 	}
 	e->cmd_len = 0;
 	return (ret);

@@ -3,35 +3,29 @@
 int			ft_matchquotes(char *s)
 {
 	int		i;
+	int		bs;
 	char	quote;
 
 	i = 0;
+	bs = 0;
 	quote = '\0';
 	while (s[i])
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
+		if (!bs && s[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
+		{
+			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
+				quote = s[i];
+			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
+				quote = '\0';
+			bs = 0;
+		}
 		++i;
 	}
 	if (quote != '\0')
-		return (quote);
-	return (0);
-}
-
-void		ft_env_free(t_env *e)
-{
-	strfree(&e->line);
-	strfree(&e->home);
-	strfree(&TCAPS.term_name);
-	strfree(&e->cut);
-	strfree(&e->prompt);
-	if (e->history)
-		ft_free_tab(e->history);
-	if (e->env)
-		ft_free_tab(e->env);
-	magic_free(e);
+		return (0);
+	return (1);
 }
 
 char		*ft_issetenv(char **env, char *name)
@@ -66,37 +60,6 @@ char		*ft_getenv(char **env, char *name)
 	if ((tmp = ft_issetenv(env, name)) != NULL)
 	{
 		value = ft_strdup(ft_strchr(tmp, '=') + 1);
-	//	free(tmp);
 	}
 	return (value);
-}
-
-void	xputs(char *tag)
-{
-	char	*res;
-
-	res = tgetstr(tag, NULL);
-	ft_putstr(res);
-}
-
-void	move_right(t_env *e)
-{
-	if (TCAPS.nb_col == (WIN_WIDTH - 1))
-	{
-		xputs("do");
-		xputs("cr");
-	}
-	else
-		xputs("nd");
-	++TCAPS.nb_move;
-	tcaps_recalc_pos(e);
-}
-
-void	strfree(char **str)
-{
-	if (*str)
-	{
-		free(*str);
-		*str = NULL;
-	}
 }

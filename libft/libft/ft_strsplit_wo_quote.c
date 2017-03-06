@@ -1,9 +1,16 @@
-#include "shell.h"
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsplit_wo_quote.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/28 18:01:22 by lfabbro          ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
 
-/*
-**	Description for strsplit_quote:
-**		behave like strsplit(), but keeps hold string into quotes.
-*/
+#include "libft.h"
 
 static size_t	ft_count_words(char const *s, char c)
 {
@@ -46,8 +53,8 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+		if ((quote && s[i] != quote) ||
+				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 		++i;
 	}
@@ -74,8 +81,8 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+		if ((quote && s[i] != quote) ||
+				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			cpy[j++] = s[i];
 		++i;
 	}
@@ -102,42 +109,25 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-static void 	struct_init(int len, t_magic *magic)
+char			**ft_strsplit_wo_quote(char const *s, char c)
 {
-	int i;
+	char	**tab;
+	size_t	nw;
+	size_t	i;
 
-	i = -1;
-	while (++i <= len)
+	tab = NULL;
+	if (s)
 	{
-		magic[i].cmd = NULL;
-		magic[i].type = NULL;
-	}
-}
-
-t_magic			*struct_strsplit_quote(char const *s, char c)
-{
-	size_t		k;
-	size_t		len;
-	t_magic		*magic;
-
-	if (s != NULL)
-	{
-		len = ft_count_words(s, c);
-		if (!(magic = (t_magic *)malloc(sizeof(t_magic) * (len + 1))))
+		i = -1;
+		nw = ft_count_words(s, c);
+		if ((tab = ft_tabnew(nw + 1)) == NULL)
 			return (NULL);
-		struct_init(len, magic);
-		k = 0;
-		while (k < len /*ft_count_words(s, c)*/ && *s != '\0')
+		while (++i < nw)
 		{
-			while (*s == c)
-				++s;
-			magic[k].cmd = ft_strcpy_chr(s, c);
-			if (magic[k].cmd == NULL)
-				return (NULL);
+			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
+				return (tab);
 			s += ft_skip(s, c);
-			++k;
 		}
-		return (magic);
 	}
-	return (NULL);
+	return (tab);
 }

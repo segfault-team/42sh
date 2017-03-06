@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabcat.c                                        :+:      :+:    :+:   */
+/*   tcaps_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/24 16:35:54 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 19:44:06 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/02/09 18:28:29 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/17 14:30:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-// this function is not protected against malloc failure
+/*
+** RAZ LE BOL DE TOUT REECRIRE !
+*/
 
-char		**ft_tabcat(char **tab, char *str)
+void	xputs(char *tag)
 {
-	char	**tmp;
-	size_t	len;
+	char	*res;
 
-	tmp = NULL;
-	if (tab && *tab && str)
+	res = tgetstr(tag, NULL);
+	tputs(res, 1, dsh_putchar);
+}
+
+void	move_right(t_env *e)
+{
+	if (TCAPS.nb_col == (WIN_WIDTH - 1))
 	{
-		len = ft_tablen(tab);
-		tmp = ft_tabnew(len + 2);
-		tmp = ft_tabcpy(tmp, tab);
-		tmp[len] = ft_strdup(str);
-		tmp[len + 1] = NULL;
+		xputs("do");
+		xputs("cr");
 	}
-	else if (str)
-	{
-		tmp = ft_tabnew(2);
-		tmp[0] = ft_strdup(str);
-		tmp[1] = NULL;
-	}
-	return (tmp);
+	else
+		xputs("nd");
+	++TCAPS.nb_move;
+	tcaps_recalc_pos(e);
 }

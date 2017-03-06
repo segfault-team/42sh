@@ -32,7 +32,7 @@ static size_t		ft_wordlen(char const *str, char div)
 	return (wlen);
 }
 
-static void	struct_init(int len, t_magic *magic)
+static void			struct_init(int len, t_magic *magic)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ static void	struct_init(int len, t_magic *magic)
 	}
 }
 
-t_magic		*struct_strsplit(char const *str, char div)
+t_magic				*struct_strsplit(char const *str, char div)
 {
 	t_magic	*magic;
 	size_t	nwords;

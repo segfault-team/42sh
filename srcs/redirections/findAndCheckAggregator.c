@@ -16,8 +16,15 @@ static int nbElemsIsInvalid(t_aggreElems *ag)
 	int error;
 
 	error = 0;
-	if (ag->nbChevron > 1 || ag->nbAmpersand > 1 || ag->type == ERROR)
-		error = ft_error(SH_NAME, "syntax error in your aggregator", NULL);
+	if (ag->nbChevron > 1)
+		error = dprintf(STDERR_FILENO, "sh: syntax error - too many \
+ 								chevrons in your aggregator\n");
+	else if (ag->nbAmpersand > 1)
+		error = dprintf(STDERR_FILENO, "sh: syntax error - too many \
+								ampersands in your aggregator\n");
+	else if (ag->type == ERROR)
+		error = dprintf(STDERR_FILENO, "sh: syntax error in your \
+								aggregator\n");
 	if (error)
 		ag->type = ERROR;
 	return (error);
