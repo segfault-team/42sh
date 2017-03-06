@@ -15,7 +15,7 @@ int			redirToAggregator(t_env *e)
 	if (fcntl(fd_src, F_GETFD) || fcntl(fd_dst, F_GETFD))
 		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
 	aggregatorType = findAggregatorType(e);
-	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
+//	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
 	if (fd_dst == ERROR ||
 		(fd_src == ERROR && aggregatorType == OUTPUT_AGGRE))
 		return (dprintf(STDERR_FILENO, "sh: syntax error in your aggregator\n"));
@@ -26,10 +26,11 @@ int			redirToAggregator(t_env *e)
 		dup2(fd_dst, STDIN_FILENO);
 	else
 	{
-		if (fd_src == 2)
-			dup2(0, STDERR_FILENO);
-		else
-			dup2(FD.fd[1], fd_src);
+		ft_redirect(FD.fd[1], fd_src);
+//		if (e->magic[RED_INDEX + 1].cmd && isRedirPipe(e, RED_INDEX + 1))
+//			dup2(FD.fd[1], fd_src);
+//		else
+//			dup2(FD.fd[1], fd_src);
 	}
 	struct_find_red(e);
 	return (1);
