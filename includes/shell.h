@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:14:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/06 15:35:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ void				ft_realloc_insert_str(t_env *e, char *str);
 /*
 **		Free
 */
+void				ft_free_jobs(t_job *ptr);
 void				ft_free_line(t_env *e);
 void				ft_env_free(t_env *e);
 void				ft_triple_free(t_env *e);

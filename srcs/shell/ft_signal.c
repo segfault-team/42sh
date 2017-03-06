@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 16:11:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/06 15:35:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int			ft_handle_ret_signal(int status)
 {
 	int			sig;
 	int			i;
-	char		*uknw_sig;
 
 	if (!WIFEXITED(status) && WIFSIGNALED(status))
 	{
@@ -54,9 +53,7 @@ int			ft_handle_ret_signal(int status)
 		while (++i <= 13)
 			if (ft_sigcheck(sig))
 				return (-1);
-		uknw_sig = ft_itoa(sig);
-		ft_error("Process terminated with unknown signal", uknw_sig, NULL);
-		strfree(&uknw_sig);
+		ft_printf("Process terminated with unknown signal %d\n", sig);
 		return (-1);
 	}
 	return (0);

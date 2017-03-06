@@ -88,10 +88,12 @@ void			ft_putmagic(t_env *e)
 int				ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
-	t_job		*tmp;
+	//t_job		*tmp;
+	int			tmp;
 	int			status;
+	int			ret;
 
-	ptr = e->jobs;
+	/*
 	while (ptr)
 	{
 		waitpid(ptr->pid, &status, WUNTRACED);
@@ -100,7 +102,29 @@ int				ft_waitsons(t_env *e)
 		free(ptr);
 		ptr = tmp;
 	}
+	*/
+	ret = 0;
+	while (!ret)
+	{
+		ret = 42;
+		ptr = e->jobs;
+		while (ptr)
+		{
+			tmp = waitpid(ptr->pid, &status, WNOHANG);
+			if (!tmp)
+				ret = tmp;
+			else
+			{
+				ptr->pid = -1;
+				ft_handle_ret_signal(status);
+			}
+			ptr = ptr->next;
+		}
+		usleep(5);
+	}
 	e->jobs = NULL;
+	ft_free_jobs(e->jobs);
+	e->child_running = 0;
 	return (0);
 }
 

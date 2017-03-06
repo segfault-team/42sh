@@ -31,9 +31,7 @@ int		redir_check_red(t_env *e, char *red)
 int		redir_exec_open(int i, t_env *e)
 {
 	int		ret;
-	//int	cpy_red_index;
 
-	//cpy_red_index = RED_INDEX;
 	ret = 0;
 	struct_find_red(e);
 	if (pipe(FD.fd) < 0)
@@ -71,27 +69,10 @@ int		redir_last_cmd(int i, t_env *e)
 		dup2(FD.stderr, STDERR_FILENO);
 	}
 	//?? jobs
-	wait(&status);
+	//wait(&status);
 /*
 =======
 	ret = 0;
-	while (!ret)
-	{
-		ret = 42;
-		e->actual_pid = e->pid_list;
-		while (e->actual_pid)
-		{
-			tmp = waitpid(e->actual_pid->pid, &status, WNOHANG);
-			if (!tmp)
-				ret = tmp;
-			e->actual_pid = e->actual_pid->next;
-		}
-		usleep(5);
-	}
-	if (tcsetattr(0, TCSADRAIN, &TCAPS.termos) == -1)
-		ft_printf("GERRER ERREUR");
-	ft_free_list_pid(e);
-	e->child_running = 0;
 >>>>>>> origin/redirections_clean
 	*/
 	return (ret);
