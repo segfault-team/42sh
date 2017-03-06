@@ -73,7 +73,6 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	return (ret);
 }
 
-/*
 void			ft_putmagic(t_env *e)
 {
 	int		i = -1;
@@ -83,7 +82,6 @@ void			ft_putmagic(t_env *e)
 		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);
 	}
 }
-*/
 
 int				ft_waitsons(t_env *e)
 {
@@ -154,6 +152,9 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 //	ft_printf("cmds: %s\n", cmds_i);
 	if ((e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
 		return (-1);
+	ft_printf("cmds: %s\n", cmds_i);
+	ft_puttab(e->cmd);
+	ft_printf("_______\n");
 //	or use this ?? :
 //		return (ft_error(SH_NAME, "malloc failed.", NULL));
 	if ((e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
@@ -161,7 +162,9 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	magic_type(e);
-//	ft_putmagic(e);
+	ft_printf("mg_______\n");
+	ft_putmagic(e);
+	ft_printf("_______\n");
 	ft_create_file(e);
 	while (e->cat[++i + 1] && ret != -1)
 	{
