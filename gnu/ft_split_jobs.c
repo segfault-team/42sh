@@ -1,21 +1,11 @@
-/******************************************************************************/
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strsplit_wo_quote_bs.c                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/06 16:11:20 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/******************************************************************************/
-
 #include "libft.h"
 
 /*
 **
 **	Description:
-**		don't try to understand. It's black magic.
+**		this function split the line by the char ';',
+**		it keeps hold '\' '\\' '\;' and things in quotes.
+**		How it works? .. again, it's black magic.
 **
 */
 
@@ -42,9 +32,9 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (!quote && /*!bs &&*/ s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
 			{
-				//if (!bs || s[i] == '\\')
+				//if (!bs)// || s[i] == '\\')
 				++nw;
 			}
 			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
@@ -73,7 +63,11 @@ static size_t	ft_strlen_chr(char const *s, char c)
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')
+		{
 			bs = 1;
+			if (s[i + 1] != c)
+				++len;
+		}
 		else
 		{
 			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
@@ -83,14 +77,13 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//if ((quote && (s[i] != quote || bs)) ||
-			//		(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
+			//		if ((quote && s[i] != quote) ||
+			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 			bs = 0;
 		}
 		++i;
 	}
-	//ft_printf("len: %d\n", len);
 	return (len);
 }
 
@@ -113,7 +106,11 @@ static char		*ft_strcpy_chr(char const *s, char c)
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')
+		{
 			bs = 1;
+			if (s[i + 1] != c)
+				cpy[j++] = s[i];
+		}
 		else
 		{
 			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
@@ -123,15 +120,13 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-			if ((quote && (s[i] != quote || bs)) ||
-					(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
-				cpy[j++] = s[i];
+			//		if ((quote && s[i] != quote) ||
+			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+			cpy[j++] = s[i];
 			bs = 0;
 		}
 		++i;
 	}
-	if (bs)
-		cpy[j - 1] = '\0';
 	return (cpy);
 }
 
@@ -163,7 +158,7 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-char			**ft_strsplit_wo_quote_bs(char const *s, char c)
+char			**ft_split_cmds(char const *s, char c)
 {
 	char	**tab;
 	size_t	nw;
