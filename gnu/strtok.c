@@ -45,22 +45,22 @@ static char rcsid[] = "$Header: /sprite/src/lib/c/string/RCS/strtok.c,v 1.1 89/0
 
 char *
 strtok(s, delim)
-    char *s;            /* string to search for tokens */
-    const char *delim;  /* delimiting characters */
+	char *s;            /* string to search for tokens */
+	const char *delim;  /* delimiting characters */
 {
-    static char *lasts;
-    register int ch;
+	static char *lasts;
+	register int ch;
 
-    if (s == 0)
-	s = lasts;
-    do {
-	if ((ch = *s++) == '\0')
-	    return 0;
-    } while (strchr(delim, ch));
-    --s;
-    lasts = s + strcspn(s, delim);
-    if (*lasts != 0)
-	*lasts++ = 0;
-    return s;
+	if (s == 0)
+		s = lasts;
+	do {
+		if ((ch = *s++) == '\0')
+			return 0;
+	} while (strchr(delim, ch));
+	--s;
+	lasts = s + strcspn(s, delim);
+	if (*lasts != 0)
+		*lasts++ = 0;
+	return s;
 }
 

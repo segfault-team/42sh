@@ -1,8 +1,9 @@
 #include "libft.h"
+#include "jc.h"
 
 /*
 **
-**	Description:
+**	Description: (this is a simple state machine)
 **		this function split the line by the char ';',
 **		it keeps hold '\' '\\' '\;' and things in quotes.
 **		How it works? .. again, it's black magic.
@@ -158,25 +159,32 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-char			**ft_split_cmds(char const *s, char c)
+t_job			*ft_split_jobs(char const *s, char c)
 {
-	char	**tab;
-	size_t	nw;
+	t_job	*jb;
+	t_job	*ptr;
+	size_t	len;
 	size_t	i;
 
-	tab = NULL;
+	jb = NULL;
 	if (s)
 	{
-		i = -1;
-		nw = ft_count_words(s, c);
-		if ((tab = ft_tabnew(nw + 1)) == NULL)
+		i = 0;
+		len = ft_strlen(s);
+		if ((jb = ft_new_job()) == NULL)
 			return (NULL);
-		while (++i < nw)
+		ptr = jb;
+		while (i < len)
 		{
-			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
-				return (tab);
-			s += ft_skip(s, c);
+			if ((ptr->command = ft_strcpy_chr(&s[i], c)) == NULL)
+				return (jb);
+			i += ft_skip(&s[i], c);
+			if (i < len)
+			{
+				ptr->next = ft_new_job();
+				ptr = ptr->next;
+			}
 		}
 	}
-	return (tab);
+	return (jb);
 }
