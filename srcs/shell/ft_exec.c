@@ -96,7 +96,7 @@ static void		ft_add_pid(t_env *e, pid_t id)
 }
 */
 
-static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
+static int		ft_fork_exec(char *exec, char **cmd, t_env *e, int op)
 {
 	t_job	*son;
 	pid_t	pid;
@@ -115,7 +115,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (isAggregator(e, RED_INDEX))
 			redirToAggregator(e);
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+		if (op <= 0 && (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>")))
 		{
 			if (ft_redirect(FD.in, STDIN_FILENO) ||
 				ft_redirect(FD.fd[1], STDOUT_FILENO))
@@ -133,7 +133,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	return (0);
 }
 
-int				ft_exec(char **cmd, t_env *e)
+int				ft_exec(char **cmd, t_env *e, int op)
 {
 	int		ret;
 	char	**paths;
@@ -151,7 +151,7 @@ int				ft_exec(char **cmd, t_env *e)
 		return (ft_error(cmd[0], "Command not found", NULL));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		ret = ft_fork_exec(exec, cmd, e);
+		ret = ft_fork_exec(exec, cmd, e, op);
 	else
 		ret = ft_error(exec, "Permission denied", NULL);
 	ft_free_tab(paths);
@@ -191,9 +191,9 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 				//ft_puttab(ptr->atom);
 				//ft_printf("_______\n");
 				if (ft_is_builtin(ptr->atom[0]))
-					ret = ft_exec_builtin(e, ptr->atom);
+					ret = ft_exec_builtin(e, ptr->atom, ptr->op);
 				else
-					ret = ft_exec(ptr->atom, e);
+					ret = ft_exec(ptr->atom, e, ptr->op);
 			}
 			ptr = ptr->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:24:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:06:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/06 12:11:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
 	return (i);
 }
 
-int				ft_env(t_env *e, char **cmd)
+int				ft_env(t_env *e, char **cmd, int op)
 {
 	char	**env_cpy;
 	size_t	len;
@@ -112,7 +112,7 @@ int				ft_env(t_env *e, char **cmd)
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
 		{
 			ft_printf(">> %d = %s\n", i, cmd[i]);
-			ft_exec(&cmd[i], e);
+			ft_exec(&cmd[i], e, op);
 			i = 0;
 		}
 	}

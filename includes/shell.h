@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/06 15:52:01 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -179,13 +167,13 @@ void				ft_freelogic(t_logic *x);
 /*
 **		Exec
 */
-int					ft_exec(char **cmd, t_env *e);
+int					ft_exec(char **cmd, t_env *e, int op);
 int					ft_exec_cmd(t_env *e, char **cmd);
 char				**ft_find_paths(char **env);
 char				*ft_find_exec(char **paths, char *cmd);
 void				ft_close(int fd);
 char				**ft_trim_split_cmd(t_env *e);
-int					ft_exec_builtin(t_env *e, char **cmd);
+int					ft_exec_builtin(t_env *e, char **cmd, int op);
 int					ft_is_builtin(char *cmd);
 
 /*
@@ -278,7 +266,7 @@ void				strfree(char **str);
 **		Builtins
 */
 void				ft_exit(t_env *e);
-int					ft_env(t_env *e, char **cmd);
+int					ft_env(t_env *e, char **cmd, int op);
 int					ft_setenv_blt(t_env *e, char **cmd);
 int					ft_setenv(char ***env, char *name, char *value);
 int					ft_unsetenv_blt(t_env *e, char **cmd);
