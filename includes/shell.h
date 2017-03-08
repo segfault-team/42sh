@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:14:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/08 08:41:48 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ typedef struct		s_pid_list
 
 typedef struct		s_env
 {
+	int test;
+
 	t_fd			fd;
 	int				x;
 	int				exit;

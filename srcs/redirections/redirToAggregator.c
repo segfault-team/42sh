@@ -4,6 +4,14 @@
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
 
+void		outputAggre(t_env *e, int fd_src, int fd_dst)
+{
+	if (isRedirPipe(e, RED_INDEX + 1))
+		dup2(FD.fd[1], fd_src);
+	else
+		dup2(fd_dst, fd_src);
+}
+
 int			redirToAggregator(t_env *e)
 {
 	int	fd_src;
@@ -25,13 +33,11 @@ int			redirToAggregator(t_env *e)
 	else if (aggregatorType == INPUT_AGGRE)
 		dup2(fd_dst, STDIN_FILENO);
 	else
-	{
-		ft_redirect(FD.fd[1], fd_src);
+		outputAggre(e, fd_src, fd_dst);
 //		if (e->magic[RED_INDEX + 1].cmd && isRedirPipe(e, RED_INDEX + 1))
 //			dup2(FD.fd[1], fd_src);
 //		else
 //			dup2(FD.fd[1], fd_src);
-	}
 	struct_find_red(e);
 	return (1);
 }

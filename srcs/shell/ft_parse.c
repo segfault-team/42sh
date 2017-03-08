@@ -139,8 +139,14 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-1);
 //	ft_putmagic(e);
 	ft_create_file(e);
+	e->test = 0;
+//	for(int k = 0 ; e->cat[k] ; ++k)
+//		for (int l = 0 ; e->cat[k][l] ; ++l)
+//			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
 	while (e->cat[++i] && ret != -1)
 	{
+		if (isAggregator(e, RED_INDEX))
+			struct_find_red(e);
 		if (isOutputRedir(e, RED_INDEX))
 			redir_fill_output(e);
 		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||

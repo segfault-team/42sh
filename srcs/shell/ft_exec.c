@@ -117,9 +117,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 			redirToAggregator(e);
 		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 		{
-			if (ft_redirect(FD.in, STDIN_FILENO) ||
-				ft_redirect(FD.fd[1], STDOUT_FILENO))
-				return (-1);
+			ft_redirect(FD.in, STDIN_FILENO);
+			dup2(FD.fd[1], STDOUT_FILENO);
 		}
 		execve(exec, &cmd[0], e->env);
 	}

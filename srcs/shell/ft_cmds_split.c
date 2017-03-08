@@ -15,7 +15,7 @@ static int	ft_nb_cmds(t_env *e)
 	i = -1;
 	while (e->magic[++i].cmd)
 	{
-		if (isRedirection(e, i))
+		if (isRedirection(e, i) && !isAggregator(e, i))
 		{
 			++len;
 			if (isOutputRedir(e, i))
@@ -42,8 +42,9 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && !isRedirection(e, *z))
-			++len;
+		while (e->magic[++(*z)].cmd && (!isRedirection(e, *z) || isAggregator(e, *z)))
+			if (!isAggregator(e, *z))
+				++len;
 		if (e->magic[*z].cmd && isOutputRedir(e, *z))
 			++last_cmd;
 	}
