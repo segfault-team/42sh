@@ -1,0 +1,1 @@
+ls -l|grep 21;pwd;echo\;helloBOID;test;echo lol||echo test|grep t;echo "bo/i\d';"
