@@ -122,11 +122,9 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		}
 		execve(exec, &cmd[0], e->env);
 	}
-	// ?? jobs
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
-	//ft_add_pid(e, id);
 	return (0);
 }
 

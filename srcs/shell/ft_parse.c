@@ -100,6 +100,7 @@ int				ft_waitsons(t_env *e)
 		free(ptr);
 		ptr = tmp;
 	}
+	e->child_running = 0;
 	e->jobs = NULL;
 	return (0);
 }
@@ -153,6 +154,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 			(!RED_INDEX && redir_check_red(e, "|")))
 		{
 			FD.fd[1] = STDOUT_FILENO;
+//			ret = redir_exec_open(i, e);
 			ret = ft_exec_cmd(e, e->cat[i]);
 		}
 		else

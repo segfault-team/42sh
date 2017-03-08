@@ -40,33 +40,3 @@ int		redir_exec_open(int i, t_env *e)
 	FD.in = FD.fd[0];
 	return (ret);
 }
-
-/*
-**	INSTRUCTION POUR LA DERNIERE CMD (OU LA SEULE) A EXECUTER
-**	restauration des fd
-**  '>' && '>>' 	== open
-**	'|'				== exec
-*/
-
-int		redir_last_cmd(int i, t_env *e)
-{
-	int	ret;
-	int	status;
-
-	status = 0;
-	ret = 0;
-	if (redir_check_red(e, "|") || !RED_INDEX)
-	//if (!RED_INDEX || isRedirPipe(e, RED_INDEX))
-	{
-		FD.fd[1] = STDOUT_FILENO;
-		ret = ft_exec_cmd(e, e->cat[i]);
-	}
-	else if (isOutputRedir(e, RED_INDEX))
-	{
-		redir_fill_output(e);
-		dup2(FD.stdin, STDIN_FILENO);
-		dup2(FD.stdout, STDOUT_FILENO);
-		dup2(FD.stderr, STDERR_FILENO);
-	}
-	return (ret);
-}

@@ -35,7 +35,7 @@ int main(int ac, char **av, char **env)
 			close(fd[0]);
 			if (cat[i + 1][0] != NULL)
 			{
-				dup2(fd[1], STDERR_FILENO);
+				dup2("/dev/null", STDERR_FILENO);
 				dup2(fd[1], STDOUT_FILENO);
 			}
 			if (in != STDIN_FILENO)

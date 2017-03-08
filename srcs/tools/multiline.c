@@ -46,7 +46,6 @@ static int 		ft_check_pipe(t_env *e)
 static int		ft_check_line(t_env *e)
 {
 	if (!e->line)
-		//return (-1);
 		return (0);
 	if (ft_check_pipe(e))
 		return (0);
@@ -60,13 +59,13 @@ int		ft_multiline(t_env *e)
 	char 	*tmp;
 	int		check;
 
-	if ((check = ft_check_line(e)) < 0)
+	if ((check = ft_check_line(e)) == 0)
 	{
 		strfree(&e->prompt);
 		e->prompt = ft_strdup(STD_PROMPT);
 		return (1);
 	}
-	if ((e->line && NB_READ >= 2 && 
+	if ((e->line && NB_READ >= 2 &&
 				e->line[NB_READ - 1] == '\\' && e->line[NB_READ - 2] != '\\')
 			|| !check)
 	{

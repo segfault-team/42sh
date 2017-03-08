@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/21 13:10:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/08 08:41:48 by kboddez          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -67,7 +55,7 @@
 # define OR			2
 
 # define HIST_FILE	"/tmp/.history"
-# define STD_PROMPT	GREEN"$> "ENDC
+# define STD_PROMPT	"$> "
 # define H_PROMPT	"heredoc> "
 # define BS_PROMPT	"> "
 
@@ -195,7 +183,6 @@ int					ft_is_builtin(char *cmd);
 int					ft_redirect(int oldfd, int newfd);
 int					ft_redir_builtin(t_env *e);
 int					redir_exec_open(int i, t_env *e);
-int					redir_last_cmd(int i, t_env *e);
 int					redir_check_red(t_env *e, char *red);
 int					redir_fill_output(t_env *e);
 int					ft_redirect(int oldfd, int newfd);

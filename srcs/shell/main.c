@@ -29,8 +29,8 @@ static void		tcaps_enter(t_env *e)
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
 	if (e->x)
-		ft_prompt(e->prompt);
-	ft_reset_line(e);
+		tcaps_prompt(e->prompt);
+		ft_reset_line(e);
 }
 
 /*
@@ -67,7 +67,8 @@ static void		tcaps_manage_printable_char(t_env *e)
 			xputs("ce");
 		}
 		tcaps_del_prompt(e);
-		ft_putstr(e->prompt);
+//		ft_putstr(e->prompt);
+		tcaps_prompt(e->prompt);
 		s_move += ft_putstr(e->line);
 		while (s_move-- > NB_MOVE)
 			xputs("le");
