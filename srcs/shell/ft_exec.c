@@ -120,6 +120,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 			ft_redirect(FD.in, STDIN_FILENO);
 			dup2(FD.fd[1], STDOUT_FILENO);
 		}
+		else
+			ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)

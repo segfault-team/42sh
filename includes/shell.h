@@ -72,6 +72,14 @@
 # define CTRL_K		11
 # define CTRL_P		16
 
+/*
+**	DEFINE REDIRECTION
+*/
+# define PIPE		0
+# define AGGREGATOR	1
+# define OUTPUT		2
+# define INPUT		3
+
 typedef struct		s_magic
 {
 	char			*cmd;
@@ -196,6 +204,7 @@ int					redirToAggregator(t_env *e);
 int					isolateFdDestination(t_env *e);
 int					isolateFdSource(t_env *e);
 int					findAggregatorType(t_env *e);
+int					isNextRedir(t_env *e, int i);
 
 /*
 **		Init - Reset
