@@ -1,6 +1,7 @@
 #include "shell.h"
 
-#define DEFAULT_VALUE 1
+#define DEFAULT_VALUE_INPUT 0
+#define DEFAULT_VALUE_OUTPUT 1
 #define MINUS -42
 #define ERROR -420
 
@@ -26,7 +27,10 @@ int  isolateFdSource(t_env *e)
 {
 	int fd;
 
-	fd = DEFAULT_VALUE;
+	if (ft_strstr(e->magic[RED_INDEX].cmd, ">&"))
+		fd = DEFAULT_VALUE_OUTPUT;
+	else
+		fd = DEFAULT_VALUE_INPUT;
 	if (isNumber(e->magic[RED_INDEX].cmd[0]))
 		fd = isolateFd(e, RED_INDEX, 0);
 	else if (!isNumber(e->magic[RED_INDEX].cmd[0]) &&

@@ -78,24 +78,6 @@ void			ft_close(int fd)
 	}
 }
 
-/*
-static void		ft_add_pid(t_env *e, pid_t id)
-{
-	if (!e->pid_list)
-	{
-		e->pid_list = (t_pid_list *)malloc(sizeof(t_pid_list));
-		e->actual_pid = e->pid_list;
-	}
-	else
-	{
-		e->actual_pid->next = (t_pid_list *)malloc(sizeof(t_pid_list));
-		e->actual_pid = e->actual_pid->next;
-	}
-	e->actual_pid->pid = id;
-	e->actual_pid->next = NULL;
-}
-*/
-
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	t_job	*son;
@@ -115,13 +97,9 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (isAggregator(e, RED_INDEX))
 			redirToAggregator(e);
-		if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
-		{
-			ft_redirect(FD.in, STDIN_FILENO);
+		ft_redirect(FD.in, STDIN_FILENO);
+		if (redir_check_red(e, "|") || isOutputRedir(e, RED_INDEX))
 			dup2(FD.fd[1], STDOUT_FILENO);
-		}
-		else
-			ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)

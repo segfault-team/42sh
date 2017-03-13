@@ -48,12 +48,15 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	char	ret;
 
 	ret = 0;
+	if (isAggregator(e, RED_INDEX))
+		redirToAggregator(e);
 	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
 	{
-		if (/*ft_redirect(FD.in, STDIN_FILENO) ||
-		*/ft_redirect(FD.fd[1], STDOUT_FILENO))
-			return (-1);
+		ft_redirect(FD.in, STDIN_FILENO);
+		dup2(FD.fd[1], STDOUT_FILENO);
 	}
+	else
+		ft_redirect(FD.in, STDIN_FILENO);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
@@ -125,22 +128,18 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-//	ft_printf("cmds: %s\n", cmds_i);
-	if ((e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
-		return (-1);
-//	or use this ?? :
-//		return (ft_error(SH_NAME, "malloc failed.", NULL));
-	if ((e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')) == NULL)
-		return (-1);
+	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
+		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
+		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
+//	ft_putmagic(e);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-//	ft_putmagic(e);
 	ft_create_file(e);
 	e->test = 0;
-//	for(int k = 0 ; e->cat[k] ; ++k)
-//		for (int l = 0 ; e->cat[k][l] ; ++l)
-//			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+/*	for (int k = 0 ; e->cat[k] ; ++k)
+		for (int l = 0 ; e->cat[k][l] ; ++l)
+		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
 	while (e->cat[++i] && ret != -1)
 	{
 		if (isAggregator(e, RED_INDEX))
@@ -151,7 +150,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 			(!RED_INDEX && redir_check_red(e, "|")))
 		{
 			FD.fd[1] = STDOUT_FILENO;
-//			ret = redir_exec_open(i, e);
 			if (isNextRedir(e, RED_INDEX) == AGGREGATOR)
 				struct_find_red(e);
 			ret = ft_exec_cmd(e, e->cat[i]);

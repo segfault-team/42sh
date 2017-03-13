@@ -34,7 +34,11 @@ int			redirToAggregator(t_env *e)
 	if (aggregatorType == ERROR)
 		return (ERROR);
 	else if (fd_dst == -42)
+	{
+		dprintf(2, "BEF\n");
 		close(fd_src);
+		dprintf(2, "AFT\n");
+	}
 	else if (aggregatorType == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);
 	else

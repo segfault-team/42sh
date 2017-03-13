@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /*
 **	COUNT THE NUMBER OF REDIRECTIONS IN CMD
 **	TODO: ajouter reconnaissance de "&&" "||" "n%>n"
@@ -42,7 +41,8 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && (!isRedirection(e, *z) || isAggregator(e, *z)))
+		while (e->magic[++(*z)].cmd && (!isRedirection(e, *z) ||
+										isAggregator(e, *z)))
 			if (!isAggregator(e, *z))
 				++len;
 		if (e->magic[*z].cmd && isOutputRedir(e, *z))
@@ -68,7 +68,8 @@ static char	**ft_find_tab(t_env *e, int *z)
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
-		if (!isOutputRedir(e, k))
+//		if (!isOutputRedir(e, k) && !isAggregator(e, k))
+		if (!isRedirection(e, k))
 			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
 	return (ret);
