@@ -50,6 +50,7 @@
 
 # define NB_MOVE	TCAPS.nb_move
 # define NB_READ	TCAPS.nb_read
+# define HISTORY_FD	e->history_fd
 
 # define AND		1
 # define OR			2
@@ -162,6 +163,8 @@ typedef struct		s_env
 	int 			child_running;
 	int 			check_ctrl_c;
 	int 			check_sigtstp;
+
+	int				history_fd;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -282,7 +285,7 @@ int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e, char **cmd);
 int					ft_echo(char **args);
 int					ft_where(t_env *e, char **cmd);
-int					ft_store_history(char *cmd);
+int					ft_store_history(char *cmd, int history_fd);
 int					ft_history(t_env *e);
 
 /*

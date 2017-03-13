@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 21:43:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/13 09:51:13 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void		ft_env_free(t_env *e)
 		ft_free_tab(e->env);
 	if (e->magic)
 		magic_free(e);
+	if (close(HISTORY_FD) == -1)
+		ft_error("close", "Could not close file", HIST_FILE);
 }
 
 void	ft_triple_free(t_env *e)
