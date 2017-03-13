@@ -27,7 +27,6 @@ int			redirToAggregator(t_env *e)
 		(fcntl(fd_dst, F_GETFD) && fd_dst != -42))
 		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
 	aggregatorType = findAggregatorType(e);
-//	ft_printf("s:%d | d:%d | t:%d\n", fd_src, fd_dst, aggregatorType);
 	if (fd_dst == ERROR ||
 		(fd_src == ERROR && aggregatorType == OUTPUT_AGGRE))
 		return (dprintf(STDERR_FILENO, "sh: syntax error in your aggregator\n"));

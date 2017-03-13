@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:28:29 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/17 14:30:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/13 15:32:07 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	xputs(char *tag)
 	char	*res;
 
 	res = tgetstr(tag, NULL);
-	tputs(res, 1, dsh_putchar);
+	ft_putstr(res);
 }
 
 void	move_right(t_env *e)
