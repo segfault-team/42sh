@@ -19,17 +19,19 @@ int				tcaps_paste(t_env *e, char *buf)
 
 	i = -1;
 	xputs("im");
+//	ft_printf("b: %c.%c.%c\n", buf[0], buf[1], buf[2]);
 	while (buf[++i] && i < 3)
 	{
 		if (is_print(buf[i]))
 		{
 			ft_putchar_fd(buf[i], 1);
 			e->line = ft_realloc_line(e, buf[i]);
-			++TCAPS.nb_move;
-			++TCAPS.nb_read;
+			++NB_MOVE;
+			++NB_READ;
 		}
 	}
 	xputs("ei");
 	tcaps_recalc_pos(e);
 	return (i);
 }
+

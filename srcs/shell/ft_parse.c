@@ -50,13 +50,10 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	ret = 0;
 	if (isAggregator(e, RED_INDEX))
 		redirToAggregator(e);
+	ft_redirect(FD.in, STDIN_FILENO);
 	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
-	{
-		ft_redirect(FD.in, STDIN_FILENO);
 		dup2(FD.fd[1], STDOUT_FILENO);
-	}
-	else
-		ft_redirect(FD.in, STDIN_FILENO);
+	close(FD.fd[1]);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
