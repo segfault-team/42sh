@@ -43,7 +43,9 @@ void	tcaps_del_fwd(t_env *e)
 		if (!NB_READ && e->line)
 			strfree(&e->line);
 		--NB_READ;
+		xputs("vi");
 		tcaps_putstr(e, e->line);
+		xputs("ve");
 	}
 }
 
@@ -74,6 +76,8 @@ void		tcaps_del_bkw(t_env *e)
 		--NB_READ;
 		if (NB_MOVE)
 			--NB_MOVE;
+		xputs("vi");
 		tcaps_putstr(e, e->line);
+		xputs("ve");
 	}
 }

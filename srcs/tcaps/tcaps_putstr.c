@@ -28,7 +28,7 @@ int     tcaps_putstr(t_env *e, char *str)
 	xputs("dl");
 	xputs("ce");
 	xputs("ed");
-	tputs(e->prompt, 1, dsh_putchar);
+	tcaps_prompt(e->prompt);
 	tputs(str, 1, dsh_putchar);
 	xputs("rc");
 	return (0);

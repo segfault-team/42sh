@@ -42,6 +42,7 @@ static void	tcaps_ctrl_p(t_env *e)
 	tmp = 0;
 	if (e->cut)
 	{
+		xputs("vi");
 		cut_len = (int)ft_strlen(e->cut);
 		ft_realloc_insert_str(e, e->cut);
 		xputs("dm");
@@ -63,6 +64,7 @@ static void	tcaps_ctrl_p(t_env *e)
 			--NB_MOVE;
 		}
 		tcaps_recalc_pos(e);
+		xputs("ve");
 	}
 }
 
