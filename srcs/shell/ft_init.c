@@ -60,15 +60,31 @@ static void		ft_set_shlvl(t_env *e)
 		ft_setenv(&e->env, "SHLVL", "1");
 }
 
+char			*init_hist_file(t_env *e)
+{
+	char	*path;
+	char	*ret;
+
+	path = NULL;
+	if (!e->home || (int)ft_strlen(e->home) == 0)
+	{
+		path = getcwd(NULL, 0);
+		ret = ft_strjoin(path, HIST_NAME);
+	}
+	else
+		ret = ft_strjoin(e->home, HIST_NAME);
+	return (ret);
+}
+
 void			ft_init(t_env *e, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
 	e->history = NULL;
 	e->env = ft_tabdup(env);
-	ft_check_file_perm(HIST_FILE);
 	if (!ft_set_home(e))
 		ft_error(SH_NAME, "WARNING: no home set", NULL);
+	e->hist_file = init_hist_file(e);
 	if (ft_read_history(e) < 0)
 	{
 		ft_free_tab(e->history);

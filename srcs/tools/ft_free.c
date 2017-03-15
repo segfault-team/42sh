@@ -35,8 +35,6 @@ void		ft_env_free(t_env *e)
 		ft_free_tab(e->env);
 	if (e->magic)
 		magic_free(e);
-	if (close(HISTORY_FD) == -1)
-		ft_error("close", "Could not close file", HIST_FILE);
 }
 
 void	ft_triple_free(t_env *e)

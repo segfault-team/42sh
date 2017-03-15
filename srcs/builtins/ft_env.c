@@ -111,7 +111,7 @@ int				ft_env(t_env *e, char **cmd)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
 		{
-			ft_printf(">> %d = %s\n", i, cmd[i]);
+//			ft_printf(">> %d = %s\n", i, cmd[i]);
 			ft_exec(&cmd[i], e);
 			i = 0;
 		}

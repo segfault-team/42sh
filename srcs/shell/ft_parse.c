@@ -69,7 +69,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	else if (!ft_strcmp(cmd[0], "where") && ++ret)
 		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
-		ret = ft_history(e);
+		ret = ft_history(e, cmd);
 	return (ret);
 }
 
@@ -173,7 +173,7 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	ft_check_history(e);
+	ft_store_history(e);
 	if (ft_matchquotes(e->line))
 	{
 		if ((cmds = ft_trim_split_cmd(e)) != NULL)

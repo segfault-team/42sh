@@ -54,3 +54,5 @@ tests
 *test*
 *.DS_Store
 a.out
+
+.sh_history

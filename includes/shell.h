@@ -50,15 +50,15 @@
 
 # define NB_MOVE	TCAPS.nb_move
 # define NB_READ	TCAPS.nb_read
-# define HISTORY_FD	e->history_fd
 
 # define AND		1
 # define OR			2
 
-# define HIST_FILE	"/tmp/.history"
 # define STD_PROMPT	"$> "
 # define H_PROMPT	"heredoc> "
 # define BS_PROMPT	"> "
+# define HIST_NAME	"/.sh_history"
+# define HIST_FILE	e->hist_file
 
 # define OPENFLAGS	(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS (O_RDWR | O_CREAT | O_TRUNC)
@@ -103,7 +103,6 @@
 # define TGETSTR_SC e->struct_tputs.sc
 # define TGETSTR_DL e->struct_tputs.dl
 # define TGETSTR_RC e->struct_tputs.rc
-
 
 typedef struct		s_tputs
 {
@@ -209,9 +208,9 @@ typedef struct		s_env
 	int 			check_ctrl_c;
 	int 			check_sigtstp;
 
-	int				history_fd;
-
 	t_tputs			struct_tputs;
+
+	char			*hist_file;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -295,7 +294,9 @@ int 				ft_multiline(t_env *e);
 */
 int					ft_check_file_perm(char *file);
 int 				ft_read_history(t_env *e);
-void 				ft_check_history(t_env *e);
+void				ft_store_history(t_env *e);
+int 				ft_write_history(t_env *e, int flag);
+char				**delete_line_in_tab(char **ttab, int d);
 
 /*
 **		Tcaps Tools
@@ -332,8 +333,7 @@ int					ft_unsetenv(char ***env, char *name);
 int					ft_chdir(t_env *e, char **cmd);
 int					ft_echo(char **args);
 int					ft_where(t_env *e, char **cmd);
-int					ft_store_history(char *cmd, int history_fd);
-int					ft_history(t_env *e);
+int					ft_history(t_env *e, char **cmd);
 
 /*
 **		Termcaps

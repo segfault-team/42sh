@@ -125,6 +125,7 @@ int				main(int ac, char **av, char **env)
 		if (e.tcaps.nb_move < e.tcaps.nb_read)
 			e.tcaps.check_move = 1;
 	}
+	ft_write_history(&e, O_TRUNC);
 	ft_env_free(&e);
 	ft_putendl("exit");
 	return (e.exit);
