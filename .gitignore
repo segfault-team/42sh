@@ -1,4 +1,5 @@
 # Object files
+lol
 *.o
 *.ko
 *.obj
@@ -51,3 +52,5 @@ tests
 
 # Test files
 *test*
+*.DS_Store
+a.out

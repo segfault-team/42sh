@@ -1,5 +1,26 @@
 #include "shell.h"
 
+int			ft_check_file_perm(char *file)
+{
+	int		ret;
+
+	ret = 0;
+	if (access(file, F_OK) != -1)
+	{
+		if (access(file, R_OK) == -1)
+		{
+			ft_error(SH_NAME, "Cannot access file for reading", file);
+			ret = -1;
+		}
+		if (access(file, W_OK) == -1)
+		{
+			ft_error(SH_NAME, "Cannot access file for writing", file);
+			ret = -1;
+		}
+	}
+	return (ret);
+}
+
 /*
 **		ADD NEW CMD TO THE END OF THE HISTORY TAB
 */
@@ -10,20 +31,16 @@ void	ft_check_history(t_env *e)
 	int		accs;
 	char	**tmp;
 
-	accs = access(HIST_FILE, F_OK);
-	ft_store_history(e->line);
+	accs = (HISTORY_FD > 0) ? 1 : -1;
+	ft_store_history(e->line, HISTORY_FD);
 	tmp = NULL;
 	if (accs != -1)
 	{
 		i = ft_tablen(e->history);
-
-		if (!ft_strcmp(e->history[i], e->line))
-		{
-			tmp = e->history;
-			e->history = ft_tabcat(e->history, e->line);
-			if (tmp)
-				ft_free_tab(tmp);
-		}
+		tmp = e->history;
+		e->history = ft_tabcat(e->history, e->line);
+		if (tmp)
+			ft_free_tab(tmp);
 	}
 	else if (e->history)
 	{
@@ -42,20 +59,16 @@ void	ft_check_history(t_env *e)
 
 int		ft_read_history(t_env *e)
 {
-	int			fd;
 	int 		i;
 
 	i = 0;
-	if ((fd = open(HIST_FILE, O_RDONLY, OPENFLAGS)) == -1)
+	if ((HISTORY_FD = open(HIST_FILE, O_RDWR | O_CREAT, OPENFLAGS)) == -1)
 		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
-		//CLOSE FD BEFORE QUITTING
 		return (ft_error(SH_NAME, "Malloc failed.", NULL));
-	while (get_next_line(fd, &e->history[i]) > 0)
+	while (get_next_line(HISTORY_FD, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;
-	if (close(fd) == -1)
-		ft_printfd(2, "MANAGE ERROR");
 	return (0);
 }
 
@@ -64,16 +77,10 @@ int		ft_read_history(t_env *e)
 **		CONCAT WITH THE NEW CMD
 */
 
-int		ft_store_history(char *cmd)
+int		ft_store_history(char *cmd, int history_fd)
 {
-	int			fd;
-
-	if ((fd = open(HIST_FILE, O_RDWR | O_CREAT | O_APPEND, OPENFLAGS)) == -1)
-		return (-1);
-	ft_putstr_fd(cmd, fd);
-	ft_putchar_fd('\n', fd);
-	if (close(fd) == -1)
-		return (ft_error("close", "Could not close file", HIST_FILE));
+	ft_putstr_fd(cmd, history_fd);
+	ft_putchar_fd('\n', history_fd);
 	return (0);
 }
 

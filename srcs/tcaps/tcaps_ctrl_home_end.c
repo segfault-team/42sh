@@ -1,5 +1,13 @@
 #include "shell.h"
 
+void	tcaps_ctrl_d(t_env *e)
+{
+	if (MULTI || NB_READ)
+		tcaps_del_fwd(e);
+	else
+		ft_exit(e);
+}
+
 /*
 **  INSTRUCTION FOR "Ctrl + a" KEYS || cmd: home
 **
@@ -10,18 +18,18 @@
 void    tcaps_ctrl_home(t_env *e)
 {
 	int     i;
-	int l;
+	int 	l;
 
-	l = TCAPS.nb_read;
+	l = NB_READ;
 	while (l--)
 	{
-		xputs("le");
-		TCAPS.nb_move = 0;
+		xputs(TGETSTR_LE);
+		NB_MOVE = 0;
 	}
-	xputs("cr");
+	xputs(TGETSTR_CR);
 	i = ft_strlen(e->prompt);
 	while (i--)
-		xputs("nd");
+		xputs(TGETSTR_ND);
 	tcaps_recalc_pos(e);
 }
 
@@ -35,6 +43,6 @@ void    tcaps_ctrl_home(t_env *e)
 void    tcaps_ctrl_end(t_env *e)
 {
 	tcaps_recalc_pos(e);
-	while (TCAPS.nb_move < TCAPS.nb_read)
+	while (NB_MOVE < NB_READ)
 		move_right(e);
 }

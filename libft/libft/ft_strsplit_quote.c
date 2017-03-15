@@ -1,140 +1,133 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*   ft_strsplit_quote.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 13:15:17 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/12/05 17:25:31 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/02/28 18:01:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "libft.h"
 
-/*
-**	Description:
-**		behave like ft_strsplit(), but keeps hold string into quotes.
-**		returns a char **tab.
-*/
-
-static int		ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char const *s, char c)
 {
+	size_t	nw;
 	int		i;
-	int		count;
 	char	quote;
 
 	i = 0;
-	count = 0;
+	nw = 0;
 	quote = '\0';
-	while (s[i] != '\0')
+	while (s[i] && s[i] == c)
+		++i;
+	while (s[i])
 	{
-		if (quote != '\0' && (s[i] == quote))
-		{
-			quote = '\0';
-			++count;
-		}
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))	
 			quote = s[i];
-		if (quote == '\0' && ((i > 0 && s[i] != c && s[i - 1] == c) || \
-					(i == 0 && s[i] != c)))
-			++count;
+		else if (s[i] == quote)
+			quote = '\0';
+		if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
+			++nw;
 		++i;
 	}
-	return (count);
+	return (nw);
 }
 
-static int		ft_strlen_ch(char const *s, char c, int i)
+static size_t	ft_strlen_chr(char const *s, char c)
 {
-	int		len;
+	size_t	len;
+	int		i;
 	char	quote;
 
-	len = 1;
+	len = 0;
+	i = 0;
 	quote = '\0';
-	while (s[i] != c && s[i] != '\0')
+	while (s[i] == c)
+		++i;
+	while (s[i] && (s[i] != c || quote))
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
 			quote = s[i];
-		else if (s[i] != quote)
+		else if (s[i] == quote)
+			quote = '\0';
+//		if ((quote && s[i] != quote) ||
+//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 		++i;
 	}
 	return (len);
 }
 
-static char		*ft_strcpy_ch(char const *s, char c, int i)
+static char		*ft_strcpy_chr(char const *s, char c)
 {
-	int		k;
+	char	*cpy;
+	int		i;
+	int		j;
 	char	quote;
-	char	*str;
 
-	k = 0;
-	quote = '\0';
-	str = (char *)malloc(sizeof(*str) * (ft_strlen_ch(s, c, i) + 1));
-	if (str == NULL)
+	if ((cpy = ft_strnew(ft_strlen_chr(s, c))) == NULL)
 		return (NULL);
-	while (s[i] != c && s[i] != '\0')
+	i = 0;
+	j = 0;
+	quote = '\0';
+	while (s[i] == c)
+		++i;
+	while (s[i] && (s[i] != c || quote))
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
 			quote = s[i];
-		else if (s[i] != quote)
-		{
-			str[k] = s[i];
-			++k;
-		}
+		else if (s[i] == quote)
+			quote = '\0';
+//		if ((quote && s[i] != quote) ||
+//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+			cpy[j++] = s[i];
 		++i;
 	}
-	str[k] = '\0';
-	return (str);
+	return (cpy);
 }
 
-int				ft_skiplen(char const *s, char c, int i)
+static int		ft_skip(char const *s, char c)
 {
-	int		k;
+	int		i;
 	char	quote;
 
-	k = 0;
+	i = 0;
 	quote = '\0';
-	while (s[i] != c && s[i] != '\0')
-	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
+	while (s[i] == c)
 		++i;
-		++k;
+	while (s[i] && (s[i] != c || quote))
+	{
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+			quote = s[i];
+		else if (s[i] == quote)
+			quote = '\0';
+		++i;
 	}
-	return (k);
+	return (i);
 }
 
 char			**ft_strsplit_quote(char const *s, char c)
 {
-	int		i;
-	int		k;
 	char	**tab;
+	size_t	nw;
+	size_t	i;
 
-	if (s != NULL)
+	tab = NULL;
+	if (s)
 	{
-		if (!(tab = (char **)malloc(sizeof(tab) * (ft_count_words(s, c) + 1))))
+		i = -1;
+		nw = ft_count_words(s, c);
+		if ((tab = ft_tabnew(nw + 1)) == NULL)
 			return (NULL);
-		i = 0;
-		k = 0;
-		while (k < ft_count_words(s, c) && s[i] != '\0')
+		while (++i < nw)
 		{
-			while (s[i] == c)
-				++i;
-			tab[k] = ft_strcpy_ch(s, c, i);
-			if (tab[k] == NULL)
-				return (NULL);
-			i += ft_skiplen(s, c, i);
-			++k;
+			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
+				return (tab);
+			s += ft_skip(s, c);
 		}
-		tab[k] = NULL;
-		return (tab);
 	}
-	return (NULL);
+	return (tab);
 }

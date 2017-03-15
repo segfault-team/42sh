@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:26:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/31 15:53:13 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 21:55:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	banner_ii(void)
 	ft_printf("                   `!^\"'\n\n");
 }
 
-void		ft_banner(t_env *e)
+void		ft_banner(void)
 {
 	ft_printf("\n                      .,,uod8B8bou,,.\n");
 	ft_printf("             ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.\n");
@@ -50,5 +50,4 @@ void		ft_banner(t_env *e)
 	ft_printf("!......YBBBBBBBBBBBBBBBBBBBRPFT?!::::::;:!^\"`;:::       `.\n");
 	ft_printf("!........YBBBBBBBBBBRPFT?!::::::::::^''...::::::;         iBBbo.\n");
 	banner_ii();
-	ft_putstr(e->prompt);
 }

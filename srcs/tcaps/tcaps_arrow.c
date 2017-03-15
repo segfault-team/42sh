@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:22:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 14:53:19 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/02/20 18:02:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,6 @@ void	tcaps_history_first_step(t_env *e)
 }
 
 /*
-**	INSTRUCTION FOR RIGHT
-**		ARROW KEYS
-**
-*/
-
-void	tcaps_right(t_env *e)
-{
-	move_right(e);
-}
-
-/*
 **	INSTRUCTION FOR LEFT
 **		ARROW KEYS
 **
@@ -54,7 +43,7 @@ void	tcaps_left(t_env *e)
 	  {
 	    if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
 	      TCAPS.nb_col = WIN_WIDTH;
-	  	xputs("le");
+	  	xputs(TGETSTR_LE);
 	    --TCAPS.nb_move;
 		tcaps_recalc_pos(e);
 	  }

@@ -6,25 +6,11 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/16 09:05:00 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/08 13:37:41 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int			ft_check_ctrlc(int ctrlc)
-{
-	static int	check = 0;
-
-	if (ctrlc)
-		check = 1;
-	else if (!ctrlc && check)
-	{
-		check = 0;
-		return (1);
-	}
-	return (0);
-}
 
 static int	ft_sigcheck(int sig)
 {
@@ -69,7 +55,7 @@ int			ft_handle_ret_signal(int status)
 			if (ft_sigcheck(sig))
 				return (-1);
 		uknw_sig = ft_itoa(sig);
-		ft_error("Process terminated with unknown signal:", uknw_sig, NULL);
+		ft_error("Process terminated with unknown signal", uknw_sig, NULL);
 		strfree(&uknw_sig);
 		return (-1);
 	}
@@ -84,8 +70,11 @@ void		ft_set_sig_handler(void)
 	while (++sig <= 31)
 	{
 		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
-				|| sig == SIGBUS || sig == SIGFPE || sig == SIGTSTP)
+				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
+		// Since we may have errors we don't ignore ctrl-z signal for now
+//		else if (sig == SIGTSTP)
+//			signal(sig, SIG_DFL);
 		else
 			signal(sig, ft_sig_handler);
 	}
@@ -93,9 +82,29 @@ void		ft_set_sig_handler(void)
 
 void		ft_sig_handler(int sig)
 {
+	t_env *e;
+
+	e = env_access(NULL);
 	if (sig == SIGINT)
 	{
-		ft_check_ctrlc(1);
-		ft_putstr_fd("\n$> ", 1);
+		e->check_ctrl_c = 1;
+		if (!e->child_running)
+		{
+			tcaps_ctrl_end(e);
+			strfree(&MULTI);
+			TCAPS.hist_move = -1;
+			ft_putchar('\n');
+			strfree(&e->prompt);
+			e->prompt = ft_strdup(STD_PROMPT);
+			tcaps_prompt(e->prompt);
+		}
+	}
+	else if (sig == SIGTSTP)
+	{
+		e->check_sigtstp = 1;
+		tcaps_ctrl_end(e);
+		tcaps_reset();
+		signal(sig, SIG_DFL);
+		raise(sig);
 	}
 }

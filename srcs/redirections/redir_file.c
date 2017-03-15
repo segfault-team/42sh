@@ -43,8 +43,7 @@ static int		redir_file_output(t_env *e, char *ret_output)
 	while (nb_red-- && struct_find_out(e))
 	{
 		red_type = ft_strcmp(e->magic[RED_INDEX].cmd, ">>");
-		if ((fd_output = open(e->magic[++RED_INDEX].cmd, (!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS),\
-			OPENFLAGS)) > -1)
+		if ((fd_output = open(e->magic[++RED_INDEX].cmd, (!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OPENFLAGS)) > -1)
 		{
 			// NE PAS ENLEVER
 			ft_printfd(fd_output, "%s", ret_output);

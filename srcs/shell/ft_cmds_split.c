@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /*
 **	COUNT THE NUMBER OF REDIRECTIONS IN CMD
 **	TODO: ajouter reconnaissance de "&&" "||" "n%>n"
@@ -15,11 +14,10 @@ static int	ft_nb_cmds(t_env *e)
 	i = -1;
 	while (e->magic[++i].cmd)
 	{
-		if (!ft_strcmp(e->magic[i].cmd, "|") || !ft_strcmp(e->magic[i].cmd, "<") ||
-			!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+		if (isRedirection(e, i) && !isAggregator(e, i))
 		{
 			++len;
-			if (!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+			if (isOutputRedir(e, i))
 				return (len + 1);
 		}
 	}
@@ -34,19 +32,20 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	len = 0;
 	if (last_cmd)
 	{
-		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|" ))
+		while (e->magic[++(*z)].cmd && !isRedirPipe(e, *z))
 		{
-			if (ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+			if (!isOutputRedir(e, *z))
 				++len;
 		}
 		last_cmd = 0;
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && ft_strcmp(e->magic[*z].cmd, "|") && ft_strcmp(e->magic[*z].cmd, ">")\
-			&& ft_strcmp(e->magic[*z].cmd, ">>"))
-			++len;
-		if (!ft_strcmp(e->magic[*z].cmd, ">") || !ft_strcmp(e->magic[*z].cmd, ">>"))
+		while (e->magic[++(*z)].cmd && (!isRedirection(e, *z) ||
+										isAggregator(e, *z)))
+			if (!isAggregator(e, *z))
+				++len;
+		if (e->magic[*z].cmd && isOutputRedir(e, *z))
 			++last_cmd;
 	}
 	return (len);
@@ -54,7 +53,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 
 static char	**ft_find_tab(t_env *e, int *z)
 {
-	char	**rtr;
+	char	**ret;
 	int		len;
 	int		j;
 	int		k;
@@ -62,27 +61,18 @@ static char	**ft_find_tab(t_env *e, int *z)
 	j = 0;
 	k = *z;
 	len = ft_nb_elem_cmd(e, z);
-	if (!(rtr = (char **)malloc(sizeof(*rtr) * (len + 1))))
-//MANAGE ERROR
+	if (!(ret = ft_tabnew(len + 1)))
+// MANAGE ERROR
+// Erreur gerer au mieux voire ou la fonction retourne. Meilleurs idees?
 		return (NULL);
-	rtr[len] = NULL;
+	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
-		if (ft_strcmp(e->magic[k].cmd, ">") && ft_strcmp(e->magic[k].cmd, ">>"))
-			rtr[j++] = ft_strdup(e->magic[k].cmd);
+//		if (!isOutputRedir(e, k) && !isAggregator(e, k))
+		if (!isRedirection(e, k))
+			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
-	return (rtr);
-}
-
-void	ft_triple_free(t_env *e)
-{
-	int	i;
-
-	i = -1;
-	while (e->cat[++i])
-		ft_free_tab(e->cat[i]);
-	free(e->cat);
-	e->cat = NULL;
+	return (ret);
 }
 
 /*
@@ -104,6 +94,9 @@ char	***ft_cmds_split(t_env *e)
 		return (NULL);
 	cat[len] = NULL;
 	while (++i < len)
-		cat[i] = ft_find_tab(e, &z);
+	{
+		if (!(cat[i] = ft_find_tab(e, &z)))
+			return (cat);
+	}
 	return (cat);
 }

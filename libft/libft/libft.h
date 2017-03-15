@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:44:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/26 13:02:15 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/03 17:56:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ char			*ft_strxtrim(char const *s, char x);
 char			*ft_strxtrim_quote(char const *str, char x);
 char			**ft_strsplit(char const *s, char c);
 char			**ft_strsplit_quote(char const *s, char c);
+char			**ft_strsplit_quote_bs(char const *s, char c);
+char			**ft_strsplit_wo_quote(char const *s, char c);
+char			**ft_strsplit_wo_quote_bs(char const *s, char c);
 char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, size_t b);
 char			*ft_strcpy(char *dst, const char *src);
@@ -125,6 +128,7 @@ char			**ft_tabdup(char **tab_bis);
 char			**ft_tabndup(char **tab_bis, size_t b);
 char			**ft_tabcat(char **tab_bis, char *str);
 char			**ft_tabpop(char **tab_bis, size_t pop);
+void			ft_tabfree(char **tab_bis);
 void			ft_free_tab(char **tab_bis);
 
 /*

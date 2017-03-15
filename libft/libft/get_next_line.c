@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 13:53:42 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/11/22 15:21:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/17 13:53:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	ft_copy_rline(char **line, t_gnl **save)
 	if ((ptr = ft_strchr((*save)->rline, '\n')))
 	{
 		tmp = ft_strndup((*save)->rline, (int)(ptr - (*save)->rline));
-		if (ft_strlen(++ptr))
-			tmp2 = ft_strdup(ptr);
+		if (ft_strlen(ptr + 1))
+			tmp2 = ft_strdup(ptr + 1);
 	}
 	else
 		tmp = ft_strdup((*save)->rline);
@@ -43,7 +43,7 @@ static int	ft_copy_rline(char **line, t_gnl **save)
 	else
 		(*save)->rline = NULL;
 	*line = tmp;
-	if ((*save)->rline)
+	if ((*save)->rline || ptr)
 		return (1);
 	return (0);
 }

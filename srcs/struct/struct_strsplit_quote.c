@@ -5,100 +5,104 @@
 **		behave like strsplit(), but keeps hold string into quotes.
 */
 
-static int		ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char const *s, char c)
 {
+	size_t	nw;
 	int		i;
-	int		count;
 	char	quote;
 
 	i = 0;
-	count = 0;
+	nw = 0;
 	quote = '\0';
-	while (s[i] != '\0')
+	while (s[i] && s[i] == c)
+		++i;
+	while (s[i])
 	{
-		if (quote != '\0' && (s[i] == quote))
-		{
-			quote = '\0';
-			++count;
-		}
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))	
 			quote = s[i];
-		if (quote == '\0' && ((i > 0 && s[i] != c && s[i - 1] == c) || \
-					(i == 0 && s[i] != c)))
-			++count;
+		else if (s[i] == quote)
+			quote = '\0';
+		if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
+			++nw;
 		++i;
 	}
-	return (count);
+	return (nw);
 }
 
-static int		ft_strlen_ch(char const *s, char c, int i)
+static size_t	ft_strlen_chr(char const *s, char c)
 {
-	int		len;
+	size_t	len;
+	int		i;
 	char	quote;
 
-	len = 1;
+	len = 0;
+	i = 0;
 	quote = '\0';
-	while (s[i] != c && s[i] != '\0')
+	while (s[i] == c)
+		++i;
+	while (s[i] && (s[i] != c || quote))
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
 			quote = s[i];
-		else if (s[i] != quote)
+		else if (s[i] == quote)
+			quote = '\0';
+//		if ((quote && s[i] != quote) ||
+//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 		++i;
 	}
 	return (len);
 }
 
-static char		*ft_strcpy_ch(char const *s, char c, int i)
+static char		*ft_strcpy_chr(char const *s, char c)
 {
-	int		k;
+	char	*cpy;
+	int		i;
+	int		j;
 	char	quote;
-	char	*str;
 
-	k = 0;
-	quote = '\0';
-	str = (char *)malloc(sizeof(*str) * (ft_strlen_ch(s, c, i) + 1));
-	if (str == NULL)
+	if ((cpy = ft_strnew(ft_strlen_chr(s, c))) == NULL)
 		return (NULL);
-	while (s[i] != c && s[i] != '\0')
+	i = 0;
+	j = 0;
+	quote = '\0';
+	while (s[i] == c)
+		++i;
+	while (s[i] && (s[i] != c || quote))
 	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
 			quote = s[i];
-		else if (s[i] != quote)
-		{
-			str[k] = s[i];
-			++k;
-		}
+		else if (s[i] == quote)
+			quote = '\0';
+//		if ((quote && s[i] != quote) ||
+//				(!quote && (s[i] != '\'' && s[i] != '\"')))
+			cpy[j++] = s[i];
 		++i;
 	}
-	str[k] = '\0';
-	return (str);
+	return (cpy);
 }
 
-static int				ft_skiplen(char const *s, char c, int i)
+static int		ft_skip(char const *s, char c)
 {
-	int		k;
+	int		i;
 	char	quote;
 
-	k = 0;
+	i = 0;
 	quote = '\0';
-	while (s[i] != c && s[i] != '\0')
-	{
-		if (quote != '\0' && s[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
-			quote = s[i];
+	while (s[i] == c)
 		++i;
-		++k;
+	while (s[i] && (s[i] != c || quote))
+	{
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
+			quote = s[i];
+		else if (s[i] == quote)
+			quote = '\0';
+		++i;
 	}
-	return (k);
+	return (i);
 }
 
-static void struct_init(int len, t_magic *magic)
+static void 	struct_init(int len, t_magic *magic)
 {
 	int i;
 
@@ -112,10 +116,9 @@ static void struct_init(int len, t_magic *magic)
 
 t_magic			*struct_strsplit_quote(char const *s, char c)
 {
-	int		i;
-	int		k;
-	int		len;
-	t_magic	*magic;
+	size_t		k;
+	size_t		len;
+	t_magic		*magic;
 
 	if (s != NULL)
 	{
@@ -123,16 +126,15 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 		if (!(magic = (t_magic *)malloc(sizeof(t_magic) * (len + 1))))
 			return (NULL);
 		struct_init(len, magic);
-		i = 0;
 		k = 0;
-		while (k < ft_count_words(s, c) && s[i] != '\0')
+		while (k < len /*ft_count_words(s, c)*/ && *s != '\0')
 		{
-			while (s[i] == c)
-				++i;
-			magic[k].cmd = ft_strcpy_ch(s, c, i);
+			while (*s == c)
+				++s;
+			magic[k].cmd = ft_strcpy_chr(s, c);
 			if (magic[k].cmd == NULL)
 				return (NULL);
-			i += ft_skiplen(s, c, i);
+			s += ft_skip(s, c);
 			++k;
 		}
 		return (magic);

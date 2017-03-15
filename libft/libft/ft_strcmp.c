@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 17:18:21 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/22 14:06:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/08 09:28:34 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ int		ft_strcmp(const char *s1, const char *s2)
 	int		a;
 
 	a = 0;
+	if (!s1 || !s2)
+		return (-1);
 	if (s1 && s2)
 	{
 		while (s1[a] == s2[a])
