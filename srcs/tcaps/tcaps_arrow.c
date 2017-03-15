@@ -43,7 +43,7 @@ void	tcaps_left(t_env *e)
 	  {
 	    if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
 	      TCAPS.nb_col = WIN_WIDTH;
-	  	xputs("le");
+	  	xputs(TGETSTR_LE);
 	    --TCAPS.nb_move;
 		tcaps_recalc_pos(e);
 	  }

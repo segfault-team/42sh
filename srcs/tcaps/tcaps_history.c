@@ -7,16 +7,16 @@
 void		clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
-	xputs("dm");
+	xputs(TGETSTR_DM);
 	while (--TCAPS.nb_read + ((int)ft_strlen(e->prompt) + 1) > 0)
 	{
-		xputs("le");
-		xputs("ce");
+		xputs(TGETSTR_LE);
+		xputs(TGETSTR_CE);
 	}
 	TCAPS.nb_read = 0;
-	xputs("dl");
-	xputs("ce");
-	xputs("ed");
+	xputs(TGETSTR_DL);
+	xputs(TGETSTR_CE);
+	xputs(TGETSTR_ED);
 	tcaps_prompt(e->prompt);
 }
 

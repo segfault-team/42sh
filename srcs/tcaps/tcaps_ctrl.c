@@ -27,7 +27,7 @@ static int	ctrl_up_is_not_on_prompt(t_env *e)
 
 void	tcaps_clear(t_env *e)
 {
-	xputs("cl");
+	xputs(TGETSTR_CL);
 	strfree(&e->line);
 	clear_cmd(e);
 }
@@ -47,13 +47,13 @@ void	tcaps_ctrl_home(t_env *e)
 	l = TCAPS.nb_read;
 	while (l--)
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		TCAPS.nb_move = 0;
 	}
-	xputs("cr");
+	xputs(TGETSTR_CR);
 	i = ft_strlen(e->prompt);
 	while (i--)
-		xputs("nd");
+		xputs(TGETSTR_ND);
 	tcaps_recalc_pos(e);
 }
 
@@ -109,13 +109,13 @@ void	tcaps_ctrl_mov_left(t_env *e)
 	i = TCAPS.nb_move;
 	while (i > 0 && (e->line[i - 1] == ' ' || e->line[i - 1] == '-'))
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		--TCAPS.nb_move;
 		--i;
 	}
 	while ((i && e->line[i - 1] != ' '))
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		--TCAPS.nb_move;
 		--i;
 	}
@@ -144,7 +144,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 		{
 			while (line--)
 			{
-				xputs("le");
+				xputs(TGETSTR_LE);
 				--TCAPS.nb_move;
 			}
 			tcaps_recalc_pos(e);

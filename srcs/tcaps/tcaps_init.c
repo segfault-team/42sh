@@ -89,10 +89,34 @@ void			tcaps_init(t_env *e)
 	// If cannot, it is a deal, so deal it.
 	if (tcaps_set())
 	{
-		// no termios 
+		// no termios
 		// launching minishell (?)
 		return ;
 	}
-	xputs("am");
-	xputs("bw");
+	init_tputs_string(e);
+	xputs(TGETSTR_AM);
+	xputs(TGETSTR_BW);
+}
+
+void            init_tputs_string(t_env *e)
+{
+	TGETSTR_LE = tgetstr("le", NULL);
+	TGETSTR_CE = tgetstr("ce", NULL);
+	TGETSTR_DM = tgetstr("dm", NULL);
+	TGETSTR_DW = tgetstr("dw", NULL);
+	TGETSTR_CR = tgetstr("cr", NULL);
+	TGETSTR_ND = tgetstr("nd", NULL);
+	TGETSTR_CL = tgetstr("cl", NULL);
+	TGETSTR_VI = tgetstr("vi", NULL);
+	TGETSTR_VE = tgetstr("ve", NULL);
+	TGETSTR_CD = tgetstr("cd", NULL);
+	TGETSTR_DC = tgetstr("dc", NULL);
+	TGETSTR_ED = tgetstr("ed", NULL);
+	TGETSTR_AM = tgetstr("am", NULL);
+	TGETSTR_BW = tgetstr("bw", NULL);
+	TGETSTR_IM = tgetstr("im", NULL);
+	TGETSTR_EI = tgetstr("ei", NULL);
+	TGETSTR_SC = tgetstr("sc", NULL);
+	TGETSTR_DL = tgetstr("dl", NULL);
+	TGETSTR_RC = tgetstr("rc", NULL);
 }

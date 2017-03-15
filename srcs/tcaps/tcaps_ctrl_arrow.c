@@ -41,13 +41,13 @@ void	tcaps_ctrl_mov_left(t_env *e)
 	i = TCAPS.nb_move;
 	while (i > 0 && !ft_isalpha(e->line[i - 1]) && !isNumber(e->line[i - 1]))
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		--TCAPS.nb_move;
 		--i;
 	}
 	while (i >= 0 && (ft_isalpha(e->line[i - 1]) || isNumber(e->line[i - 1])))
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		--TCAPS.nb_move;
 		--i;
 	}
@@ -71,7 +71,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 		{
 			while (line--)
 			{
-				xputs("le");
+				xputs(TGETSTR_LE);
 				--TCAPS.nb_move;
 			}
 			tcaps_recalc_pos(e);

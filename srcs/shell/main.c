@@ -45,8 +45,8 @@ static void		tcaps_del_prompt(t_env *e)
 	len = (int)ft_strlen(e->prompt);
 	while (len-- >= 0)
 	{
-		xputs("le");
-		xputs("ce");
+		xputs(TGETSTR_LE);
+		xputs(TGETSTR_CE);
 	}
 }
 
@@ -60,26 +60,26 @@ static void		tcaps_manage_printable_char(t_env *e)
 		int		s_move = 0;
 
 		e->line = ft_realloc_insert_char(e, BUF[0]);
-		xputs("dm");
+		xputs(TGETSTR_DM);
 		while (--l > 0)
 		{
-			xputs("le");
-			xputs("ce");
+			xputs(TGETSTR_LE);
+			xputs(TGETSTR_CE);
 		}
 		tcaps_del_prompt(e);
 //		ft_putstr(e->prompt);
 		tcaps_prompt(e->prompt);
 		s_move += ft_putstr(e->line);
 		while (s_move-- > NB_MOVE)
-			xputs("le");
+			xputs(TGETSTR_LE);
 		tcaps_recalc_pos(e);
 		if (TCAPS.nb_col == (WIN_WIDTH - 1))
 		{
-			xputs("do");
-			xputs("cr");
+			xputs(TGETSTR_DW);
+			xputs(TGETSTR_CR);
 		}
 		else
-			xputs("nd");
+			xputs(TGETSTR_ND);
 	}
 	++NB_MOVE;
 	++NB_READ;

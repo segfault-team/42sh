@@ -81,6 +81,53 @@
 # define OUTPUT		2
 # define INPUT		3
 
+/*
+**	TPUTS STING DEFINE
+*/
+# define TGETSTR_LE e->struct_tputs.le
+# define TGETSTR_CE e->struct_tputs.ce
+# define TGETSTR_DM e->struct_tputs.dm
+# define TGETSTR_DW e->struct_tputs.dw
+# define TGETSTR_CR e->struct_tputs.cr
+# define TGETSTR_ND e->struct_tputs.nd
+# define TGETSTR_CL e->struct_tputs.cl
+# define TGETSTR_VI e->struct_tputs.vi
+# define TGETSTR_VE e->struct_tputs.ve
+# define TGETSTR_CD e->struct_tputs.cd
+# define TGETSTR_DC e->struct_tputs.dc
+# define TGETSTR_ED e->struct_tputs.ed
+# define TGETSTR_AM e->struct_tputs.am
+# define TGETSTR_BW e->struct_tputs.bw
+# define TGETSTR_IM e->struct_tputs.im
+# define TGETSTR_EI e->struct_tputs.ei
+# define TGETSTR_SC e->struct_tputs.sc
+# define TGETSTR_DL e->struct_tputs.dl
+# define TGETSTR_RC e->struct_tputs.rc
+
+
+typedef struct		s_tputs
+{
+	char			*le;
+	char			*ce;
+	char			*dm;
+	char			*dw;
+	char			*cr;
+	char			*nd;
+	char			*cl;
+	char			*vi;
+	char			*ve;
+	char			*cd;
+	char			*dc;
+	char			*ed;
+	char			*am;
+	char			*bw;
+	char			*im;
+	char			*ei;
+	char			*sc;
+	char			*dl;
+	char			*rc;
+}					t_tputs;
+
 typedef struct		s_magic
 {
 	char			*cmd;
@@ -133,8 +180,6 @@ typedef struct		s_pid_list
 
 typedef struct		s_env
 {
-	int test;
-
 	t_fd			fd;
 	int				x;
 	int				exit;
@@ -165,6 +210,8 @@ typedef struct		s_env
 	int 			check_sigtstp;
 
 	int				history_fd;
+
+	t_tputs			struct_tputs;
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -291,6 +338,7 @@ int					ft_history(t_env *e);
 /*
 **		Termcaps
 */
+void				init_tputs_string(t_env *e);
 int					dsh_putchar(int c);
 int					tcaps_putstr(t_env *e, char *str);
 int					is_more_than_a_line(t_env *e);

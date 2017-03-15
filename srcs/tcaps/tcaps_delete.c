@@ -32,9 +32,9 @@ void	tcaps_del_fwd(t_env *e)
 		buf[0] = 126;
 	if (tcaps_check_key(buf, 126, 0, 0) && NB_READ && NB_MOVE != NB_READ)
 	{
-		xputs("dm");
-		xputs("dc");
-		xputs("ed");
+		xputs(TGETSTR_DM);
+		xputs(TGETSTR_DC);
+		xputs(TGETSTR_ED);
 		// voir cette condition
 		if (!(NB_READ - 1))
 			strfree(&e->line);
@@ -43,24 +43,24 @@ void	tcaps_del_fwd(t_env *e)
 		if (!NB_READ && e->line)
 			strfree(&e->line);
 		--NB_READ;
-		xputs("vi");
+		xputs(TGETSTR_VI);
 		tcaps_putstr(e, e->line);
-		xputs("ve");
+		xputs(TGETSTR_VE);
 	}
 }
 
 static void	tcaps_del_bkw_end(t_env *e)
 {
-	xputs("dm");
-	xputs("le");
+	xputs(TGETSTR_DM);
+	xputs(TGETSTR_LE);
 	if (NB_MOVE)
 		--NB_MOVE;
 	tcaps_recalc_pos(e);
 	if (TCAPS.nb_col == WIN_WIDTH - 1)
-		xputs("cd");
-	xputs("dc");
+		xputs(TGETSTR_CD);
+	xputs(TGETSTR_DC);
 	--NB_READ;
-	xputs("ed");
+	xputs(TGETSTR_ED);
 }
 
 void		tcaps_del_bkw(t_env *e)
@@ -72,12 +72,12 @@ void		tcaps_del_bkw(t_env *e)
 		// Pourquoi si on a rien lu on efface line?
 		if (!NB_READ)
 			strfree(&e->line);
-		xputs("le");
+		xputs(TGETSTR_LE);
 		--NB_READ;
 		if (NB_MOVE)
 			--NB_MOVE;
-		xputs("vi");
+		xputs(TGETSTR_VI);
 		tcaps_putstr(e, e->line);
-		xputs("ve");
+		xputs(TGETSTR_VE);
 	}
 }

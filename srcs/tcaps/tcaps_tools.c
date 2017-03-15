@@ -12,27 +12,33 @@
 
 #include "shell.h"
 
+int	dsh_putchar(int c)
+{
+	return (ft_putchar(c));
+}
+
 /*
 ** RAZ LE BOL DE TOUT REECRIRE !
 */
 
-void	xputs(char *tag)
+void	xputs(char *tcaps)
 {
-	char	*res;
+//	char	*res;
 
-	res = tgetstr(tag, NULL);
-	ft_putstr(res);
+//	res = tgetstr(tag, NULL);
+	ft_putstr(tcaps);
+//	tputs(tcaps, 1, dsh_putchar);
 }
 
 void	move_right(t_env *e)
 {
 	if (TCAPS.nb_col == (WIN_WIDTH - 1))
 	{
-		xputs("do");
-		xputs("cr");
+		xputs(TGETSTR_DW);
+		xputs(TGETSTR_CR);
 	}
 	else
-		xputs("nd");
+		xputs(TGETSTR_ND);
 	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
 }

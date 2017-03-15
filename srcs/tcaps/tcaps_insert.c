@@ -22,8 +22,8 @@
 
 void	tcaps_insert(t_env *e)
 {
-	xputs("im");
+	xputs(TGETSTR_IM);
 	tputs(&BUF[0], 1, dsh_putchar);
-	xputs("ei");
+	xputs(TGETSTR_EI);
 	tcaps_recalc_pos(e);
 }

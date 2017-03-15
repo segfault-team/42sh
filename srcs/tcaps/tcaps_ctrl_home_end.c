@@ -23,13 +23,13 @@ void    tcaps_ctrl_home(t_env *e)
 	l = NB_READ;
 	while (l--)
 	{
-		xputs("le");
+		xputs(TGETSTR_LE);
 		NB_MOVE = 0;
 	}
-	xputs("cr");
+	xputs(TGETSTR_CR);
 	i = ft_strlen(e->prompt);
 	while (i--)
-		xputs("nd");
+		xputs(TGETSTR_ND);
 	tcaps_recalc_pos(e);
 }
 

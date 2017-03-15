@@ -12,11 +12,6 @@
 
 #include "shell.h"
 
-int				dsh_putchar(int c)
-{
-	return (ft_putchar(c));
-}
-
 int 			tcaps(t_env *e)
 {
 	if (BUF[0] == CTRL_D)

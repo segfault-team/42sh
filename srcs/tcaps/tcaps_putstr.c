@@ -16,21 +16,21 @@ int     tcaps_putstr(t_env *e, char *str)
 {
 	int     l;
 
-	xputs("sc");
-	xputs("cr");
-	xputs("dm");
+	xputs(TGETSTR_SC);
+	xputs(TGETSTR_CR);
+	xputs(TGETSTR_DM);
 	l = TCAPS.nb_read;
 	while (--l > 0)
 	{
-		xputs("le");
-		xputs("dc");
+		xputs(TGETSTR_LE);
+		xputs(TGETSTR_DC);
 	}
-	xputs("dl");
-	xputs("ce");
-	xputs("ed");
+	xputs(TGETSTR_DL);
+	xputs(TGETSTR_CE);
+	xputs(TGETSTR_ED);
 	tcaps_prompt(e->prompt);
 	tputs(str, 1, dsh_putchar);
-	xputs("rc");
+	xputs(TGETSTR_RC);
 	return (0);
 }
 

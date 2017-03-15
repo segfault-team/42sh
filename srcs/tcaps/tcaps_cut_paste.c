@@ -15,21 +15,21 @@ static void	tcaps_ctrl_k(t_env *e)
 	tmp = ft_strsub(e->line, 0, NB_MOVE);
 	strfree(&e->line);
 	e->line = tmp;
-	xputs("sc");
-	xputs("dm");
+	xputs(TGETSTR_SC);
+	xputs(TGETSTR_DM);
 	while (i++ <= NB_READ)
 	{
-		xputs("ce");
+		xputs(TGETSTR_CE);
 		if (i && (i  % (WIN_WIDTH - 1) == 0))
 		{
-			xputs("do");
-			xputs("cr");
+			xputs(TGETSTR_DW);
+			xputs(TGETSTR_CR);
 		}
 		else
-			xputs("nd");
+			xputs(TGETSTR_ND);
 	}
-	xputs("ed");
-	xputs("rc");
+	xputs(TGETSTR_ED);
+	xputs(TGETSTR_RC);
 	NB_READ -= (int)ft_strlen(e->cut);
 }
 
@@ -42,29 +42,29 @@ static void	tcaps_ctrl_p(t_env *e)
 	tmp = 0;
 	if (e->cut)
 	{
-		xputs("vi");
+		xputs(TGETSTR_VI);
 		cut_len = (int)ft_strlen(e->cut);
 		ft_realloc_insert_str(e, e->cut);
-		xputs("dm");
+		xputs(TGETSTR_DM);
 		tmp = NB_READ;
 		while (--tmp + ((int)ft_strlen(e->prompt) + 1) > 0)
 		{
-			xputs("le");
-			xputs("ce");
+			xputs(TGETSTR_LE);
+			xputs(TGETSTR_CE);
 		}
 		NB_READ = (int)ft_strlen(e->line);
 		tmp = NB_READ - (NB_MOVE + cut_len);
-		xputs("cr");
+		xputs(TGETSTR_CR);
 		tcaps_prompt(e->prompt);
 		ft_putstr(e->line);
 		NB_MOVE = NB_READ;
 		while (tmp--)
 		{
-			xputs("le");
+			xputs(TGETSTR_LE);
 			--NB_MOVE;
 		}
 		tcaps_recalc_pos(e);
-		xputs("ve");
+		xputs(TGETSTR_VE);
 	}
 }
 
