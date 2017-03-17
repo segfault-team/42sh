@@ -24,8 +24,8 @@ void	ft_store_history(t_env *e)
 
 int		ft_read_history(t_env *e)
 {
-	int	history_fd;
-	int 		i;
+	int		history_fd;
+	int		i;
 
 	i = 0;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OPENFLAGS)) == -1)
@@ -66,11 +66,9 @@ int		ft_write_history(t_env *e, int flag)
 	return (1);
 }
 
-
-
 int		isOption(char **cmd, char *option)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!cmd[1])
@@ -98,8 +96,8 @@ static void	history_delete(t_env *e, char **cmd)
 
 static void	print_history(t_env *e, char **cmd)
 {
-	int	i;
-	int	arg;
+	int		i;
+	int		arg;
 
 	arg = -1;
 	i = -1;

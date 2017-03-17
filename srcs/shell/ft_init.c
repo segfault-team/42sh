@@ -1,24 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:14:37 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-
-static void		ft_set_prompt(t_env *e)
-{
-	e->prompt = ft_strdup("$> ");
-}
 
 static int		ft_set_home(t_env *e)
 {
@@ -60,6 +43,23 @@ static void		ft_set_shlvl(t_env *e)
 		ft_setenv(&e->env, "SHLVL", "1");
 }
 
+static void		ft_init_bis(t_env *e)
+{
+	e->x = 1;
+	e->exit = 0;
+	e->line = NULL;
+	e->line_bkp = NULL;
+	e->jobs = NULL;
+	e->cmd = NULL;
+	e->cut = NULL;
+	e->cat = NULL;
+	e->child_running = 0;
+	e->check_ctrl_c = 0;
+	e->i_mag = 0;
+	e->magic = NULL;
+	e->logix = NULL;
+}
+
 char			*init_hist_file(t_env *e)
 {
 	char	*path;
@@ -94,21 +94,9 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	FD.stdout = dup(STDOUT_FILENO);
 	FD.stderr = dup(STDERR_FILENO);
 	MULTI = NULL;
-	e->x = 1;
-	e->exit = 0;
-	e->line = NULL;
-	e->line_bkp = NULL;
-	e->jobs = NULL;
-	e->cmd = NULL;
-	e->cut = NULL;
-	e->cat = NULL;
-	e->child_running = 0;
-	e->check_ctrl_c = 0;
-	e->i_mag = 0;
-	e->magic = NULL;
-	e->logix = NULL;
+	ft_init_bis(e);
 	ft_bzero(e->buf, 3);
-	ft_set_prompt(e);
+	e->prompt = ft_strdup("$> ");
 	ft_set_shlvl(e);
 	tcaps_init(e);
 }

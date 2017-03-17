@@ -17,9 +17,9 @@ static void	outputAggre(t_env *e, int fd_src, int fd_dst)
 
 int			redirToAggregator(t_env *e)
 {
-	int	fd_src;
-	int	fd_dst;
-	int	aggregatorType;
+	int		fd_src;
+	int		fd_dst;
+	int		aggregatorType;
 
 	fd_src = isolateFdSource(e);
 	fd_dst = isolateFdDestination(e);

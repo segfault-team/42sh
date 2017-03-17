@@ -1,28 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_tcaps.c	                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kboddez <kboddez@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/26 13:34:34 by kboddez           #+#    #+#             */
-/*   Updated: 2017/03/03 16:16:17 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
-int 			tcaps(t_env *e)
+int		tcaps(t_env *e)
 {
 	if (BUF[0] == CTRL_D)
 		tcaps_ctrl_d(e);
-	//	ft_exit(e);
-	else if (tcaps_is_printable(BUF) && NB_MOVE == NB_READ) // all printable char
+	else if (tcaps_is_printable(BUF) && NB_MOVE == NB_READ)// all printable char
 		tcaps_insert(e);
-	else if (tcaps_check_key(BUF, 12, 0, 0)) // Ctrl + L
+	else if (tcaps_check_key(BUF, 12, 0, 0))// Ctrl + L
 		tcaps_clear(e);
 	else if (tcaps_check_key(BUF, 27, 91, 65) || tcaps_check_key(BUF, 27, 91, 66))
-		tcaps_history_first_step(e); // arrow up/down
+		tcaps_history_first_step(e);// arrow up/down
 	else if (tcaps_check_key(BUF, 27, 91, 67) && NB_MOVE < NB_READ)
 		move_right(e); // arrow right
 	else if (tcaps_check_key(BUF, 27, 91, 68) && NB_MOVE > 0)
@@ -41,7 +28,5 @@ int 			tcaps(t_env *e)
 		tcaps_del_fwd(e); // delete key
 	else if (is_paste(BUF))
 		tcaps_paste(e, BUF); // Ctrl + v
-//	else if (BUF[0])
-//		printf("\n%d | %d | %d\n", BUF[0], BUF[1], BUF[2]);
 	return (0);
 }

@@ -1,8 +1,8 @@
 #include "shell.h"
 
-int         ft_check_file_perm(char *file)
+int		ft_check_file_perm(char *file)
 {
-	int     ret;
+	int		ret;
 
 	ret = 0;
 	if (access(file, F_OK) != -1)
@@ -21,7 +21,7 @@ int         ft_check_file_perm(char *file)
 	return (ret);
 }
 
-int			ft_matchquotes(char *s)
+int		ft_matchquotes(char *s)
 {
 	int		i;
 	int		bs;
@@ -49,7 +49,7 @@ int			ft_matchquotes(char *s)
 	return (1);
 }
 
-char		*ft_issetenv(char **env, char *name)
+char	*ft_issetenv(char **env, char *name)
 {
 	char	*eval;
 	int		i;
@@ -71,7 +71,7 @@ char		*ft_issetenv(char **env, char *name)
 	return (NULL);
 }
 
-char		*ft_getenv(char **env, char *name)
+char	*ft_getenv(char **env, char *name)
 {
 	char	*value;
 	char	*tmp;

@@ -70,12 +70,9 @@ char			**ft_find_paths(char **env)
 
 void			ft_close(int fd)
 {
-	if (fd != 1 && fd != 0) {
+	if (fd != 1 && fd != 0)
 		if (close(fd) == -1)
-		{
 			ft_error(SH_NAME, "Close failed on fd", NULL);
-		}
-	}
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
@@ -155,10 +152,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 		while (ptr)
 		{
 			if (ptr->op > 0)
-			{
 				stat = ft_waitlogix(e);
-		//		ft_printf("stat: %d  ret: %d  cmd: %s\n", stat, ret, ptr->atom[0]);
-			}
 			if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
 					(ptr->op == OR && (ret || stat)))
 			{

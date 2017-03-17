@@ -20,7 +20,7 @@ static void	tcaps_ctrl_k(t_env *e)
 	while (i++ <= NB_READ)
 	{
 		xputs(TGETSTR_CE);
-		if (i && (i  % (WIN_WIDTH - 1) == 0))
+		if (i && (i % (WIN_WIDTH - 1) == 0))
 		{
 			xputs(TGETSTR_DW);
 			xputs(TGETSTR_CR);
@@ -69,11 +69,11 @@ static void	tcaps_ctrl_p(t_env *e)
 }
 
 /*
-**CTRL_K== 11
-**CTRL_P== 16
+** CTRL_K== 11
+** CTRL_P== 16
 */
 
-void	tcaps_cut_paste(t_env *e)
+void		tcaps_cut_paste(t_env *e)
 {
 	if (BUF[0] == CTRL_K && NB_READ)
 		tcaps_ctrl_k(e);

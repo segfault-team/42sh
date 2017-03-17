@@ -4,10 +4,11 @@
 **	FIND THE NEXT REDIRECTION IF THERE IS ONE
 */
 
-void     struct_find_red(t_env *e)
+void	struct_find_red(t_env *e)
 {
 	++(RED_INDEX);
-	while (e->magic[RED_INDEX].cmd && ft_strcmp(e->magic[RED_INDEX].type, "red"))
+	while (e->magic[RED_INDEX].cmd &&
+			ft_strcmp(e->magic[RED_INDEX].type, "red"))
 		++(RED_INDEX);
 	if (!(e->magic[RED_INDEX].cmd))
 		RED_INDEX = 0;
@@ -19,7 +20,8 @@ void     struct_find_red(t_env *e)
 
 int		redir_check_red(t_env *e, char *red)
 {
-	if (e->magic[RED_INDEX].cmd && red && !ft_strcmp(e->magic[RED_INDEX].cmd, red))
+	if (e->magic[RED_INDEX].cmd && red &&
+			!ft_strcmp(e->magic[RED_INDEX].cmd, red))
 		return (1);
 	return (0);
 }

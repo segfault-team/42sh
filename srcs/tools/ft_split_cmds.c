@@ -1,15 +1,3 @@
-/******************************************************************************/
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split_cmds.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 19:37:15 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/******************************************************************************/
-
 #include "libft.h"
 
 /*
@@ -44,18 +32,15 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
-			{
-				//if (!bs)// || s[i] == '\\')
+			if (quote == '\0' && (s[i] != c && (s[i + 1] == c
+							|| s[i + 1] == '\0')))
 				++nw;
-			}
 			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
 		++i;
 	}
-	//ft_printf("nw: %d\n", nw);
 	return (nw);
 }
 
@@ -89,8 +74,6 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//		if ((quote && s[i] != quote) ||
-			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 			bs = 0;
 		}
@@ -132,8 +115,6 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-			//		if ((quote && s[i] != quote) ||
-			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			cpy[j++] = s[i];
 			bs = 0;
 		}

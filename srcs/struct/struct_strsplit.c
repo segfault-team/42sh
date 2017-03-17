@@ -55,7 +55,7 @@ t_magic				*struct_strsplit(char const *str, char div)
 	i = 0;
 	j = 0;
 	nwords = ft_nwords(str, div);
-	if (nwords <= 0 || (magic = (t_magic *)malloc(sizeof(t_magic) * nwords)) == NULL)
+	if (nwords <= 0 || !(magic = (t_magic *)malloc(sizeof(t_magic) * nwords)))
 		return (NULL);
 	struct_init(nwords, magic);
 	while (i < (int)ft_strlen(str))

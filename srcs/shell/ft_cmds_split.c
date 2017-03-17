@@ -80,7 +80,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 **	WHO CONTAIN ALL CMDS
 */
 
-char	***ft_cmds_split(t_env *e)
+char		***ft_cmds_split(t_env *e)
 {
 	char	***cat;
 	int		len;

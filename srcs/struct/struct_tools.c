@@ -1,13 +1,13 @@
 #include "shell.h"
 
-int isMagic(t_env *e, int i)
+int		isMagic(t_env *e, int i)
 {
 	if (e->magic[i].cmd)
 		return (1);
 	return (0);
 }
 
-int	struct_len(t_magic *magic)
+int		struct_len(t_magic *magic)
 {
 	int	len;
 

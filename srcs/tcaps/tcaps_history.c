@@ -4,7 +4,7 @@
 **		Clear line when history ends (comes back at begin).
 */
 
-void		clear_cmd(t_env *e)
+void			clear_cmd(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	xputs(TGETSTR_DM);
@@ -20,14 +20,14 @@ void		clear_cmd(t_env *e)
 	tcaps_prompt(e->prompt);
 }
 
-static void	print_new_cmd_from_history(t_env *e)
+static void		print_new_cmd_from_history(t_env *e)
 {
 	ft_printf("%s", e->history[TCAPS.hist_move]);
 	TCAPS.nb_read = (int)ft_strlen(e->history[TCAPS.hist_move]);
 	TCAPS.nb_move = TCAPS.nb_read;
 }
 
-static void	print_last_cmd(t_env *e)
+static void		print_last_cmd(t_env *e)
 {
 	if (e->line)
 	{
@@ -47,7 +47,7 @@ static void	print_last_cmd(t_env *e)
 **		FOR UP ARROW
 */
 
-int		tcaps_history_up(t_env *e)
+int				tcaps_history_up(t_env *e)
 {
 	TCAPS.nb_move = TCAPS.nb_read;
 	if (!e->history || !e->history[0])
@@ -71,11 +71,11 @@ int		tcaps_history_up(t_env *e)
 }
 
 /*
- **	MANAGE THE TERMCAPS HISTORY
- **	FOR DOWN ARROW
- */
+**	MANAGE THE TERMCAPS HISTORY
+**	FOR DOWN ARROW
+*/
 
-int		tcaps_history_down(t_env *e)
+int				tcaps_history_down(t_env *e)
 {
 	int	hist_tab_len;
 

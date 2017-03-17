@@ -1,11 +1,11 @@
 #include "shell.h"
 
-
 static int		ft_isspace(char c)
 {
 	return ((c == ' ' || c == '\t'));
 }
-static int 		ft_check_pipe(t_env *e)
+
+static int		ft_check_pipe(t_env *e)
 {
 	int		i;
 	int		j;
@@ -33,7 +33,7 @@ static int 		ft_check_pipe(t_env *e)
 					return (0);
 				}
 				if (!ft_isspace(e->line[j]))
-					break;
+					break ;
 				j++;
 			}
 			if (!e->line[j])
@@ -54,9 +54,9 @@ static int		ft_check_line(t_env *e)
 	return (1);
 }
 
-int		ft_multiline(t_env *e)
+int				ft_multiline(t_env *e)
 {
-	char 	*tmp;
+	char	*tmp;
 	int		check;
 
 	if ((check = ft_check_line(e)) == 0)

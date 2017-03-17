@@ -29,12 +29,11 @@ static size_t	ft_count_words(char const *s, char c)
 				quote = s[i];
 			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
 				quote = '\0';
-			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
-			{
-				//if (!bs) // || s[i] == '\\')
+			if (quote == '\0' && (s[i] != c && (s[i + 1] == c
+							|| s[i + 1] == '\0')))
 				++nw;
-			}
-			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (!quote && bs && s[i] == c && (s[i + 1] == c
+						|| s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
@@ -69,14 +68,11 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//if ((quote && s[i] != quote) ||
-			//		(!quote && ((s[i] != '\'' && s[i] != '\"') || bs)))
 			++len;
 			bs = 0;
 		}
 		++i;
 	}
-	//ft_printf("len: %d\n", len);
 	return (len);
 }
 
@@ -116,7 +112,6 @@ static char		*ft_strcpy_chr(char const *s, char c)
 		}
 		++i;
 	}
-	//ft_printf("s: %s\n", cpy);
 	return (cpy);
 }
 
@@ -148,7 +143,7 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-static void 	struct_init(int len, t_magic *magic)
+static void		struct_init(int len, t_magic *magic)
 {
 	int i;
 

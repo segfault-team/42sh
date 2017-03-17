@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char **delete_line_in_tab(char **ttab, int d)
+char	**delete_line_in_tab(char **ttab, int d)
 {
 	char	**new;
 	int		i;

@@ -18,7 +18,7 @@ static size_t	ft_count_words(char const *s, char c)
 		++i;
 	while (s[i])
 	{
-		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))	
+		if (quote == '\0' && (s[i] == '\'' || s[i] == '\"'))
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
@@ -46,9 +46,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
-			++len;
+		++len;
 		++i;
 	}
 	return (len);
@@ -74,9 +72,7 @@ static char		*ft_strcpy_chr(char const *s, char c)
 			quote = s[i];
 		else if (s[i] == quote)
 			quote = '\0';
-//		if ((quote && s[i] != quote) ||
-//				(!quote && (s[i] != '\'' && s[i] != '\"')))
-			cpy[j++] = s[i];
+		cpy[j++] = s[i];
 		++i;
 	}
 	return (cpy);
@@ -102,7 +98,7 @@ static int		ft_skip(char const *s, char c)
 	return (i);
 }
 
-static void 	struct_init(int len, t_magic *magic)
+static void		struct_init(int len, t_magic *magic)
 {
 	int i;
 
@@ -127,7 +123,7 @@ t_magic			*struct_strsplit_quote(char const *s, char c)
 			return (NULL);
 		struct_init(len, magic);
 		k = 0;
-		while (k < len /*ft_count_words(s, c)*/ && *s != '\0')
+		while (k < len && *s != '\0')
 		{
 			while (*s == c)
 				++s;

@@ -15,13 +15,13 @@ void	tcaps_ctrl_d(t_env *e)
 **  nd: move cursor once on the right
 */
 
-void    tcaps_ctrl_home(t_env *e)
+void	tcaps_ctrl_home(t_env *e)
 {
-	int     i;
-	int 	l;
+	int		i;
+	int		len;
 
-	l = NB_READ;
-	while (l--)
+	len = NB_READ;
+	while (len--)
 	{
 		xputs(TGETSTR_LE);
 		NB_MOVE = 0;
@@ -40,7 +40,7 @@ void    tcaps_ctrl_home(t_env *e)
 **  nd: move cursor once on the right
 */
 
-void    tcaps_ctrl_end(t_env *e)
+void	tcaps_ctrl_end(t_env *e)
 {
 	tcaps_recalc_pos(e);
 	while (NB_MOVE < NB_READ)

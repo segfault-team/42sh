@@ -51,7 +51,8 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	if (isAggregator(e, RED_INDEX))
 		redirToAggregator(e);
 	ft_redirect(FD.in, STDIN_FILENO);
-	if (redir_check_red(e, "|") || redir_check_red(e, ">") || redir_check_red(e, ">>"))
+	if (redir_check_red(e, "|") || redir_check_red(e, ">")
+			|| redir_check_red(e, ">>"))
 		dup2(FD.fd[1], STDOUT_FILENO);
 	close(FD.fd[1]);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
@@ -73,18 +74,6 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	return (ret);
 }
 
-/*
-void			ft_putmagic(t_env *e)
-{
-	int		i = -1;
-
-	while (e->magic[++i].cmd)
-	{
-		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);
-	}
-}
-*/
-
 int				ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
@@ -105,12 +94,15 @@ int				ft_waitsons(t_env *e)
 	return (0);
 }
 
+/*
+** trline is now useless cause tab is not inserted (tcaps directives)
+*/
+
 char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
 
-	//trline is now useless cause tab is not inserted (tcaps directives)
 	trline = ft_strxtrim_quote(e->line, '\t');
 	cmds = ft_split_cmds(trline, ';');
 	ft_strdel(&trline);
@@ -129,10 +121,11 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
-//	ft_putmagic(e);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
+/*	for (int j = 0 ; e->magic[j].cmd ; j++)
+		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);*/
 /*	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/

@@ -30,7 +30,7 @@ static void		tcaps_enter(t_env *e)
 		ft_putchar('\n');
 	if (e->x)
 		tcaps_prompt(e->prompt);
-		ft_reset_line(e);
+	ft_reset_line(e);
 }
 
 /*
@@ -52,22 +52,23 @@ static void		tcaps_del_prompt(t_env *e)
 
 static void		tcaps_manage_printable_char(t_env *e)
 {
+	int		len;
+	int		s_move;
+
+	s_move = 0;
+	len = NB_READ;
 	if (NB_MOVE == NB_READ)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
 	{
-		int		l = NB_READ;
-		int		s_move = 0;
-
 		e->line = ft_realloc_insert_char(e, BUF[0]);
 		xputs(TGETSTR_DM);
-		while (--l > 0)
+		while (--len > 0)
 		{
 			xputs(TGETSTR_LE);
 			xputs(TGETSTR_CE);
 		}
 		tcaps_del_prompt(e);
-//		ft_putstr(e->prompt);
 		tcaps_prompt(e->prompt);
 		s_move += ft_putstr(e->line);
 		while (s_move-- > NB_MOVE)
@@ -92,6 +93,10 @@ static int		tcaps_is_delete_key(t_env *e)
 	return (0);
 }
 
+/*
+** for now we handle ctrl-z, later on we will get rid of that
+*/
+
 int				main(int ac, char **av, char **env)
 {
 	t_env	e;
@@ -106,7 +111,6 @@ int				main(int ac, char **av, char **env)
 		read(0, e.buf, 3);
 		if (e.check_ctrl_c)
 			ft_reset_line(&e);
-		// for now we handle ctrl-z, later on we will get rid of that
 		if (e.check_sigtstp)
 			tcaps_init(&e);
 		tcaps_recalc_pos(&e);
