@@ -202,6 +202,7 @@ typedef struct			s_env
 	int					check_sigtstp;
 	t_tputs				struct_tputs;
 	char				*hist_file;
+	size_t				append_in_history;
 }						t_env;
 
 int						ft_waitlogix(t_env *e);

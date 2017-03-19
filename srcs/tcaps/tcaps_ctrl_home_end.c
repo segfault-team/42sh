@@ -17,7 +17,7 @@ void	tcaps_ctrl_d(t_env *e)
 
 void	tcaps_ctrl_home(t_env *e)
 {
-	int		i;
+//	int		i;
 	int		len;
 
 	len = NB_READ;
@@ -27,9 +27,9 @@ void	tcaps_ctrl_home(t_env *e)
 		NB_MOVE = 0;
 	}
 	xputs(TGETSTR_CR);
-	i = ft_strlen(e->prompt);
-	while (i--)
-		xputs(TGETSTR_ND);
+//	i = ft_strlen(e->prompt);
+//	while (i--)
+//		xputs(TGETSTR_ND);
 	tcaps_recalc_pos(e);
 }
 

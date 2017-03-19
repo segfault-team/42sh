@@ -3,10 +3,8 @@
 static void	tcaps_ctrl_k(t_env *e)
 {
 	int		i;
-	int		j;
 	char	*tmp;
 
-	j = -1;
 	if (NB_MOVE >= (int)ft_strlen(e->line))
 		return ;
 	strfree(&e->cut);
