@@ -81,7 +81,7 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	e->history = NULL;
-	e->append_in_history = 0;
+	e->trunc_in_history = 0;
 	e->env = ft_tabdup(env);
 	if (!ft_set_home(e))
 		ft_error(SH_NAME, "WARNING: no home set", NULL);

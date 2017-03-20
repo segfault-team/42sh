@@ -26,7 +26,7 @@ void		ft_store_history(t_env *e)
 }
 
 /*
-**		OPEN /tmp/.history AND STORE IT IN
+**		OPEN ~/.sh_history AND STORE IT IN
 **		e->history TAB
 */
 
@@ -49,7 +49,7 @@ int			ft_read_history(t_env *e)
 }
 
 /*
-**		CREATE OR OPEN .history FILE
+**		CREATE OR OPEN .sh_history FILE
 **		CONCAT WITH THE NEW CMD
 */
 
@@ -61,7 +61,7 @@ int			ft_write_history(t_env *e, int flag)
 	char	*tmp;
 
 	tmp = NULL;
-	flag = (e->append_in_history) ? O_APPEND : flag;
+	flag = (e->trunc_in_history) ? O_TRUNC : flag;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
 		return (ft_error(SH_NAME, "Cannot open history file", HIST_FILE));
 	len_tab = ft_tablen(e->history);
@@ -76,7 +76,11 @@ int			ft_write_history(t_env *e, int flag)
 	return (1);
 }
 
-int			isOption(char **cmd, char *option)
+/*
+**	CHECK IF OPTION IS PRESENT IN CMD
+*/
+
+int			is_option(char **cmd, char *option)
 {
 	int		i;
 
@@ -89,81 +93,6 @@ int			isOption(char **cmd, char *option)
 	return (0);
 }
 
-static void	history_delete(t_env *e, char **cmd)
-{
-	int		i;
-	char	**tmp;
-
-	if (!isOnlyNumbers(cmd[2]))
-		return ;
-	i = ft_atoi(cmd[2]) - 1;
-	if (i < 0 || !e->history[i])
-		return ;
-	tmp = e->history;
-	e->history = delete_line_in_tab(e->history, i);
-	ft_free_tab(tmp);
-}
-
-static void	print_history(t_env *e, char **cmd)
-{
-	int		i;
-	int		arg;
-
-	arg = -1;
-	i = -1;
-	if (cmd[1])
-		arg = ft_atoi(cmd[1]);
-	while (e->history[++i] && arg--)
-		ft_printf("%d: %s\n", (i + 1), e->history[i]);
-}
-
-static void	clear_history_list(t_env *e)
-{
-	if (e->history)
-	{
-		ft_free_tab(e->history);
-		e->history = NULL;
-	}
-	e->append_in_history = 1;
-}
-
-static int	append_history_file_in_list(t_env *e)
-{
-	int		history_fd;
-	int		len;
-	int		nb_lines;
-	char	**new;
-	int		i;
-
-	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
-	len = ft_tablen(e->history) + 4096;
-	nb_lines = 0;
-	i = -1;
-	if ((new = malloc(sizeof(e->history) * len)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
-	while (e->history[++i])
-		new[i] = e->history[i];
-	while (++nb_lines < 4096 && get_next_line(history_fd, &new[i]) > 0)
-		++i;
-	new[i] = NULL;
-	ft_close(history_fd);
-	ft_free_tab(e->history);
-	e->history = new;
-	return (1);
-}
-
-void		print_history_help(void)
-{
-	ft_printf("history: usage: history -[acdhrw]\n");
-	ft_printf("-a: \t\tprint list in file\n");
-	ft_printf("-c: \t\tclear the list\n");
-	ft_printf("-d INDEX: \tdelete history cmd at INDEX\n");
-	ft_printf("-h: \t\tshow this message\n");
-	ft_printf("-r: \t\tappend history file in list\n");
-	ft_printf("-w: \t\twrite list in history file\n");
-}
-
 /*
 **		BUILTIN
 **		PRINT CMD HISTORY
@@ -171,18 +100,20 @@ void		print_history_help(void)
 
 int			ft_history(t_env *e, char **cmd)
 {
-	if (isOption(cmd, "-d") && cmd[2])
+	if (is_option(cmd, "-d") && cmd[2])
 		history_delete(e, cmd);
-	else if (isOption(cmd, "-w"))
+	else if (is_option(cmd, "-w"))
 		ft_write_history(e, O_TRUNC);
-	else if (isOption(cmd, "-a"))
+	else if (is_option(cmd, "-a"))
 		ft_write_history(e, O_APPEND);
-	else if (isOption(cmd, "-c"))
+	else if (is_option(cmd, "-c"))
 		clear_history_list(e);
-	else if (isOption(cmd, "-r"))
+	else if (is_option(cmd, "-r"))
 		append_history_file_in_list(e);
-	else if (isOption(cmd, "-h"))
+	else if (is_option(cmd, "-h"))
 		print_history_help();
+//	else if (is_option(cmd, "-p"))
+//		substitution
 	else if (e->history)
 		print_history(e, cmd);
 	return (0);

@@ -202,7 +202,7 @@ typedef struct			s_env
 	int					check_sigtstp;
 	t_tputs				struct_tputs;
 	char				*hist_file;
-	size_t				append_in_history;
+	size_t				trunc_in_history;
 }						t_env;
 
 
@@ -297,6 +297,13 @@ int						ft_read_history(t_env *e);
 int						ft_write_history(t_env *e, int flag);
 char					**delete_line_in_tab(char **ttab, int d);
 void					ft_store_history(t_env *e);
+
+void					history_delete(t_env *e, char **cmd);
+void					print_history(t_env *e, char **cmd);
+void					clear_history_list(t_env *e);
+int						append_history_file_in_list(t_env *e);
+void					print_history_help(void);
+
 
 /*
 **		Tcaps Tools
