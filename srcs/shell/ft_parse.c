@@ -166,7 +166,7 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if (!substitution(e))
+	if (substitution(e) == -1)
 		return (-1);
 	ft_store_history(e);
 	if (ft_matchquotes(e->line))

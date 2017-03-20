@@ -48,21 +48,22 @@ int 		substitution(t_env *e)
 	i = -1;
 	ret = 0;
 	quote = '\0';
+	if (e->line[0] && e->line[0] == '~')
+		return (ft_error(SH_NAME, e->home, ": is a directory"));
 	while (e->line[++i])
 	{
-		if (ret)
-			return (0);
+		if (ret == -1)
+			return (-1);
 		if (e->line[i] == '"' || e->line[i] == '\'')
 			manage_quote(&quote, e->line[i]);
-		else if (e->line[i] == '~' && !quote &&
-				 (!i || (e->line[i - 1] != '\\')))
+		else if (e->line[i] == '~' && !quote && i && e->line[i - 1] == ' ')
 			do_substitution(e, &i, e->home, 0);
 		else if (e->line[i] == '!' && !quote)
 			ret = manage_exclamation_mark(e, &i);
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
-	return (1);
+	return (ret);
 }
 
 

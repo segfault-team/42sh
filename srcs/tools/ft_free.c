@@ -23,16 +23,14 @@ void	strfree(char **str)
 
 void		ft_env_free(t_env *e)
 {
-	if (e->line)
-		strfree(&e->line);
-	if (e->home)
-		strfree(&e->home);
-	if (e->history)
-		ft_free_tab(e->history);
-	if (e->prompt)
-		strfree(&e->prompt);
+	strfree(&e->line);
+	strfree(&e->home);
+	strfree(&e->prompt);
+	strfree(&HIST_FILE);
 	if (e->env)
 		ft_free_tab(e->env);
+	if (e->history)
+		ft_free_tab(e->history);
 	if (e->magic)
 		magic_free(e);
 }

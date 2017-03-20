@@ -287,7 +287,7 @@ void					ft_cut_tab(char **pas_tab, int index);
 void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
-//char					*ft_tilde(t_env *e, char *current);
+int						ft_start_with(char *str, char *comp);
 
 /*
 **		History

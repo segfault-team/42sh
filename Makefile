@@ -15,7 +15,7 @@ SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 ## TOOLS FOLDER ##
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					  ft_free.c ft_new.c ft_tabzero.c ft_reset.c ft_split_cmds.c \
-					  ft_realloc_insert.c \
+					  ft_realloc_insert.c ft_start_with.c \
 					  ft_tools.c ft_remove_space.c multiline.c \
 					  ft_singletone.c isOnlyNumbers.c delete_line_in_tab.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))

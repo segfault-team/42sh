@@ -148,9 +148,12 @@ static int append_history_file_in_list(t_env *e)
 		++i;
 	new[i] = NULL;
 	ft_close(history_fd);
+	ft_free_tab(e->history);
 	e->history = new;
 	return (1);
 }
+
+
 
 /*
 **		BUILTIN
@@ -167,6 +170,8 @@ int		ft_history(t_env *e, char **cmd)
 		ft_write_history(e, O_APPEND);
 	else if (isOption(cmd, "-c"))
 		clear_history_list(e);
+	else if (isOption(cmd, "-r"))
+		append_history_file_in_list(e);
 	else if (isOption(cmd, "-r"))
 		append_history_file_in_list(e);
 	else if (e->history)
