@@ -52,10 +52,10 @@ int 		substitution(t_env *e)
 	{
 		if (ret)
 			return (0);
-		if ((e->line[i] == '"' || e->line[i] == '\'') &&
-			(!i || (e->line[i - 1] != '\\')))
+		if (e->line[i] == '"' || e->line[i] == '\'')
 			manage_quote(&quote, e->line[i]);
-		else if (e->line[i] == '~' && !quote)
+		else if (e->line[i] == '~' && !quote &&
+				 (!i || (e->line[i - 1] != '\\')))
 			do_substitution(e, &i, e->home, 0);
 		else if (e->line[i] == '!' && !quote)
 			ret = manage_exclamation_mark(e, &i);
