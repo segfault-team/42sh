@@ -56,6 +56,12 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->cut = NULL;
 	e->cat = NULL;
 	e->i_mag = 0;
+	e->selected = -42;
+	e->files = NULL;
+	e->path = NULL;
+	e->prefix = NULL;
+	e->total_len = 0;
+	e->start = 0;
 	ft_set_prompt(e);
 	ft_set_shlvl(e);
 	TCAPS.nb_move = 0;

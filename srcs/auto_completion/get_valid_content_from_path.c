@@ -9,33 +9,179 @@ static int	ft_start_with(char *str, char *comp)
 	i = -1;
 	if (ft_strlen(str) < ft_strlen(comp))
 		return (0);
-	while (comp[++i])
+	while (comp && comp[++i])
 	{
-		if (comp[i] != str[i])
+		if (comp[i] && comp[i] != str[i])
 			return (0);
 	}
+	if (str[0] == '.' && i <= 0)
+		return (0);
 	return (1);
 }
 
-char		**get_valid_content_from_path(char *curr_path, char *arg)
+int			ft_sort(void *one, void *two)
 {
-	char			**content;
+	const char *top;
+	const char *kek;
+
+	top = one;
+	kek = two;
+	if (ft_strcmp(top, kek) > 0)
+		return (0);
+	else
+		return (1);
+}
+
+t_list		*ft_sort_list(t_list *lst, int (*cmp)(void *, void *))
+{
+	char	*dump;
+	int		modif;
+	void	*flst;
+
+	if (!cmp || !lst)
+		return (NULL);
+	flst = lst;
+	modif = 1;
+	while (modif == 1)
+	{
+		modif = 0;
+		lst = flst;
+		while (lst && lst->next)
+		{
+			if (cmp(lst->content, lst->next->content) == 0)
+			{
+				dump = lst->content;
+				lst->content = lst->next->content;
+				lst->next->content = dump;
+				modif = 1;
+			}
+			lst = lst->next;
+		}
+	}
+	return (flst);
+}
+
+void ft_add_list(t_list **first, t_list **ptr, char *str)
+{
+	if (!*first)
+	{
+		*first = ft_lstnew(str, ft_strlen(str) + 1);
+		*ptr = *first;
+	}
+	else
+	{
+		(*ptr)->next = ft_lstnew(str, ft_strlen(str) + 1);
+		*ptr = (*ptr)->next;
+	}
+}
+
+int		ft_countchar(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (*str)
+	{
+		if (*str == c)
+			++i;
+		++str;
+	}
+	return (i);
+}
+
+char	*escape_spaces(char *str)
+{
+	char	*tmp;
+	char	*ret;
+	int		k;
+
+	k = ft_countchar(str, ' ') + ft_countchar(str, '	');
+	tmp = ft_strnew(strlen(str) + k);
+	ret = tmp;
+	while (*str)
+	{
+		if (*str == ' ' || *str == '	')
+		{
+			*tmp = '\\';
+			tmp++; 
+		}
+		*tmp = *str;
+		++tmp;
+		++str;
+	}
+	return (ret);
+}
+
+int		cur_inquote(t_env *e)
+{
+	int s_quote;
+	int d_quote;
+	int pos;
+
+	s_quote = 0;
+	d_quote = 0;
+	pos = NB_MOVE - 1;
+	while(e->line[pos] && pos)
+	{
+		if (e->line[pos] == '\'')
+			s_quote++;
+		else if (e->line[pos] == '\"')
+			d_quote++;
+		pos--;
+	}
+	if (d_quote % 2)
+		return 1;
+	if (s_quote % 2)
+		return 1;
+	return 0;
+}
+
+t_list *dir_to_list(t_env *e,char *curr_path)
+{
 	DIR				*dir_id;
 	struct dirent	*dir_entry;
-	char			*elem_match;
+	t_list			*first;
+	t_list			*ptr;
+	char			*tmp;
 
-	content = NULL;
+	first = NULL;
 	if ((dir_id = opendir(curr_path)) == NULL)
-		ft_printf("MANAGE ERROR");
+		return(NULL);
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
-		if (ft_start_with(DNAME, arg))
-		{
-			elem_match = ft_strsub(DNAME, ft_strlen(arg), ft_strlen(DNAME) - ft_strlen(arg));
-			content = ft_tabcat(content, elem_match);
-		}
+		if (!cur_inquote(e))
+			tmp = escape_spaces(dir_entry->d_name);
+		else
+			tmp = ft_strdup(dir_entry->d_name);
+		if (ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))
+			ft_add_list(&first, &ptr, tmp);
+		ft_strdel(&tmp);
 	}
 	if (closedir(dir_id))
 		ft_error("closedir", "failed closing dir", curr_path);
+	return (first);
+}
+
+char		**get_valid_content_from_path(t_env *e, char *curr_path, char *arg)
+{
+	char			**content;
+	char			*elem_match;
+	t_list 			*sorted_files;
+	t_list			*ptr;
+
+	content = NULL;
+	sorted_files = ft_sort_list(dir_to_list(e, curr_path), ft_sort);
+	ptr = sorted_files;
+	while (ptr)
+	{
+		if (ft_start_with(ptr->content, arg))
+		{
+			elem_match = ft_strsub(ptr->content, ft_strlen(arg), ft_strlen(ptr->content) - ft_strlen(arg));
+			content = ft_tabcat(content, elem_match);
+			ft_strdel(&elem_match);
+		}
+		ptr = ptr->next;
+	}
+	//ft_lstdel(&sorted_files, ft_bzero);
 	return (content);
 }

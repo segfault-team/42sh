@@ -8,7 +8,7 @@
 
 static void		tcaps_enter(t_env *e)
 {
-	tcaps_ctrl_end(e);
+	tcaps_ctrl_end(e);		
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e))
 		ft_putchar('\n');
@@ -38,7 +38,7 @@ static void		tcaps_del_prompt(t_env *e)
 	}
 }
 
-static void		tcaps_manage_printable_char(t_env *e)
+void		tcaps_manage_printable_char(t_env *e)
 {
 	if (TCAPS.nb_move == TCAPS.nb_read)
 		e->line = ft_realloc_line(e, BUF[0]);
@@ -72,7 +72,7 @@ static void		tcaps_manage_printable_char(t_env *e)
 	++NB_READ;
 }
 
-static int		tcaps_is_delete_key(t_env *e)
+int		tcaps_is_delete_key(t_env *e)
 {
 	if (e->line && e->buf[0] == 127 && TCAPS.nb_move > 0)
 		return (1);

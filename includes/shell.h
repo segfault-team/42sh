@@ -31,6 +31,31 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
+/* ADDED*/
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+# include <sys/types.h>
+# define C_RESET	"\033[39m"
+# define C_RED		"\033[31m"
+# define C_GREEN	"\033[32m"
+# define C_YELLOW	"\033[33m"
+# define C_BLUE		"\033[34m"
+# define C_MAGENTA	"\033[35m"
+# define C_CYAN		"\033[36m"
+# define C_WHITE	"\033[97m"
+
+# define C_EXEC		C_RED
+# define C_FIFO		C_YELLOW
+# define C_CHR		C_YELLOW
+# define C_DIR		C_CYAN
+# define C_BLK		C_BLUE
+# define C_REG		C_RESET
+# define C_LNK		C_MAGENTA
+# define C_SOCK		C_GREEN
+# define C_WHT		C_WHITE
+
+/*kek*/
+
 # define RED		"\033[31m"
 # define WHITE		"\033[;0m"
 # define GREEN		"\033[32m"
@@ -89,8 +114,15 @@ typedef struct		s_term
 	int				hist_move;
   	int				nb_line;
   	int				nb_col;
- 	 struct winsize			ws;
+ 	struct winsize			ws;
 }					t_term;
+
+typedef struct		s_file
+{
+	char			*name;
+	char			*color;
+	//int				selected; bonus multi output ?
+}					t_file;
 
 typedef struct		s_env
 {
@@ -112,6 +144,16 @@ typedef struct		s_env
 	t_term			tcaps;
 	char 			**history;
 	char			*cut;
+	t_file			**files;
+	char			*prefix;
+	char			*path;
+	int				selected;
+	int				total_len;
+	int				c_match;
+	int 			start;
+	int				printed;
+	int				row;
+	
 }					t_env;
 
 int					ft_parse_line(t_env *e);
@@ -240,7 +282,11 @@ void				struct_find_red(t_env *e);
 **		Auto Completion
 */
 int					auto_completion(t_env *e);
-char				**get_valid_content_from_path(char *curr_path, char *arg);
-void				print_auto_completion(t_env *e, char *arg);
+char				**get_valid_content_from_path(t_env *e, char *curr_path, char *arg);
+void				print_auto_completion(t_env *e, char *arg, char *path, char **content);
+int	valid_selection(t_env *e);
+void		tcaps_manage_printable_char(t_env *e);
+int		tcaps_is_delete_key(t_env *e);
+int		cur_inquote(t_env *e);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/28 18:57:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/30 11:53:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/02/27 13:23:55 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,7 @@
 
 int			ft_putstr(char const *s)
 {
-	int		len;
-
-	len = 0;
 	if (s)
-	{
-		len = ft_strlen(s);
-		write(1, s, len);
-	}
-	return (len);
+		return (write(1, s, (int)ft_strlen(s)));
+	return (0);
 }

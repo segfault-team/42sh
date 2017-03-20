@@ -1,0 +1,15 @@
+[49;31m21sh[0m
+[49;36;1m21sh.dSYM[0m
+[0mMakefile[0m
+[0ma[0m
+[0maaaaa[0m
+[0maaaaaaaaaaaaaa[0m
+[49;31malolle21sh[0m
+[0mauteur[0m
+[49;36;1mincludes[0m
+[49;36;1mlibft[0m
+[0mlol[0m
+[49;36;1msrcs[0m
+[0mtodo.list[0m
+[0mtodo_autocompletion.list[0m
+[49;31munittest.sh[0m
