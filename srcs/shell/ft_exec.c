@@ -141,7 +141,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
-	ft_subs_tilde(e);
+//	ft_subs_tilde(e);
 	tcaps_reset();
 	if (e->cmd_len)
 	{

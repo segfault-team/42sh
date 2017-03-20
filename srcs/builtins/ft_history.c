@@ -13,7 +13,7 @@ void	ft_store_history(t_env *e)
 	tmp = NULL;
 	tmp = e->history;
 	is_not_history_cmd = ft_strcmp(e->line, "history");
-	if (is_not_history_cmd || (last_cmd && ft_strcmp(last_cmd, "history") || !last_cmd))
+	if (is_not_history_cmd || (last_cmd && ft_strcmp(last_cmd, "history")) || !last_cmd)
 	{
 		e->history = ft_tabcat(e->history, e->line);
 		if (tmp)

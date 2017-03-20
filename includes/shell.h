@@ -205,6 +205,10 @@ typedef struct			s_env
 	size_t				append_in_history;
 }						t_env;
 
+
+/*
+**
+*/
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
@@ -213,6 +217,10 @@ void					ft_prompt(char *prompt);
 void					tcaps_prompt(char *prompt);
 void					ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
+int						substitution(t_env *e);
+int						manage_exclamation_mark(t_env *e, int *curr_pos);
+void					do_substitution(t_env *e, int *curr_pos, \
+										char *subsitute, int nb_char_to_jump);
 
 /*
 **		Exec

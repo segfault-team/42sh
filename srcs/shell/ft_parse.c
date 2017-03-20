@@ -1,5 +1,5 @@
 #include "shell.h"
-
+/*
 char		*ft_tilde(t_env *e, char *current)
 {
 	char	*ret;
@@ -32,7 +32,7 @@ int		ft_subs_tilde(t_env *e)
 		}
 	return (0);
 }
-
+*/
 int		ft_is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "env") ||
@@ -166,6 +166,8 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
+	if (!substitution(e))
+		return (-1);
 	ft_store_history(e);
 	if (ft_matchquotes(e->line))
 	{
