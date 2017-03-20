@@ -83,7 +83,7 @@ void	init_tputs_string(t_env *e)
 	TGETSTR_LE = tgetstr("le", NULL);
 	TGETSTR_CE = tgetstr("ce", NULL);
 	TGETSTR_DM = tgetstr("dm", NULL);
-	TGETSTR_DW = tgetstr("dw", NULL);
+	TGETSTR_DW = tgetstr("do", NULL);
 	TGETSTR_CR = tgetstr("cr", NULL);
 	TGETSTR_ND = tgetstr("nd", NULL);
 	TGETSTR_CL = tgetstr("cl", NULL);

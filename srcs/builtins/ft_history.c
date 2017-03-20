@@ -153,7 +153,16 @@ static int	append_history_file_in_list(t_env *e)
 	return (1);
 }
 
-
+void		print_history_help(void)
+{
+	ft_printf("history: usage: history -[acdhrw]\n");
+	ft_printf("-a: \t\tprint list in file\n");
+	ft_printf("-c: \t\tclear the list\n");
+	ft_printf("-d INDEX: \tdelete history cmd at INDEX\n");
+	ft_printf("-h: \t\tshow this message\n");
+	ft_printf("-r: \t\tappend history file in list\n");
+	ft_printf("-w: \t\twrite list in history file\n");
+}
 
 /*
 **		BUILTIN
@@ -164,7 +173,7 @@ int			ft_history(t_env *e, char **cmd)
 {
 	if (isOption(cmd, "-d") && cmd[2])
 		history_delete(e, cmd);
-	else if (isOption(cmd, "-x"))
+	else if (isOption(cmd, "-w"))
 		ft_write_history(e, O_TRUNC);
 	else if (isOption(cmd, "-a"))
 		ft_write_history(e, O_APPEND);
@@ -172,8 +181,8 @@ int			ft_history(t_env *e, char **cmd)
 		clear_history_list(e);
 	else if (isOption(cmd, "-r"))
 		append_history_file_in_list(e);
-	else if (isOption(cmd, "-r"))
-		append_history_file_in_list(e);
+	else if (isOption(cmd, "-h"))
+		print_history_help();
 	else if (e->history)
 		print_history(e, cmd);
 	return (0);
