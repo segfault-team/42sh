@@ -58,7 +58,7 @@
 # define HIST_NAME		"/.sh_history"
 # define HIST_FILE		e->hist_file
 
-# define OPENFLAGS		(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+# define OFLAGS		(S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 # define ONE_RED_FLAGS 	(O_RDWR | O_CREAT | O_TRUNC)
 # define TWO_RED_FLAGS 	(O_RDWR | O_CREAT | O_APPEND)
 

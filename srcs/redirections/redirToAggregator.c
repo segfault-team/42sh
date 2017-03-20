@@ -19,22 +19,21 @@ int			redirToAggregator(t_env *e)
 {
 	int		fd_src;
 	int		fd_dst;
-	int		aggregatorType;
+	int		ag_type;
 
 	fd_src = isolateFdSource(e);
 	fd_dst = isolateFdDestination(e);
 	if (fcntl(fd_src, F_GETFD) ||
 		(fcntl(fd_dst, F_GETFD) && fd_dst != -42))
 		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
-	aggregatorType = findAggregatorType(e);
-	if (fd_dst == ERROR ||
-		(fd_src == ERROR && aggregatorType == OUTPUT_AGGRE))
-		return (dprintf(STDERR_FILENO, "sh: syntax error in your aggregator\n"));
-	if (aggregatorType == ERROR)
+	ag_type = findAggregatorType(e);
+	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
+		return (dprintf(STDERR_FILENO, "sh: redirection syntax error\n"));
+	if (ag_type == ERROR)
 		return (ERROR);
 	else if (fd_dst == -42)
 		close(fd_src);
-	else if (aggregatorType == INPUT_AGGRE)
+	else if (ag_type == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);
 	else
 		outputAggre(e, fd_src, fd_dst);

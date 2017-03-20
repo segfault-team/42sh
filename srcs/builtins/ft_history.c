@@ -4,7 +4,7 @@
 **		ADD NEW CMD TO THE END OF THE HISTORY TAB
 */
 
-void	ft_store_history(t_env *e)
+void		ft_store_history(t_env *e)
 {
 	char		**tmp;
 	int			is_not_history_cmd;
@@ -13,7 +13,8 @@ void	ft_store_history(t_env *e)
 	tmp = NULL;
 	tmp = e->history;
 	is_not_history_cmd = ft_strcmp(e->line, "history");
-	if (is_not_history_cmd || (last_cmd && ft_strcmp(last_cmd, "history")) || !last_cmd)
+	if (is_not_history_cmd ||
+			(last_cmd && ft_strcmp(last_cmd, "history")) || !last_cmd)
 	{
 		e->history = ft_tabcat(e->history, e->line);
 		if (tmp)
@@ -29,14 +30,14 @@ void	ft_store_history(t_env *e)
 **		e->history TAB
 */
 
-int		ft_read_history(t_env *e)
+int			ft_read_history(t_env *e)
 {
 	int		history_fd;
 	int		i;
 	int		nb_lines;
 
 	i = 0;
-	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OPENFLAGS)) == -1)
+	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
 		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
 	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
@@ -52,7 +53,7 @@ int		ft_read_history(t_env *e)
 **		CONCAT WITH THE NEW CMD
 */
 
-int		ft_write_history(t_env *e, int flag)
+int			ft_write_history(t_env *e, int flag)
 {
 	int		history_fd;
 	int		len_tab;
@@ -61,8 +62,8 @@ int		ft_write_history(t_env *e, int flag)
 
 	tmp = NULL;
 	flag = (e->append_in_history) ? O_APPEND : flag;
-	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OPENFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot open/create history file", HIST_FILE));
+	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
+		return (ft_error(SH_NAME, "Cannot open history file", HIST_FILE));
 	len_tab = ft_tablen(e->history);
 	i = -1;
 	while (++i < len_tab)
@@ -75,7 +76,7 @@ int		ft_write_history(t_env *e, int flag)
 	return (1);
 }
 
-int		isOption(char **cmd, char *option)
+int			isOption(char **cmd, char *option)
 {
 	int		i;
 
@@ -126,7 +127,7 @@ static void	clear_history_list(t_env *e)
 	e->append_in_history = 1;
 }
 
-static int append_history_file_in_list(t_env *e)
+static int	append_history_file_in_list(t_env *e)
 {
 	int		history_fd;
 	int		len;
@@ -134,8 +135,7 @@ static int append_history_file_in_list(t_env *e)
 	char	**new;
 	int		i;
 
-
-	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OPENFLAGS)) == -1)
+	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
 		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
 	len = ft_tablen(e->history) + 4096;
 	nb_lines = 0;
@@ -157,7 +157,7 @@ static int append_history_file_in_list(t_env *e)
 **		PRINT CMD HISTORY
 */
 
-int		ft_history(t_env *e, char **cmd)
+int			ft_history(t_env *e, char **cmd)
 {
 	if (isOption(cmd, "-d") && cmd[2])
 		history_delete(e, cmd);
