@@ -48,8 +48,8 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	char	ret;
 
 	ret = 0;
-	if (isAggregator(e, RED_INDEX))
-		redirToAggregator(e);
+	if (is_aggregator(e, RED_INDEX))
+		redir_to_aggregator(e);
 	ft_redirect(FD.in, STDIN_FILENO);
 	if (redir_check_red(e, "|") || redir_check_red(e, ">")
 			|| redir_check_red(e, ">>"))
@@ -131,15 +131,15 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
 	while (e->cat[++i] && ret != -1)
 	{
-		if (isAggregator(e, RED_INDEX))
+		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
-		if (isOutputRedir(e, RED_INDEX))
+		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);
 		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
 			(!RED_INDEX && redir_check_red(e, "|")))
 		{
 			FD.fd[1] = STDOUT_FILENO;
-			if (isNextRedir(e, RED_INDEX) == AGGREGATOR)
+			if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
 				struct_find_red(e);
 			ret = ft_exec_cmd(e, e->cat[i]);
 		}

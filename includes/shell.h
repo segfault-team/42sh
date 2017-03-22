@@ -243,16 +243,16 @@ int						redir_exec_open(int i, t_env *e);
 int						redir_check_red(t_env *e, char *red);
 int						redir_fill_output(t_env *e);
 int						ft_redirect(int oldfd, int newfd);
-int						isRedirection(t_env *e, int i);
-int						isOutputRedir(t_env *e, int i);
-int						isRedirPipe(t_env *e, int i);
-int						isAggregator(t_env *e, int i);
-int						isInputRedir(t_env *e, int i);
-int						redirToAggregator(t_env *e);
-int						isolateFdDestination(t_env *e);
-int						isolateFdSource(t_env *e);
-int						findAggregatorType(t_env *e);
-int						isNextRedir(t_env *e, int i);
+int						is_redirection(t_env *e, int i);
+int						is_output_redir(t_env *e, int i);
+int						is_redir_pipe(t_env *e, int i);
+int						is_aggregator(t_env *e, int i);
+int						is_input_redir(t_env *e, int i);
+int						redir_to_aggregator(t_env *e);
+int						isolate_fd_destination(t_env *e);
+int						isolate_fd_source(t_env *e);
+int						find_aggregator_type(t_env *e);
+int						is_next_redir(t_env *e, int i);
 void					ft_create_file(t_env *e);
 
 /*
@@ -276,8 +276,8 @@ t_env					*env_access(t_env *e);
 int						ft_matchquotes(char *str);
 int						red_strstr(char *str);
 int						ft_subs_tilde(t_env *e);
-int						isNumber(char c);
-int						isOnlyNumbers(char *str);
+int						is_number(char c);
+int						is_only_numbers(char *str);
 int						ft_multiline(t_env *e);
 char					**ft_split_cmds(char *s, char c);
 char					*ft_issetenv(char **env, char *name);
@@ -378,7 +378,7 @@ void					tcaps_history_first_step(t_env *e);
 **	Magic struct
 */
 int						struct_len(t_magic *magic);
-int						isMagic(t_env *e, int i);
+int						is_magic(t_env *e, int i);
 int						struct_check_cmd(int i, t_env *e);
 void					magic_free(t_env *e);
 void					struct_arg_red(int i, t_env *e);

@@ -5,13 +5,13 @@
 #define MINUS -42
 #define ERROR -420
 
-static int	isolateFd(t_env *e, int red_index, int start)
+static int	isolate_fd(t_env *e, int red_index, int start)
 {
 	int		fd;
 
 	fd = 0;
-	while (isMagic(e, red_index) &&
-			isNumber(e->magic[red_index].cmd[start]))
+	while (is_magic(e, red_index) &&
+			is_number(e->magic[red_index].cmd[start]))
 	{
 		fd = fd * 10 + (e->magic[red_index].cmd[start] - '0');
 		++start;
@@ -23,7 +23,7 @@ static int	isolateFd(t_env *e, int red_index, int start)
 	return (fd);
 }
 
-int			isolateFdSource(t_env *e)
+int			isolate_fd_source(t_env *e)
 {
 	int		fd;
 
@@ -31,18 +31,18 @@ int			isolateFdSource(t_env *e)
 		fd = DEFAULT_VALUE_OUTPUT;
 	else
 		fd = DEFAULT_VALUE_INPUT;
-	if (isNumber(e->magic[RED_INDEX].cmd[0]))
-		fd = isolateFd(e, RED_INDEX, 0);
-	else if (!isNumber(e->magic[RED_INDEX].cmd[0]) &&
+	if (is_number(e->magic[RED_INDEX].cmd[0]))
+		fd = isolate_fd(e, RED_INDEX, 0);
+	else if (!is_number(e->magic[RED_INDEX].cmd[0]) &&
 			e->magic[RED_INDEX].cmd[0] != '>' &&
 			e->magic[RED_INDEX].cmd[0] != '<')
 		fd = ERROR;
-	else if (isOnlyNumbers(e->magic[RED_INDEX - 1].cmd))
-		fd = isolateFd(e, RED_INDEX - 1, 0);
+	else if (is_only_numbers(e->magic[RED_INDEX - 1].cmd))
+		fd = isolate_fd(e, RED_INDEX - 1, 0);
 	return (fd);
 }
 
-int			isolateFdDestination(t_env *e)
+int			isolate_fd_destination(t_env *e)
 {
 	int		fd;
 	int		start;
@@ -50,16 +50,16 @@ int			isolateFdDestination(t_env *e)
 	fd = ERROR;
 	start = ft_strlen(e->magic[RED_INDEX].cmd) - 1;
 	if (e->magic[RED_INDEX].cmd[start] == '-' ||
-		(isMagic(e, RED_INDEX + 1) && e->magic[RED_INDEX + 1].cmd[0] == '-'))
+		(is_magic(e, RED_INDEX + 1) && e->magic[RED_INDEX + 1].cmd[0] == '-'))
 		return (MINUS);
-	if (isNumber(e->magic[RED_INDEX].cmd[start]))
+	if (is_number(e->magic[RED_INDEX].cmd[start]))
 	{
-		while (isNumber(e->magic[RED_INDEX].cmd[start - 1]))
+		while (is_number(e->magic[RED_INDEX].cmd[start - 1]))
 			--start;
-		fd = isolateFd(e, RED_INDEX, start);
+		fd = isolate_fd(e, RED_INDEX, start);
 	}
-	else if (isMagic(e, RED_INDEX + 1) &&
-			isOnlyNumbers(e->magic[RED_INDEX + 1].cmd))
-		fd = isolateFd(e, RED_INDEX + 1, 0);
+	else if (is_magic(e, RED_INDEX + 1) &&
+			is_only_numbers(e->magic[RED_INDEX + 1].cmd))
+		fd = isolate_fd(e, RED_INDEX + 1, 0);
 	return (fd);
 }

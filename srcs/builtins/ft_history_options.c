@@ -5,7 +5,7 @@ void history_delete(t_env *e, char **cmd)
 	int     i;
 	char    **tmp;
 
-	if (!isOnlyNumbers(cmd[2]))
+	if (!is_only_numbers(cmd[2]))
 		return ;
 	i = ft_atoi(cmd[2]) - 1;
 	if (i < 0 || !e->history[i])

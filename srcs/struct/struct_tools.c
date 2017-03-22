@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		isMagic(t_env *e, int i)
+int		is_magic(t_env *e, int i)
 {
 	if (e->magic[i].cmd)
 		return (1);

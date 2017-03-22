@@ -92,10 +92,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	else
 	{
-		if (isAggregator(e, RED_INDEX))
-			redirToAggregator(e);
+		if (is_aggregator(e, RED_INDEX))
+			redir_to_aggregator(e);
 		ft_redirect(FD.in, STDIN_FILENO);
-		if (redir_check_red(e, "|") || isOutputRedir(e, RED_INDEX))
+		if (redir_check_red(e, "|") || is_output_redir(e, RED_INDEX))
 			dup2(FD.fd[1], STDOUT_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}

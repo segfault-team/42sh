@@ -7,6 +7,7 @@ static int	gestion_error(char *arg, char *sh_name)
 	strfree(&arg);
 	return (-1);
 }
+
 /*static int    is_valid_mark(char *line, int i)
   {
 
@@ -36,7 +37,7 @@ static int	manage_for_pos_number(t_env *e, int *curr_pos)
 
 	i_hist = 0;
 	i = *curr_pos;
-	while (isNumber(e->line[++i]))
+	while (is_number(e->line[++i]))
 		i_hist = i_hist * 10 + (e->line[i] - '0');
 	if (!e->history || !e->history[i_hist + 1])
 		return (gestion_error(ft_itoa(i_hist), SH_NAME));
@@ -52,7 +53,7 @@ static int	manage_for_neg_number(t_env *e, int *curr_pos)
 
 	i_hist = 0;
 	i = *curr_pos + 1;
-	while (isNumber(e->line[++i]))
+	while (is_number(e->line[++i]))
 		i_hist = i_hist * 10 + (e->line[i] - '0');
 	if (!e->history)
 		return (gestion_error(ft_itoa(i_hist), SH_NAME));
@@ -78,10 +79,8 @@ static int	join_line(t_env *e, int *curr_pos)
 static int	manage_for_string(t_env *e, int *curr_pos)
 {
 	int		i;
-	int		len;
 	char	*cmp;
 
-	len = 0;
 	i = *curr_pos + 1;
 	while (e->line[i] && e->line[i] != ' ')
 		++i;
@@ -104,7 +103,7 @@ int 		manage_exclamation_mark(t_env *e, int *curr_pos)
 		// MANAGE '!' alone
 		return (-1);
 	nxt_c = e->line[*curr_pos + 1];
-	if (isNumber(nxt_c))
+	if (is_number(nxt_c))
 		return (manage_for_pos_number(e, curr_pos));
 	else if (nxt_c == '-')
 		return (manage_for_neg_number(e, curr_pos));

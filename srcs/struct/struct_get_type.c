@@ -29,9 +29,9 @@ int			red_strstr(char *str)
 
 int			struct_check_cmd(int i, t_env *e)
 {
-	if (i > 0 && isRedirPipe(e, i - 1))
+	if (i > 0 && is_redir_pipe(e, i - 1))
 		return (1);
-	else if (i > 0 && isAggregator(e, i - 1) && !isRedirection(e, i))
+	else if (i > 0 && is_aggregator(e, i - 1) && !is_redirection(e, i))
 		return (1);
 //	else if (OPERATOR LOGIQUE) return (1);
 	else if (i == 0 && !red_strstr(e->magic[i].cmd))
@@ -74,7 +74,7 @@ void		struct_arg_red(int i, t_env *e)
 		e->magic[i].type = ft_strdup("input");
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
-	else if (isOnlyNumbers(e->magic[i].cmd) || !ft_strcmp(e->magic[i].cmd, "-"))
+	else if (is_only_numbers(e->magic[i].cmd) || !ft_strcmp(e->magic[i].cmd, "-"))
 		e->magic[i].type = ft_strdup("fd_aggregator");
 	if (i > 0 && (!ft_strcmp(e->magic[i - 1].type, "input") ||
 				!ft_strcmp(e->magic[i - 1].type, "output")))
