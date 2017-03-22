@@ -92,11 +92,17 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	else
 	{
-		if (is_aggregator(e, RED_INDEX))
-			redir_to_aggregator(e);
+		if (redirection_before_cmd(e) == -1)
+			exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
-		if (redir_check_red(e, "|") || is_output_redir(e, RED_INDEX))
-			dup2(FD.fd[1], STDOUT_FILENO);
+/*
+  ON VOIT ICI QUE LE FICHIER A BIEN ETE ECRIT SUR STDIN
+  POUR AUTANT LES CMD EXECUTER NE SEMLBE PAS Y AVOIR ACCES
+  char buf[4096];
+		int ret = read(FD.in, &buf, 4095);
+		buf[ret] = '\0';
+		ft_putstr_fd(buf, 1);
+*/
 		execve(exec, &cmd[0], e->env);
 	}
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
@@ -141,7 +147,6 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
-//	ft_subs_tilde(e);
 	tcaps_reset();
 	if (e->cmd_len)
 	{
