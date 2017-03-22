@@ -23,8 +23,7 @@ int			redir_to_aggregator(t_env *e)
 
 	fd_src = isolate_fd_source(e);
 	fd_dst = isolate_fd_destination(e);
-	if (fcntl(fd_src, F_GETFD) ||
-		(fcntl(fd_dst, F_GETFD) && fd_dst != -42))
+	if (!isatty(fd_src) || (!isatty(fd_dst) && fd_dst != -42))
 		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
 	ag_type = find_aggregator_type(e);
 	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
