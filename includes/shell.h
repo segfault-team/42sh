@@ -206,6 +206,7 @@ typedef struct			s_env
 /*
 **
 */
+
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
@@ -251,6 +252,9 @@ int						isolate_fd_source(t_env *e);
 int						find_aggregator_type(t_env *e);
 int						is_next_redir(t_env *e, int i);
 void					ft_create_file(t_env *e);
+int						redirection_before_cmd(t_env *e);
+int						is_input_file(t_env *e, int  i);
+int						redir_input(t_env *e);
 
 /*
 **		Init - Reset
@@ -285,6 +289,7 @@ void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
 int						ft_start_with(char *str, char *comp);
+int						open_file(char *file, int flags, mode_t mode);
 
 /*
 **		History

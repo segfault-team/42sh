@@ -1,38 +1,5 @@
 #include "shell.h"
-/*
-char		*ft_tilde(t_env *e, char *current)
-{
-	char	*ret;
-	char	*home;
 
-	if (e->home)
-		home = ft_strdup(e->home);
-	else
-		home = ft_getenv(e->env, "HOME");
-	if (!home)
-		return (NULL);
-	ret = ft_strjoin(home, &current[1]);
-	strfree(&home);
-	return (ret);
-}
-
-int		ft_subs_tilde(t_env *e)
-{
-	int		k;
-	char	*tmp;
-
-	k = -1;
-	tmp = NULL;
-	while (e->cmd[++k])
-		if (e->cmd[k][0] == '~')
-		{
-			tmp = ft_tilde(e, e->cmd[k]);
-			strfree(&e->cmd[k]);
-			e->cmd[k] = tmp;
-		}
-	return (0);
-}
-*/
 int		ft_is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "env") ||
@@ -48,12 +15,8 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	char	ret;
 
 	ret = 0;
-	if (is_aggregator(e, RED_INDEX))
-		redir_to_aggregator(e);
+	redirection_before_cmd(e);
 	ft_redirect(FD.in, STDIN_FILENO);
-	if (redir_check_red(e, "|") || redir_check_red(e, ">")
-			|| redir_check_red(e, ">>"))
-		dup2(FD.fd[1], STDOUT_FILENO);
 	close(FD.fd[1]);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
@@ -125,8 +88,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-1);
 	ft_create_file(e);
 /*	for (int j = 0 ; e->magic[j].cmd ; j++)
-		ft_printfd(2, "cmd[%d]: %s		type: %s\n", i, e->magic[i].cmd, e->magic[i].type);*/
-/*	for (int k = 0 ; e->cat[k] ; ++k)
+	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[i].type);
+	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
 	while (e->cat[++i] && ret != -1)
@@ -143,7 +106,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 				struct_find_red(e);
 			ret = ft_exec_cmd(e, e->cat[i]);
 		}
-		else
+		else if (!is_input_redir(e, i) && !is_input_file(e, i))
 			ret = redir_exec_open(i, e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);

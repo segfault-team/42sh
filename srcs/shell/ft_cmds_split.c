@@ -14,14 +14,15 @@ static int	ft_nb_cmds(t_env *e)
 	i = -1;
 	while (e->magic[++i].cmd)
 	{
-		if (is_redirection(e, i) && !is_aggregator(e, i))
+		if (is_redirection(e, i) && !is_aggregator(e, i) &&
+			!is_input_file(e, i))
 		{
 			++len;
 			if (is_output_redir(e, i))
 				return (len + 1);
 		}
 	}
-	return (len + 1);
+	return (len);
 }
 
 static int	ft_nb_elem_cmd(t_env *e, int *z)
