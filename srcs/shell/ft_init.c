@@ -76,10 +76,8 @@ char			*init_hist_file(t_env *e)
 	return (ret);
 }
 
-void			ft_init(t_env *e, int ac, char **av, char **env)
+void			ft_init(t_env *e, char **env)
 {
-	(void)ac;
-	(void)av;
 	e->history = NULL;
 	e->trunc_in_history = 0;
 	e->env = ft_tabdup(env);

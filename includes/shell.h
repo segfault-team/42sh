@@ -142,9 +142,6 @@ typedef struct			s_fd
 
 typedef struct			s_term
 {
-/*	char				*term_name;
-	struct termios		termos;
-	struct termios		save;*/
 	int					check_move;
 	int					hist_move;
 	int					nb_move;
@@ -259,7 +256,7 @@ void					ft_create_file(t_env *e);
 **		Init - Reset
 */
 int						ft_reset_line(t_env *e);
-void					ft_init(t_env *e, int ac, char **av, char **env);
+void					ft_init(t_env *e, char **env);
 
 /*
 **		Signals

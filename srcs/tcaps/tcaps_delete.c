@@ -35,11 +35,9 @@ void		tcaps_del_fwd(t_env *e)
 		xputs(TGETSTR_DM);
 		xputs(TGETSTR_DC);
 		xputs(TGETSTR_ED);
-		// voir cette condition
 		if (!(NB_READ - 1))
 			strfree(&e->line);
 		e->line = ft_realloc_delete_char(e, NB_MOVE);
-		// voir cette condition
 		if (!NB_READ && e->line)
 			strfree(&e->line);
 		--NB_READ;

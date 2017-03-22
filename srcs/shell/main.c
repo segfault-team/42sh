@@ -93,42 +93,49 @@ static int		tcaps_is_delete_key(t_env *e)
 	return (0);
 }
 
+static void		reading_loop(t_env *e)
+{
+	while (e->x)
+	{
+		read(0, BUF, 3);
+		if (e->check_ctrl_c)
+			ft_reset_line(e);
+		if (e->check_sigtstp)
+			tcaps_init(e);
+		tcaps_recalc_pos(e);
+		if (!TCAPS.check_move)
+			NB_MOVE = NB_READ;
+		if (tcaps_is_printable(BUF))
+			tcaps_manage_printable_char(e);
+		else if (tcaps_is_delete_key(e))
+			e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
+		if (tcaps_check_key(BUF, 10, 0, 0))
+			tcaps_enter(e);
+		else
+			tcaps(e);
+		ft_bzero(&BUF, 3);
+		RED_INDEX = 0;
+		if (NB_MOVE < NB_READ)
+			TCAPS.check_move = 1;
+	}
+}
+
 /*
 ** for now we handle ctrl-z, later on we will get rid of that
 */
 
-int				main(int ac, char **av, char **env)
+int				main(__attribute__((__unused__)) int ac,
+					 __attribute__((__unused__)) char **av,
+					 char **env)
 {
 	t_env	e;
 
 	env_access(&e);
-	ft_init(&e, ac, av, env);
+	ft_init(&e, env);
 	ft_banner();
 	ft_set_sig_handler();
 	ft_prompt(e.prompt);
-	while (e.x)
-	{
-		read(0, e.buf, 3);
-		if (e.check_ctrl_c)
-			ft_reset_line(&e);
-		if (e.check_sigtstp)
-			tcaps_init(&e);
-		tcaps_recalc_pos(&e);
-		if (!e.tcaps.check_move)
-			e.tcaps.nb_move = e.tcaps.nb_read;
-		if (tcaps_is_printable(e.buf))
-			tcaps_manage_printable_char(&e);
-		else if (tcaps_is_delete_key(&e))
-			e.line = ft_realloc_delete_char(&e, e.tcaps.nb_move - 1);
-		if (tcaps_check_key(e.buf, 10, 0, 0))
-			tcaps_enter(&e);
-		else
-			tcaps(&e);
-		ft_bzero(&e.buf, 3);
-		e.i_mag = 0;
-		if (e.tcaps.nb_move < e.tcaps.nb_read)
-			e.tcaps.check_move = 1;
-	}
+	reading_loop(&e);
 	ft_write_history(&e, O_TRUNC);
 	ft_env_free(&e);
 	ft_putendl("exit");
