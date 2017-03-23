@@ -95,7 +95,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		if (redirection_before_cmd(e) == -1)
 			exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
-
 //  ON VOIT ICI QUE LE FICHIER A BIEN ETE ECRIT SUR STDIN
 // POUR AUTANT LES CMD EXECUTER NE SEMLBE PAS Y AVOIR ACCES
 /*  char buf[4096];

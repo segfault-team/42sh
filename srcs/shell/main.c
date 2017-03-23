@@ -124,9 +124,7 @@ static void		reading_loop(t_env *e)
 ** for now we handle ctrl-z, later on we will get rid of that
 */
 
-int				main(__attribute__((__unused__)) int ac,
-					 __attribute__((__unused__)) char **av,
-					 char **env)
+int				main(int UNUSED(ac), char **UNUSED(av), char **env)
 {
 	t_env	e;
 

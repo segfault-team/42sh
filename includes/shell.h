@@ -102,6 +102,18 @@
 # define TGETSTR_DL 	e->struct_tputs.dl
 # define TGETSTR_RC 	e->struct_tputs.rc
 
+/*
+**	UNUSED VARIABLE
+*/
+# ifdef UNUSED
+# elif defined(__GNUC__)
+#  define UNUSED(x) UNUSED_ ## x __attribute__((unused))
+# elif defined(__LCLINT__)
+#  define UNUSED(x) /*@unused@*/ x
+# else
+#  define UNUSED(x) x
+# endif
+
 typedef struct			s_tputs
 {
 	char				*le;
@@ -390,5 +402,7 @@ void					struct_find_red(t_env *e);
 t_magic					*struct_strsplit(char const *str, char div);
 t_magic					*struct_strsplit_quote(char const *s, char c);
 t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
+int						ft_check_input(int i, t_env *e);
+int						ft_check_output(int i, t_env *e);
 
 #endif
