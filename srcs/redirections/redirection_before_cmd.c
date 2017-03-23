@@ -14,7 +14,8 @@ int		redirection_before_cmd(t_env *e)
 	if (ret == -1)
 		return (-1);
 	// TESTER EN PROFONDER POUR LES PIPES
-	if (e->magic[RED_INDEX + 1].cmd && is_redirection(e, RED_INDEX + 1))
+	if (e->magic[RED_INDEX + 1].cmd && is_redirection(e, RED_INDEX + 1) &&
+		!is_input_redir(e, RED_INDEX + 1))
 	{
 		++RED_INDEX;
 		return (redirection_before_cmd(e));

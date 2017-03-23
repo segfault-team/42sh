@@ -65,7 +65,7 @@ INC					= $(addprefix -I ,$(INC_PATH))
 
 ## COMPILER ##
 CC					= @gcc
-CFLAGS				= -g -Wall -Wextra -Werror
+CFLAGS				= -g # -Wall -Wextra -Werror
 
 ## COLORS ##
 RED					= \033[31;44m

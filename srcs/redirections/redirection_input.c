@@ -9,34 +9,18 @@ static int	input_error(t_env *e)
 					 e->magic[RED_INDEX].cmd));
 }
 
-/*int	redir_input(t_env *e)
+static int	is_last_cmd(t_env *e, int i)
 {
-	int		fd_file;
-	int		ret;
-	char	buf[4096];
-
-	++RED_INDEX;
-	ret = -1;
-	if (!e->magic[RED_INDEX].cmd || !is_input_file(e, RED_INDEX))
-		return (input_error(e));
-	if ((fd_file = open_file(e->magic[RED_INDEX].cmd, O_RDONLY, 0)) == -1)
-		return (-1);
-	while ((ret = read(fd_file, &buf, 4095)))
+	while (e->magic[i].cmd)
 	{
-		buf[ret] = '\0';
-		ft_putstr_fd(buf, FD.fd[1]);
+		if (is_redir_pipe(e, i))
+			return (0);
+		++i;
 	}
-	ft_close(fd_file);
-	if (is_input_redir(e, RED_INDEX))
-	{
-		++RED_INDEX;
-		return (redir_input(e));
-	}
-	FD.in = FD.fd[0];
 	return (1);
 }
-*/
-int	redir_input(t_env *e)
+
+int			redir_input(t_env *e)
 {
 	int		fd_file;
 	int		red_index;
@@ -55,7 +39,7 @@ int	redir_input(t_env *e)
 		return (input_error(e));
 	if ((fd_file = open_file(e->magic[red_index].cmd, O_RDONLY, 0)) == -1)
 		return (-1);
-	dup2(FD.fd[1], STDOUT_FILENO);
+//	dup2(FD.fd[1], STDOUT_FILENO);
 	while ((ret = read(fd_file, &buf, 4095)))
 	{
 		buf[ret] = '\0';
@@ -66,6 +50,11 @@ int	redir_input(t_env *e)
 	{
 		++red_index;
 		return (redir_input(e));
+	}
+	if (is_last_cmd(e, RED_INDEX))
+	{
+		FD.in = FD.fd[0];
+		close(FD.fd[1]);
 	}
 	return (1);
 }

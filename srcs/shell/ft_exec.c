@@ -77,9 +77,9 @@ void			ft_close(int fd)
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	static size_t	prev_red_index = -1;
-	t_job	*son;
-	pid_t	pid;
+	static int	prev_red_index = -1;
+	t_job		*son;
+	pid_t		pid;
 
 	if ((pid = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);

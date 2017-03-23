@@ -96,8 +96,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
-
-
 		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);
 		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
@@ -106,10 +104,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 			FD.fd[1] = STDOUT_FILENO;
 			if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
 				struct_find_red(e);
-			if (is_next_redir(e, RED_INDEX) == INPUT)
-				ret = redir_exec_open(i, e);
-			else
-				ret = ft_exec_cmd(e, e->cat[i]);
+			ret = ft_exec_cmd(e, e->cat[i]);
 		}
 		else if (!is_input_redir(e, i) && !is_input_file(e, i))
 			ret = redir_exec_open(i, e);
