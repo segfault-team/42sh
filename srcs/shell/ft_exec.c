@@ -77,13 +77,12 @@ void			ft_close(int fd)
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
+	static size_t	prev_red_index = -1;
 	t_job	*son;
 	pid_t	pid;
 
 	if ((pid = fork()) < 0)
-	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
-	}
 	if (pid)
 	{
 		++e->child_running;
@@ -94,16 +93,12 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (redirection_before_cmd(e) == -1)
 			exit(0);
+		if (is_next_redir(e, RED_INDEX) == INPUT && RED_INDEX != prev_red_index)
+			redir_input(e);
 		ft_redirect(FD.in, STDIN_FILENO);
-//  ON VOIT ICI QUE LE FICHIER A BIEN ETE ECRIT SUR STDIN
-// POUR AUTANT LES CMD EXECUTER NE SEMLBE PAS Y AVOIR ACCES
-/*  char buf[4096];
-		int ret = read(STDIN_FILENO, &buf, 4095);
-		buf[ret] = '\0';
-		ft_putstr_fd(buf, 1);
-*/
 		execve(exec, &cmd[0], e->env);
 	}
+	prev_red_index = RED_INDEX;
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;

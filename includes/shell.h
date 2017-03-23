@@ -109,7 +109,7 @@
 # elif defined(__GNUC__)
 #  define UNUSED(x) UNUSED_ ## x __attribute__((unused))
 # elif defined(__LCLINT__)
-#  define UNUSED(x) /*@unused@*/ x
+#  define UNUSED(x) -/*@unused@*/ x
 # else
 #  define UNUSED(x) x
 # endif
@@ -261,12 +261,14 @@ int						is_input_redir(t_env *e, int i);
 int						redir_to_aggregator(t_env *e);
 int						isolate_fd_destination(t_env *e);
 int						isolate_fd_source(t_env *e);
+int						is_redir_from_symbol(t_env *e, int i);
 int						find_aggregator_type(t_env *e);
 int						is_next_redir(t_env *e, int i);
 void					ft_create_file(t_env *e);
 int						redirection_before_cmd(t_env *e);
 int						is_input_file(t_env *e, int  i);
 int						redir_input(t_env *e);
+int						is_redir_from_symbol(t_env *e, int i);
 
 /*
 **		Init - Reset
@@ -306,13 +308,15 @@ int						open_file(char *file, int flags, mode_t mode);
 /*
 **		History
 */
+int						ft_history(t_env *e, char **cmd, int i);
 int						ft_check_file_perm(char *file);
 int						ft_read_history(t_env *e);
 int						ft_write_history(t_env *e, int flag);
 char					**delete_line_in_tab(char **ttab, int d);
 void					ft_store_history(t_env *e);
 
-void					history_delete(t_env *e, char **cmd);
+int						history_delete(t_env *e, char **cmd, int i);
+int						history_delete_error(char *sh_name, char **cmd);
 void					print_history(t_env *e, char **cmd);
 void					clear_history_list(t_env *e);
 int						append_history_file_in_list(t_env *e);
@@ -352,7 +356,6 @@ int						ft_unsetenv(char ***env, char *name);
 int						ft_chdir(t_env *e, char **cmd);
 int						ft_echo(char **args);
 int						ft_where(t_env *e, char **cmd);
-int						ft_history(t_env *e, char **cmd);
 void					ft_exit(t_env *e);
 
 /*

@@ -33,7 +33,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	else if (!ft_strcmp(cmd[0], "where") && ++ret)
 		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
-		ret = ft_history(e, cmd);
+		ret = ft_history(e, cmd, 1);
 	return (ret);
 }
 
@@ -88,14 +88,16 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-1);
 	ft_create_file(e);
 /*	for (int j = 0 ; e->magic[j].cmd ; j++)
-	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[i].type);
+	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
-		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
-	while (e->cat[++i] && ret != -1)
+		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+*/	while (e->cat[++i] && ret != -1)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
+
+
 		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);
 		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
@@ -104,7 +106,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 			FD.fd[1] = STDOUT_FILENO;
 			if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
 				struct_find_red(e);
-			ret = ft_exec_cmd(e, e->cat[i]);
+			if (is_next_redir(e, RED_INDEX) == INPUT)
+				ret = redir_exec_open(i, e);
+			else
+				ret = ft_exec_cmd(e, e->cat[i]);
 		}
 		else if (!is_input_redir(e, i) && !is_input_file(e, i))
 			ret = redir_exec_open(i, e);

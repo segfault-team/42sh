@@ -18,7 +18,7 @@ static int	ft_nb_cmds(t_env *e)
 			!is_input_redir(e, i))
 		{
 			++len;
-			if (is_output_redir(e, i))
+			if (is_output_redir(e, i) || is_input_redir(e, i))
 				return (len + 1);
 		}
 	}
@@ -35,7 +35,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	{
 		while (e->magic[++(*z)].cmd && !is_redir_pipe(e, *z))
 		{
-			if (!is_output_redir(e, *z))
+			if (!is_output_redir(e, *z) && !is_input_redir(e, *z))
 				++len;
 		}
 		last_cmd = 0;
@@ -46,7 +46,7 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 										is_aggregator(e, *z)))
 			if (!is_aggregator(e, *z))
 				++len;
-		if (e->magic[*z].cmd && is_output_redir(e, *z))
+		if (e->magic[*z].cmd && (is_output_redir(e, *z) || is_input_redir(e, *z)))
 			++last_cmd;
 	}
 	return (len);
@@ -69,8 +69,8 @@ static char	**ft_find_tab(t_env *e, int *z)
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
-//		if (!is_output_redir(e, k) && !is_aggregator(e, k))
-		if (!is_redirection(e, k))
+		if (!is_redirection(e, k) && !is_input_file(e, k) &&
+			ft_strcmp(e->magic[k].type, "output"))
 			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
 	return (ret);

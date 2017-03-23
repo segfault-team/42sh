@@ -1,18 +1,37 @@
 #include "shell.h"
 
-void	history_delete(t_env *e, char **cmd)
+int	history_delete(t_env *e, char **cmd, int curr)
 {
 	int     i;
+	int		j;
 	char    **tmp;
 
-	if (!is_only_numbers(cmd[2]))
-		return ;
-	i = ft_atoi(cmd[2]) - 1;
+	i = (e->cmd[curr][2]) ? 0 : -1;
+	j = 1;
+	if (!i)
+	{
+		while (e->cmd[curr][++j])
+		{
+			if (!is_number(e->cmd[curr][j]))
+				return (history_delete_error(SH_NAME, cmd));
+			i = i * 10 + e->cmd[curr][j] - '0';
+		}
+		--i;
+	}
+	else if (!e->cmd[curr + 1])
+		return (history_delete_error(SH_NAME, cmd));
+	else
+	{
+		if (!is_only_numbers(cmd[curr + 1]) && i == -1)
+			return (history_delete_error(SH_NAME, cmd));
+		i = ft_atoi(cmd[curr + 1]) - 1;
+	}
 	if (i < 0 || !e->history[i])
-		return ;
+		return (history_delete_error(SH_NAME, cmd));
 	tmp = e->history;
 	e->history = delete_line_in_tab(e->history, i);
 	ft_free_tab(tmp);
+	return (1);
 }
 
 void	print_history(t_env *e, char **cmd)
@@ -58,11 +77,11 @@ int		append_history_file_in_list(t_env *e)
 		return (ft_error(SH_NAME, "Malloc failed.", NULL));
 	while (e->history[++i])
 		new[i] = e->history[i];
+	new[i] = NULL;
 	while (++nb_lines < 4096 && get_next_line(history_fd, &new[i]) > 0)
 		++i;
-	new[i] = NULL;
+	new[++i] = NULL;
 	ft_close(history_fd);
-	ft_free_tab(e->history);
 	e->history = new;
 	return (1);
 }

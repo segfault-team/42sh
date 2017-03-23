@@ -45,6 +45,16 @@ int		is_input_file(t_env *e, int i)
 	return (1);
 }
 
+int		is_redir_from_symbol(t_env *e, int i)
+{
+	if (is_output_redir(e, i) ||
+		is_input_redir(e, i) ||
+		is_aggregator(e, i) ||
+		is_redir_pipe(e, i))
+		return (1);
+	return (0);
+}
+
 int		is_next_redir(t_env *e, int i)
 {
 	++i;

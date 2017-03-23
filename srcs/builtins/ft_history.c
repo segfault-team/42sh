@@ -80,15 +80,11 @@ int			ft_write_history(t_env *e, int flag)
 **	CHECK IF OPTION IS PRESENT IN CMD
 */
 
-int			is_option(char **cmd, char *option)
+int			is_option(int i, char **cmd, char *option)
 {
-	int		i;
-
-	i = 0;
-	if (!cmd[1])
+	if (!cmd[i])
 		return (0);
-	while (cmd[++i])
-		if (!ft_strcmp(cmd[i], option))
+	if (ft_strstr(cmd[i], option))
 			return (1);
 	return (0);
 }
@@ -98,23 +94,29 @@ int			is_option(char **cmd, char *option)
 **		PRINT CMD HISTORY
 */
 
-int			ft_history(t_env *e, char **cmd)
+int			ft_history(t_env *e, char **cmd, int i)
 {
-	if (is_option(cmd, "-d") && cmd[2])
-		history_delete(e, cmd);
-	else if (is_option(cmd, "-w"))
+//	if (i == 1 && !is_valid_arg(cmd))
+//		return (-1);
+	if (!e->history)
+		return (0);
+	if (is_option(i, cmd, "-d"))
+		history_delete(e, cmd, i);
+	else if (is_option(i, cmd, "-w"))
 		ft_write_history(e, O_TRUNC);
-	else if (is_option(cmd, "-a"))
+	else if (is_option(i, cmd, "-a"))
 		ft_write_history(e, O_APPEND);
-	else if (is_option(cmd, "-c"))
+	else if (is_option(i, cmd, "-c"))
 		clear_history_list(e);
-	else if (is_option(cmd, "-r"))
+	else if (is_option(i, cmd, "-r"))
 		append_history_file_in_list(e);
-	else if (is_option(cmd, "-h"))
+	else if (is_option(i, cmd, "-h"))
 		print_history_help();
-//	else if (is_option(cmd, "-p"))
+//	else if (is_option(i,cmd, "-p"))
 //		substitution
 	else if (e->history)
 		print_history(e, cmd);
-	return (0);
+	if (cmd[i + 1] && !is_redirection(e, i + 1))
+		return (ft_history(e, cmd, i + 1));
+	return (1);
 }
