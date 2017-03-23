@@ -24,7 +24,7 @@ SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit.c struct_strsplit_quote.c \
-					  struct_strsplit_wo_quote.c struct_tools.c
+					  struct_strsplit_wo_quote.c struct_tools.c struct_check.c
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
 ## TCAPS FOLDER ##

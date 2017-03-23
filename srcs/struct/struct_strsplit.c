@@ -65,8 +65,7 @@ t_magic				*struct_strsplit(char const *str, char div)
 			if ((magic[j].cmd = ft_strndup(&str[i], wlen)) == NULL)
 				break ;
 			i += wlen;
-			++j;
-			magic[j].cmd = NULL;
+			magic[++j].cmd = NULL;
 		}
 		else
 			++i;

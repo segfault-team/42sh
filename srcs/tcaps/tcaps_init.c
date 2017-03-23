@@ -16,9 +16,10 @@ int		tcaps_get_term_name(char **env)
 	if (tgetent(NULL, "xterm") != 1)
 	{
 		free(term);
-		return (ft_error(SH_NAME, "WARNING", "could not find terminfo database"));
+		return (ft_error(SH_NAME, "WARNING",
+						 "could not find terminfo database"));
 	}
-	free(term);
+	strfree(&term);
 	return (0);
 }
 
@@ -31,7 +32,8 @@ int		tcaps_set(void)
 	struct termios	tcs;
 
 	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
-		return (ft_error(SH_NAME, "WARNING", "could not find termios structure"));
+		return (ft_error(SH_NAME, "WARNING",
+						 "could not find termios structure"));
 	tcs.c_cc[VMIN] = 1;
 	tcs.c_cc[VTIME] = 0;
 	tcs.c_lflag &= ~(ICANON | ECHO);

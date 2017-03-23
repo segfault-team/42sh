@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void history_delete(t_env *e, char **cmd)
+void	history_delete(t_env *e, char **cmd)
 {
 	int     i;
 	char    **tmp;
@@ -15,7 +15,7 @@ void history_delete(t_env *e, char **cmd)
 	ft_free_tab(tmp);
 }
 
-void print_history(t_env *e, char **cmd)
+void	print_history(t_env *e, char **cmd)
 {
 	int     i;
 	int     arg;
@@ -31,7 +31,7 @@ void print_history(t_env *e, char **cmd)
 		ft_printf("%d: %s\n", (i + 1), e->history[i]);
 }
 
-void clear_history_list(t_env *e)
+void	clear_history_list(t_env *e)
 {
 	if (e->history)
 	{
@@ -41,7 +41,7 @@ void clear_history_list(t_env *e)
 	e->trunc_in_history = 1;
 }
 
-int  append_history_file_in_list(t_env *e)
+int		append_history_file_in_list(t_env *e)
 {
 	int     history_fd;
 	int     len;
@@ -67,7 +67,7 @@ int  append_history_file_in_list(t_env *e)
 	return (1);
 }
 
-void        print_history_help(void)
+void	print_history_help(void)
 {
 	ft_printf("history: usage: history -[acdhrw]\n");
 	ft_printf("-a: \t\tprint list in file\n");
