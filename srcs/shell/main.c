@@ -126,16 +126,19 @@ static void		reading_loop(t_env *e)
 
 int				main(int UNUSED(ac), char **UNUSED(av), char **env)
 {
-	t_env	e;
+	t_env	*e;
+	int		ret;
 
-	env_access(&e);
-	ft_init(&e, env);
+	e = (t_env *)malloc(sizeof(t_env));
+	env_access(e);
+	ft_init(e, env);
 	ft_banner();
 	ft_set_sig_handler();
-	ft_prompt(e.prompt);
-	reading_loop(&e);
-	ft_write_history(&e, O_TRUNC);
-	ft_env_free(&e);
+	ft_prompt(e->prompt);
+	reading_loop(e);
+	ft_write_history(e, O_TRUNC);
+	ret = e->exit;
+	ft_env_free(e);
 	ft_putendl("exit");
-	return (e.exit);
+	return (ret);
 }

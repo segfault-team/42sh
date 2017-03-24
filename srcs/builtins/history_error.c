@@ -3,9 +3,11 @@
 int	history_delete_error(char *sh_name, char **cmd)
 {
 	if (cmd[1][2])
-		ft_printfd(2, "%s history: %s: history position out of range\n", sh_name, &cmd[1][2]);
+		ft_printfd(2, "%s history: %s: history position out of range\n",
+				   sh_name, &cmd[1][2]);
 	else if (cmd[2])
-		ft_printfd(2, "%s history: %s: history position out of range\n", sh_name, cmd[2]);
+		ft_printfd(2, "%s history: %s: history position out of range\n",
+				   sh_name, cmd[2]);
 	else
 	{
 		ft_printfd(2, "%s history -d: option requiere argument\n", sh_name);

@@ -2,7 +2,7 @@
 
 static void	manage_quote(char *quote, char current)
 {
-	if (*quote == '\0')
+	if (!(*quote))
 		*quote = current;
 	else if (current == *quote)
 		*quote = '\0';
@@ -54,7 +54,8 @@ int 		substitution(t_env *e)
 	{
 		if (ret == -1)
 			return (-1);
-		if (e->line[i] == '"' || e->line[i] == '\'')
+		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
+			e->line[i - 1] != '\\')
 			manage_quote(&quote, e->line[i]);
 		else if (e->line[i] == '~' && !quote && i && e->line[i - 1] == ' ')
 			do_substitution(e, &i, e->home, 0);

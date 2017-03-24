@@ -132,19 +132,14 @@ int				ft_parse_line(t_env *e)
 	if (substitution(e) == -1)
 		return (-1);
 	ft_store_history(e);
-	if (ft_matchquotes(e->line))
+	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
-		if ((cmds = ft_trim_split_cmd(e)) != NULL)
+		while (cmds[++i])
 		{
-			while (cmds[++i])
-			{
-				ret = ft_iter_cmds(e, cmds[i]);
-				tcaps_set();
-			}
+			ret = ft_iter_cmds(e, cmds[i]);
+			tcaps_set();
 		}
-		ft_free_tab(cmds);
 	}
-	else
-		ft_error(NULL, "Unmatched quote", NULL);
+	ft_free_tab(cmds);
 	return (ret);
 }

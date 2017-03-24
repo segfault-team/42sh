@@ -8,21 +8,20 @@ void		ft_store_history(t_env *e)
 {
 	char		**tmp;
 	int			is_not_history_cmd;
-	static char	*last_cmd = NULL;
+//	static char	*e->last_cmd = NULL;
 
 	tmp = NULL;
 	tmp = e->history;
 	is_not_history_cmd = ft_strcmp(e->line, "history");
 	if (is_not_history_cmd ||
-			(last_cmd && ft_strcmp(last_cmd, "history")) || !last_cmd)
+		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{
 		e->history = ft_tabcat(e->history, e->line);
 		if (tmp)
 			ft_free_tab(tmp);
 	}
-	if (last_cmd)
-		strfree(&last_cmd);
-	last_cmd = ft_strdup(e->line);
+	strfree(&e->last_cmd);
+	e->last_cmd = ft_strdup(e->line);
 }
 
 /*

@@ -191,6 +191,7 @@ typedef struct			s_env
 	char				*prompt;
 	char				*home;
 	char				*line;
+	char				*last_cmd;
 	char				*line_bkp;
 	char				**cmd;
 	char				***cat;
@@ -212,6 +213,7 @@ typedef struct			s_env
 	t_tputs				struct_tputs;
 	char				*hist_file;
 	size_t				trunc_in_history;
+	char				quote;
 }						t_env;
 
 

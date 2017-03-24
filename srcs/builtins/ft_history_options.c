@@ -89,6 +89,7 @@ int		append_history_file_in_list(t_env *e)
 		++i;
 	new[++i] = NULL;
 	ft_close(history_fd);
+	ft_free_tab(e->history);
 	e->history = new;
 	return (1);
 }
