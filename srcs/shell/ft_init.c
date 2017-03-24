@@ -58,6 +58,12 @@ static void		ft_init_bis(t_env *e)
 	e->i_mag = 0;
 	e->magic = NULL;
 	e->logix = NULL;
+	e->selected = -42;
+	e->files = NULL;
+	e->path = NULL;
+	e->prefix = NULL;
+	e->total_len = 0;
+	e->start = 0;
 }
 
 char			*init_hist_file(t_env *e)

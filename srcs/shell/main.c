@@ -50,7 +50,7 @@ static void		tcaps_del_prompt(t_env *e)
 	}
 }
 
-static void		tcaps_manage_printable_char(t_env *e)
+void		tcaps_manage_printable_char(t_env *e)
 {
 	int		len;
 	int		s_move;
@@ -86,7 +86,7 @@ static void		tcaps_manage_printable_char(t_env *e)
 	++NB_READ;
 }
 
-static int		tcaps_is_delete_key(t_env *e)
+int		tcaps_is_delete_key(t_env *e)
 {
 	if (e->line && e->buf[0] == 127 && NB_MOVE > 0)
 		return (1);

@@ -101,4 +101,7 @@ void	init_tputs_string(t_env *e)
 	TGETSTR_SC = tgetstr("sc", NULL);
 	TGETSTR_DL = tgetstr("dl", NULL);
 	TGETSTR_RC = tgetstr("rc", NULL);
+	e->struct_tputs.me = tgetstr("me", NULL);
+	e->struct_tputs.mr = tgetstr("mr", NULL);
+	e->struct_tputs.up = tgetstr("up", NULL);
 }

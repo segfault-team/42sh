@@ -8,6 +8,8 @@ static void	tcaps_bis(t_env *e)
 		tcaps_ctrl_arrow(e);
 	else if (is_paste(BUF))
 		tcaps_paste(e, BUF);
+	else if (tcaps_check_key(BUF, 9, 0, 0))
+		auto_completion(e);
 }
 
 int			tcaps(t_env *e)

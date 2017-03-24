@@ -30,6 +30,27 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
+# include <sys/stat.h>
+# include <sys/types.h>
+# define C_RESET		"\033[39m"
+# define C_RED			"\033[31m"
+# define C_GREEN		"\033[32m"
+# define C_YELLOW		"\033[33m"
+# define C_BLUE			"\033[34m"
+# define C_MAGENTA		"\033[35m"
+# define C_CYAN			"\033[36m"
+# define C_WHITE		"\033[97m"
+# define C_EXEC			C_RED
+# define C_FIFO			C_YELLOW
+# define C_CHR			C_YELLOW
+# define C_DIR			C_CYAN
+# define C_BLK			C_BLUE
+# define C_REG			C_RESET
+# define C_LNK			C_MAGENTA
+# define C_SOCK			C_GREEN
+# define C_WHT			C_WHITE
+
+
 # define RED			"\033[31m"
 # define ENDC			"\033[;0m"
 # define WHITE			"\033[;0m"
@@ -135,6 +156,9 @@ typedef struct			s_tputs
 	char				*sc;
 	char				*dl;
 	char				*rc;
+	char				*me;
+	char				*mr;
+	char				*up;
 }						t_tputs;
 
 typedef struct			s_magic
@@ -182,6 +206,12 @@ typedef struct			s_pid_list
 	void				*next;
 }						t_pid_list;
 
+typedef struct		s_file
+{
+	char			*name;
+	char			*color;
+}					t_file;
+
 typedef struct			s_env
 {
 	t_fd				fd;
@@ -214,6 +244,15 @@ typedef struct			s_env
 	char				*hist_file;
 	size_t				trunc_in_history;
 	char				quote;
+	t_file				**files;
+	char				*prefix;
+	char				*path;
+	int					selected;
+	size_t				total_len;
+	int					c_match;
+	int 				start;
+	int					printed;
+	int					row;
 }						t_env;
 
 
@@ -412,5 +451,16 @@ t_magic					*struct_strsplit_quote(char const *s, char c);
 t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
 int						ft_check_input(int i, t_env *e);
 int						ft_check_output(int i, t_env *e);
+
+/*
+**		Auto Completion
+*/
+int						auto_completion(t_env *e);
+char					**get_valid_content_from_path(t_env *e, char *curr_path, char *arg);
+void					print_auto_completion(t_env *e, char *arg, char *path, char **content);
+int						valid_selection(t_env *e);
+void					tcaps_manage_printable_char(t_env *e);
+int						tcaps_is_delete_key(t_env *e);
+int						cur_inquote(t_env *e);
 
 #endif
