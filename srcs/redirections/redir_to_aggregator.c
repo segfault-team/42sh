@@ -1,8 +1,17 @@
 #include "shell.h"
 
-#define ERROR		 	-420
+#define ERROR		 	-1
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
+
+static int	aggregator_error(int id)
+{
+	if (id == 1)
+		dprintf(STDERR_FILENO, "sh: bad file descriptor\n");
+	else
+		dprintf(STDERR_FILENO, "sh: redirection syntax error\n");
+	return (-1);
+}
 
 static void	output_aggre(t_env *e, int fd_src, int fd_dst)
 {
@@ -24,12 +33,12 @@ int			redir_to_aggregator(t_env *e)
 	fd_src = isolate_fd_source(e);
 	fd_dst = isolate_fd_destination(e);
 	if (!isatty(fd_src) || (!isatty(fd_dst) && fd_dst != -42))
-		return (dprintf(STDERR_FILENO, "sh:bad file descriptor\n"));
+		return (aggregator_error(1));
 	ag_type = find_aggregator_type(e);
 	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
-		return (dprintf(STDERR_FILENO, "sh: redirection syntax error\n"));
+		return (aggregator_error(42));
 	if (ag_type == ERROR)
-		return (ERROR);
+		return (-1);
 	else if (fd_dst == -42)
 		close(fd_src);
 	else if (ag_type == INPUT_AGGRE)

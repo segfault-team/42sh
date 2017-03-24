@@ -269,6 +269,8 @@ int						redirection_before_cmd(t_env *e);
 int						is_input_file(t_env *e, int  i);
 int						redir_input(t_env *e);
 int						is_redir_from_symbol(t_env *e, int i);
+int						is_input_in_next_cmd(t_env *e, int i);
+
 
 /*
 **		Init - Reset
@@ -304,7 +306,7 @@ void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
 int						ft_start_with(char *str, char *comp);
 int						open_file(char *file, int flags, mode_t mode);
-
+int						atoi_bis(const char *str);
 /*
 **		History
 */
@@ -316,12 +318,13 @@ char					**delete_line_in_tab(char **ttab, int d);
 void					ft_store_history(t_env *e);
 
 int						history_delete(t_env *e, char **cmd, int i);
-int						history_delete_error(char *sh_name, char **cmd);
-void					print_history(t_env *e, char **cmd);
+int						print_history(t_env *e, char **cmd);
 void					clear_history_list(t_env *e);
 int						append_history_file_in_list(t_env *e);
 void					print_history_help(void);
-
+int						history_delete_error(char *sh_name, char **cmd);
+int						history_error_with_id(char **cmd, char *sh_name, int id);
+int						is_valid_arg(char **cmd, char *sh_name);
 
 /*
 **		Tcaps Tools

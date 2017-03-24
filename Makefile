@@ -19,7 +19,7 @@ SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					  ft_realloc_insert.c ft_start_with.c \
 					  ft_tools.c ft_remove_space.c multiline.c \
 					  ft_singletone.c is_only_numbers.c delete_line_in_tab.c \
-					  open_file.c
+					  open_file.c atoi_bis.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
@@ -38,7 +38,7 @@ SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 ## BUILTINS FOLDER ##
 SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
 					  ft_setenv.c ft_unsetenv.c ft_where.c ft_history_options.c \
-					  history_error.c
+					  history_error.c history_tools.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## ALL FILES ##

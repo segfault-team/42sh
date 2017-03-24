@@ -73,3 +73,13 @@ int		is_next_redir(t_env *e, int i)
 		return (INPUT);
 	return (-1);
 }
+
+int		is_input_in_next_cmd(t_env *e, int i)
+{
+	++i;
+	while (e->magic[i].cmd && !is_redir_pipe(e, i) && !is_input_redir(e, i))
+		++i;
+	if (is_input_redir(e, i))
+		return (1);
+	return (0);
+}
