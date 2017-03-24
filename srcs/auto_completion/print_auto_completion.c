@@ -240,13 +240,12 @@ int		write_line(t_env *e, int i, int x, char *spaces)
 void	ft_putstr_spec(t_env *e, char *str)
 {
 	int tmp;
-	int x;
 
 	tmp = NB_MOVE;
 	ft_putstr(str);
-	x = ft_strlen(str);
-	while (x--)
-		tcaps_left(e);
+	NB_MOVE = ft_strlen(str);
+	while (NB_MOVE--)
+		xputs(TGETSTR_LE);
 	NB_MOVE = tmp;
 }
 
@@ -328,30 +327,26 @@ int	valid_selection(t_env *e)
 		NB_READ += i;
 		NB_MOVE += i;
 		if (e->buf[0] != 10 && e->buf[0] != 9 && e->buf[0] != '/'
-			&& e->files[e->selected]->color == C_DIR)
+			&& (e->files[e->selected]->color == C_DIR
+			|| e->files[e->selected]->color == C_WHT))
 		{
 			NB_READ += 1;
 			NB_MOVE += 1;
 			ft_putchar('/');
 			ft_realloc_insert_str(e, "/");
-			/*ft_realloc_insert_char(e, '/');
-			NB_READ += 1;
-			NB_MOVE += 1;*/
 		}
 		else if (e->buf[0] == 10 && e->files[e->selected]->color == C_DIR)
 			ft_putstr_spec(e, "/");
-		else if (e->buf[0] == 10 || (e->c_match == 1
-			&& e->files[e->selected]->color != C_DIR))
+		else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
+			&& (e->files[e->selected]->color == C_DIR
+			|| e->files[e->selected]->color == C_WHT))))
 		{
 			NB_READ += 1;
 			NB_MOVE += 1;
 			ft_putchar(' ');
 			ft_realloc_insert_str(e, " ");
-			/*ft_realloc_insert_char(e, ' ');
-			NB_READ += 1;
-			NB_MOVE += 1;*/
 		}
-
+		xputs(e->struct_tputs.cd);
 		ft_putstr_spec(e, &e->line[NB_MOVE]);
 	}
 	else
