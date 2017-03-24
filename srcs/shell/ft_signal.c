@@ -93,6 +93,7 @@ void		ft_sig_handler(int sig)
 		e->check_ctrl_c = 1;
 		if (e->c_match)
 		{
+			e->check_ctrl_c = 0;
 			e->selected = -42;
 			print_auto_completion(e, NULL, NULL, NULL);
 			xputs(e->struct_tputs.cd);

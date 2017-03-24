@@ -306,7 +306,7 @@ void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 		e->selected = 0;
 		valid_selection(e);
 	}
-	else
+	else if (e->selected >= -1)
 		actual_print(e);
 }
 
@@ -367,5 +367,6 @@ int	valid_selection(t_env *e)
 	e->prefix = NULL;
 	e->total_len = 0;
 	e->start = 0;
+	e->c_match = 0;
 	return (ret);
 }
