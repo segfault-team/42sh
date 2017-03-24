@@ -177,7 +177,9 @@ char		**get_valid_content_from_path(t_env *e, char *curr_path, char *arg)
 	t_list			*ptr;
 
 	content = NULL;
-	sorted_files = ft_sort_list(dir_to_list(e, curr_path), ft_sort);
+	/* sorted_files = ft_sort_list(dir_to_list(e, curr_path), ft_sort); */
+	sorted_files = dir_to_list(e, curr_path);
+	merge_sort(&sorted_files);
 	ptr = sorted_files;
 	while (ptr)
 	{

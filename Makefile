@@ -43,7 +43,7 @@ SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## AUTO COMPLETION FOLDER ##
 SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c \
-					  print_auto_completion.c
+					  print_auto_completion.c merge_sort.c
 SRC_COMPLETION		= $(addprefix auto_completion/,$(SRC_COMPLETION_NAME))
 
 ## ALL FILES ##
