@@ -96,7 +96,7 @@ int			is_option(int i, char **cmd, char *option)
 
 int			ft_history(t_env *e, char **cmd, int i)
 {
-	if (i == 1 && !is_valid_arg(cmd))
+	if (i == 1 && !is_valid_arg(cmd, SH_NAME))
 		return (-1);
 	if (!e->history)
 		return (0);
