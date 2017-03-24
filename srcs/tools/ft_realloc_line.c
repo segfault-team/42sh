@@ -1,17 +1,16 @@
 #include "shell.h"
 
-char    *ft_realloc_delete_char(t_env *e, int pos)
+char	*ft_realloc_delete_char(t_env *e, int pos)
 {
-	char    *new;
-	int     len;
-	int     i;
+	char	*new;
+	int		len;
+	int		i;
 	int		j;
 
 	if (e->line)
 		len = NB_READ - 1;
 	else
 		return (NULL);
-	// Ne sert pas a grande chose de reallouer si on a assez d'espace
 	if (!(new = ft_strnew(len)))
 	{
 		strfree(&e->line);
@@ -36,11 +35,11 @@ char    *ft_realloc_delete_char(t_env *e, int pos)
 **	(realloc it)
 */
 
-char    *ft_realloc_line(t_env *e, char c)
+char	*ft_realloc_line(t_env *e, char c)
 {
-	char    *new;
-	int     len;
-	int     i;
+	char	*new;
+	int		len;
+	int		i;
 
 	if (e->line)
 		len = ft_strlen(e->line) + 1;

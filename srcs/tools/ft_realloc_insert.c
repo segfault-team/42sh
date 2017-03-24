@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_realloc_insert.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 18:24:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/20 20:45:05 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 /*
@@ -18,11 +6,11 @@
 **	CHAR C AT THE INDEX DEFINE
 */
 
-char    *ft_realloc_insert_char(t_env *e, char c)
+char	*ft_realloc_insert_char(t_env *e, char c)
 {
-	char    *new;
-	int     len;
-	int     i;
+	char	*new;
+	int		len;
+	int		i;
 	int		j;
 
 	if (e->line)
@@ -48,8 +36,8 @@ char    *ft_realloc_insert_char(t_env *e, char c)
 	{
 		free(e->line);
 		e->line = NULL;
-		}
-		return (new);
+	}
+	return (new);
 }
 
 void	ft_realloc_insert_str(t_env *e, char *str)
@@ -68,6 +56,4 @@ void	ft_realloc_insert_str(t_env *e, char *str)
 	e->line = ft_strjoin(tmp, new);
 	free(tmp);
 	free(new);
-	// nb_move += cut
-	// nb_read = e->line;
 }

@@ -7,7 +7,7 @@
 **  To do : reset positions after clear && check buffer after ctrl+l
 */
 
-void    tcaps_clear(t_env *e)
+void	tcaps_clear(t_env *e)
 {
 	xputs(TGETSTR_CL);
 	tcaps_prompt(e->prompt);

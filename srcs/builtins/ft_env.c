@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 17:24:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:06:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/17 14:36:38 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int				ft_env(t_env *e, char **cmd)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
 		{
-			ft_printf(">> %d = %s\n", i, cmd[i]);
 			ft_exec(&cmd[i], e);
 			i = 0;
 		}

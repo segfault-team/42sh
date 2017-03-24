@@ -1,24 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 19:22:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 22:14:37 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-
-static void		ft_set_prompt(t_env *e)
-{
-	e->prompt = ft_strdup("$> ");
-}
 
 static int		ft_set_home(t_env *e)
 {
@@ -60,24 +43,8 @@ static void		ft_set_shlvl(t_env *e)
 		ft_setenv(&e->env, "SHLVL", "1");
 }
 
-void			ft_init(t_env *e, int ac, char **av, char **env)
+static void		ft_init_bis(t_env *e)
 {
-	(void)ac;
-	(void)av;
-	e->history = NULL;
-	e->env = ft_tabdup(env);
-	ft_check_file_perm(HIST_FILE);
-	if (!ft_set_home(e))
-		ft_error(SH_NAME, "WARNING: no home set", NULL);
-	if (ft_read_history(e) < 0)
-	{
-		ft_free_tab(e->history);
-		e->history = NULL;
-	}
-	FD.stdin = dup(STDIN_FILENO);
-	FD.stdout = dup(STDOUT_FILENO);
-	FD.stderr = dup(STDERR_FILENO);
-	MULTI = NULL;
 	e->x = 1;
 	e->exit = 0;
 	e->line = NULL;
@@ -91,8 +58,46 @@ void			ft_init(t_env *e, int ac, char **av, char **env)
 	e->i_mag = 0;
 	e->magic = NULL;
 	e->logix = NULL;
+}
+
+char			*init_hist_file(t_env *e)
+{
+	char	*path;
+	char	*ret;
+
+	path = NULL;
+	if (!e->home || (int)ft_strlen(e->home) == 0)
+	{
+		path = getcwd(NULL, 0);
+		ret = ft_strjoin(path, HIST_NAME);
+	}
+	else
+		ret = ft_strjoin(e->home, HIST_NAME);
+	return (ret);
+}
+
+void			ft_init(t_env *e, char **env)
+{
+	e->history = NULL;
+	e->trunc_in_history = 0;
+	e->env = ft_tabdup(env);
+	e->last_cmd = NULL;
+	e->quote = '\0';
+	if (!ft_set_home(e))
+		ft_error(SH_NAME, "WARNING: no home set", NULL);
+	e->hist_file = init_hist_file(e);
+	if (ft_read_history(e) < 0)
+	{
+		ft_free_tab(e->history);
+		e->history = NULL;
+	}
+	FD.stdin = dup(STDIN_FILENO);
+	FD.stdout = dup(STDOUT_FILENO);
+	FD.stderr = dup(STDERR_FILENO);
+	MULTI = NULL;
+	ft_init_bis(e);
 	ft_bzero(e->buf, 3);
-	ft_set_prompt(e);
+	e->prompt = ft_strdup("$> ");
 	ft_set_shlvl(e);
 	tcaps_init(e);
 }

@@ -12,15 +12,15 @@
 **  rc: recover cursor position
 */
 
-int     tcaps_putstr(t_env *e, char *str)
+int		tcaps_putstr(t_env *e, char *str)
 {
-	int     l;
+	int		len;
 
 	xputs(TGETSTR_SC);
 	xputs(TGETSTR_CR);
 	xputs(TGETSTR_DM);
-	l = TCAPS.nb_read;
-	while (--l > 0)
+	len = NB_READ;
+	while (--len > 0)
 	{
 		xputs(TGETSTR_LE);
 		xputs(TGETSTR_DC);
@@ -33,4 +33,3 @@ int     tcaps_putstr(t_env *e, char *str)
 	xputs(TGETSTR_RC);
 	return (0);
 }
-

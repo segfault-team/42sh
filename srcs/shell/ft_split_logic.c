@@ -15,6 +15,7 @@ t_logic		*ft_new_logic(void)
 /*
 **	Check for logical operators
 */
+
 int			ft_check_op(char *s)
 {
 	if (ft_strequ(s, "&&"))
@@ -43,7 +44,7 @@ void		ft_print_logic(t_logic *x)
 	t_logic	*ptr;
 
 	ptr = x;
-	while(ptr)
+	while (ptr)
 	{
 		ft_printf("-----\n");
 		ft_printf("op: %d\n", ptr->op);
@@ -71,7 +72,7 @@ int			ft_waitlogix(t_env *e)
 /*
 **
 **	Splits the command based on logical operators.
-**	It fills a chained list, which holds the command and 
+**	It fills a chained list, which holds the command and
 **	the logical operator associated.
 **	The first command have a l.op. of -42.
 **		ex:   $> true && echo LOL

@@ -30,7 +30,7 @@ static void		tcaps_enter(t_env *e)
 		ft_putchar('\n');
 	if (e->x)
 		tcaps_prompt(e->prompt);
-		ft_reset_line(e);
+	ft_reset_line(e);
 }
 
 /*
@@ -52,22 +52,23 @@ static void		tcaps_del_prompt(t_env *e)
 
 static void		tcaps_manage_printable_char(t_env *e)
 {
+	int		len;
+	int		s_move;
+
+	s_move = 0;
+	len = NB_READ;
 	if (NB_MOVE == NB_READ)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
 	{
-		int		l = NB_READ;
-		int		s_move = 0;
-
 		e->line = ft_realloc_insert_char(e, BUF[0]);
 		xputs(TGETSTR_DM);
-		while (--l > 0)
+		while (--len > 0)
 		{
 			xputs(TGETSTR_LE);
 			xputs(TGETSTR_CE);
 		}
 		tcaps_del_prompt(e);
-//		ft_putstr(e->prompt);
 		tcaps_prompt(e->prompt);
 		s_move += ft_putstr(e->line);
 		while (s_move-- > NB_MOVE)
@@ -92,40 +93,52 @@ static int		tcaps_is_delete_key(t_env *e)
 	return (0);
 }
 
-int				main(int ac, char **av, char **env)
+static void		reading_loop(t_env *e)
 {
-	t_env	e;
+	while (e->x)
+	{
+		read(0, BUF, 3);
+		if (e->check_ctrl_c)
+			ft_reset_line(e);
+		if (e->check_sigtstp)
+			tcaps_init(e);
+		tcaps_recalc_pos(e);
+		if (!TCAPS.check_move)
+			NB_MOVE = NB_READ;
+		if (tcaps_is_printable(BUF))
+			tcaps_manage_printable_char(e);
+		else if (tcaps_is_delete_key(e))
+			e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
+		if (tcaps_check_key(BUF, 10, 0, 0))
+			tcaps_enter(e);
+		else
+			tcaps(e);
+		ft_bzero(&BUF, 3);
+		RED_INDEX = 0;
+		if (NB_MOVE < NB_READ)
+			TCAPS.check_move = 1;
+	}
+}
 
-	env_access(&e);
-	ft_init(&e, ac, av, env);
+/*
+** for now we handle ctrl-z, later on we will get rid of that
+*/
+
+int				main(int UNUSED(ac), char **UNUSED(av), char **env)
+{
+	t_env	*e;
+	int		ret;
+
+	e = (t_env *)malloc(sizeof(t_env));
+	env_access(e);
+	ft_init(e, env);
 	ft_banner();
 	ft_set_sig_handler();
-	ft_prompt(e.prompt);
-	while (e.x)
-	{
-		read(0, e.buf, 3);
-		if (e.check_ctrl_c)
-			ft_reset_line(&e);
-		// for now we handle ctrl-z, later on we will get rid of that
-		if (e.check_sigtstp)
-			tcaps_init(&e);
-		tcaps_recalc_pos(&e);
-		if (!e.tcaps.check_move)
-			e.tcaps.nb_move = e.tcaps.nb_read;
-		if (tcaps_is_printable(e.buf))
-			tcaps_manage_printable_char(&e);
-		else if (tcaps_is_delete_key(&e))
-			e.line = ft_realloc_delete_char(&e, e.tcaps.nb_move - 1);
-		if (tcaps_check_key(e.buf, 10, 0, 0))
-			tcaps_enter(&e);
-		else
-			tcaps(&e);
-		ft_bzero(&e.buf, 3);
-		e.i_mag = 0;
-		if (e.tcaps.nb_move < e.tcaps.nb_read)
-			e.tcaps.check_move = 1;
-	}
-	ft_env_free(&e);
+	ft_prompt(e->prompt);
+	reading_loop(e);
+	ft_write_history(e, O_TRUNC);
+	ret = e->exit;
+	ft_env_free(e);
 	ft_putendl("exit");
-	return (e.exit);
+	return (ret);
 }

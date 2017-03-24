@@ -5,7 +5,7 @@
 **	AFTER INDEX
 */
 
-void	ft_cut_tab(char **pas_tab, int i)
+void		ft_cut_tab(char **pas_tab, int i)
 {
 	while (pas_tab[i])
 	{
@@ -15,7 +15,7 @@ void	ft_cut_tab(char **pas_tab, int i)
 	}
 }
 
-static int		struct_nb_valid_type(t_env *e)
+static int	nb_valid_types(t_env *e)
 {
 	int		i;
 	int		len;
@@ -30,7 +30,7 @@ static int		struct_nb_valid_type(t_env *e)
 	return (len);
 }
 
-void	magic_realloc(t_env *e)
+void		magic_realloc(t_env *e)
 {
 	int		i;
 	int		j;
@@ -38,7 +38,7 @@ void	magic_realloc(t_env *e)
 
 	i = -1;
 	j = -1;
-	if (!(new = (t_magic *)malloc(sizeof(t_magic) * (struct_nb_valid_type(e) + 1))))
+	if (!(new = (t_magic *)malloc(sizeof(t_magic) * (nb_valid_types(e) + 1))))
 		return ;
 	while (e->magic[++i].type != NULL)
 	{

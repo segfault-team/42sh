@@ -1,6 +1,27 @@
 #include "shell.h"
 
-int			ft_matchquotes(char *s)
+int		ft_check_file_perm(char *file)
+{
+	int		ret;
+
+	ret = 0;
+	if (access(file, F_OK) != -1)
+	{
+		if (access(file, R_OK) == -1)
+		{
+			ft_error(SH_NAME, "Cannot access file for reading", file);
+			ret = -1;
+		}
+		if (access(file, W_OK) == -1)
+		{
+			ft_error(SH_NAME, "Cannot access file for writing", file);
+			ret = -1;
+		}
+	}
+	return (ret);
+}
+
+int		ft_matchquotes(char *s)
 {
 	int		i;
 	int		bs;
@@ -28,7 +49,7 @@ int			ft_matchquotes(char *s)
 	return (1);
 }
 
-char		*ft_issetenv(char **env, char *name)
+char	*ft_issetenv(char **env, char *name)
 {
 	char	*eval;
 	int		i;
@@ -50,7 +71,7 @@ char		*ft_issetenv(char **env, char *name)
 	return (NULL);
 }
 
-char		*ft_getenv(char **env, char *name)
+char	*ft_getenv(char **env, char *name)
 {
 	char	*value;
 	char	*tmp;

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/08 13:37:41 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/17 12:57:31 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int			ft_handle_ret_signal(int status)
 	return (0);
 }
 
+/*
+** Since we may have errors we don't ignore ctrl-z signal for now
+*/
+
 void		ft_set_sig_handler(void)
 {
 	int		sig;
@@ -69,10 +73,9 @@ void		ft_set_sig_handler(void)
 	sig = 0;
 	while (++sig <= 31)
 	{
-		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL \
+		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL
 				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
-		// Since we may have errors we don't ignore ctrl-z signal for now
 //		else if (sig == SIGTSTP)
 //			signal(sig, SIG_DFL);
 		else

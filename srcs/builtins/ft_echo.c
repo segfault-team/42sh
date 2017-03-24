@@ -25,7 +25,7 @@ static int	ft_echo_check(char *str)
 	return (0);
 }
 
-int	ft_echo(char **args)
+int			ft_echo(char **args)
 {
 	int cr;
 	int i;

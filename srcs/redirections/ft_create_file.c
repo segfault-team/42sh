@@ -11,7 +11,7 @@ void	ft_create_file(t_env *e)
 	{
 		if (!ft_strcmp(e->magic[i].type, "output"))
 		{
-			fd = open(e->magic[i].cmd, O_CREAT, OPENFLAGS);
+			fd = open(e->magic[i].cmd, O_CREAT, OFLAGS);
 			ft_close(fd);
 		}
 	}

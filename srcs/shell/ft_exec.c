@@ -70,23 +70,19 @@ char			**ft_find_paths(char **env)
 
 void			ft_close(int fd)
 {
-	if (fd != 1 && fd != 0) {
+	if (fd != 1 && fd != 0)
 		if (close(fd) == -1)
-		{
 			ft_error(SH_NAME, "Close failed on fd", NULL);
-		}
-	}
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	t_job	*son;
-	pid_t	pid;
+	static int	prev_red_index = -1;
+	t_job		*son;
+	pid_t		pid;
 
 	if ((pid = fork()) < 0)
-	{
 		ft_error(SH_NAME, "failed to fork process", NULL);
-	}
 	if (pid)
 	{
 		++e->child_running;
@@ -95,13 +91,14 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	}
 	else
 	{
-		if (isAggregator(e, RED_INDEX))
-			redirToAggregator(e);
+		if (redirection_before_cmd(e) == -1)
+			exit(0);
+		if (is_input_in_next_cmd(e, RED_INDEX) && RED_INDEX != prev_red_index)
+			redir_input(e);
 		ft_redirect(FD.in, STDIN_FILENO);
-		if (redir_check_red(e, "|") || isOutputRedir(e, RED_INDEX))
-			dup2(FD.fd[1], STDOUT_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
+	prev_red_index = RED_INDEX;
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
@@ -144,7 +141,6 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
-	ft_subs_tilde(e);
 	tcaps_reset();
 	if (e->cmd_len)
 	{
@@ -155,10 +151,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 		while (ptr)
 		{
 			if (ptr->op > 0)
-			{
 				stat = ft_waitlogix(e);
-		//		ft_printf("stat: %d  ret: %d  cmd: %s\n", stat, ret, ptr->atom[0]);
-			}
 			if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
 					(ptr->op == OR && (ret || stat)))
 			{

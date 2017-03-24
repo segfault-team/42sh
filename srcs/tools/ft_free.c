@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/13 09:51:13 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/24 13:33:32 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ void	strfree(char **str)
 
 void		ft_env_free(t_env *e)
 {
-	if (e->line)
-		strfree(&e->line);
-	if (e->home)
-		strfree(&e->home);
-	if (e->history)
-		ft_free_tab(e->history);
-	if (e->prompt)
-		strfree(&e->prompt);
+	strfree(&e->line);
+	strfree(&e->home);
+	strfree(&e->prompt);
+	strfree(&HIST_FILE);
+	strfree(&e->last_cmd);
 	if (e->env)
 		ft_free_tab(e->env);
+	if (e->history)
+		ft_free_tab(e->history);
 	if (e->magic)
 		magic_free(e);
-	if (close(HISTORY_FD) == -1)
-		ft_error("close", "Could not close file", HIST_FILE);
+	strfree(&e->last_cmd);
+	free(e);
 }
 
 void	ft_triple_free(t_env *e)

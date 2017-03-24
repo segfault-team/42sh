@@ -5,7 +5,8 @@ static int		struct_find_out(t_env *e)
 	int mem_red_index;
 
 	mem_red_index = RED_INDEX;
-	while (e->magic[RED_INDEX].cmd && ft_strcmp(e->magic[RED_INDEX].type, "red"))
+	while (e->magic[RED_INDEX].cmd &&
+			ft_strcmp(e->magic[RED_INDEX].type, "red"))
 		++RED_INDEX;
 	if (!(e->magic[RED_INDEX].cmd))
 	{
@@ -43,9 +44,10 @@ static int		redir_file_output(t_env *e, char *ret_output)
 	while (nb_red-- && struct_find_out(e))
 	{
 		red_type = ft_strcmp(e->magic[RED_INDEX].cmd, ">>");
-		if ((fd_output = open(e->magic[++RED_INDEX].cmd, (!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OPENFLAGS)) > -1)
+		if ((fd_output = open_file(e->magic[++RED_INDEX].cmd,
+						(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS),
+						OFLAGS)) > -1)
 		{
-			// NE PAS ENLEVER
 			ft_printfd(fd_output, "%s", ret_output);
 			ft_close(fd_output);
 		}
@@ -73,8 +75,8 @@ int				redir_fill_output(t_env *e)
 			ret_output = ft_strdup(tmp);
 		else if ((tmp_join = ft_strjoin(ret_output, tmp)))
 		{
-				strfree(&ret_output);
-				ret_output = tmp_join;
+			strfree(&ret_output);
+			ret_output = tmp_join;
 		}
 	}
 	return (redir_file_output(e, ret_output));

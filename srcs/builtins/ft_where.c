@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 18:58:17 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 21:44:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/20 13:03:33 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,9 @@ int			ft_where(t_env *e, char **cmd)
 	e->cmd_len = ft_tablen(cmd);
 	while (++i < (int)e->cmd_len)
 	{
-		if (ft_isbuiltin(cmd[i]))
-		{
+		if (ft_isbuiltin(cmd[i]) && ft_printf("%s is a shell built-in.", \
+					cmd[i]))
 			ret = 0;
-			ft_printf("%s is a shell built-in.", cmd[i]);
-		}
 		if ((path = ft_find_exec(paths, cmd[i])))
 		{
 			ret = 0;

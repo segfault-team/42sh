@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/24 17:05:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 21:44:35 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 int			ft_unsetenv(char ***env, char *name)
@@ -51,7 +39,6 @@ int			ft_unsetenv_blt(t_env *e, char **cmd)
 	{
 		while (++i < (int)len)
 		{
-			// we can probably get rid of that (all) ...
 			if (ft_strequ(cmd[i], "all"))
 			{
 				ft_free_tab(e->env);
