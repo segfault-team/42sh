@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   merge_sort.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ggane <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/10 14:04:44 by ggane             #+#    #+#             */
-/*   Updated: 2017/03/24 18:36:20 by ggane            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static t_list	*merge_lists(t_list *a, t_list *b)
@@ -21,7 +9,7 @@ static t_list	*merge_lists(t_list *a, t_list *b)
 		return (b);
 	else if (b == NULL)
 		return (a);
-	if (choose_compare_list_function(a, b) <= 0)
+	if (ft_strcmp(a->content, b->content) <= 0)
 	{
 		merged_list = a;
 		merged_list->next = merge_lists(a->next, b);
