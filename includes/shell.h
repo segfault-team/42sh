@@ -212,6 +212,12 @@ typedef struct		s_file
 	char			*color;
 }					t_file;
 
+typedef struct			s_hdoc
+{
+	char				**content;
+	struct s_hdoc		*next;
+}						t_hdoc;
+
 typedef struct			s_env
 {
 	t_fd				fd;
@@ -253,8 +259,14 @@ typedef struct			s_env
 	int 				start;
 	int					printed;
 	int					row;
+	char				*heredoc;
+	t_hdoc				*hdoc;
+	t_hdoc				*b_hdoc;
+	int					herestop;
+	char				*herestock;
+	char				**hdoc_words;
+	int					hdoc_nb;
 }						t_env;
-
 
 /*
 **
@@ -311,7 +323,8 @@ int						is_input_file(t_env *e, int  i);
 int						redir_input(t_env *e);
 int						is_redir_from_symbol(t_env *e, int i);
 int						is_input_in_next_cmd(t_env *e, int i);
-
+int						is_heredoc(t_env *e, int i);
+int						redir_from_hdoc(t_env *e);
 
 /*
 **		Init - Reset
@@ -337,7 +350,13 @@ int						ft_subs_tilde(t_env *e);
 int						is_number(char c);
 int						is_only_numbers(char *str);
 int						ft_multiline(t_env *e);
+int						ft_start_with(char *str, char *comp);
+int						open_file(char *file, int flags, mode_t mode);
+int						atoi_bis(const char *str);
+int						check_last_char(t_env *e, char c);
+int						ft_heredoc(t_env *e);
 char					**ft_split_cmds(char *s, char c);
+char					**new_tabcat(char ***oldtab, char **str);
 char					*ft_issetenv(char **env, char *name);
 char					*ft_getenv(char **env, char *name);
 char					***ft_cmds_split(t_env *e);
@@ -345,9 +364,8 @@ void					ft_cut_tab(char **pas_tab, int index);
 void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
-int						ft_start_with(char *str, char *comp);
-int						open_file(char *file, int flags, mode_t mode);
-int						atoi_bis(const char *str);
+int						store_heredoc(t_env *e);
+
 /*
 **		History
 */
@@ -451,6 +469,7 @@ t_magic					*struct_strsplit_quote(char const *s, char c);
 t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
 int						ft_check_input(int i, t_env *e);
 int						ft_check_output(int i, t_env *e);
+int						ft_check_heredoc(int i, t_env *e);
 
 /*
 **		Auto Completion

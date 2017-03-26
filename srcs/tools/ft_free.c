@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/24 13:33:32 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/03/26 14:43:57 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@ void	strfree(char **str)
 	}
 }
 
-void		ft_env_free(t_env *e)
+void	ft_env_free(t_env *e)
 {
 	strfree(&e->line);
 	strfree(&e->home);
 	strfree(&e->prompt);
 	strfree(&HIST_FILE);
 	strfree(&e->last_cmd);
+	strfree(&e->herestock);
 	if (e->env)
 		ft_free_tab(e->env);
 	if (e->history)
 		ft_free_tab(e->history);
 	if (e->magic)
 		magic_free(e);
-	strfree(&e->last_cmd);
+	if (e->hdoc_words)
+		ft_free_tab(e->hdoc_words);
 	free(e);
 }
 
@@ -60,4 +62,14 @@ void	ft_triple_free(t_env *e)
 		free(e->cat);
 		e->cat = NULL;
 	}
+}
+
+char	**new_tabcat(char ***oldtab, char **str)
+{
+	char	**ret;
+
+	ret = ft_tabcat(*oldtab, *str);
+	ft_free_tab(*oldtab);
+	strfree(str);
+	return (ret);
 }

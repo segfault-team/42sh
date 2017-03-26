@@ -22,6 +22,13 @@ int		is_input_redir(t_env *e, int i)
 	return (0);
 }
 
+int		is_heredoc(t_env *e, int i)
+{
+	if (!ft_strcmp(e->magic[i].cmd, "<<"))
+		return (1);
+	return (0);
+}
+
 int		is_aggregator(t_env *e, int i)
 {
 	if (ft_strstr(e->magic[i].cmd, "<&") ||

@@ -10,7 +10,7 @@ SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c \
 					  check_redirections.c redir_to_aggregator.c isolate_aggregator_fd.c \
 					  find_check_aggregator.c redirection_before_cmd.c \
-					  redirection_input.c
+					  redirection_input.c redir_from_hdoc.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##
@@ -19,7 +19,7 @@ SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					  ft_realloc_insert.c ft_start_with.c \
 					  ft_tools.c ft_remove_space.c multiline.c \
 					  ft_singletone.c is_only_numbers.c delete_line_in_tab.c \
-					  open_file.c atoi_bis.c
+					  open_file.c atoi_bis.c ft_check.c ft_heredoc.c store_heredoc.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##

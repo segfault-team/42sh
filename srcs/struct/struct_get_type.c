@@ -10,10 +10,12 @@ void		del_elem_magic(int i, t_env *e)
 void		struct_arg_red(int i, t_env *e)
 {
 	if (i > 0 && (!ft_strcmp("|", e->magic[i - 1].cmd) ||
-				!ft_strcmp(e->magic[i - 1].type, "cmd")))
+				!ft_strcmp(e->magic[i - 1].type, "cmd") || !ft_strcmp(e->magic[i - 1].type, "heredoc")))
 		e->magic[i].type = ft_strdup("cmd");
 	else if (i > 0 && ft_check_input(i - 1, e))
 		e->magic[i].type = ft_strdup("input");
+	else if (i > 0 && ft_check_heredoc(i - 1, e))
+		e->magic[i].type = ft_strdup("heredoc");
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
 	else if (is_only_numbers(e->magic[i].cmd) ||

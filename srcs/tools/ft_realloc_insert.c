@@ -6,12 +6,30 @@
 **	CHAR C AT THE INDEX DEFINE
 */
 
+static char	*realloc_char(t_env *e, char *new, char c)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = -1;
+	while (e->line[i])
+	{
+		if (i != NB_MOVE || !c)
+			new[++j] = e->line[i++];
+		else
+		{
+			new[++j] = c;
+			c = '\0';
+		}
+	}
+	return (new);
+}
+
 char	*ft_realloc_insert_char(t_env *e, char c)
 {
 	char	*new;
 	int		len;
-	int		i;
-	int		j;
 
 	if (e->line)
 		len = ft_strlen(e->line) + 1;
@@ -19,24 +37,9 @@ char	*ft_realloc_insert_char(t_env *e, char c)
 		len = 1;
 	if ((new = ft_strnew(sizeof(char) * (len + 1))) == NULL)
 		return (NULL);
-	i = 0;
-	j = -1;
 	if (len != 1)
-		while (e->line[i])
-		{
-			if (i != TCAPS.nb_move || !c)
-				new[++j] = e->line[i++];
-			else
-			{
-				new[++j] = c;
-				c = '\0';
-			}
-		}
-	if (e->line)
-	{
-		free(e->line);
-		e->line = NULL;
-	}
+		new = realloc_char(e, new, c);
+	strfree(&e->line);
 	return (new);
 }
 

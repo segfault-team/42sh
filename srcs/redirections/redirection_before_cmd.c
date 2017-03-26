@@ -9,8 +9,8 @@ int		redirection_before_cmd(t_env *e)
 		ret = redir_to_aggregator(e);
 	else if (redir_check_red(e, "|") || is_output_redir(e, RED_INDEX))
 		ret = dup2(FD.fd[1], STDOUT_FILENO);
-//	else if (is_input_redir(e, RED_INDEX))
-//		ret = redir_input(e);
+	else if (is_heredoc(e, RED_INDEX))
+		ret = redir_from_hdoc(e);
 	if (ret == -1)
 		return (-1);
 	// TESTER EN PROFONDER POUR LES PIPES

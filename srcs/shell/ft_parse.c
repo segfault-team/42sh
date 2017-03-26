@@ -91,8 +91,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
-		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-*/	while (e->cat[++i] && ret != -1)
+		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
+	while (e->cat[++i] && ret != -1)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
@@ -114,6 +114,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	}
 	ft_waitsons(e);
 	ft_triple_free(e);
+	ft_free_tab(e->hdoc_words);
+	e->hdoc_words = NULL;
 	magic_free(e);
 	RED_INDEX = 0;
 	ft_tabfree(e->cmd);

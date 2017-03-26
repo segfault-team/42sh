@@ -64,6 +64,13 @@ static void		ft_init_bis(t_env *e)
 	e->prefix = NULL;
 	e->total_len = 0;
 	e->start = 0;
+	e->heredoc = NULL;
+	e->herestop = 0;
+	e->herestock = NULL;
+	e->hdoc_words = NULL;
+	e->hdoc_nb = 0;
+	e->hdoc = NULL;
+	e->b_hdoc = NULL;
 }
 
 char			*init_hist_file(t_env *e)
