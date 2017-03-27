@@ -417,6 +417,7 @@ void					ft_exit(t_env *e);
 /*
 **		Termcaps
 */
+int						reading(t_env *e);
 int						is_paste(char *buf);
 int						tcaps_paste(t_env *e, char *buf);
 int						dsh_putchar(int c);

@@ -97,31 +97,28 @@ int		tcaps_is_delete_key(t_env *e)
 	return (0);
 }
 
-static void		reading_loop(t_env *e)
+int		reading(t_env *e)
 {
-	while (e->x)
-	{
-		read(0, BUF, 3);
-		if (e->check_ctrl_c)
-			ft_reset_line(e);
-		if (e->check_sigtstp)
-			tcaps_init(e);
-		tcaps_recalc_pos(e);
-		if (!TCAPS.check_move)
-			NB_MOVE = NB_READ;
-		if (tcaps_is_printable(BUF))
-			tcaps_manage_printable_char(e);
-		else if (tcaps_is_delete_key(e))
-			e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
-		if (tcaps_check_key(BUF, 10, 0, 0))
-			tcaps_enter(e);
-		else
-			tcaps(e);
-		ft_bzero(&BUF, 3);
-		RED_INDEX = 0;
-		if (NB_MOVE < NB_READ)
-			TCAPS.check_move = 1;
-	}
+	if (e->check_ctrl_c)
+		ft_reset_line(e);
+	if (e->check_sigtstp)
+		tcaps_init(e);
+	tcaps_recalc_pos(e);
+	if (!TCAPS.check_move)
+		NB_MOVE = NB_READ;
+	if (tcaps_is_printable(BUF))
+		tcaps_manage_printable_char(e);
+	else if (tcaps_is_delete_key(e))
+		e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
+	if (tcaps_check_key(BUF, 10, 0, 0))
+		tcaps_enter(e);
+	else
+		tcaps(e);
+	ft_bzero(&BUF, 3);
+	RED_INDEX = 0;
+	if (NB_MOVE < NB_READ)
+		TCAPS.check_move = 1;
+	return (0);
 }
 
 /*
@@ -139,7 +136,11 @@ int				main(int UNUSED(ac), char **UNUSED(av), char **env)
 	ft_banner();
 	ft_set_sig_handler();
 	ft_prompt(e->prompt);
-	reading_loop(e);
+	while (e->x)
+	{
+		read(0, BUF, 3);
+		reading(e);
+	}
 	ft_write_history(e, O_TRUNC);
 	ret = e->exit;
 	ft_env_free(e);

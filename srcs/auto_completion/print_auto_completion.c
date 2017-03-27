@@ -92,8 +92,7 @@ void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 		e->selected = 0;
 		valid_selection(e);
 	}
-	else if (e->selected >= -1)
-		actual_print(e);
+	actual_print(e);
 }
 
 int		valid_selection(t_env *e)
@@ -121,11 +120,12 @@ int		valid_selection(t_env *e)
 			ft_putchar('/');
 			ft_realloc_insert_str(e, "/");
 		}
-		else if (e->buf[0] == 10 && e->files[e->selected]->color == C_DIR)
+		else if (e->buf[0] == 10 && (e->files[e->selected]->color == C_DIR
+			|| e->files[e->selected]->color == C_WHT))
 			ft_putstr_spec(e, "/");
 		else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
-			&& (e->files[e->selected]->color == C_DIR
-			|| e->files[e->selected]->color == C_WHT))))
+			&& (e->files[e->selected]->color != C_DIR
+			|| e->files[e->selected]->color != C_WHT))))
 		{
 			NB_READ += 1;
 			NB_MOVE += 1;

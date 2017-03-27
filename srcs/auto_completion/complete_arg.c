@@ -46,8 +46,8 @@ static int	complete_arg_tcaps(t_env *e, char ***content)
 	{
 		ft_bzero(&e->buf, 3);
 		read(0, e->buf, 3);
-		if (e->check_ctrl_c)
-			e->check_ctrl_c = 0;
+		if (e->selected == -42)
+			return (reading(e));
 		if (BUF[0] == CTRL_D)
 			e->selected = -1;
 		else if (e->selected == -1 && (BUF[0] == 9 || BUF[1] == 91))
