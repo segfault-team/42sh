@@ -16,16 +16,12 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 		strfree(&e->line);
 		return (NULL);
 	}
-	i = 0;
+	i = -1;
 	j = -1;
 	if (len > 1)
-		while (e->line[i])
-		{
+		while (e->line[++i])
 			if (i != pos)
-				new[++j] = e->line[i++];
-			else
-				++i;
-		}
+				new[++j] = e->line[i];
 	strfree(&e->line);
 	return (new);
 }

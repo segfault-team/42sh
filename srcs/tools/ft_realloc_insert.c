@@ -26,7 +26,7 @@ static char	*realloc_char(t_env *e, char *new, char c)
 	return (new);
 }
 
-char	*ft_realloc_insert_char(t_env *e, char c)
+char		*ft_realloc_insert_char(t_env *e, char c)
 {
 	char	*new;
 	int		len;
@@ -43,7 +43,7 @@ char	*ft_realloc_insert_char(t_env *e, char c)
 	return (new);
 }
 
-void	ft_realloc_insert_str(t_env *e, char *str)
+void		ft_realloc_insert_str(t_env *e, char *str)
 {
 	char	*new;
 	char	*tmp;

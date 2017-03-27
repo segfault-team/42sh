@@ -8,6 +8,8 @@ static char	*get_hdoc_word(t_env *e, char *str)
 
 	j = 0;
 	last_in = -1;
+	if (!str)
+		return (NULL);
 	if (i > 0 && str[i] && str[i] == ';')
 		++i;
 	while (str[++i] && str[i] != ';')
