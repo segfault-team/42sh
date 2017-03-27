@@ -49,9 +49,13 @@ SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c \
 					  merge_sort.c
 SRC_COMPLETION		= $(addprefix auto_completion/,$(SRC_COMPLETION_NAME))
 
+## PARSE FOLDER ##
+SRC_PARSE_NAME      = split_command.c erase_char_array.c
+SRC_PARSE           = $(addprefix split_command/,$(SRC_PARSE_NAME))
+
 ## ALL FILES ##
 SRC_NAME			= $(SRC_SHELL) $(SRC_RED) $(SRC_TOOLS) $(SRC_STRUCT) \
-					  $(SRC_TCAPS) $(SRC_BUILTINS) $(SRC_COMPLETION)
+					  $(SRC_TCAPS) $(SRC_BUILTINS) $(SRC_COMPLETION) $(SRC_PARSE)
 
 ## BINARY FILES ##
 OBJ_NAME			= $(SRC_NAME:.c=.o)
