@@ -32,7 +32,7 @@ int			redir_to_aggregator(t_env *e)
 
 	fd_src = isolate_fd_source(e);
 	fd_dst = isolate_fd_destination(e);
-	if (!isatty(fd_src) || (!isatty(fd_dst) && fd_dst != -42))
+	if ((!isatty(fd_src) || !isatty(fd_dst)) && fd_dst != -42)
 		return (aggregator_error(1));
 	ag_type = find_aggregator_type(e);
 	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))

@@ -52,10 +52,7 @@ void		magic_type(t_env *e)
 		else
 			struct_arg_red(i, e);
 		if (!ft_strcmp(e->magic[i].type, "output"))
-		{
-			ft_printf("boid\n");
 			already_output = 1;
-		}
 	}
 	magic_realloc(e);
 }
