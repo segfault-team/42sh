@@ -42,11 +42,12 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	}
 	else
 	{
-		while (e->magic[++(*z)].cmd && (!is_redirection(e, *z) ||
-										is_aggregator(e, *z) || is_heredoc(e, *z)))
+		while (e->magic[++(*z)].cmd && (!is_redirection(e, *z)
+					|| is_aggregator(e, *z) || is_heredoc(e, *z)))
 			if (!is_aggregator(e, *z) && !is_heredoc(e, *z))
 				++len;
-		if (e->magic[*z].cmd && (is_output_redir(e, *z) || is_input_redir(e, *z)))
+		if (e->magic[*z].cmd && (is_output_redir(e, *z)
+					|| is_input_redir(e, *z)))
 			++last_cmd;
 	}
 	return (len);
@@ -69,8 +70,9 @@ static char	**ft_find_tab(t_env *e, int *z)
 	ft_tabzero(ret, len);
 	while (j < len && e->magic[++k].cmd)
 	{
-		if (!is_redirection(e, k) && !is_input_file(e, k) &&
-			ft_strcmp(e->magic[k].type, "output") && ft_strcmp(e->magic[k].type, "heredoc"))
+		if (!is_redirection(e, k) && !is_input_file(e, k)
+				&& ft_strcmp(e->magic[k].type, "output")
+				&& ft_strcmp(e->magic[k].type, "heredoc"))
 			ret[j++] = ft_strdup(e->magic[k].cmd);
 	}
 	return (ret);

@@ -37,7 +37,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	return (ret);
 }
 
-int				ft_waitsons(t_env *e)
+int		ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
 	t_job		*tmp;
@@ -61,7 +61,7 @@ int				ft_waitsons(t_env *e)
 ** trline is now useless cause tab is not inserted (tcaps directives)
 */
 
-char		**ft_trim_split_cmd(t_env *e)
+char	**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
@@ -72,7 +72,7 @@ char		**ft_trim_split_cmd(t_env *e)
 	return (cmds);
 }
 
-int				ft_iter_cmds(t_env *e, char *cmds_i)
+int		ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;
 	int		ret;
@@ -123,7 +123,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	return (ret);
 }
 
-int				ft_parse_line(t_env *e)
+int		ft_parse_line(t_env *e)
 {
 	int		i;
 	int		ret;

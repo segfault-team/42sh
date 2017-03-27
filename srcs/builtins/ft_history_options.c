@@ -1,10 +1,10 @@
 #include "shell.h"
 
-int	history_delete(t_env *e, char **cmd, int curr)
+int		history_delete(t_env *e, char **cmd, int curr)
 {
-	int     i;
+	int		i;
 	int		j;
-	char    **tmp;
+	char	**tmp;
 
 	i = (e->cmd[curr][2]) ? 0 : -1;
 	j = 1;
@@ -36,8 +36,8 @@ int	history_delete(t_env *e, char **cmd, int curr)
 
 int		print_history(t_env *e, char **cmd)
 {
-	size_t     i;
-	int     arg;
+	size_t	i;
+	int		arg;
 	int		len_tab;
 
 	arg = 0;
@@ -69,11 +69,11 @@ void	clear_history_list(t_env *e)
 
 int		append_history_file_in_list(t_env *e)
 {
-	int     history_fd;
-	int     len;
-	int     nb_lines;
-	char    **new;
-	int     i;
+	int		history_fd;
+	int		len;
+	int		nb_lines;
+	char	**new;
+	int		i;
 
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
 		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));

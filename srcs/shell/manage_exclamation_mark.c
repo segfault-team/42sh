@@ -1,23 +1,11 @@
 #include "shell.h"
 
-
 static int	gestion_error(char *arg, char *sh_name)
 {
 	ft_printf("%s: !%s event not found\n", sh_name, arg);
 	strfree(&arg);
 	return (-1);
 }
-
-/*static int    is_valid_mark(char *line, int i)
-  {
-
-  }
-
-  // in manage_exclamation_mark
-  if (!is_valid_mark(e->line, *curr_pos))
-  return ;
-*/
-
 
 static int	manage_double_excl_mark(t_env *e, int *curr_pos)
 {
@@ -95,9 +83,9 @@ static int	manage_for_string(t_env *e, int *curr_pos)
 	return (1);
 }
 
-int 		manage_exclamation_mark(t_env *e, int *curr_pos)
+int			manage_exclamation_mark(t_env *e, int *curr_pos)
 {
-	char    nxt_c;
+	char	nxt_c;
 
 	if (!e->line[*curr_pos + 1])
 		// MANAGE '!' alone

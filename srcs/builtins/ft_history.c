@@ -8,7 +8,6 @@ void		ft_store_history(t_env *e)
 {
 	char		**tmp;
 	int			is_not_history_cmd;
-//	static char	*e->last_cmd = NULL;
 
 	tmp = NULL;
 	tmp = e->history;
@@ -84,7 +83,7 @@ int			is_option(int i, char **cmd, char *option)
 	if (!cmd[i])
 		return (0);
 	if (ft_strstr(cmd[i], option))
-			return (1);
+		return (1);
 	return (0);
 }
 

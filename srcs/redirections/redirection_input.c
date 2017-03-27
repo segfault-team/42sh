@@ -3,10 +3,12 @@
 static int	input_error(t_env *e)
 {
 	if (!e->magic[RED_INDEX].cmd)
-		return (ft_error(SH_NAME, "syntax error near unexpected token", \
-						 "'newline'"));
-	return (ft_error(SH_NAME, "syntax error near unexpected token", \
-					 e->magic[RED_INDEX].cmd));
+	{
+		return (ft_error(SH_NAME, "syntax error near unexpected token",
+					"'newline'"));
+	}
+	return (ft_error(SH_NAME, "syntax error near unexpected token",
+				e->magic[RED_INDEX].cmd));
 }
 
 static int	is_last_cmd(t_env *e, int i)
@@ -39,7 +41,6 @@ int			redir_input(t_env *e)
 		return (input_error(e));
 	if ((fd_file = open_file(e->magic[red_index].cmd, O_RDONLY, 0)) == -1)
 		return (-1);
-//	dup2(FD.fd[1], STDOUT_FILENO);
 	while ((ret = read(fd_file, &buf, 4095)))
 	{
 		buf[ret] = '\0';
