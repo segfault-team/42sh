@@ -17,56 +17,6 @@ static int	ft_start_with_bis(char *str, char *comp)
 	return (1);
 }
 
-int			ft_sort(void *one, void *two)
-{
-	const char *top;
-	const char *kek;
-
-	top = one;
-	kek = two;
-	if (ft_strcmp(top, kek) > 0)
-		return (0);
-	else
-		return (1);
-}
-
-int			ft_lstswap(t_list *one, t_list *two)
-{
-	int		tmp_content_size;
-	char	*tmp_content;
-
-	tmp_content = one->content;
-	one->content = two->content;
-	two->content = tmp_content;
-	tmp_content_size = one->content_size;
-	one->content_size = two->content_size;
-	two->content_size = tmp_content_size;
-	return (1);
-}
-
-t_list		*ft_sort_list(t_list *lst, int (*cmp)(void *, void *))
-{
-	int		modif;
-	void	*flst;
-
-	if (!cmp || !lst)
-		return (NULL);
-	flst = lst;
-	modif = 1;
-	while (modif == 1)
-	{
-		modif = 0;
-		lst = flst;
-		while (lst && lst->next)
-		{
-			if (cmp(lst->content, lst->next->content) == 0)
-				modif = ft_lstswap(lst, lst->next);
-			lst = lst->next;
-		}
-	}
-	return (flst);
-}
-
 char		*escape_spaces(char *str)
 {
 	char	*tmp;
@@ -149,7 +99,8 @@ char		**get_valid_content_from_path(t_env *e, char *curr_path, char *arg)
 	t_list			*ptr;
 
 	content = NULL;
-	sorted_files = ft_sort_list(dir_to_list(e, curr_path), ft_sort);
+	sorted_files = dir_to_list(e, curr_path);
+	merge_sort(&sorted_files);
 	ptr = sorted_files;
 	while (ptr)
 	{
