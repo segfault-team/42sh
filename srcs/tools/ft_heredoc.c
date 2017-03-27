@@ -40,13 +40,11 @@ int			ft_heredoc(t_env *e)
 	e->herestop = 1;
 	++e->hdoc_nb;
 	while (e->herestop)
-	{
 		if ((hdoc_word = get_hdoc_word(e, e->herestock)))
 		{
 			e->hdoc_words = new_tabcat(&e->hdoc_words, &hdoc_word);
 			++e->hdoc_nb;
 		}
-	}
 	if (!e->herestop)
 	{
 		NB_READ = 0;
@@ -59,4 +57,3 @@ int			ft_heredoc(t_env *e)
 	}
 	return (1);
 }
-
