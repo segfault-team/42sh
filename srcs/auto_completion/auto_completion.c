@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static char	*get_path_from_arg(char *arg)
+char	*get_path_from_arg(char *arg)
 {
 	char	*path;
 	int		i;
@@ -23,7 +23,7 @@ static char	*get_path_from_arg(char *arg)
 	return (path);
 }
 
-static char	*isolate_arg_to_complete(char *arg)
+char	*isolate_arg_to_complete(char *arg)
 {
 	int		i;
 	int		j;

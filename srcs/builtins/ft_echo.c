@@ -1,15 +1,5 @@
 #include "shell.h"
 
-static int	ft_sslen(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
 static int	ft_echo_check(char *str)
 {
 	if (*str == '-')

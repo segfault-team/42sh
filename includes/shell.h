@@ -479,5 +479,15 @@ void					complete_arg(t_env *e, char *arg);
 char					*ft_pick_color(char *perm);
 char					ft_file_type(int mode);
 char					*ft_perms(int mode);
+char					*get_path_from_arg(char *arg);
+char					*isolate_arg_to_complete(char *arg);
+int						ft_is_dir(char *target);
+int						countchar(char *str, char c);
+void					ft_add_list(t_list **first, t_list **ptr, char *str);
+int						ft_sslen(char **s);
+void					ft_put_file(t_env *e, int i, char *spaces);
+void					ft_fill_files(char **argv, t_env *e);
+int						ft_countchar(char *str, char c);
+int						calc_rows(t_env *e);
 
 #endif

@@ -37,7 +37,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	return (ret);
 }
 
-int		ft_waitsons(t_env *e)
+int				ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
 	t_job		*tmp;
@@ -61,7 +61,7 @@ int		ft_waitsons(t_env *e)
 ** trline is now useless cause tab is not inserted (tcaps directives)
 */
 
-char	**ft_trim_split_cmd(t_env *e)
+char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 	char	*trline;
@@ -72,7 +72,7 @@ char	**ft_trim_split_cmd(t_env *e)
 	return (cmds);
 }
 
-int		ft_iter_cmds(t_env *e, char *cmds_i)
+int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;
 	int		ret;
@@ -89,10 +89,11 @@ int		ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_create_file(e);
 /*	for (int j = 0 ; e->magic[j].cmd ; j++)
 	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	ft_printf("========\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
-		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);*/
-	while (e->cat[++i] && ret != -1)
+		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+*/	while (e->cat[++i] && ret != -1)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
@@ -123,7 +124,7 @@ int		ft_iter_cmds(t_env *e, char *cmds_i)
 	return (ret);
 }
 
-int		ft_parse_line(t_env *e)
+int				ft_parse_line(t_env *e)
 {
 	int		i;
 	int		ret;

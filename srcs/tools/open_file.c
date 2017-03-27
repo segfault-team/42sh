@@ -9,6 +9,6 @@ int	open_file(char *file, int flags, mode_t mode)
 	if (access(file, R_OK))
 		return (ft_error(SH_NAME, "permission denied: ", file));
 	if ((fd = open(file, flags, mode)) == -1)
-		return (ft_error(SH_NAME, "fail open file: ", file));
+		return (ft_error(SH_NAME, file, "Resource temporarily unavailable"));
 	return (fd);
 }

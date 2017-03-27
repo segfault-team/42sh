@@ -26,7 +26,7 @@ static int	autoc_tcaps_one(t_env *e)
 	return (0);
 }
 
-static int	autoc_tcaps_end(t_env *e)
+static int	autoc_tcaps_end(t_env *e, char ***content)
 {
 	valid_selection(e);
 	*content = NULL;
@@ -59,12 +59,13 @@ static int	complete_arg_tcaps(t_env *e, char ***content)
 		else if (autoc_tcaps_one(e))
 			;
 		else
-			return (autoc_tcaps_end(e));
+			return (autoc_tcaps_end(e, content));
 		print_auto_completion(e, NULL, NULL, NULL);
 	}
+	return (1);
 }
 
-static void	autoc_check_arg(t_env *e, char *arg)
+static void	autoc_check_arg(t_env *e, char *arg, char **tmp)
 {
 	if (arg)
 	{
@@ -75,7 +76,7 @@ static void	autoc_check_arg(t_env *e, char *arg)
 			ft_realloc_insert_str(e, "/");
 			NB_READ += 1;
 			NB_MOVE += 1;
-			tmp = arg;
+			*tmp = arg;
 		}
 	}
 }
@@ -87,7 +88,7 @@ void		complete_arg(t_env *e, char *arg)
 	char	*tmp;
 
 	tmp = NULL;
-	autoc_check_arg(e, arg);
+	autoc_check_arg(e, arg, &tmp);
 	path = get_path_from_arg(arg);
 	arg = isolate_arg_to_complete(arg);
 	content = get_valid_content_from_path(e, path, arg);

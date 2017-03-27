@@ -4,6 +4,7 @@
 #define DEFAULT_VALUE_OUTPUT 1
 #define MINUS -42
 #define ERROR -420
+#define DEV_DEVICE -666
 
 static int	isolate_fd(t_env *e, int red_index, int start)
 {
