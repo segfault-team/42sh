@@ -212,12 +212,6 @@ typedef struct		s_file
 	char			*color;
 }					t_file;
 
-typedef struct			s_hdoc
-{
-	char				**content;
-	struct s_hdoc		*next;
-}						t_hdoc;
-
 typedef struct			s_env
 {
 	t_fd				fd;
@@ -260,8 +254,8 @@ typedef struct			s_env
 	int					printed;
 	int					row;
 	char				*heredoc;
-	t_hdoc				*hdoc;
-	t_hdoc				*b_hdoc;
+	t_list				*hdoc;
+	t_list				*b_hdoc;
 	int					herestop;
 	char				*herestock;
 	char				**hdoc_words;

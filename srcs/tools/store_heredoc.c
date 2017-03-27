@@ -2,7 +2,7 @@
 
 int store_heredoc(t_env *e)
 {
-	t_hdoc		*new;
+	t_list		*new;
 	char		**tmp;
 	static int	same_node = -1;
 	static int	i = -1;
@@ -11,7 +11,7 @@ int store_heredoc(t_env *e)
 //		return (--e->hdoc_nb);
 	if (same_node != e->hdoc_nb)
 	{
-		new = (t_hdoc *)malloc(sizeof(*new));
+		new = (t_list *)malloc(sizeof(t_list));
 		new->content = NULL;
 		new->next = NULL;
 		if (!e->b_hdoc)
@@ -31,6 +31,7 @@ int store_heredoc(t_env *e)
 	{
 		tmp = e->hdoc->content;
 		e->hdoc->content = ft_tabcat(e->hdoc->content, e->line);
+		e->hdoc->content_size = sizeof(e->hdoc->content);
 		if (tmp)
 			ft_free_tab(tmp);
 		strfree(&e->line);
