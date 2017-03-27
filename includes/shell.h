@@ -490,5 +490,6 @@ void					ft_put_file(t_env *e, int i, char *spaces);
 void					ft_fill_files(char **argv, t_env *e);
 int						ft_countchar(char *str, char c);
 int						calc_rows(t_env *e);
+void					merge_sort(t_list **source);
 
 #endif
