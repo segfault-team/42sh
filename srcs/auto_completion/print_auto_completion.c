@@ -125,7 +125,7 @@ int		valid_selection(t_env *e)
 			ft_putstr_spec(e, "/");
 		else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
 			&& (e->files[e->selected]->color != C_DIR
-			|| e->files[e->selected]->color != C_WHT))))
+			&& e->files[e->selected]->color != C_WHT))))
 		{
 			NB_READ += 1;
 			NB_MOVE += 1;
