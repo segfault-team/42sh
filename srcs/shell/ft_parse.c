@@ -97,9 +97,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);
+		// POSSIBLE ERROR ICI POUR LES PIPES
 		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);
-		else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
+		if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
 			(!RED_INDEX && redir_check_red(e, "|")))
 		{
 			FD.fd[1] = STDOUT_FILENO;

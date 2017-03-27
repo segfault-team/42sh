@@ -22,6 +22,8 @@ void			ft_prompt(char *prompt)
 
 static void		tcaps_enter(t_env *e)
 {
+	char	*tmp;
+
 	if (!ft_multiline(e))
 		return ;
 	else if (!e->hdoc_words && !ft_heredoc(e))
@@ -29,6 +31,9 @@ static void		tcaps_enter(t_env *e)
 	if (e->hdoc_nb && store_heredoc(e))
 		return ;
 	tcaps_ctrl_end(e);
+	tmp = e->line;
+	e->line = split_command(e->line, SPLIT_DELIM);
+	strfree(&tmp);
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))
 		ft_putchar('\n');

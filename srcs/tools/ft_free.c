@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 18:29:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/26 14:43:57 by vlistrat         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 void	strfree(char **str)
@@ -19,6 +7,15 @@ void	strfree(char **str)
 		free(*str);
 		*str = NULL;
 	}
+}
+
+void	free_split_delim(t_env *e)
+{
+	int	i;
+
+	i = -1;
+	while (SPLIT_DELIM[++i])
+		strfree(&SPLIT_DELIM[i]);
 }
 
 void	ft_env_free(t_env *e)
@@ -38,6 +35,7 @@ void	ft_env_free(t_env *e)
 	if (e->hdoc_words)
 		ft_free_tab(e->hdoc_words);
 	free(e);
+	free_split_delim(e);
 }
 
 void	ft_triple_free(t_env *e)
