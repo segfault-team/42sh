@@ -18,7 +18,7 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 	}
 	i = -1;
 	j = -1;
-	if (len > 1)
+	if (len >= 1)
 		while (e->line[++i])
 			if (i != pos)
 				new[++j] = e->line[i];
