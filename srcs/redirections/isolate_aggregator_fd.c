@@ -5,6 +5,7 @@
 #define MINUS -42
 #define ERROR -420
 #define DEV_DEVICE -666
+#define ERROR_FILENUMBER -4242
 
 static int	isolate_fd(t_env *e, int red_index, int start)
 {
@@ -62,5 +63,7 @@ int			isolate_fd_destination(t_env *e)
 	else if (is_magic(e, RED_INDEX + 1) &&
 			is_only_numbers(e->magic[RED_INDEX + 1].cmd))
 		fd = isolate_fd(e, RED_INDEX + 1, 0);
+	else
+		fd = ERROR_FILENUMBER;
 	return (fd);
 }

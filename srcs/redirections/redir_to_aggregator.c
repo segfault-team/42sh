@@ -3,13 +3,16 @@
 #define ERROR		 	-1
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
+#define ERROR_FILENUMBER -4242
 
-static int	aggregator_error(int id)
+static int	aggregator_error(int id, char *sh_name)
 {
 	if (id == 1)
-		dprintf(STDERR_FILENO, "sh: bad file descriptor\n");
+		ft_printfd(STDERR_FILENO, "%s: bad file descriptor\n", sh_name);
+	else if (id == ERROR_FILENUMBER)
+		ft_printfd(STDERR_FILENO, "%s: file number expected\n", sh_name);
 	else
-		dprintf(STDERR_FILENO, "sh: redirection syntax error\n");
+		ft_printfd(STDERR_FILENO, "%s: redirection syntax error\n", sh_name);
 	return (-1);
 }
 
@@ -32,11 +35,13 @@ int			redir_to_aggregator(t_env *e)
 
 	fd_src = isolate_fd_source(e);
 	fd_dst = isolate_fd_destination(e);
-	if ((!isatty(fd_src) || !isatty(fd_dst)) && fd_dst != -42)
-		return (aggregator_error(1));
+	if (fd_dst == ERROR_FILENUMBER)
+		return (aggregator_error(ERROR_FILENUMBER, SH_NAME));
+	else if ((!isatty(fd_src) || !isatty(fd_dst)) && fd_dst != -42)
+		return (aggregator_error(1, SH_NAME));
 	ag_type = find_aggregator_type(e);
 	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
-		return (aggregator_error(42));
+		return (aggregator_error(42, SH_NAME));
 	if (ag_type == ERROR)
 		return (-1);
 	else if (fd_dst == -42)
