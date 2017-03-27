@@ -481,5 +481,9 @@ int						valid_selection(t_env *e);
 void					tcaps_manage_printable_char(t_env *e);
 int						tcaps_is_delete_key(t_env *e);
 int						cur_inquote(t_env *e);
+void					complete_arg(t_env *e, char *arg);
+char					*ft_pick_color(char *perm);
+char					ft_file_type(int mode);
+char					*ft_perms(int mode);
 
 #endif

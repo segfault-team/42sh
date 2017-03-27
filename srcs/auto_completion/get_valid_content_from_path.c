@@ -17,7 +17,7 @@ static int	ft_start_with_bis(char *str, char *comp)
 	return (1);
 }
 
-int			ft_sort(void *one, void *two)
+/*int			ft_sort(void *one, void *two)
 {
 	const char *top;
 	const char *kek;
@@ -65,35 +65,7 @@ t_list		*ft_sort_list(t_list *lst, int (*cmp)(void *, void *))
 		}
 	}
 	return (flst);
-}
-
-void		ft_add_list(t_list **first, t_list **ptr, char *str)
-{
-	if (!*first)
-	{
-		*first = ft_lstnew(str, ft_strlen(str) + 1);
-		*ptr = *first;
-	}
-	else
-	{
-		(*ptr)->next = ft_lstnew(str, ft_strlen(str) + 1);
-		*ptr = (*ptr)->next;
-	}
-}
-
-int			ft_countchar(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (*str)
-	{
-		if (*str == c)
-			++i;
-		++str;
-	}
-	return (i);
-}
+}*/
 
 char		*escape_spaces(char *str)
 {
