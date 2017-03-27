@@ -2,20 +2,8 @@
 
 static void free_hdoc_list(t_env *e)
 {
-	t_hdoc  *tmp;
-
-	tmp = NULL;
-	e->hdoc = e->b_hdoc;
-	while (e->hdoc)
-	{
-		if (e->hdoc->content)
-			ft_free_tab(e->hdoc->content);
-		e->hdoc->content = NULL;
-		tmp = e->hdoc;
-		e->hdoc = e->hdoc->next;
-		free(tmp);
-		tmp = NULL;
-	}
+	ft_lstdel(&e->hdoc, ft_bzero);
+	e->b_hdoc = NULL;
 }
 
 int		ft_reset_line(t_env *e)
