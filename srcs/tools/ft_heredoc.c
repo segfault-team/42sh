@@ -1,5 +1,16 @@
 #include "shell.h"
 
+static int	find_word_end(int i, char *str)
+{
+	int		j;
+
+	j = i + 1;
+	while (str[++j])
+		if (str[j] == ' ')
+			break ;
+	return (j);
+}
+
 static char	*get_hdoc_word(t_env *e, char *str)
 {
 	static int	i = -1;
@@ -24,10 +35,7 @@ static char	*get_hdoc_word(t_env *e, char *str)
 		return (NULL);
 	else
 		i = last_in;
-	j = last_in + 1;
-	while (str[++j])
-		if (str[j] == ' ')
-			break ;
+	j = find_word_end(last_in, str);
 	return (ft_strsub(str, (last_in + 2), (j - (last_in + 2))));
 }
 
