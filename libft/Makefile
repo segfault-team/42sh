@@ -35,7 +35,7 @@ LIBFT			= ft_strlen.c ft_strstr.c ft_strcpy.c ft_strdup.c ft_strndup.c\
 				  ft_strtrim.c ft_strxtrim.c ft_strsplit.c\
 				  ft_strsplit_quote.c ft_strsplit_quote_bs.c\
 				  ft_strsplit_wo_quote.c ft_strsplit_wo_quote_bs.c\
-				  ft_strxtrim_quote.c\
+				  ft_strxtrim_quote.c ft_quote.c\
 				  ft_free_tab.c ft_tablen.c ft_tabnew.c ft_tabdup.c ft_tabndup.c\
 				  ft_tabcpy.c ft_tabcat.c ft_tabpop.c\
 				  ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c ft_puttab.c\

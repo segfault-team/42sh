@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:44:33 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 17:56:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/28 17:28:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,7 @@ long			ft_pow(int n, int p);
 ** OTHERS
 */
 char			*ft_convert_base(unsigned int num, unsigned int base);
+char			ft_check_quote(char c, char quote);
+char			ft_check_quote_bs(char c, char quote, int bs);
 
 #endif

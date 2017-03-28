@@ -30,6 +30,15 @@ void		struct_arg_red(int i, t_env *e)
 	}
 }
 
+static int	is_valid_fd(char *cmd)
+{
+	if (ft_strequ(cmd, "0") ||
+		ft_strequ(cmd, "1") ||
+		ft_strequ(cmd, "2"))
+		return (1);
+	return (0);
+}
+
 /*
 **     REMPLIT LE TABLEAU DE STRUCTURE MAGIC ET ASSOCIE CHAQUE ELEMENTS
 **     DE LA CMD AVEC LE TYPE DE L'ELEM. EX: ls -l > test
@@ -53,7 +62,11 @@ void		magic_type(t_env *e)
 		if (already_output)
 			e->magic[i].type = ft_strdup("ignore");
 		else if (red_strstr(e->magic[i].cmd))
+		{
 			e->magic[i].type = ft_strdup("red");
+			if (i > 0 && is_valid_fd(e->magic[i - 1].cmd))
+				e->magic[i - 1].type = "fd";
+		}
 		else if (struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
 		else
