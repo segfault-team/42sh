@@ -38,7 +38,7 @@ SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 ## BUILTINS FOLDER ##
 SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
 					  ft_setenv.c ft_unsetenv.c ft_where.c ft_history_options.c \
-					  history_error.c history_tools.c
+					  history_error.c history_tools.c ft_pwd.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## AUTO COMPLETION FOLDER ##

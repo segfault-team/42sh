@@ -5,7 +5,8 @@ int		ft_is_builtin(char *cmd)
 	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "env") ||
 			!ft_strcmp(cmd, "setenv") || !ft_strcmp(cmd, "unsetenv") ||
 			!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo") ||
-			!ft_strcmp(cmd, "where") || !ft_strcmp(cmd, "history"))
+			!ft_strcmp(cmd, "where") || !ft_strcmp(cmd, "history") ||
+			!ft_strcmp(cmd, "pwd"))
 		return (1);
 	return (0);
 }
@@ -28,6 +29,8 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		ret = ft_unsetenv_blt(e, cmd);
 	else if (!ft_strcmp(cmd[0], "cd") && ++ret)
 		ret = ft_cd(e, cmd);
+	else if (!ft_strcmp(cmd[0], "pwd") && ++ret)
+		ret = ft_pwd(e, cmd);
 	else if (!ft_strcmp(cmd[0], "echo") && ++ret)
 		ret = ft_echo(cmd);
 	else if (!ft_strcmp(cmd[0], "where") && ++ret)
