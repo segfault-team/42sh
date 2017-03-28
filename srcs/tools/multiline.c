@@ -58,7 +58,7 @@ int				ft_multiline(t_env *e)
 	char	*tmp;
 	int		check;
 
-	if ((check = ft_check_line(e)) == 0)
+	if ((check = ft_check_line(e)) == 0 && !MULTI)
 	{
 		strfree(&e->prompt);
 		e->prompt = ft_strdup(STD_PROMPT);
