@@ -19,7 +19,7 @@ int		tcaps_check_key(char buf[3], int k0, int k1, int k2)
 
 int		tcaps_is_printable(char buf[3])
 {
-	if (!buf[1] && !buf[2] && (buf[0] >= 32 && buf[0] < 127))
+	if (buf[0] >= 32 && buf[0] < 127)
 		return (1);
 	return (0);
 }

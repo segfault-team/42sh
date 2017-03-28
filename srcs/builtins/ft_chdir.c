@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:33:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 21:40:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/28 16:22:45 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		ft_print_cd_opt_error(char option)
 	ft_putstr_fd("Yoloshell: cd: -", 2);
 	ft_putchar_fd(option, 2);
 	ft_putstr_fd(": invalid option\n", 2);
-	ft_putstr_fd("cd: usage: cd [-L|-P] [dir]\n", 2);
+	ft_putstr_fd("cd: usage: cd [-L|-P] [dir]", 2);
 	return (-1);
 }
 
@@ -180,7 +180,7 @@ char	*ft_processpath(char *path)
 
 	str = (char *)malloc(ft_strlen(path) + 1);
 	if (!str)
-		ft_printfd(2, "MANAGE ERROR\n");
+		ft_printfd(2, "MANAGE ERROR");
 	i = 0;
 	while (*path)
 	{

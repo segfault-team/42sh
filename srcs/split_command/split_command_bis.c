@@ -95,12 +95,12 @@ char	*cut_word_by_delim(char **str, char **delim)
 			str[0] = str[0] + ++i;
 			return (ft_strsub(dup, 0, i));
 		}
-		if (strncmp(str[0], delim[len], (int)strlen(delim[len])) == 0)
+		if (ft_strncmp(str[0], delim[len], (int)ft_strlen(delim[len])) == 0)
 		{
-			if (((str[0][strlen(delim[len])]) != delim[len][0]))
+			if (((str[0][ft_strlen(delim[len])]) != delim[len][0]))
 			{
 				str[0] = str[0] + strlen(delim[len]);
-				return (ft_strsub(delim[len], 0, strlen(delim[len])));
+				return (ft_strsub(delim[len], 0, ft_strlen(delim[len])));
 			}
 			break ;
 		}
