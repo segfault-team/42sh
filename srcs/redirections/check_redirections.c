@@ -65,12 +65,12 @@ int		is_redir_from_symbol(t_env *e, int i)
 int		is_next_redir(t_env *e, int i)
 {
 	++i;
-	while (e->magic[i].cmd && !is_redirection(e, i))
+	while (e->magic[i].cmd && !red_strstr(e->magic[i].cmd))//!is_redirection(e, i))
 		++i;
 	if (!e->magic[i].cmd)
 		return (-1);
-	if (ft_strstr(e->magic[i].cmd, ">&") != NULL ||
-		ft_strstr(e->magic[i].cmd, "<&") != NULL)
+	if (ft_strstr(e->magic[i].cmd, ">&") != NULL
+		|| ft_strstr(e->magic[i].cmd, "<&") != NULL)
 		return (AGGREGATOR);
 	else if (is_redir_pipe(e, i))
 		return (PIPE);

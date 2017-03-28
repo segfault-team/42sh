@@ -1,17 +1,12 @@
 #include "shell.h"
 
-void		del_elem_magic(int i, t_env *e)
-{
-	strfree(&e->magic[i - 1].type);
-	if (ft_strcmp("red", e->magic[i - 1].type))
-		e->magic[i - 1].type = ft_strdup("ignore");
-}
 
 void		struct_arg_red(int i, t_env *e)
 {
 	if (i > 0 && (!ft_strcmp("|", e->magic[i - 1].cmd) ||
 				!ft_strcmp(e->magic[i - 1].type, "cmd") ||
-				!ft_strcmp(e->magic[i - 1].type, "heredoc")))
+				!ft_strcmp(e->magic[i - 1].type, "heredoc")) &&
+		is_next_redir(e, i) != AGGREGATOR)
 		e->magic[i].type = ft_strdup("cmd");
 	else if (i > 0 && ft_check_input(i - 1, e))
 		e->magic[i].type = ft_strdup("input");
@@ -28,6 +23,8 @@ void		struct_arg_red(int i, t_env *e)
 		strfree(&e->magic[i - 1].cmd);
 		e->magic[i - 1].cmd = ft_strdup(">");
 	}
+	else
+		e->magic[i].type = ft_strdup("cmd");
 }
 
 static int	is_valid_fd(char *cmd)
@@ -51,28 +48,24 @@ static int	is_valid_fd(char *cmd)
 void		magic_type(t_env *e)
 {
 	int i;
-	int	already_output;
+//	int	already_output;
 
 	i = -1;
-	already_output = 0;
+//	already_output = 0;
 	while (e->magic[++i].cmd)
 	{
-		if (is_redir_from_symbol(e, i))
-			already_output = 0;
-		if (already_output)
-			e->magic[i].type = ft_strdup("ignore");
-		else if (red_strstr(e->magic[i].cmd))
-		{
+//		if (is_redir_from_symbol(e, i))
+//			already_output = 0;
+//		if (already_output)
+//			e->magic[i].type = ft_strdup("ignore");
+		if (red_strstr(e->magic[i].cmd))
 			e->magic[i].type = ft_strdup("red");
-			if (i > 0 && is_valid_fd(e->magic[i - 1].cmd))
-				e->magic[i - 1].type = ft_strdup("fd_aggregator");
-		}
 		else if (struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
 		else
 			struct_arg_red(i, e);
-		if (!ft_strcmp(e->magic[i].type, "output"))
-			already_output = 1;
+//		if (!ft_strcmp(e->magic[i].type, "output"))
+//			already_output = 1;
 	}
 	magic_realloc(e);
 }

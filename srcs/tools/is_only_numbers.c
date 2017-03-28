@@ -13,7 +13,8 @@ int	is_only_numbers(char *str)
 
 	i = -1;
 	while (str[++i])
-		if (!is_number(str[i]))
+		// POSSIBLE PROBLEME AVEC LA GESTION DES NB NEGATIFS
+		if (!is_number(str[i]) && !(!i && str[i] == '-'))
 			return (0);
 	return (1);
 }
