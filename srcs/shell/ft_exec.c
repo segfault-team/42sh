@@ -33,6 +33,8 @@ char			*ft_find_exec(char **paths, char *cmd)
 	i = -1;
 	exec = NULL;
 	path = NULL;
+	if (!cmd || !cmd[0])
+		return (NULL);
 	if ((cmd[0] == '.' || cmd[0] == '/'))
 	{
 		if (ft_isexec(cmd))
@@ -115,7 +117,7 @@ int				ft_exec(char **cmd, t_env *e)
 	exec = NULL;
 	paths = ft_find_paths(e->env);
 	exec = ft_find_exec(paths, cmd[0]);
-	if (access(exec, F_OK))
+	if (!exec || access(exec, F_OK))
 	{
 		strfree(&exec);
 		ft_free_tab(paths);
