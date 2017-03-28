@@ -87,13 +87,15 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-/*	for (int j = 0 ; e->magic[j].cmd ; j++)
+	/*
+	for (int j = 0 ; e->magic[j].cmd ; j++)
 	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
 	ft_printf("========\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-*/	while (e->cat[++i] && ret != -1)
+		*/
+	while (e->cat[++i] && ret != -1)
 	{
 		if (is_aggregator(e, RED_INDEX))
 			struct_find_red(e);

@@ -82,7 +82,7 @@ static char	**ft_find_tab(t_env *e, int *z)
 
 /*
 **	CREATE AND RETURN A 3D TAB
-**	WHO CONTAIN ALL CMDS
+**	WHICH CONTAIN ALL CMDS
 */
 
 char		***ft_cmds_split(t_env *e)

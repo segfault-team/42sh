@@ -43,8 +43,14 @@ int			red_strstr(char *str)
 
 	i = -1;
 	while (str[++i])
+	{
+		if (str[i] == '|' && str[i + 1] == '|')
+			return (0);
+		if (str[i] == '&' && str[i + 1] == '&')
+			return (0);
 		if (is_redir_sign(str[i]))
 			return (1);
+	}
 	return (0);
 }
 
