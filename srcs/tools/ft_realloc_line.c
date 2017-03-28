@@ -44,7 +44,7 @@ char	*ft_realloc_line(t_env *e, char c)
 	if (!(new = ft_strnew(len)))
 		return (NULL);
 	i = 0;
-	if (len != 1)
+	if (len > 1)
 		while (e->line[i])
 		{
 			new[i] = e->line[i];
@@ -52,5 +52,6 @@ char	*ft_realloc_line(t_env *e, char c)
 		}
 	new[i] = c;
 	strfree(&e->line);
+//	ft_printf("new: %s\n", new);
 	return (new);
 }
