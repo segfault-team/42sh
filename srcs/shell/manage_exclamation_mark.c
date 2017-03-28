@@ -8,17 +8,6 @@ static int	gestion_error(char *arg, char *sh_name)
 	return (-1);
 }
 
-/*static int    is_valid_mark(char *line, int i)
-  {
-
-  }
-
-  // in manage_exclamation_mark
-  if (!is_valid_mark(e->line, *curr_pos))
-  return ;
-*/
-
-
 static int	manage_double_excl_mark(t_env *e, int *curr_pos)
 {
 	int	i_hist;
@@ -32,14 +21,16 @@ static int	manage_double_excl_mark(t_env *e, int *curr_pos)
 
 static int	manage_for_pos_number(t_env *e, int *curr_pos)
 {
-	int	i_hist;
+	long long int	i_hist;
 	int	i;
 
 	i_hist = 0;
 	i = *curr_pos;
 	while (is_number(e->line[++i]))
 		i_hist = i_hist * 10 + (e->line[i] - '0');
-	if (!e->history || !e->history[i_hist + 1])
+	if (!e->history || (e->history && i_hist > 0
+		&& i_hist < (int)ft_tablen(e->history) && !e->history[i_hist + 1])
+		|| i_hist > 2147483647)
 		return (gestion_error(ft_itoa(i_hist), SH_NAME));
 	do_substitution(e, curr_pos, e->history[i_hist], i + 2);
 	return (1);
