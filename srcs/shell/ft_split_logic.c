@@ -39,21 +39,6 @@ void		ft_freelogic(t_logic *x)
 	}
 }
 
-void		ft_print_logic(t_logic *x)
-{
-	t_logic	*ptr;
-
-	ptr = x;
-	while (ptr)
-	{
-		ft_printf("-----\n");
-		ft_printf("op: %d\n", ptr->op);
-		ft_puttab(ptr->atom);
-		ft_printf("-----\n");
-		ptr = ptr->next;
-	}
-}
-
 int			ft_waitlogix(t_env *e)
 {
 	int		status;
@@ -117,6 +102,5 @@ t_logic		*ft_split_logic(t_logic *x, char **cmd)
 			ptr->atom = tmp;
 		}
 	}
-//	ft_print_logic(x);
 	return (x);
 }

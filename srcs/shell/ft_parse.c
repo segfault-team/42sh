@@ -71,10 +71,6 @@ char		**ft_trim_split_cmd(t_env *e)
 
 	trline = ft_strxtrim_quote(e->line, '\t');
 	cmds = ft_split_cmds(trline, ';');
-	ft_printf("line: %s\n", e->line);
-	ft_printf("----------\n");
-	ft_puttab(cmds);
-	ft_printf("----------\n");
 	ft_strdel(&trline);
 	return (cmds);
 }

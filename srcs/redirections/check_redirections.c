@@ -2,7 +2,7 @@
 
 int		is_redirection(t_env *e, int i)
 {
-	if (!ft_strcmp(e->magic[i].type, "red"))
+	if (e->magic[i].type && !ft_strcmp(e->magic[i].type, "red"))
 		return (1);
 	return (0);
 }

@@ -65,7 +65,7 @@ void		magic_type(t_env *e)
 		{
 			e->magic[i].type = ft_strdup("red");
 			if (i > 0 && is_valid_fd(e->magic[i - 1].cmd))
-				e->magic[i - 1].type = "fd";
+				e->magic[i - 1].type = ft_strdup("fd_aggregator");
 		}
 		else if (struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
