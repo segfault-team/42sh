@@ -20,14 +20,16 @@ static int	manage_double_excl_mark(t_env *e, int *curr_pos)
 
 static int	manage_for_pos_number(t_env *e, int *curr_pos)
 {
-	int	i_hist;
-	int	i;
+	long long int	i_hist;
+	int				i;
 
 	i_hist = 0;
 	i = *curr_pos;
 	while (is_number(e->line[++i]))
 		i_hist = i_hist * 10 + (e->line[i] - '0');
-	if (!e->history || !e->history[i_hist + 1])
+	if (!e->history || (e->history && i_hist > 0
+		&& i_hist < (int)ft_tablen(e->history) && !e->history[i_hist + 1])
+		|| i_hist > 2147483647)
 		return (gestion_error(ft_itoa(i_hist), SH_NAME));
 	do_substitution(e, curr_pos, e->history[i_hist], i + 2);
 	return (1);

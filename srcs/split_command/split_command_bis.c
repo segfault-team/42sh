@@ -7,15 +7,17 @@ int		ft_isquote(int c)
 
 int		ft_isprint_special(int c)
 {
-	if (c == 33)
+	if (c == '!')
 		return (1);
-	if (c >= 35 && c <= 37)
+	if (c >= '#' && c <= '%')
 		return (1);
-	if (c >= 39 && c <= 59)
+	if (c >= '\'' && c <= ';')
 		return (1);
-	if (c == 61)
+	if (c == '=')
 		return (1);
-	if (c >= 63 && c <= 64)
+	if (c >= '?' && c <= '@')
+		return (1);
+	if (c >= '{' && c <= '~')
 		return (1);
 	return (0);
 }
@@ -38,9 +40,9 @@ int		counter_argument(char *line, char **delim)
 			line++;
 		while (delim[i])
 		{
-			if (strncmp(line, delim[i], (int)strlen(delim[i])) == 0)
+			if (!ft_strncmp(line, delim[i], (int)ft_strlen(delim[i])))
 			{
-				line = line + strlen(delim[i]);
+				line = line + (int)ft_strlen(delim[i]) - 1;
 				if (*line != delim[i][0])
 					counter++;
 				break ;

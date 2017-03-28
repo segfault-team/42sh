@@ -8,14 +8,15 @@ static void	manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
-void		do_substitution(t_env *e, int *curr_pos, char *substitute, int nb_char_to_jump)
+void		do_substitution(t_env *e, int *curr_pos, char *substitute,
+							int nb_char_to_jump)
 {
 	char	*new;
 	int		i_line;
 	int		i_new;
 	int		i_sub;
 
-	new = ft_strnew((int)(ft_strlen(e->line) + ft_strlen(substitute)));
+	new = ft_strnew((int)(ft_strlen(e->line) + (int)ft_strlen(substitute)));
 	i_line = -1;
 	i_sub = -1;
 	i_new = -1;
@@ -28,8 +29,9 @@ void		do_substitution(t_env *e, int *curr_pos, char *substitute, int nb_char_to_
 				new[++i_new] = substitute[i_sub];
 				++(*curr_pos);
 			}
-			--(*curr_pos);
-			i_line += nb_char_to_jump;
+// CHEcKER ICI QUE CA NE REPERCUTE PAS TROP LA SUITE
+			++(*curr_pos);
+//			i_line += nb_char_to_jump;
 		}
 		else
 			new[++i_new] = e->line[i_line];
@@ -44,10 +46,12 @@ int 		substitution(t_env *e)
 	int		i;
 	char	quote;
 	int		ret;
+	char	*user_dir;
 
 	i = -1;
 	ret = 0;
 	quote = '\0';
+	user_dir = ft_strdup("/Users/");
 	if (e->line[0] && e->line[0] == '~')
 		return (ft_error(SH_NAME, e->home, ": is a directory"));
 	while (e->line[++i])
@@ -57,14 +61,16 @@ int 		substitution(t_env *e)
 		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
 			e->line[i - 1] != '\\')
 			manage_quote(&quote, e->line[i]);
+		else if (e->line[i] == '~' && i && e->line[i - 1] == ' ' &&
+				 e->line[i + 1] && e->line[i + 1] != ' ')
+			do_substitution(e, &i, user_dir, 0);
 		else if (e->line[i] == '~' && !quote && i && e->line[i - 1] == ' ')
 			do_substitution(e, &i, e->home, 0);
 		else if (e->line[i] == '!' && !quote)
 			ret = manage_exclamation_mark(e, &i);
 	}
+	strfree(&user_dir);
 	if (ret)
 		ft_printf("%s\n", e->line);
 	return (ret);
 }
-
-
