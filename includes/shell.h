@@ -32,6 +32,7 @@
 
 # include <sys/stat.h>
 # include <sys/types.h>
+# define PATH_MAX		2048
 # define C_RESET		"\033[39m"
 # define C_RED			"\033[31m"
 # define C_GREEN		"\033[32m"
@@ -411,7 +412,7 @@ int						ft_setenv_blt(t_env *e, char **cmd);
 int						ft_setenv(char ***env, char *name, char *value);
 int						ft_unsetenv_blt(t_env *e, char **cmd);
 int						ft_unsetenv(char ***env, char *name);
-int						ft_chdir(t_env *e, char **cmd);
+int						ft_cd(t_env *e, char **cmd);
 int						ft_echo(char **args);
 int						ft_where(t_env *e, char **cmd);
 void					ft_exit(t_env *e);

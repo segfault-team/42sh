@@ -27,7 +27,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	else if (!ft_strcmp(cmd[0], "unsetenv") && ++ret)
 		ret = ft_unsetenv_blt(e, cmd);
 	else if (!ft_strcmp(cmd[0], "cd") && ++ret)
-		ret = ft_chdir(e, cmd);
+		ret = ft_cd(e, cmd);
 	else if (!ft_strcmp(cmd[0], "echo") && ++ret)
 		ret = ft_echo(cmd);
 	else if (!ft_strcmp(cmd[0], "where") && ++ret)
