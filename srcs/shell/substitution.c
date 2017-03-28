@@ -8,6 +8,16 @@ static void	manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
+static int	is_ret_last_cmd_ret(char *line, int i)
+{
+	if (!line[i + 1])
+		return (0);
+	if (line[i] == '$' && line[i + 1] == '?' &&
+		(line[i + 2] == ' ' || !line[i + 2]))
+		return (1);
+	return (0);
+}
+
 void		do_substitution(t_env *e, int *curr_pos, char *substitute,
 							int nb_char_to_jump)
 {
@@ -30,8 +40,8 @@ void		do_substitution(t_env *e, int *curr_pos, char *substitute,
 				++(*curr_pos);
 			}
 // CHEcKER ICI QUE CA NE REPERCUTE PAS TROP LA SUITE
-			++(*curr_pos);
-//			i_line += nb_char_to_jump;
+//			++(*curr_pos);
+			i_line += nb_char_to_jump;
 		}
 		else
 			new[++i_new] = e->line[i_line];
@@ -68,6 +78,10 @@ int 		substitution(t_env *e)
 			do_substitution(e, &i, e->home, 0);
 		else if (e->line[i] == '!' && !quote)
 			ret = manage_exclamation_mark(e, &i);
+		else if (e->line[i] == '$' && e->line[i + 1] && e->line[i + 1] == '(')
+			ret = do_env_subs(e, &i);
+		else if (is_ret_last_cmd_ret(e->line, i))
+			do_substitution(e, &i, e->last_ret, 2);
 	}
 	strfree(&user_dir);
 	if (ret)

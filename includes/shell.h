@@ -216,6 +216,7 @@ typedef struct		s_file
 
 typedef struct			s_env
 {
+	char				*last_ret;
 	t_fd				fd;
 	int					x;
 	int					exit;
@@ -281,7 +282,7 @@ int						substitution(t_env *e);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 void					do_substitution(t_env *e, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
-
+int						do_env_subs(t_env *e, int *curr);
 /*
 **		Exec
 */
@@ -362,6 +363,7 @@ void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
 int						store_heredoc(t_env *e);
+void					reset_last_ret(t_env *e, int ret);
 
 /*
 **		History

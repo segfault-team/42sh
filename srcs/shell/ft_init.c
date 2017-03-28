@@ -89,6 +89,7 @@ static void		ft_init_bis(t_env *e)
 	e->hdoc = NULL;
 	e->b_hdoc = NULL;
 	init_split_delim(e);
+	e->last_ret = ft_strdup("0");;
 }
 
 char			*init_hist_file(t_env *e)
