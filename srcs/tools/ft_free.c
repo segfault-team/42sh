@@ -34,8 +34,8 @@ void	ft_env_free(t_env *e)
 		magic_free(e);
 	if (e->hdoc_words)
 		ft_free_tab(e->hdoc_words);
-	free(e);
 	free_split_delim(e);
+	free(e);
 }
 
 void	ft_triple_free(t_env *e)

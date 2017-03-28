@@ -34,7 +34,7 @@ int counter_argument(char *line, char **delim)
 
     i = 0;
     counter = 0;
-    while(*line)
+    while(line && *line)
     {
         while(*line == ' ')
             line++;
@@ -169,7 +169,7 @@ char *split_command(char *line, char **delim)
     int i;
 
     len_tab = counter_argument(line, delim);
-    formatted_array = (char **)malloc(sizeof(*formatted_array) * len_tab + 1);
+    formatted_array = (char **)malloc(sizeof(char *) * (len_tab + 1));
     i = 0;
     if (formatted_array)
     {
@@ -178,8 +178,8 @@ char *split_command(char *line, char **delim)
             formatted_array[i] = cut_word_by_delim(&line, delim);
             i++;
         }
+        formatted_array[i] = NULL;
     }
-    formatted_array[i] = NULL;
     formatted_string = make_str_from_array(formatted_array);
     erase_char_array(formatted_array);
     return (formatted_string);
