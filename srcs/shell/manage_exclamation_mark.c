@@ -43,19 +43,24 @@ static int	manage_for_pos_number(t_env *e, int *curr_pos)
 static int	manage_for_neg_number(t_env *e, int *curr_pos)
 {
 	int	i_hist;
-	int	mem;
 	int	i;
+	int	len;
 
+	len = 0;
 	i_hist = 0;
 	i = *curr_pos + 1;
 	while (is_number(e->line[++i]))
+	{
 		i_hist = i_hist * 10 + (e->line[i] - '0');
-	if (!e->history)
-		return (gestion_error(ft_itoa(i_hist), SH_NAME));
-	mem = i_hist;
-	i_hist = ft_tablen(e->history) - i_hist;
-	if (i_hist < 0 || !e->history[i_hist])
-		return (gestion_error(ft_itoa(mem), SH_NAME));
+		++len;
+	}
+	if (!e->history || i_hist < 0 || i_hist > 2147483647)
+		return (gestion_error(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
+	i_hist = (int)ft_tablen(e->history) - i_hist;
+	if (!e->history || i_hist < 0 || i_hist > 2147483647)
+		return (gestion_error(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
+	if (i_hist > (int)ft_tablen(e->history) || !e->history[i_hist + 1])
+		return (gestion_error(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
 	do_substitution(e, curr_pos, e->history[i_hist], i + 3);
 	return (1);
 }
