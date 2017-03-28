@@ -22,15 +22,20 @@ static int	manage_for_pos_number(t_env *e, int *curr_pos)
 {
 	long long int	i_hist;
 	int				i;
+	int				len;
 
 	i_hist = 0;
 	i = *curr_pos;
-	while (is_number(e->line[++i]))
+	len = 0;
+	while (e->line[++i] && is_number(e->line[i]))
+	{
+		++len;
 		i_hist = i_hist * 10 + (e->line[i] - '0');
-	if (!e->history || (e->history && i_hist > 0
-		&& i_hist < (int)ft_tablen(e->history) && !e->history[i_hist + 1])
-		|| i_hist > 2147483647)
-		return (gestion_error(ft_itoa(i_hist), SH_NAME));
+	}
+	if (!e->history || i_hist < 0
+		|| (e->history && i_hist < (int)ft_tablen(e->history)
+		&& !e->history[i_hist + 1]) || i_hist > 2147483647)
+		return (gestion_error(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
 	do_substitution(e, curr_pos, e->history[i_hist], i + 2);
 	return (1);
 }
