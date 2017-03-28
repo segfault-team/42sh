@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:33:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/28 16:22:45 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/05 21:40:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	ft_chdir_error(char *path)
 	struct stat	buf;
 
 	if (access(path, F_OK) == -1)
-		return (ft_error("cd", "No such file or directory", path));
+		return (ft_error("cd", "No such file or directory:", path));
 	lstat(path, &buf);
 	if (!S_ISDIR(buf.st_mode))
-		return (ft_error("cd", "Not a directory", path));
+		return (ft_error("cd", "Not a directory:", path));
 	if (access(path, X_OK | R_OK) == -1)
-		return (ft_error("cd", "Permission denied", path));
-	return (ft_error("cd", "Unknown error: ", path));
+		return (ft_error("cd", "Permission denied:", path));
+	return (-42);
 }
 
 void	ft_array_strdel(char **array)
@@ -72,7 +72,7 @@ char	*ft_repstr(char **argv, char *s1, char *s2, t_env *e)
 	char	*pwd;
 	char	*ptr[2];
 
-	pwd = ft_getenv(e->env, "OLDPWD");
+	pwd = ft_getenv(e->env, "PWD");
 	fraiche = ft_strnew(ft_strlen(s1) + ft_strlen(pwd) + 1);
 	ptr[0] = fraiche;
 	ptr[1] = pwd;
@@ -107,10 +107,10 @@ void	ft_remove_usless_slash(char *str)
 
 int		ft_print_cd_opt_error(char option)
 {
-	ft_putstr_fd("Yoloshell: cd: -", 2);
+	ft_putstr_fd("cd: -", 2);
 	ft_putchar_fd(option, 2);
 	ft_putstr_fd(": invalid option\n", 2);
-	ft_putstr_fd("cd: usage: cd [-L|-P] [dir]", 2);
+	ft_putstr_fd("cd: usage: cd [-L|-P] [dir]\n", 2);
 	return (-1);
 }
 
@@ -180,7 +180,7 @@ char	*ft_processpath(char *path)
 
 	str = (char *)malloc(ft_strlen(path) + 1);
 	if (!str)
-		ft_printfd(2, "MANAGE ERROR");
+		ft_printfd(2, "MANAGE ERROR\n");
 	i = 0;
 	while (*path)
 	{
@@ -203,7 +203,7 @@ char	*ft_processpath(char *path)
 	return (str);
 }
 
-char	*ft_create_path(char **paths)
+char	*ft_create_path(char **paths, int process)
 {
 	char *tmp;
 	char *tmp2;
@@ -221,9 +221,13 @@ char	*ft_create_path(char **paths)
 	else
 		tmp2 = ft_strdup(paths[1]);
 	ft_remove_usless_slash(tmp2);
-	tmp = ft_processpath(tmp2);
-	ft_strdel(&tmp2);
-	return (tmp);
+	if (process)
+	{
+		tmp = ft_processpath(tmp2);
+		ft_strdel(&tmp2);
+		tmp2 = tmp;
+	}
+	return (tmp2);
 }
 
 char	*ft_save_oldpwd(char **argv, t_env *e)
@@ -239,8 +243,8 @@ char	*ft_save_oldpwd(char **argv, t_env *e)
 int		ft_pre_chdir(char **tmp, char **a, char *dir, t_env *e)
 {
 	ft_fill_array((void **)tmp, ft_save_oldpwd(a, e),
-		dir, ft_save_oldpwd(a, e));
-	tmp[1] = ft_create_path(tmp);
+		dir, NULL);
+	tmp[1] = ft_create_path(tmp, 1);
 	return (chdir(tmp[1]));
 }
 
@@ -252,19 +256,31 @@ int		ft_chdir(char **argv, char *dir, t_env *e, int option)
 	int		retval;
 	char	*tmp[4];
 
+	cwd = NULL;
 	retval = ft_pre_chdir((char **)tmp, argv, dir, e);
-	if (option == 1)
+	if (option == 1 || retval == -1)
+	{
 		cwd = getcwd(buff, PATH_MAX);
+		if (!cwd)
+		{
+			ft_error("cd: error retrieving current directory: getcwd: "
+				, "cannot access parent directories: "
+				, "No such file or directory");
+			ft_fill_array((void **)tmp, ft_save_oldpwd(argv, e),
+					dir, ft_save_oldpwd(argv, e));
+			tmp[1] = ft_create_path(tmp, 0);
+			cwd = tmp[1];
+		}
+	}
 	else
 		cwd = tmp[1];
 	ft_fill_array((void **)args, ft_strdup("PWD"), ft_strdup(cwd), NULL);
-	if (!retval)
-		ft_setenv(&e->env, "PWD", args[1]);
-	else
+	ft_setenv(&e->env, "PWD", args[1]);
+	if (retval != -1)
 	{
 		ft_array_strdel(args);
 		ft_fill_array((void **)args, ft_strdup("OLDPWD"),
-			ft_strdup(tmp[2]), NULL);
+			ft_strdup(tmp[0]), NULL);
 		ft_setenv(&e->env, "OLDPWD", args[1]);
 	}
 	ft_array_strdel(args);
@@ -314,7 +330,7 @@ int		ft_cd_oldpwd(char **argv, t_env *e, int option)
 		ret = ft_error("cd", "no oldpwd in env", NULL);
 	else
 	{
-		ft_putendl(new[1]);
+		ft_putstr(new[1]);
 		ret = ft_cd_bis(new, e, new[1], option);
 	}
 	ft_free_tab(new);
