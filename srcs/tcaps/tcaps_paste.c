@@ -26,11 +26,16 @@ int				tcaps_paste(t_env *e, char *buf)
 		{
 			ft_putchar_fd(buf[i], 1);
 			if (i > 0)
-				e->line = ft_realloc_line(e, buf[i]);
+			{
+				if (NB_READ == NB_MOVE)
+					e->line = ft_realloc_line(e, buf[i]);
+				else
+					e->line = ft_realloc_insert_char(e, buf[i]);
+				++NB_MOVE;
+				++NB_READ;
+			}
 		}
 	}
-	NB_MOVE = ft_strlen(e->line);
-	NB_READ = NB_MOVE;
 	xputs(TGETSTR_EI);
 	tcaps_recalc_pos(e);
 	return (i);
