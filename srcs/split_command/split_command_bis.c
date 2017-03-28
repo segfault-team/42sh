@@ -19,6 +19,8 @@ int		ft_isprint_special(int c)
 		return (1);
 	if (c >= '{' && c <= '~')
 		return (1);
+	if (c >= '[' && c <= '`')
+		return (1);
 	return (0);
 }
 

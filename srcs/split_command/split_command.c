@@ -41,7 +41,7 @@ char		*make_str_from_array(char **array)
 	size_t	size;
 
 	size = get_array_size(array);
-	if (!(str = (char *)ft_memalloc(sizeof(char) * size + 1)))
+	if (!(str = (char *)ft_memalloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	copy_array_in_str(&str, array);
 	return (str);
@@ -55,7 +55,7 @@ char		*split_command(char *line, char **delim)
 	int		i;
 
 	len_tab = counter_argument(line, delim);
-	formatted_array = (char **)malloc(sizeof(*formatted_array) * len_tab + 1);
+	formatted_array = (char **)malloc(sizeof(*formatted_array) * (len_tab + 1));
 	i = 0;
 	if (formatted_array)
 	{
