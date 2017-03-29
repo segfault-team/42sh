@@ -76,7 +76,7 @@ static int		redir_file_output(t_env *e, char *ret_output)
 			if ((fd_output = open(e->magic[i + 1].cmd,
 				(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
 			{
-				ft_printfd(fd_output, "%s", ret_output);
+				ft_printfd(fd_output, "%s", ret_output ? ret_output : "");
 				ft_close(fd_output);
 			}
 			else
