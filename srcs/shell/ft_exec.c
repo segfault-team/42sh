@@ -95,8 +95,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (redirection_before_cmd(e) == -1)
 			exit(0);
-		if (is_input_in_next_cmd(e, RED_INDEX) && RED_INDEX != prev_red_index)
-			redir_input(e);
+		if ((is_input_in_next_cmd(e, RED_INDEX) || is_input_redir(e, RED_INDEX))
+					&& RED_INDEX != prev_red_index)
+			if (redir_input(e) == -1 && ft_printf("\n"))
+				exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}

@@ -87,7 +87,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
-
 	/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
@@ -99,18 +98,15 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_printf("====================\n");
 	ft_puttab(e->cmd);
 	ft_printf("====================\n");
-	ft_create_file(e);
 	ft_printf("====   CAT   ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
 */	while (e->cat[++i] && ret != -1)
 	{
-		while (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX))
+		while (is_aggregator(e, RED_INDEX)
+				|| is_output_redir(e, RED_INDEX))
 			struct_find_red(e);
-		// POSSIBLE ERROR ICI POUR LES PIPES
-//		if (is_output_redir(e, RED_INDEX))
-//			redir_fill_output(e);
 		if (!e->cat[i + 1] && redir_check_red(e, "|")
 			&& is_next_redir(e, RED_INDEX) == OUTPUT)
 			ret = redir_exec_open(i, e);
@@ -122,11 +118,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 				struct_find_red(e);
 			ret = ft_exec_cmd(e, e->cat[i]);
 		}
-		else if (!is_input_redir(e, i) && !is_input_file(e, i))
-		{
-//			ft_printfd(2, "re: %d | %s\n", redir_check_red(e, "|"), e->magic[RED_INDEX].cmd);
+		else// if (!is_input_redir(e, i) && !is_input_file(e, i))
 			ret = redir_exec_open(i, e);
-		}
 		reset_last_ret(e, ret);
 		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);

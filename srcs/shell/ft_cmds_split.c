@@ -15,13 +15,10 @@ static int	ft_nb_cmds(t_env *e)
 	while (e->magic[++i].cmd)
 	{
 		if (is_redirection(e, i) && !is_aggregator(e, i) &&
-			!is_input_redir(e, i) && !is_heredoc(e, i)/* &&
-			ft_strcmp("fd_aggregartor", e->magic[i].type)*/)
+			!is_input_redir(e, i) && !is_heredoc(e, i))
 		{
 			if (!is_output_redir(e, i) && !is_input_redir(e, i))
 				++len;
-			//	if (is_output_redir(e, i) || is_input_redir(e, i))
-			//	return (len + 1);
 		}
 	}
 	return (len + 1);
@@ -33,24 +30,9 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	static int	last_cmd = 0;
 
 	len = 0;
-/*	if (last_cmd)
-	{
-		while (e->magic[++(*z)].cmd && !is_redir_pipe(e, *z))
-		{
-			if (!is_output_redir(e, *z) && !is_input_redir(e, *z))
-				++len;
-		}
-		last_cmd = 0;
-	}
-	else
-	{*/
 	while (e->magic[++(*z)].cmd && !is_redir_pipe(e, *z))
-		if (!is_aggregator(e, *z) && !is_heredoc(e, *z) && ft_strcmp("fd_aggregator", e->magic[*z].type) && !is_output_redir(e, *z) && ft_strcmp(e->magic[*z].type, "output"))
-				++len;
-//		if (e->magic[*z].cmd && (is_output_redir(e, *z)
-		//				|| is_input_redir(e, *z)))
-//			++last_cmd;
-//	}
+		if (!ft_strcmp(e->magic[*z].type, "cmd"))
+			++len;
 	return (len);
 }
 

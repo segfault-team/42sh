@@ -35,7 +35,7 @@ int		redir_exec_open(int i, t_env *e)
 	int		ret;
 
 	ret = 0;
-	if (is_next_redir(e, RED_INDEX) != INPUT)
+//	if (is_next_redir(e, RED_INDEX) != INPUT)
 		struct_find_red(e);
 	if (pipe(FD.fd) < 0)
 		return (ft_error(SH_NAME, "Pipe failed.", NULL));
