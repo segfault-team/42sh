@@ -1,50 +1,42 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit_quote_bs.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 11:04:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/02 17:03:14 by lfabbro          ###   ########.fr       */
+/*   Created: 2017/03/29 14:53:18 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/03/29 15:04:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char const *s, char c, char qt)
 {
 	size_t	nw;
 	int		i;
 	int		bs;
-	char	quote;
 
-	i = 0;
+	i = -1;
 	nw = 0;
 	bs = 0;
-	quote = '\0';
-	while (s[i] && s[i] == c)
-		++i;
-	while (s[i])
+	while (s[++i])
 	{
-		if (!bs && s[i] == '\\' && quote != '\'')
+		if (!bs && s[i] == '\\' && qt != '\'')
 			bs = 1;
 		else
 		{
-			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
-				quote = s[i];
-			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
-				quote = '\0';
-			if (quote == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
+			qt = ft_check_quote_bs(s[i], qt, bs);
+			if (qt == '\0' && (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0')))
 			{
 				if (!bs || s[i] == '\\')
 					++nw;
 			}
-			else if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
+			else if (!qt && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
-		++i;
 	}
 	return (nw);
 }
@@ -75,8 +67,6 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
-			//		if ((quote && s[i] != quote) ||
-			//				(!quote && (s[i] != '\'' && s[i] != '\"')))
 			++len;
 			bs = 0;
 		}
