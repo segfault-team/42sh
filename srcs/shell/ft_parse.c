@@ -83,15 +83,17 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
+	if (!(e->cmd = ft_strsplit_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
 	/*
+	ft_printf("CMD:\n");
+	ft_puttab(e->cmd);
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-*/
+		*/
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	/*

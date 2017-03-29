@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 14:53:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/29 16:14:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/29 18:53:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static size_t	ft_count_words(char const *s, char c, char qt)
 
 	nw = 0;
 	bs = 0;
-	while (s)
+	while (*s)
 	{
 		if (!bs && *s == '\\' && qt != '\'')
 			bs = 1;
@@ -60,7 +60,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
-						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+						(quote == '\"')))
 				++len;
 			++len;
 			bs = 0;
@@ -90,7 +90,7 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote)
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
-						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+						(quote == '\"')))
 				cpy[j++] = '\\';
 			cpy[j++] = s[i];
 			bs = 0;
@@ -124,6 +124,8 @@ static int		ft_skip(char const *s, char c)
 		}
 		++i;
 	}
+	while (s[i] == c)
+		++i;
 	return (i);
 }
 
