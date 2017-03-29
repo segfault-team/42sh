@@ -28,7 +28,7 @@ static size_t		ft_wordlen(char const *str, char div)
 
 	wlen = 0;
 	while (str[wlen] != '\0' && str[wlen] != div)
-		++wlen;
+			++wlen;
 	return (wlen);
 }
 
@@ -62,7 +62,7 @@ t_magic				*struct_strsplit(char const *str, char div)
 	{
 		if ((wlen = ft_wordlen(&str[i], div)))
 		{
-			if ((magic[j].cmd = ft_strndup(&str[i], wlen)) == NULL)
+			if ((magic[j++].cmd = ft_strndup(&str[i], wlen)) == NULL)
 				break ;
 			i += wlen;
 			magic[++j].cmd = NULL;

@@ -87,21 +87,19 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
-	/*
-	ft_printf("====  MAGIC  ====\n");
-	for (int j = 0 ; e->magic[j].cmd ; j++)
-		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-*/
-	if ((e->cat = ft_cmds_split(e)) == NULL)
-		return (-1);
-	/*
-	ft_printf("====================\n");
+/*	ft_printf("CMD:\n");
 	ft_puttab(e->cmd);
-	ft_printf("====================\n");
-	ft_printf("====   CAT   ====\n");
+	ft_printf("====    MAGIC    ====\n");
+	for (int j = 0 ; e->magic[j].cmd ; j++)
+		ft_printfd(2, "cmd[%d]: .%s.\t|\ttype: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	ft_printf("====  END MAGIC  ====\n");
+*/	if ((e->cat = ft_cmds_split(e)) == NULL)
+		return (-1);
+/*	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
-		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+	ft_printf("====  END CAT    ====\n");
 */	while (e->cat[++i] && ret != -1)
 	{
 		while (is_aggregator(e, RED_INDEX)

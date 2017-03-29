@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 14:53:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/29 16:14:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/29 18:42:24 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static size_t	ft_count_words(char const *s, char c, char qt)
 
 	nw = 0;
 	bs = 0;
-	while (s)
+	while (*s)
 	{
 		if (!bs && *s == '\\' && qt != '\'')
 			bs = 1;
