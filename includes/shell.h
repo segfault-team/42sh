@@ -484,6 +484,7 @@ t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
 int						ft_check_input(int i, t_env *e);
 int						ft_check_output(int i, t_env *e);
 int						ft_check_heredoc(int i, t_env *e);
+void					check_magic_cmd(t_env *e);
 
 /*
 **		Auto Completion

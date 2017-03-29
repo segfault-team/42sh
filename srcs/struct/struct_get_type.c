@@ -50,6 +50,7 @@ void		magic_type(t_env *e)
 	int i;
 
 	i = -1;
+	check_magic_cmd(e);
 	while (e->magic[++i].cmd)
 	{
 		if (red_strstr(e->magic[i].cmd))

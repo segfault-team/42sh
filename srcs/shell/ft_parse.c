@@ -96,14 +96,11 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		*/
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-	/*
-	ft_printf("====================\n");
-	ft_puttab(e->cmd);
-	ft_printf("====================\n");
-	ft_printf("====   CAT   ====\n");
+/*	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
-		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+	ft_printf("====  END CAT    ====\n");
 */	while (e->cat[++i] && ret != -1)
 	{
 		while (is_aggregator(e, RED_INDEX)
