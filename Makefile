@@ -48,7 +48,7 @@ SRC_COMPLETION_NAME	= auto_completion.c get_valid_content_from_path.c \
 					  print_auto_completion.c get_valid_content_from_path_bis.c \
 					  complete_arg.c print_auto_completion_bis.c \
 					  print_auto_completion_ter.c auto_completion_tools.c \
-					  merge_sort.c
+					  merge_sort.c valid_autocomp.c
 SRC_COMPLETION		= $(addprefix auto_completion/,$(SRC_COMPLETION_NAME))
 
 ## PARSE FOLDER ##
