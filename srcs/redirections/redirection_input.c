@@ -22,6 +22,12 @@ static int	is_last_cmd(t_env *e, int i)
 	return (1);
 }
 
+static void	do_for_last_cmd(t_env *e)
+{
+	FD.in = FD.fd[0];
+	ft_close(FD.fd[1]);
+}
+
 int			redir_input(t_env *e)
 {
 	int		fd_file;
@@ -31,11 +37,8 @@ int			redir_input(t_env *e)
 
 	red_index = RED_INDEX + 1;
 	while (e->magic[red_index].cmd && !is_input_file(e, red_index))
-	{
-		if (is_redir_pipe(e, red_index))
+		if (is_redir_pipe(e, red_index++))
 			return (0);
-		++red_index;
-	}
 	ret = -1;
 	if (!e->magic[red_index].cmd || !is_input_file(e, red_index))
 		return (input_error(e));
@@ -48,14 +51,8 @@ int			redir_input(t_env *e)
 	}
 	ft_close(fd_file);
 	if (is_input_redir(e, red_index))
-	{
-		++red_index;
 		return (redir_input(e));
-	}
 	if (is_last_cmd(e, RED_INDEX))
-	{
-		FD.in = FD.fd[0];
-		close(FD.fd[1]);
-	}
+		do_for_last_cmd(e);
 	return (1);
 }

@@ -163,6 +163,13 @@ typedef struct			s_tputs
 	char				*up;
 }						t_tputs;
 
+typedef struct			s_aggre_elems
+{
+	int					nb_chevron;
+	int					nb_ampersand;
+	int					type;
+}						t_aggre_elems;
+
 typedef struct			s_magic
 {
 	char				*cmd;

@@ -4,13 +4,6 @@
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
 
-typedef struct	s_aggre_elems
-{
-	int			nb_chevron;
-	int			nb_ampersand;
-	int			type;
-}				t_aggre_elems;
-
 static int		nb_elems_is_invalid(t_aggre_elems *ag)
 {
 	int error;
