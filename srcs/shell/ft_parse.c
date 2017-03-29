@@ -70,7 +70,11 @@ char		**ft_trim_split_cmd(t_env *e)
 	char	*trline;
 
 	trline = ft_strxtrim_quote(e->line, '\t');
+	ft_printf("line: %s\n", e->line);
 	cmds = ft_split_cmds(trline, ';');
+	ft_printf("====================\n");
+	ft_puttab(cmds);
+	ft_printf("====================\n");
 	ft_strdel(&trline);
 	return (cmds);
 }
@@ -92,7 +96,11 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_create_file(e);
 /*	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
-	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+
+	ft_printf("====================\n");
+	ft_puttab(e->cmd);
+	ft_printf("====================\n");
 	ft_printf("====   CAT   ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)

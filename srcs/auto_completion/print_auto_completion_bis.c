@@ -52,7 +52,7 @@ char	*ft_perms(int mode)
 	return (bits);
 }
 
-char		*file_with_path(t_env *e, char *str)
+char	*file_with_path(t_env *e, char *str)
 {
 	int		x;
 	int		i;
@@ -73,12 +73,26 @@ char		*file_with_path(t_env *e, char *str)
 	return (tmp2);
 }
 
-void		ft_fill_files(char **argv, t_env *e)
+char	*ft_comp_and_perm(t_env *e, char *str)
+{
+	struct stat	s;
+	char		*tmp;
+	char		*fraiche;
+
+	tmp = file_with_path(e, str);
+	fraiche = NULL;
+	if (lstat(tmp, &s) == -1)
+		fraiche = ft_strdup(C_RESET);
+	if (!fraiche)
+		fraiche = ft_perms(s.st_mode);
+	ft_strdel(&tmp);
+	return (fraiche);
+}
+
+void	ft_fill_files(char **argv, t_env *e)
 {
 	int				i;
-	struct stat		s;
 	char			*tmp;
-	char			*tmp2;
 
 	i = 0;
 	while (argv[i])
@@ -91,28 +105,11 @@ void		ft_fill_files(char **argv, t_env *e)
 			e->total_len = e->total_len < e->tcaps.ws.ws_col ?
 				e->total_len : e->tcaps.ws.ws_col - 3;
 		}
-		tmp = NULL;
-		tmp2 = file_with_path(e, argv[i]);
-		if (lstat(tmp2, &s) == -1)
-			tmp = ft_strdup(C_RESET);
-		if (!tmp)
-			tmp = ft_perms(s.st_mode);
+		tmp = ft_comp_and_perm(e, argv[i]);
 		e->files[i]->color = ft_pick_color(tmp);
 		ft_strdel(&tmp);
-		ft_strdel(&tmp2);
 		i++;
 	}
 	e->c_match = i;
 	e->files[i] = NULL;
-}
-
-int		calc_rows(t_env *e)
-{
-	int x;
-	int tmp;
-
-	tmp = e->tcaps.ws.ws_col / (ft_strlen(e->prefix) + 3 + e->total_len);
-	tmp = tmp ? tmp : 1;
-	x = (e->c_match / tmp) + 1;
-	return (x);
 }
