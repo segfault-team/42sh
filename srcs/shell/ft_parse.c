@@ -70,11 +70,7 @@ char		**ft_trim_split_cmd(t_env *e)
 	char	*trline;
 
 	trline = ft_strxtrim_quote(e->line, '\t');
-	ft_printf("line: %s\n", e->line);
 	cmds = ft_split_cmds(trline, ';');
-	ft_printf("====================\n");
-	ft_puttab(cmds);
-	ft_printf("====================\n");
 	ft_strdel(&trline);
 	return (cmds);
 }
@@ -92,12 +88,14 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	magic_type(e);
 
+	/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-
+*/
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
+	/*
 	ft_printf("====================\n");
 	ft_puttab(e->cmd);
 	ft_printf("====================\n");
@@ -106,7 +104,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-	/*
 */	while (e->cat[++i] && ret != -1)
 	{
 		while (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX))
