@@ -28,10 +28,22 @@ static int		is_quote(t_env *e)
 
 static int		ft_check_line(t_env *e)
 {
-	if (!e->line)
+	char *tmp;
+
+	if (!e->line && !MULTI)
 		return (0);
+	else if (!e->line)
+		e->line = ft_strdup("\n");
 	if (is_quote(e))
+	{
+		if (ft_strcmp(e->line,"\n"))
+		{
+			tmp = e->line;
+			e->line = ft_strjoin(e->line, "\n");
+			ft_strdel(&tmp);
+		}
 		return (42);
+	}
 	return (1);
 }
 
