@@ -39,7 +39,6 @@ int		tcaps_set(void)
 	tcs.c_cc[VMIN] = 1;
 	tcs.c_cc[VTIME] = 0;
 	tcs.c_lflag &= ~(ICANON | ECHO);
-//	tcs.c_lflag &= ~(ISIG); // blocks INTR QUIT and SUSP
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &tcs) < 0)
 		return (-1);
 	return (0);
@@ -57,7 +56,6 @@ int		tcaps_reset(void)
 	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
 		return (ft_error(SH_NAME, "could not find termios structure", NULL));
 	tcs.c_lflag |= (ICANON | ECHO | ISIG);
-//	tcs.c_lflag = ~(ISIG); // blocks INTR QUIT and SUSP
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &tcs) < 0)
 		return (-1);
 	str = tgetstr("ve", NULL);
