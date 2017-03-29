@@ -17,18 +17,19 @@ static int	ft_start_with_bis(char *str, char *comp)
 	return (1);
 }
 
-char		*escape_spaces(char *str)
+char		*escape_specials(char *str)
 {
 	char	*tmp;
 	char	*ret;
 	int		k;
 
-	k = ft_countchar(str, ' ') + ft_countchar(str, '	');
+	k = ft_countchar(str, ' ') + ft_countchar(str, '	')
+	+ ft_countchar(str, '\'') + ft_countchar(str, '\"');
 	tmp = ft_strnew(strlen(str) + k);
 	ret = tmp;
 	while (*str)
 	{
-		if (*str == ' ' || *str == '	')
+		if (*str == ' ' || *str == '	' || *str == '\'' || *str == '\"')
 		{
 			*tmp = '\\';
 			tmp++;
@@ -51,17 +52,18 @@ int			cur_inquote(t_env *e)
 	pos = NB_MOVE - 1;
 	while (e->line[pos] && pos)
 	{
-		if (e->line[pos] == '\'')
+		if (e->line[pos] == '\'' && e->line[pos - 1] != '\\')
 			s_quote++;
-		else if (e->line[pos] == '\"')
+		else if (e->line[pos] == '\"' && e->line[pos - 1] != '\\')
 			d_quote++;
 		pos--;
 	}
+	pos = 0;
 	if (d_quote % 2)
-		return (1);
+		pos += 2;
 	if (s_quote % 2)
-		return (1);
-	return (0);
+		pos += 1;
+	return (pos);
 }
 
 t_list		*dir_to_list(t_env *e, char *curr_path)
@@ -78,7 +80,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
 		if (!cur_inquote(e))
-			tmp = escape_spaces(dir_entry->d_name);
+			tmp = escape_specials(dir_entry->d_name);
 		else
 			tmp = ft_strdup(dir_entry->d_name);
 		if (ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))

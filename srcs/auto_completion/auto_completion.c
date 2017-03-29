@@ -17,7 +17,7 @@ char	*get_path_from_arg(char *arg)
 	while (path[x])
 	{
 		if (path[x] == '\\')
-			ft_strncpy(&path[x], &path[x + 1], i - x);
+			ft_strncpy(&path[x], &path[x + 1], i - x - 1);
 		x++;
 	}
 	return (path);
@@ -62,23 +62,34 @@ void		*ft_free_double_array(char **array)
 char		*add_backquote(t_env *e, char *str, int i)
 {
 	int x;
+	int quote;
+	char *ret;
 
 	x = i;
-	if (cur_inquote(e))
+	quote = cur_inquote(e);
+	if (quote)
 	{
-		while (x > 0 && str[x] != ' ' && str[x] != '\'' && str[x] != '\"')
+		//ft_printf("in");
+		if (quote == 1)
+			quote = '\'';
+		else
+			quote = '\"';
+		while (x > 0 && str[x] != quote)
 			x--;
-		if (str[x] != '\'' || str[x] != '\"')
-			x++;
 	}
 	else
 	{
-		while (x > 0 && (str[x] != ' ' || str[x - 1] == '\\'))
+		//ft_printf("in2");
+		while (x > 0 && ((str[x] != ' ' && str[x] != '	' && str[x] != '\'' && str[x] != '\"') || str[x - 1] == '\\'))
 			x--;
 	}
-	if (str[x] == ' ')
+	if (str[x] == quote || str[x] == ' ')
 		x++;
-	return (ft_strsub(str, x, i - x + 1));
+	//ft_printf("\nft_strsub(%s, %d, %d - %d)\n", str,x , i , x);
+	ret = ft_strsub(str, x, i - x + 1);
+	//ft_printf("\n%s\n%s\n", e->line, ret);
+	//sleep(2);
+	return (ret);
 }
 
 int			auto_completion(t_env *e)
@@ -95,6 +106,8 @@ int			auto_completion(t_env *e)
 	else
 	{
 		arg_comp = add_backquote(e, e->line, TCAPS.nb_move - 1);
+		//ft_printf("\narg_comp == \"%s\"\n", arg_comp);
+		//sleep(2);
 		complete_arg(e, arg_comp);
 		ft_strdel(&arg_comp);
 	}
