@@ -7,13 +7,13 @@ int		ft_isquote(int c)
 
 int		ft_isprint_special(int c)
 {
-	if (c == '!')
+	if (c == '!' || c == '-' || c == ' ')
 		return (1);
 	if (c >= '#' && c <= '&')
 		return (1);
 	if (c >= '\'' && c <= ';')
 		return (1);
-	if (c == '=')
+	if (c == '=' || c == '\'' || c == '\"')
 		return (1);
 	if (c >= '?' && c <= '@')
 		return (1);
@@ -21,7 +21,7 @@ int		ft_isprint_special(int c)
 		return (1);
 	if (c >= '[' && c <= '`')
 		return (1);
-	if (c == '>')
+	if (c == '>' || c == '<' || c == '\n')
 		return (1);
 	return (0);
 }
