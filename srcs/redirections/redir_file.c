@@ -6,11 +6,11 @@ static int		struct_find_out(t_env *e)
 
 	mem_red_index = RED_INDEX;
 	while (e->magic[RED_INDEX].cmd &&
-			ft_strcmp(e->magic[RED_INDEX].type, "red"))
+			ft_strcmp(e->magic[RED_INDEX].type, "output"))
 		++RED_INDEX;
 	if (!(e->magic[RED_INDEX].cmd))
 	{
-		RED_INDEX = mem_red_index;
+	//	RED_INDEX = mem_red_index;
 		return (0);
 	}
 	return (1);
@@ -25,13 +25,13 @@ static int		nombrederedirectionsdanslacommande(t_env *e)
 	i = RED_INDEX;
 	while (e->magic[i].type)
 	{
-		if (!ft_strcmp(e->magic[i].type, "red"))
+		if (!ft_strcmp(e->magic[i].type, "output"))
 			++nb_red;
 		++i;
 	}
 	return (nb_red);
 }
-
+/*
 static int		redir_file_output(t_env *e, char *ret_output)
 {
 	int		fd_output;
@@ -53,6 +53,36 @@ static int		redir_file_output(t_env *e, char *ret_output)
 		else
 			ft_error(SH_NAME, "failed opening file",\
 					e->magic[RED_INDEX].cmd ? e->magic[RED_INDEX].cmd : NULL);
+	}
+	strfree(&ret_output);
+	return (1);
+}*/
+
+static int		redir_file_output(t_env *e, char *ret_output)
+{
+	int		fd_output;
+	int		i;
+	int		red_type;
+
+	red_type = 0;
+	i = -1;
+	fd_output = 0;
+	while (e->magic[++i].cmd)
+	{
+		if ((!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
+				&& e->magic[i + 1].cmd && !ft_strcmp(e->magic[i + 1].type, "output"))
+		{
+			red_type = ft_strcmp(e->magic[i].cmd, ">>");
+			if ((fd_output = open(e->magic[i + 1].cmd,
+				(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
+			{
+				ft_printfd(fd_output, "%s", ret_output);
+				ft_close(fd_output);
+			}
+			else
+				ft_error(SH_NAME, "failed opening file",\
+					e->magic[i].cmd ? e->magic[i].cmd : NULL);
+		}
 	}
 	strfree(&ret_output);
 	return (1);

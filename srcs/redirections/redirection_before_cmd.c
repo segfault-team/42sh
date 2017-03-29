@@ -13,6 +13,7 @@ int		redirection_before_cmd(t_env *e)
 		ret = redir_from_hdoc(e);
 	if (ret == -1)
 		return (-1);
+	ft_printfd(2, "RED_INDEX : %s\n", e->magic[RED_INDEX].cmd);
 	if (e->magic[RED_INDEX + 1].cmd && is_redirection(e, RED_INDEX + 1) &&
 		!is_input_redir(e, RED_INDEX + 1) && !is_aggregator(e, RED_INDEX + 1))
 	{

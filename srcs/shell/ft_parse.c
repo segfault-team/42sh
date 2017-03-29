@@ -90,19 +90,21 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-/*	for (int j = 0 ; e->magic[j].cmd ; j++)
+/*	ft_printf("====  MAGIC  ====\n");
+	for (int j = 0 ; e->magic[j].cmd ; j++)
 	ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-	ft_printf("========\n");
+	ft_printf("====   CAT   ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+//	struct_find_red(e);
 */	while (e->cat[++i] && ret != -1)
 	{
-		if (is_aggregator(e, RED_INDEX))
+		if (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX))
 			struct_find_red(e);
 		// POSSIBLE ERROR ICI POUR LES PIPES
-		if (is_output_redir(e, RED_INDEX))
-			redir_fill_output(e);
+//		if (is_output_redir(e, RED_INDEX))
+//			redir_fill_output(e);
 		if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
 			(!RED_INDEX && redir_check_red(e, "|")))
 		{
@@ -114,6 +116,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		else if (!is_input_redir(e, i) && !is_input_file(e, i))
 			ret = redir_exec_open(i, e);
 		reset_last_ret(e, ret);
+		if (is_output_redir(e, RED_INDEX))
+			redir_fill_output(e);
 		dup2(FD.stdin, STDIN_FILENO);
 		dup2(FD.stdout, STDOUT_FILENO);
 		dup2(FD.stderr, STDERR_FILENO);
