@@ -97,8 +97,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 		ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-//	struct_find_red(e);
-*/	while (e->cat[++i] && ret != -1)
+*/while (e->cat[++i] && ret != -1)
 	{
 		if (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX))
 			struct_find_red(e);

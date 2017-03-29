@@ -63,8 +63,6 @@ int			struct_check_cmd(int i, t_env *e)
 {
 	if (i > 0 && is_redir_pipe(e, i - 1))
 		return (1);
-	else if (i > 0 && !is_output_redir(e, i - 1))
-		return (1);
 //  else if (OPERATOR LOGIQUE) return (1);
 	else if (i == 0 && !red_strstr(e->magic[i].cmd))
 		return (1);

@@ -48,24 +48,16 @@ static int	is_valid_fd(char *cmd)
 void		magic_type(t_env *e)
 {
 	int i;
-//	int	already_output;
 
 	i = -1;
-//	already_output = 0;
 	while (e->magic[++i].cmd)
 	{
-//		if (is_redir_from_symbol(e, i))
-//			already_output = 0;
-//		if (already_output)
-//			e->magic[i].type = ft_strdup("ignore");
 		if (red_strstr(e->magic[i].cmd))
 			e->magic[i].type = ft_strdup("red");
 		else if (struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
 		else
 			struct_arg_red(i, e);
-//		if (!ft_strcmp(e->magic[i].type, "output"))
-//			already_output = 1;
 	}
 	magic_realloc(e);
 }
