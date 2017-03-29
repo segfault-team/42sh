@@ -51,7 +51,7 @@ static void		partition(t_list *head, t_list **front, t_list **back)
 	}
 }
 
-void		merge_sort(t_list **source)
+void			merge_sort(t_list **source)
 {
 	t_list	*head;
 	t_list	*a;

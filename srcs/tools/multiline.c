@@ -36,7 +36,7 @@ static int		ft_check_line(t_env *e)
 		e->line = ft_strdup("\n");
 	if (is_quote(e))
 	{
-		if (ft_strcmp(e->line,"\n"))
+		if (ft_strcmp(e->line, "\n"))
 		{
 			tmp = e->line;
 			e->line = ft_strjoin(e->line, "\n");

@@ -23,7 +23,7 @@ int			ft_echo(char **args)
 
 	cr = 1;
 	i = 1;
-	len = ft_sslen(args);
+	len = ft_tablen(args);
 	if (len > 1)
 	{
 		while (args[i] && ft_echo_check(args[i]))

@@ -35,16 +35,10 @@ void	ft_putstr_spec(t_env *e, char *str)
 	NB_MOVE = tmp;
 }
 
-void	actual_print(t_env *e)
+void	actual_print(t_env *e, int i, int moar)
 {
-	int		i;
 	char	*tmp;
-	int		moar;
 
-	i = e->start;
-	e->printed = -1;
-	moar = 0;
-	e->row = calc_rows(e);
 	tmp = ft_strnew(e->total_len + 4);
 	tmp = ft_memset(tmp, ' ', e->total_len + 2);
 	xputs(e->struct_tputs.cd);
@@ -64,6 +58,13 @@ void	actual_print(t_env *e)
 	tcaps_ctrl_home(e);
 	while (NB_MOVE < i)
 		move_right(e);
+}
+
+void	pre_print(t_env *e)
+{
+	e->printed = -1;
+	e->row = calc_rows(e);
+	actual_print(e, e->start, 0);
 	if (e->selected >= 0)
 		ft_putstr(e->files[e->selected]->name);
 	xputs(e->struct_tputs.ce);
@@ -71,7 +72,7 @@ void	actual_print(t_env *e)
 	if (e->printed < 0 && e->selected >= 0)
 	{
 		e->start = e->start + 1 < e->row ? e->start + 1 : 0;
-		actual_print(e);
+		pre_print(e);
 	}
 }
 
@@ -82,8 +83,8 @@ void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 		e->path = ft_strjoin(path, "/");
 		ft_strdel(&path);
 		e->prefix = arg;
-		e->files = (t_file **)malloc((ft_sslen(content) + 1) * sizeof(t_file*));
-		e->files[ft_sslen(content)] = NULL;
+		e->files = (t_file **)malloc((ft_tablen(content) + 1) * sizeof(t_file*));
+		e->files[ft_tablen(content)] = NULL;
 		ft_fill_files(content, e);
 		ft_free_tab(content);
 	}
@@ -92,7 +93,55 @@ void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 		e->selected = 0;
 		valid_selection(e);
 	}
-	actual_print(e);
+	pre_print(e);
+}
+
+void	reset_autocomp(t_env *e)
+{
+	int i;
+
+	i = 0;
+	while (e->files && e->files[i])
+	{
+		ft_strdel(&e->files[i]->name);
+		ft_memdel((void **)&e->files[i]);
+		i++;
+	}
+	ft_memdel((void **)&e->files);
+	ft_strdel(&e->path);
+	ft_strdel(&e->prefix);
+	e->selected = -42;
+	e->files = NULL;
+	e->path = NULL;
+	e->prefix = NULL;
+	e->total_len = 0;
+	e->start = 0;
+	e->c_match = 0;
+}
+
+void	insert_after_comp(t_env *e)
+{
+	if (e->buf[0] != 10 && e->buf[0] != 9 && e->buf[0] != '/'
+		&& (e->files[e->selected]->color == C_DIR
+		|| e->files[e->selected]->color == C_WHT))
+	{
+		NB_READ += 1;
+		NB_MOVE += 1;
+		ft_putchar('/');
+		ft_realloc_insert_str(e, "/");
+	}
+	else if (e->buf[0] == 10 && (e->files[e->selected]->color == C_DIR
+		|| e->files[e->selected]->color == C_WHT))
+		ft_putstr_spec(e, "/");
+	else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
+		&& (e->files[e->selected]->color != C_DIR
+		&& e->files[e->selected]->color != C_WHT))))
+	{
+		NB_READ += 1;
+		NB_MOVE += 1;
+		ft_putchar(' ');
+		ft_realloc_insert_str(e, " ");
+	}	
 }
 
 int		valid_selection(t_env *e)
@@ -111,48 +160,12 @@ int		valid_selection(t_env *e)
 			ft_putstr((e->files[e->selected]->name));
 		NB_READ += i;
 		NB_MOVE += i;
-		if (e->buf[0] != 10 && e->buf[0] != 9 && e->buf[0] != '/'
-			&& (e->files[e->selected]->color == C_DIR
-			|| e->files[e->selected]->color == C_WHT))
-		{
-			NB_READ += 1;
-			NB_MOVE += 1;
-			ft_putchar('/');
-			ft_realloc_insert_str(e, "/");
-		}
-		else if (e->buf[0] == 10 && (e->files[e->selected]->color == C_DIR
-			|| e->files[e->selected]->color == C_WHT))
-			ft_putstr_spec(e, "/");
-		else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
-			&& (e->files[e->selected]->color != C_DIR
-			&& e->files[e->selected]->color != C_WHT))))
-		{
-			NB_READ += 1;
-			NB_MOVE += 1;
-			ft_putchar(' ');
-			ft_realloc_insert_str(e, " ");
-		}
+		insert_after_comp(e);
 		xputs(e->struct_tputs.cd);
 		ft_putstr_spec(e, &e->line[NB_MOVE]);
 	}
 	else
 		xputs(e->struct_tputs.cd);
-	i = 0;
-	while (e->files && e->files[i])
-	{
-		ft_strdel(&e->files[i]->name);
-		ft_memdel((void **)&e->files[i]);
-		i++;
-	}
-	ft_memdel((void **)&e->files);
-	ft_strdel(&e->path);
-	ft_strdel(&e->prefix);
-	e->selected = -42;
-	e->files = NULL;
-	e->path = NULL;
-	e->prefix = NULL;
-	e->total_len = 0;
-	e->start = 0;
-	e->c_match = 0;
+	reset_autocomp(e);
 	return (ret);
 }
