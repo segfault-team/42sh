@@ -52,6 +52,5 @@ char	*ft_realloc_line(t_env *e, char c)
 		}
 	new[i] = c;
 	strfree(&e->line);
-//	ft_printf("\nnew: %s\n", new);
 	return (new);
 }

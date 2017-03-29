@@ -32,8 +32,6 @@ static int		ft_check_line(t_env *e)
 		return (0);
 	if (is_quote(e))
 		return (42);
-//	if (!ft_matchquotes(e->line))
-//		return (0);
 	return (1);
 }
 
