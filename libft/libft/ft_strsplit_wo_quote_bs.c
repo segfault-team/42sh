@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 14:51:29 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/29 14:51:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/29 15:54:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static size_t	ft_count_words(char const *s, char c, char quote)
 			if (!quote && !bs && s[i] != c &&
 					(s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
-			if (!quote && bs && s[i] == c &
+			if (!quote && bs && s[i] == c &&
 					(s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
@@ -57,7 +57,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			bs = 1;
 		else
 		{
-			quote = ft_check_quote(s[i], quote, bs);
+			quote = ft_check_quote_bs(s[i], quote, bs);
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
