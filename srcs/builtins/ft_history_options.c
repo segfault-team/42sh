@@ -1,39 +1,5 @@
 #include "shell.h"
 
-int		history_delete(t_env *e, char **cmd, int curr)
-{
-	int		i;
-	int		j;
-	char	**tmp;
-
-	i = (e->cmd[curr][2]) ? 0 : -1;
-	j = 1;
-	if (!i)
-	{
-		while (e->cmd[curr][++j])
-		{
-			if (!is_number(e->cmd[curr][j]))
-				return (history_delete_error(SH_NAME, cmd));
-			i = i * 10 + e->cmd[curr][j] - '0';
-		}
-		--i;
-	}
-	else if (!e->cmd[curr + 1])
-		return (history_delete_error(SH_NAME, cmd));
-	else
-	{
-		if (!is_only_numbers(cmd[curr + 1]) && i == -1)
-			return (history_delete_error(SH_NAME, cmd));
-		i = ft_atoi(cmd[curr + 1]) - 1;
-	}
-	if (i < 0 || !e->history[i])
-		return (history_delete_error(SH_NAME, cmd));
-	tmp = e->history;
-	e->history = delete_line_in_tab(e->history, i);
-	ft_free_tab(tmp);
-	return (1);
-}
-
 int		print_history(t_env *e, char **cmd)
 {
 	size_t	i;

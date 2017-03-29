@@ -2,7 +2,8 @@
 
 static int	is_not_valid_arg(char c)
 {
-	return (c != 'a' && c != 'c' && c != 'd' && c != 'h' && c != 'r' &&  c != 'w');
+	return (c != 'a' && c != 'c' && c != 'd' && c != 'h'
+			&& c != 'r' && c != 'w');
 }
 
 static char	*join_char(char c1, char c2)

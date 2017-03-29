@@ -11,7 +11,7 @@ SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c 
 					  redir_to_aggregator.c isolate_aggregator_fd.c \
 					  find_check_aggregator.c redirection_before_cmd.c \
 					  redirection_input.c redir_from_hdoc.c \
-					  check_redirection_part1.c check_redirection_part2.c
+					  check_redirections_part1.c check_redirections_part2.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##
@@ -37,9 +37,10 @@ SRC_TCAPS_NAME		= tcaps_init.c tcaps_paste.c tcaps.c tcaps_arrow.c \
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 
 ## BUILTINS FOLDER ##
-SRC_BUILTINS_NAME	= ft_chdir.c ft_echo.c ft_env.c ft_exit.c ft_history.c \
+SRC_BUILTINS_NAME	= ft_echo.c ft_env.c ft_exit.c ft_history.c \
 					  ft_setenv.c ft_unsetenv.c ft_where.c ft_history_options.c \
-					  history_error.c history_tools.c ft_pwd.c
+					  history_error.c history_tools.c ft_pwd.c history_delete.c \
+					  chdir_part1.c chdir_part2.c chdir_part3.c chdir_part4.c
 SRC_BUILTINS		= $(addprefix builtins/,$(SRC_BUILTINS_NAME))
 
 ## AUTO COMPLETION FOLDER ##

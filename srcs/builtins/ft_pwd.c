@@ -50,7 +50,7 @@ static int		ft_pwd_check_option(char ***argv)
 	return (opt);
 }
 
-int			ft_pwd(t_env *e, char **args)
+int				ft_pwd(t_env *e, char **args)
 {
 	char	buff[PATH_MAX];
 	int		option;

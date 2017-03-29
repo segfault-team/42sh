@@ -215,11 +215,17 @@ typedef struct			s_pid_list
 	void				*next;
 }						t_pid_list;
 
-typedef struct		s_file
+typedef struct			s_file
 {
-	char			*name;
-	char			*color;
-}					t_file;
+	char				*name;
+	char				*color;
+}						t_file;
+
+typedef struct		s_pos
+{
+	int				i;
+	int				j;
+}					t_pos;
 
 typedef struct			s_env
 {
@@ -519,5 +525,19 @@ void                    erase_char_array(char **array);
 void					copy_array_in_str(char **str, char **array);
 void					join_and_delete(char **dest, char *to_join);
 size_t					get_array_size(char **array);
+
+/*
+**		Chdir
+*/
+int						ft_pre_chdir(char **tmp, char **a, char *dir, t_env *e);
+int						ft_chdir_error(char *path);
+int						ft_cd_check_option(char ***argv);
+char					*ft_save_oldpwd(char **argv, t_env *e);
+char					*ft_create_path(char **paths, int process);
+char					*ft_repstr(char **argv, char *s1, char *s2, t_env *e);
+void					ft_fill_array(void **array, void *a1, void *a2, void *a3);
+void					ft_array_strdel(char **array);
+void					ft_remove_usless_slash(char *str);
+void					ft_replace_word(char **s1, char *s2, char **s3, int i);
 
 #endif
