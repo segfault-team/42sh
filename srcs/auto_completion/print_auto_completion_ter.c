@@ -58,16 +58,6 @@ void	ft_put_file(t_env *e, int i, char *spaces)
 	}
 }
 
-int		ft_sslen(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
 char	*ft_pick_color(char *perm)
 {
 	if (perm[0] == '-' && ft_strchr(perm, 'x'))
@@ -95,4 +85,15 @@ char	*ft_pick_color(char *perm)
 		return (C_SOCK);
 	else
 		return (C_REG);
+}
+
+int		calc_rows(t_env *e)
+{
+	int x;
+	int tmp;
+
+	tmp = e->tcaps.ws.ws_col / (ft_strlen(e->prefix) + 3 + e->total_len);
+	tmp = tmp ? tmp : 1;
+	x = (e->c_match / tmp) + 1;
+	return (x);
 }
