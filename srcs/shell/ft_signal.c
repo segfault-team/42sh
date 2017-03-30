@@ -112,7 +112,7 @@ void		ft_sig_handler(int sig)
 	{
 		e->check_sigtstp = 1;
 		tcaps_ctrl_end(e);
-		tcaps_reset();
+		tcaps_reset(NULL);
 		signal(sig, SIG_DFL);
 		raise(sig);
 	}

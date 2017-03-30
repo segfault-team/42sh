@@ -4,20 +4,24 @@
 **	Gets terminal name
 */
 
-int		tcaps_get_term_name(char **env)
+int		tcaps_get_term_name(char **env, int raw)
 {
 	char	*term;
 
 	if ((term = ft_getenv(env, "TERM")) == NULL)
 	{
-		ft_error(SH_NAME, "WARNING", "TERM environment variable is not set");
+		if (!raw)
+			ft_error(SH_NAME, "WARNING",
+					"TERM environment variable is not set");
 		term = ft_strdup("=xterm");
 	}
 	if (tgetent(NULL, "xterm") != 1)
 	{
 		free(term);
-		return (ft_error(SH_NAME, "WARNING",
-					"could not find terminfo database"));
+		if (!raw)
+			ft_error(SH_NAME, "WARNING",
+					"could not find terminfo database");
+		return (-1);
 	}
 	strfree(&term);
 	return (0);
@@ -27,14 +31,18 @@ int		tcaps_get_term_name(char **env)
 **	Sets new termios structure
 */
 
-int		tcaps_set(void)
+int		tcaps_set(t_env *e)
 {
 	struct termios	tcs;
 
+	if (!isatty(STDIN_FILENO))
+		return (-1);
 	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
 	{
-		return (ft_error(SH_NAME, "WARNING",
-					"could not find termios structure"));
+		if (e && !e->raw)
+			ft_error(SH_NAME, "WARNING",
+					"could not find termios structure");
+		return (-1);
 	}
 	tcs.c_cc[VMIN] = 1;
 	tcs.c_cc[VTIME] = 0;
@@ -48,13 +56,17 @@ int		tcaps_set(void)
 **	Resets termios structure as default
 */
 
-int		tcaps_reset(void)
+int		tcaps_reset(t_env *e)
 {
 	struct termios	tcs;
 	char			*str;
 
 	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
-		return (ft_error(SH_NAME, "could not find termios structure", NULL));
+	{
+		if (e && !e->raw)
+			ft_error(SH_NAME, "could not find termios structure", NULL);
+		return (-1);
+	}
 	tcs.c_lflag |= (ICANON | ECHO | ISIG);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &tcs) < 0)
 		return (-1);
@@ -63,8 +75,11 @@ int		tcaps_reset(void)
 	return (0);
 }
 
-void	tcaps_init(t_env *e)
+int		tcaps_init(t_env *e)
 {
+	int ret;
+
+	ret = 0;
 	e->check_sigtstp = 0;
 	NB_MOVE = 0;
 	NB_READ = 0;
@@ -72,12 +87,15 @@ void	tcaps_init(t_env *e)
 	TCAPS.hist_move = -1;
 	TCAPS.nb_line = 1;
 	TCAPS.nb_col = 0;
-	tcaps_get_term_name(e->env);
-	if (tcaps_set())
-		return ;
+	tcaps_get_term_name(e->env, e->raw);
+	if (tcaps_set(e))
+		ret = -1;
+	else
+		ft_banner();
 	init_tputs_string(e);
 	xputs(TGETSTR_AM);
 	xputs(TGETSTR_BW);
+	return (ret);
 }
 
 void	init_tputs_string(t_env *e)

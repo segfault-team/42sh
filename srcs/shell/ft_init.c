@@ -108,7 +108,7 @@ char			*init_hist_file(t_env *e)
 	return (ret);
 }
 
-void			ft_init(t_env *e, char **env)
+int				ft_init(t_env *e, char **env)
 {
 	e->history = NULL;
 	e->trunc_in_history = 0;
@@ -131,5 +131,5 @@ void			ft_init(t_env *e, char **env)
 	ft_bzero(e->buf, 3);
 	e->prompt = ft_strdup("$> ");
 	ft_set_shlvl(e);
-	tcaps_init(e);
+	return (tcaps_init(e));
 }

@@ -153,7 +153,7 @@ int				ft_parse_line(t_env *e)
 			ret = ft_iter_cmds(e, cmds[i]);
 			if (ret == -1)
 				ft_printf("\n");
-			tcaps_set();
+			tcaps_set(e);
 		}
 	}
 	ft_free_tab(cmds);
