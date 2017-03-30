@@ -22,7 +22,7 @@ int		redirection_before_cmd(t_env *e)
 		ret = redir_input(e);
 		while (e->magic[RED_INDEX].cmd && !is_redir_pipe(e, RED_INDEX) && RED_INDEX)
 			struct_find_red(e);
-		if (redir_check_red(e, "|")) 
+		if (redir_check_red(e, "|"))
 			return ((ret = dup2(FD.fd[1], STDOUT_FILENO)));
 		return (ret);
 	}

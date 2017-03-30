@@ -50,6 +50,6 @@ int			redir_to_aggregator(t_env *e)
 		dup2(fd_src, fd_dst);
 	else
 		output_aggre(e, fd_src, fd_dst);
-	struct_find_red(e);
+//	struct_find_red(e);
 	return (1);
 }
