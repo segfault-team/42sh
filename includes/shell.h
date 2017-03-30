@@ -365,6 +365,7 @@ int						ft_start_with(char *str, char *comp);
 int						open_file(char *file, int flags, mode_t mode);
 int						atoi_bis(const char *str);
 int						check_last_char(t_env *e, char c);
+int						check_prev_last_char(t_env *e, char c);
 int						ft_heredoc(t_env *e);
 char					**ft_split_cmds(char *s, char c);
 char					**new_tabcat(char ***oldtab, char **str);
@@ -377,6 +378,7 @@ void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
 int						store_heredoc(t_env *e);
 void					reset_last_ret(t_env *e, int ret);
+int						token_error(t_env *e, int id);
 
 /*
 **		History
@@ -475,7 +477,7 @@ int						is_magic(t_env *e, int i);
 int						struct_check_cmd(int i, t_env *e);
 void					magic_free(t_env *e);
 void					struct_arg_red(int i, t_env *e);
-void					magic_type(t_env *e);
+int						magic_type(t_env *e);
 void					magic_realloc(t_env *e);
 void					struct_find_red(t_env *e);
 t_magic					*struct_strsplit(char const *str, char div);
@@ -485,6 +487,7 @@ int						ft_check_input(int i, t_env *e);
 int						ft_check_output(int i, t_env *e);
 int						ft_check_heredoc(int i, t_env *e);
 void					check_magic_cmd(t_env *e);
+int						check_magic_red(t_env *e);
 
 /*
 **		Auto Completion

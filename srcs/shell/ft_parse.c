@@ -69,7 +69,12 @@ char		**ft_trim_split_cmd(t_env *e)
 	char	**cmds;
 	char	*trline;
 
-	trline = ft_strxtrim_quote(e->line, '\t');
+	if (!(trline = ft_strxtrim_quote(e->line, '\t')))
+	{
+		ft_printfd(2, "%s: syntax error near unexpected token \";;\"\n",
+				   SH_NAME);
+		return (NULL);
+	}
 	cmds = ft_split_cmds(trline, ';');
 	ft_strdel(&trline);
 	return (cmds);
@@ -86,7 +91,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if (!(e->cmd = ft_strsplit_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
-	magic_type(e);
+	if (magic_type(e) == -1)
+		return (-42);
 //	ft_printf("CMD:\n");
 //	ft_puttab(e->cmd);
 /*	ft_printf("====  MAGIC  ====\n");
@@ -151,8 +157,8 @@ int				ft_parse_line(t_env *e)
 		while (cmds[++i])
 		{
 			ret = ft_iter_cmds(e, cmds[i]);
-			if (ret == -1)
-				ft_printf("\n");
+			if (ret == -42)
+				return (ret);
 			tcaps_set();
 		}
 	}

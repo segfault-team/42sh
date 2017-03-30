@@ -34,6 +34,8 @@ static void		tcaps_enter(t_env *e)
 	tmp = e->line;
 	if (e->line)
 		e->line = split_command(e->line, SPLIT_DELIM);
+	else
+		ft_printf("BOID: %s\n",e->line);
 	strfree(&tmp);
 	ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))

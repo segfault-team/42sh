@@ -45,7 +45,7 @@ static int	is_valid_fd(char *cmd)
 **  test    -> "output"
 */
 
-void		magic_type(t_env *e)
+int		magic_type(t_env *e)
 {
 	int i;
 
@@ -61,4 +61,5 @@ void		magic_type(t_env *e)
 			struct_arg_red(i, e);
 	}
 	magic_realloc(e);
+	return (check_magic_red(e));
 }

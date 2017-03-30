@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:32:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/02/28 17:20:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/30 14:16:18 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char			*ft_strxtrim_quote_ret(char const *str, char x, int len)
 		return (NULL);
 	while (str[i])
 	{
+		if (i > 1 && str[i] == ';' && str[i - 1] == ';')
+			return (NULL);
 		quote = ft_quote(quote, str[i]);
 		if (quote != '\0' || str[i] != x)
 			trim[j++] = str[i];

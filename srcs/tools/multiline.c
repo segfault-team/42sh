@@ -39,6 +39,19 @@ static int		is_quote(t_env *e)
 	return (0);
 }
 
+static int		is_bad_line(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i] && line[i] != ' ')
+		if (line[i] == '|' ||
+			line[i] == '&' ||
+			line[i] == ';')
+			return (1);
+	return (0);
+}
+
 static int		ft_check_line(t_env *e)
 {
 	char *tmp;
@@ -47,6 +60,8 @@ static int		ft_check_line(t_env *e)
 		return (0);
 	else if (!e->line)
 		e->line = ft_strdup("\n");
+	else if (is_bad_line(e->line))
+		return (0);
 	if (is_quote(e))
 	{
 		if (ft_strcmp(e->line,"\n"))

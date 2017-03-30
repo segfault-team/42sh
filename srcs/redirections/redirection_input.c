@@ -1,6 +1,6 @@
 #include "shell.h"
-
-static int	input_error(t_env *e)
+/*
+static int	token_error(t_env *e)
 {
 	if (!e->magic[RED_INDEX].cmd)
 	{
@@ -10,7 +10,7 @@ static int	input_error(t_env *e)
 	return (ft_error(SH_NAME, "syntax error near unexpected token",
 				e->magic[RED_INDEX].cmd));
 }
-
+*/
 static int	is_last_cmd(t_env *e, int i)
 {
 	while (e->magic[i].cmd)
