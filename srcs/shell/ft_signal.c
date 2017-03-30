@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/30 19:16:35 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:32:18 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,33 +81,36 @@ void		ft_set_sig_handler(void)
 	}
 }
 
+static void	ft_sigint(t_env *e)
+{
+	e->check_ctrl_c = 1;
+	if (e->c_match)
+	{
+		e->check_ctrl_c = 0;
+		e->selected = -42;
+		print_auto_completion(e, NULL, NULL, NULL);
+		xputs(e->struct_tputs.cd);
+		valid_selection(e);
+	}
+	else if (!e->child_running)
+	{
+		tcaps_ctrl_end(e);
+		strfree(&MULTI);
+		TCAPS.hist_move = -1;
+		ft_putchar('\n');
+		strfree(&e->prompt);
+		e->prompt = ft_strdup(STD_PROMPT);
+		ft_prompt(e->prompt);
+	}
+}
+
 void		ft_sig_handler(int sig)
 {
 	t_env *e;
 
 	e = env_access(NULL);
 	if (sig == SIGINT)
-	{
-		e->check_ctrl_c = 1;
-		if (e->c_match)
-		{
-			e->check_ctrl_c = 0;
-			e->selected = -42;
-			print_auto_completion(e, NULL, NULL, NULL);
-			xputs(e->struct_tputs.cd);
-			valid_selection(e);
-		}
-		else if (!e->child_running)
-		{
-			tcaps_ctrl_end(e);
-			strfree(&MULTI);
-			TCAPS.hist_move = -1;
-			ft_putchar('\n');
-			strfree(&e->prompt);
-			e->prompt = ft_strdup(STD_PROMPT);
-			ft_prompt(e->prompt);
-		}
-	}
+		ft_sigint(e);
 	else if (sig == SIGTSTP)
 	{
 		tcaps_ctrl_end(e);

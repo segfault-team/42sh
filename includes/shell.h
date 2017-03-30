@@ -291,6 +291,10 @@ void					ft_banner(void);
 void					ft_prompt(char *prompt);
 void					ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
+t_logic					*ft_new_logic(void);
+int						ft_check_op(char *s);
+void					ft_freelogic(t_logic *x);
+int						ft_waitlogix(t_env *e);
 int						substitution(t_env *e);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
@@ -306,6 +310,7 @@ int						ft_exec_builtin(t_env *e, char **cmd);
 int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
 int						ft_exec(char **cmd, t_env *e);
+char					*ft_find_exec_readdir(char *paths, char *cmd);
 int						ft_exec_cmd(t_env *e, char **cmd);
 char					**ft_find_paths(char **env);
 char					*ft_find_exec(char **paths, char *cmd);
@@ -346,6 +351,8 @@ int						redir_from_hdoc(t_env *e);
 */
 int						ft_reset_line(t_env *e);
 int						ft_init(t_env *e, char **env);
+int						ft_set_home(t_env *e);
+void					ft_set_shlvl(t_env *e);
 
 /*
 **		Signals

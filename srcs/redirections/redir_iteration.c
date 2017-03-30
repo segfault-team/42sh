@@ -35,7 +35,7 @@ int		redir_exec_open(int i, t_env *e)
 	int		ret;
 
 	ret = 0;
-	if (!is_last_cmd(e, RED_INDEX))
+	if (!is_last_cmd(e, RED_INDEX) && )//ou si une redirection ver sfichier dedans)
 		if (pipe(FD.fd) < 0)
 			return (ft_error(SH_NAME, "Pipe failed.", NULL));
 	struct_find_red(e);
