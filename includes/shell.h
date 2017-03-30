@@ -521,20 +521,14 @@ int						calc_rows(t_env *e);
 void					merge_sort(t_list **source);
 
 /*
-**      Split Command
+**      Parse Command
 */
-int						counter_argument(char *line, char **delim);
-int						ft_isalnum_isprint_special(int c);
-int						ft_isprint_special(int c);
-int						ft_isquote(int c);
-char                    *split_command(char *line, char **delim);
-char					*make_str_from_array(char **array);
-char					*cut_word_by_delim(char **str, char **delim);
-void                    erase_char_array(char **array);
-void					copy_array_in_str(char **str, char **array);
-void					join_and_delete(char **dest, char *to_join);
-size_t					get_array_size(char **array);
-
+void    parse_command(t_env *e);
+void    check_parsing_simple(t_env *e, int *i, char c);
+void    check_parsing_double(t_env *e, int *i, char c);
+void	check_parsing_ampersand(t_env *e, int *i);
+void    insert_char(t_env *e, char c, int pos);
+void	delete_char(t_env *e, int pos);
 /*
 **		Chdir
 */
