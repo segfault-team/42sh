@@ -36,5 +36,4 @@ void	parse_command(t_env *e)
 		else if (!quote && e->line[i] == '<')
 			check_parsing_double(e, &i, e->line[i]);
 	}
-	ft_printf("\nboid: .%s.\n", e->line);
 }
