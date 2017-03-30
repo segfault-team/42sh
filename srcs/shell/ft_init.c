@@ -43,23 +43,6 @@ static void		ft_set_shlvl(t_env *e)
 		ft_setenv(&e->env, "SHLVL", "1");
 }
 
-static void		init_split_delim(t_env *e)
-{
-	SPLIT_DELIM[0] = ft_strdup("1>&2");
-	SPLIT_DELIM[1] = ft_strdup("2>&1");
-	SPLIT_DELIM[2] = ft_strdup(">&2");
-	SPLIT_DELIM[3] = ft_strdup("&&");
-	SPLIT_DELIM[4] = ft_strdup("&>");
-	SPLIT_DELIM[5] = ft_strdup("||");
-	SPLIT_DELIM[6] = ft_strdup(">&");
-	SPLIT_DELIM[7] = ft_strdup(">>");
-	SPLIT_DELIM[8] = ft_strdup("<<");
-	SPLIT_DELIM[9] = ft_strdup(">");
-	SPLIT_DELIM[10] = ft_strdup("<");
-	SPLIT_DELIM[11] = ft_strdup("|");
-	SPLIT_DELIM[12] = NULL;
-}
-
 static void		ft_init_bis(t_env *e)
 {
 	e->x = 1;
@@ -88,7 +71,6 @@ static void		ft_init_bis(t_env *e)
 	e->hdoc_nb = 0;
 	e->hdoc = NULL;
 	e->b_hdoc = NULL;
-	init_split_delim(e);
 	e->last_ret = ft_strdup("0");
 }
 

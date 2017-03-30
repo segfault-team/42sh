@@ -9,15 +9,6 @@ void	strfree(char **str)
 	}
 }
 
-void	free_split_delim(t_env *e)
-{
-	int	i;
-
-	i = -1;
-	while (SPLIT_DELIM[++i])
-		strfree(&SPLIT_DELIM[i]);
-}
-
 void	ft_env_free(t_env *e)
 {
 	strfree(&e->line);
@@ -35,7 +26,6 @@ void	ft_env_free(t_env *e)
 		magic_free(e);
 	if (e->hdoc_words)
 		ft_free_tab(e->hdoc_words);
-	free_split_delim(e);
 	free(e);
 }
 

@@ -67,7 +67,6 @@
 # define WIN_WIDTH		e->tcaps.ws.ws_col
 # define RED_INDEX		e->i_mag
 # define MULTI			e->multiline
-# define SPLIT_DELIM    e->split_delim
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -278,7 +277,6 @@ typedef struct			s_env
 	char				*herestock;
 	char				**hdoc_words;
 	int					hdoc_nb;
-    char                *split_delim[13];
     int					raw;
 }						t_env;
 
