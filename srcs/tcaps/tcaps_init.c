@@ -33,21 +33,20 @@ int		tcaps_get_term_name(char **env, int raw)
 
 int		tcaps_set(t_env *e)
 {
-	struct termios	tcs;
-
 	if (!isatty(STDIN_FILENO))
 		return (-1);
-	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
+	if (tcgetattr(STDIN_FILENO, e->new_term) < 0)
 	{
 		if (e && !e->raw)
 			ft_error(SH_NAME, "WARNING",
 					"could not find termios structure");
 		return (-1);
 	}
-	tcs.c_cc[VMIN] = 1;
-	tcs.c_cc[VTIME] = 0;
-	tcs.c_lflag &= ~(ICANON | ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &tcs) < 0)
+	ft_memcpy(e->old_term, e->new_term, sizeof(struct termios));
+	e->new_term->c_cc[VMIN] = 1;
+	e->new_term->c_cc[VTIME] = 0;
+	e->new_term->c_lflag &= ~(ICANON | ECHO);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, e->new_term) < 0)
 		return (-1);
 	return (0);
 }
@@ -58,20 +57,9 @@ int		tcaps_set(t_env *e)
 
 int		tcaps_reset(t_env *e)
 {
-	struct termios	tcs;
-	char			*str;
-
-	if (tcgetattr(STDIN_FILENO, &tcs) < 0)
-	{
-		if (e && !e->raw)
-			ft_error(SH_NAME, "could not find termios structure", NULL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, e->old_term) < 0)
 		return (-1);
-	}
-	tcs.c_lflag |= (ICANON | ECHO | ISIG);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &tcs) < 0)
-		return (-1);
-	str = tgetstr("ve", NULL);
-	tputs(str, 1, dsh_putchar);
+	xputs(TGETSTR_VE);
 	return (0);
 }
 

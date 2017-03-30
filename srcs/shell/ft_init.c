@@ -89,7 +89,7 @@ static void		ft_init_bis(t_env *e)
 	e->hdoc = NULL;
 	e->b_hdoc = NULL;
 	init_split_delim(e);
-	e->last_ret = ft_strdup("0");;
+	e->last_ret = ft_strdup("0");
 }
 
 char			*init_hist_file(t_env *e)
@@ -110,6 +110,8 @@ char			*init_hist_file(t_env *e)
 
 int				ft_init(t_env *e, char **env)
 {
+	e->new_term = (struct termios *)malloc(sizeof(struct termios));
+	e->old_term = (struct termios *)malloc(sizeof(struct termios));
 	e->history = NULL;
 	e->trunc_in_history = 0;
 	e->env = ft_tabdup(env);
