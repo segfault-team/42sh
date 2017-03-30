@@ -73,7 +73,7 @@ void		ft_set_sig_handler(void)
 	sig = 0;
 	while (++sig <= 31)
 	{
-		if (sig == SIGSTOP || sig == SIGCONT || sig == SIGSEGV || sig == SIGKILL
+		if (sig == SIGSTOP || sig == SIGSEGV || sig == SIGKILL
 				|| sig == SIGBUS || sig == SIGFPE)
 			signal(sig, SIG_DFL);
 		else
@@ -110,10 +110,16 @@ void		ft_sig_handler(int sig)
 	}
 	else if (sig == SIGTSTP)
 	{
-		e->check_sigtstp = 1;
 		tcaps_ctrl_end(e);
-		tcaps_reset(NULL);
+		tcaps_reset(e);
 		signal(sig, SIG_DFL);
 		raise(sig);
+	}
+	else if (sig == SIGCONT)
+	{
+		if (!e->raw)
+			ft_prompt(e->prompt);
+		tcsetattr(STDIN_FILENO, TCSANOW, e->new_term);
+		signal(SIGTSTP, ft_sig_handler);
 	}
 }

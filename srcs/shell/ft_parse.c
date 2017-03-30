@@ -18,7 +18,6 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 	ret = 0;
 	redirection_before_cmd(e);
 	ft_redirect(FD.in, STDIN_FILENO);
-	close(FD.fd[1]);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
@@ -37,6 +36,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
 		ret = ft_history(e, cmd, 1);
+	ft_close(FD.fd[1]);
 	return (ret);
 }
 
