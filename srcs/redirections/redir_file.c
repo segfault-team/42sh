@@ -9,10 +9,7 @@ static int		struct_find_out(t_env *e)
 			ft_strcmp(e->magic[RED_INDEX].type, "output"))
 		++RED_INDEX;
 	if (!(e->magic[RED_INDEX].cmd))
-	{
-	//	RED_INDEX = mem_red_index;
 		return (0);
-	}
 	return (1);
 }
 
@@ -31,59 +28,36 @@ static int		nombrederedirectionsdanslacommande(t_env *e)
 	}
 	return (nb_red);
 }
-/*
-static int		redir_file_output(t_env *e, char *ret_output)
-{
-	int		fd_output;
-	int		nb_red;
-	int		red_type;
 
-	red_type = 0;
-	nb_red = nombrederedirectionsdanslacommande(e);
-	fd_output = 0;
-	while (nb_red-- && struct_find_out(e))
+static void		redir_output_do(t_env *e, int fd, int i, char *out)
+{
+	int		red;
+
+	red = ft_strcmp(e->magic[i].cmd, ">>");
+	if ((fd = open(e->magic[i + 1].cmd,
+		(!red ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
 	{
-		red_type = ft_strcmp(e->magic[RED_INDEX].cmd, ">>");
-		if ((fd_output = open(e->magic[++RED_INDEX].cmd,
-			(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
-		{
-			ft_printfd(fd_output, "%s", ret_output);
-			ft_close(fd_output);
-		}
-		else
-			ft_error(SH_NAME, "failed opening file",\
-					e->magic[RED_INDEX].cmd ? e->magic[RED_INDEX].cmd : NULL);
+		ft_printfd(fd, "%s", out ? out : "");
+		ft_close(fd);
 	}
-	strfree(&ret_output);
-	return (1);
-}*/
+	else
+		ft_error(SH_NAME, "failed opening file",\
+			e->magic[i].cmd ? e->magic[i].cmd : NULL);
+}
 
 static int		redir_file_output(t_env *e, char *ret_output)
 {
 	int		fd_output;
 	int		i;
-	int		red_type;
 
-	red_type = 0;
 	i = RED_INDEX - 1;
 	fd_output = 0;
 	while (e->magic[++i].cmd && ft_strcmp(e->magic[i].cmd, "|"))
-	{
-		if ((!ft_strcmp(e->magic[i].cmd, ">") || !ft_strcmp(e->magic[i].cmd, ">>"))
-				&& e->magic[i + 1].cmd && !ft_strcmp(e->magic[i + 1].type, "output"))
-		{
-			red_type = ft_strcmp(e->magic[i].cmd, ">>");
-			if ((fd_output = open(e->magic[i + 1].cmd,
-				(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
-			{
-				ft_printfd(fd_output, "%s", ret_output ? ret_output : "");
-				ft_close(fd_output);
-			}
-			else
-				ft_error(SH_NAME, "failed opening file",\
-					e->magic[i].cmd ? e->magic[i].cmd : NULL);
-		}
-	}
+		if ((!ft_strcmp(e->magic[i].cmd, ">")
+				|| !ft_strcmp(e->magic[i].cmd, ">>"))
+				&& e->magic[i + 1].cmd &&
+				!ft_strcmp(e->magic[i + 1].type, "output"))
+			redir_output_do(e, fd_output, i, ret_output);
 	strfree(&ret_output);
 	return (1);
 }

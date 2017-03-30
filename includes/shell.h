@@ -289,11 +289,13 @@ int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
 void					ft_banner(void);
 void					ft_prompt(char *prompt);
-void					tcaps_prompt(char *prompt);
 void					ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
 int						substitution(t_env *e);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
+int						error_em(char *arg, char *sh_name);
+int						manage_double_excl_mark(t_env *e, int *curr_pos);
+int						join_line(t_env *e, int *curr_pos);
 void					do_substitution(t_env *e, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, int *curr);
@@ -301,6 +303,7 @@ int						do_env_subs(t_env *e, int *curr);
 **		Exec
 */
 int						ft_exec_builtin(t_env *e, char **cmd);
+int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
 int						ft_exec(char **cmd, t_env *e);
 int						ft_exec_cmd(t_env *e, char **cmd);
