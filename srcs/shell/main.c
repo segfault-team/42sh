@@ -1,13 +1,6 @@
 #include "shell.h"
 
-void			tcaps_prompt(char *prompt)
-{
-	tputs(GREEN, 1, dsh_putchar);
-	tputs(prompt, 1, dsh_putchar);
-	tputs(ENDC, 1, dsh_putchar);
-}
-
-void			ft_prompt(char *prompt)
+void		ft_prompt(char *prompt)
 {
 	ft_putstr(GREEN);
 	ft_putstr(prompt);
@@ -19,7 +12,7 @@ void			ft_prompt(char *prompt)
 **	WITH PRINTABLE CHAR
 */
 
-static void		tcaps_del_prompt(t_env *e)
+static void	tcaps_del_prompt(t_env *e)
 {
 	int		len;
 
@@ -29,6 +22,33 @@ static void		tcaps_del_prompt(t_env *e)
 		xputs(TGETSTR_LE);
 		xputs(TGETSTR_CE);
 	}
+}
+
+static void	midline_insert(t_env *e, int s_move, int len)
+{
+	e->line = ft_realloc_insert_char(e, BUF[0]);
+	xputs(TGETSTR_DM);
+	while (--len > 0)
+	{
+		xputs(TGETSTR_LE);
+		xputs(TGETSTR_CE);
+	}
+	if (!e->raw)
+	{
+		tcaps_del_prompt(e);
+		ft_prompt(e->prompt);
+		s_move += ft_putstr(e->line);
+	}
+	while (s_move-- > NB_MOVE)
+		xputs(TGETSTR_LE);
+	tcaps_recalc_pos(e);
+	if (TCAPS.nb_col == (WIN_WIDTH - 1))
+	{
+		xputs(TGETSTR_DW);
+		xputs(TGETSTR_CR);
+	}
+	else
+		xputs(TGETSTR_ND);
 }
 
 void		tcaps_manage_printable_char(t_env *e)
@@ -41,53 +61,24 @@ void		tcaps_manage_printable_char(t_env *e)
 	if (NB_MOVE == NB_READ)
 		e->line = ft_realloc_line(e, BUF[0]);
 	else
-	{
-		e->line = ft_realloc_insert_char(e, BUF[0]);
-		xputs(TGETSTR_DM);
-		while (--len > 0)
-		{
-			xputs(TGETSTR_LE);
-			xputs(TGETSTR_CE);
-		}
-		if (!e->raw)
-		{
-			tcaps_del_prompt(e);
-			tcaps_prompt(e->prompt);
-			s_move += ft_putstr(e->line);
-		}
-		while (s_move-- > NB_MOVE)
-			xputs(TGETSTR_LE);
-		tcaps_recalc_pos(e);
-		if (TCAPS.nb_col == (WIN_WIDTH - 1))
-		{
-			xputs(TGETSTR_DW);
-			xputs(TGETSTR_CR);
-		}
-		else
-			xputs(TGETSTR_ND);
-	}
+		midline_insert(e, s_move, len);
 	++NB_MOVE;
 	++NB_READ;
-}
-
-int		tcaps_is_delete_key(t_env *e)
-{
-	if (e->line && e->buf[0] == 127 && NB_MOVE > 0)
-		return (1);
-	return (0);
 }
 
 /*
 ** for now we handle ctrl-z, later on we will get rid of that
 */
 
-int				main(int UNUSED(ac), char **UNUSED(av), char **env)
+int			main(int ac, char **av, char **env)
 {
 	t_env	*e;
 	int		ret;
 
 	e = (t_env *)malloc(sizeof(t_env));
 	env_access(e);
+	(void)ac;
+	(void)av;
 	e->raw = ft_init(e, env);
 	ft_set_sig_handler();
 	if (!e->raw)

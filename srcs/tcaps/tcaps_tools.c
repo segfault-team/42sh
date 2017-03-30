@@ -23,3 +23,10 @@ void	move_right(t_env *e)
 	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
 }
+
+int		tcaps_is_delete_key(t_env *e)
+{
+	if (e->line && e->buf[0] == 127 && NB_MOVE > 0)
+		return (1);
+	return (0);
+}

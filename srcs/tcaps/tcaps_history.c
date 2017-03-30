@@ -17,7 +17,7 @@ void			clear_cmd(t_env *e)
 	xputs(TGETSTR_DL);
 	xputs(TGETSTR_CE);
 	xputs(TGETSTR_ED);
-	tcaps_prompt(e->prompt);
+	ft_prompt(e->prompt);
 }
 
 static void		print_new_cmd_from_history(t_env *e)

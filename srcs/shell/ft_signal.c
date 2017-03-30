@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/27 12:07:26 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:16:35 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		ft_sig_handler(int sig)
 			ft_putchar('\n');
 			strfree(&e->prompt);
 			e->prompt = ft_strdup(STD_PROMPT);
-			tcaps_prompt(e->prompt);
+			ft_prompt(e->prompt);
 		}
 	}
 	else if (sig == SIGTSTP)

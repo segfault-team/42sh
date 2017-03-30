@@ -28,7 +28,7 @@ int		tcaps_rewrite_line(t_env *e, char *str)
 	xputs(TGETSTR_DL);
 	xputs(TGETSTR_CE);
 	xputs(TGETSTR_ED);
-	tcaps_prompt(e->prompt);
+	ft_prompt(e->prompt);
 	tputs(str, 1, dsh_putchar);
 	xputs(TGETSTR_RC);
 	return (0);

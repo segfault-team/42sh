@@ -39,8 +39,6 @@ void		do_substitution(t_env *e, int *curr_pos, char *substitute,
 				new[++i_new] = substitute[i_sub];
 				++(*curr_pos);
 			}
-// CHEcKER ICI QUE CA NE REPERCUTE PAS TROP LA SUITE
-//			++(*curr_pos);
 			i_line += nb_char_to_jump;
 		}
 		else
@@ -51,7 +49,7 @@ void		do_substitution(t_env *e, int *curr_pos, char *substitute,
 	e->line = new;
 }
 
-int 		substitution(t_env *e)
+int			substitution(t_env *e)
 {
 	int		i;
 	char	quote;
@@ -71,8 +69,8 @@ int 		substitution(t_env *e)
 		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
 			e->line[i - 1] != '\\')
 			manage_quote(&quote, e->line[i]);
-		else if (e->line[i] == '~' && i && e->line[i - 1] == ' ' &&
-				 e->line[i + 1] && e->line[i + 1] != ' ')
+		else if (e->line[i] == '~' && i && e->line[i - 1] == ' '
+				&& e->line[i + 1] && e->line[i + 1] != ' ')
 			do_substitution(e, &i, user_dir, 0);
 		else if (e->line[i] == '~' && !quote && i && e->line[i - 1] == ' ')
 			do_substitution(e, &i, e->home, 0);
