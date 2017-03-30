@@ -78,8 +78,13 @@ void			read_input(t_env *e)
 		raw_read(e, &BUF[2]);
 	if (BUF[1] >= '0' && BUF[1] <= '9')
 	{
-		count = BUF[1] - '0';
-		raw_read(e, &c);
+		count = 0;
+		c = BUF[1];
+		while (c >= '0' && c <= '9' && count < 3000)
+		{
+			count = 10 * count + (c - '0');
+			raw_read(e, &c);
+		}
 		while (count--)
 		{
 			BUF[0] = c;
