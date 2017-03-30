@@ -129,7 +129,7 @@ int				ft_init(t_env *e, char **env)
 	MULTI = NULL;
 	ft_init_bis(e);
 	ft_bzero(e->buf, 3);
-	e->prompt = ft_strdup("$> ");
+	e->prompt = ft_strdup(STD_PROMPT);
 	ft_set_shlvl(e);
 	return (tcaps_init(e));
 }
