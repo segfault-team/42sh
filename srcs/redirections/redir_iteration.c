@@ -35,8 +35,9 @@ int		redir_exec_open(int i, t_env *e)
 	int		ret;
 
 	ret = 0;
-	if (pipe(FD.fd) < 0)
-		return (ft_error(SH_NAME, "Pipe failed.", NULL));
+	if (!is_last_cmd(e, RED_INDEX))
+		if (pipe(FD.fd) < 0)
+			return (ft_error(SH_NAME, "Pipe failed.", NULL));
 	struct_find_red(e);
 	ret = ft_exec_cmd(e, e->cat[i]);
 	FD.in = FD.fd[0];
