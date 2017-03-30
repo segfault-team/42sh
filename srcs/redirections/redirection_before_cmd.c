@@ -4,6 +4,7 @@ int		redirection_before_cmd(t_env *e)
 {
 	int	ret;
 	int	nxt_redir;
+	int	mem;
 
 	ret = 0;
 //	ft_printfd(2, "TEST : %s\n", e->magic[RED_INDEX].cmd);
@@ -11,8 +12,11 @@ int		redirection_before_cmd(t_env *e)
 		ret = redir_to_aggregator(e);
 	else if (redir_check_red(e, "|") || is_output_redir(e, RED_INDEX))
 	{
+//		mem = RED_INDEX;
 		while (e->magic[RED_INDEX].cmd && !is_redir_pipe(e, RED_INDEX) && RED_INDEX)
 			struct_find_red(e);
+//		if (!RED_INDEX)
+//			RED_INDEX = mem;
 		return ((ret = dup2(FD.fd[1], STDOUT_FILENO)));
 	}
 	else if (is_heredoc(e, RED_INDEX))

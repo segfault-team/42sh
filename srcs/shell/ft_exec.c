@@ -103,6 +103,11 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		execve(exec, &cmd[0], e->env);
 	}
 	prev_red_index = RED_INDEX;
+	// POSSIBLE ERREUR ICI :
+	// DH4RM4 add it for this cmd:
+	// sort << test >&- > test1
+	while (is_aggregator(e, RED_INDEX) || is_heredoc(e, RED_INDEX))
+		struct_find_red(e);
 	if ((son = ft_new_job(e->jobs, pid)) == NULL)
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
