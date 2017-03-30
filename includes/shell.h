@@ -232,6 +232,8 @@ typedef struct			s_env
 	char				*last_ret;
 	t_fd				fd;
 	int					x;
+	struct termios		*new_term;
+	struct termios		*old_term;
 	int					exit;
 	char				**env;
 	char				*prompt;
