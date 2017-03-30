@@ -19,7 +19,9 @@ static void	manage_src_fd(t_env *e, int *i)
 	k = *i - 1;
 	while (e->line[--k] && e->line[k] == ' ')
 		;
-	if (e->line[k] && is_number(e->line[k]))
+	while (k && is_number(e->line[k]))
+		--k;
+	if (k && e->line[k] && e->line[k] == ' ')
 		delete_char(e, --(*i) - 1);
 }
 
