@@ -15,37 +15,6 @@ void			ft_prompt(char *prompt)
 }
 
 /*
-**	INSTRUCTIONS FOR ENTER KEY
-**	tcaps_ctrl_end moves the cursor to the eol,
-**	this avoid writing over multi lines
-*/
-
-static void		tcaps_enter(t_env *e)
-{
-	char	*tmp;
-
-	if (!ft_multiline(e))
-		return ;
-	else if (!e->hdoc_words && !ft_heredoc(e))
-		return ;
-	if (e->hdoc_nb && store_heredoc(e))
-		return ;
-	tcaps_ctrl_end(e);
-	tmp = e->line;
-	if (e->line)
-		e->line = split_command(e->line, SPLIT_DELIM);
-	else
-		ft_printf("BOID: %s\n",e->line);
-	strfree(&tmp);
-	ft_putchar('\n');
-	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))
-		ft_putchar('\n');
-	if (e->x)
-		tcaps_prompt(e->prompt);
-	ft_reset_line(e);
-}
-
-/*
 **	INSTRUCTION FOR ALL KEY
 **	WITH PRINTABLE CHAR
 */
@@ -80,9 +49,12 @@ void		tcaps_manage_printable_char(t_env *e)
 			xputs(TGETSTR_LE);
 			xputs(TGETSTR_CE);
 		}
-		tcaps_del_prompt(e);
-		tcaps_prompt(e->prompt);
-		s_move += ft_putstr(e->line);
+		if (!e->raw)
+		{
+			tcaps_del_prompt(e);
+			tcaps_prompt(e->prompt);
+			s_move += ft_putstr(e->line);
+		}
 		while (s_move-- > NB_MOVE)
 			xputs(TGETSTR_LE);
 		tcaps_recalc_pos(e);
@@ -105,30 +77,6 @@ int		tcaps_is_delete_key(t_env *e)
 	return (0);
 }
 
-int		reading(t_env *e)
-{
-	if (e->check_ctrl_c)
-		ft_reset_line(e);
-	if (e->check_sigtstp)
-		tcaps_init(e);
-	tcaps_recalc_pos(e);
-	if (!TCAPS.check_move)
-		NB_MOVE = NB_READ;
-	if (tcaps_is_printable(BUF))
-		tcaps_manage_printable_char(e);
-	else if (tcaps_is_delete_key(e))
-		e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
-	if (tcaps_check_key(BUF, 10, 0, 0))
-		tcaps_enter(e);
-	else
-		tcaps(e);
-	ft_bzero(&BUF, 3);
-	RED_INDEX = 0;
-	if (NB_MOVE < NB_READ)
-		TCAPS.check_move = 1;
-	return (0);
-}
-
 /*
 ** for now we handle ctrl-z, later on we will get rid of that
 */
@@ -140,18 +88,19 @@ int				main(int UNUSED(ac), char **UNUSED(av), char **env)
 
 	e = (t_env *)malloc(sizeof(t_env));
 	env_access(e);
-	ft_init(e, env);
-	ft_banner();
+	e->raw = ft_init(e, env);
 	ft_set_sig_handler();
-	ft_prompt(e->prompt);
+	if (!e->raw)
+		ft_prompt(e->prompt);
 	while (e->x)
 	{
-		read(0, BUF, 3);
+		read_input(e);
 		reading(e);
 	}
 	ft_write_history(e, O_TRUNC);
 	ret = e->exit;
 	ft_env_free(e);
-	ft_putendl("exit");
+	if (!e->raw)
+		ft_putendl("exit");
 	return (ret);
 }

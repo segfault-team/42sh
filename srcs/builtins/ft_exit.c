@@ -7,6 +7,6 @@ void		ft_exit(t_env *e)
 	else
 		e->exit = 0;
 	e->x = 0;
-	if (tcaps_reset())
+	if (tcaps_reset(e) && !e->raw)
 		ft_error(SH_NAME, "cannot reset termios structure", NULL);
 }

@@ -2,7 +2,8 @@
 
 static void	free_hdoc_list(t_env *e)
 {
-	ft_lstdel(&e->hdoc, ft_bzero);
+	if (e->hdoc)
+		ft_lstdel(&e->hdoc, ft_bzero);
 	e->b_hdoc = NULL;
 }
 

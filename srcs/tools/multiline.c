@@ -87,7 +87,8 @@ static int		manage_multi(t_env *e, char *tmp, int check)
 	strfree(&e->line);
 	NB_READ = 0;
 	NB_MOVE = 0;
-	ft_printf("\n%s", e->prompt);
+	ft_putchar('\n');
+	ft_prompt(e->prompt);
 	return (0);
 }
 
@@ -98,8 +99,8 @@ int				ft_multiline(t_env *e)
 
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 	{
-		strfree(&e->prompt);
-		e->prompt = ft_strdup(STD_PROMPT);
+//		strfree(&e->prompt);
+//		e->prompt = ft_strdup(STD_PROMPT);
 		return (1);
 	}
 	if ((e->line && NB_READ >= 2

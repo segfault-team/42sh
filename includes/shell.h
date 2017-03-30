@@ -277,6 +277,7 @@ typedef struct			s_env
 	char				**hdoc_words;
 	int					hdoc_nb;
     char                *split_delim[13];
+    int					raw;
 }						t_env;
 
 /*
@@ -341,7 +342,7 @@ int						redir_from_hdoc(t_env *e);
 **		Init - Reset
 */
 int						ft_reset_line(t_env *e);
-void					ft_init(t_env *e, char **env);
+int						ft_init(t_env *e, char **env);
 
 /*
 **		Signals
@@ -439,13 +440,14 @@ void					ft_exit(t_env *e);
 **		Termcaps
 */
 int						reading(t_env *e);
+void					read_input(t_env *e);
 int						is_paste(char *buf);
 int						tcaps_paste(t_env *e, char *buf);
 int						dsh_putchar(int c);
 int						tcaps_putstr(t_env *e, char *str);
 int						is_more_than_a_line(t_env *e);
-int						tcaps_set(void);
-int						tcaps_reset(void);
+int						tcaps_set(t_env *e);
+int						tcaps_reset(t_env *e);
 int						tcaps(t_env *e);
 int						tcaps_check_key(char buf[3], int a, int b, int c);
 int						tcaps_is_printable(char buf[3]);
@@ -466,7 +468,7 @@ void					tcaps_cut_paste(t_env *e);
 void					clear_cmd(t_env *e);
 void					tcaps_ctrl_d(t_env *e);
 void					init_tputs_string(t_env *e);
-void					tcaps_init(t_env *e);
+int						tcaps_init(t_env *e);
 void					tcaps_history_first_step(t_env *e);
 
 /*

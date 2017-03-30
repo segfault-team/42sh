@@ -7,7 +7,8 @@ int		dsh_putchar(int c)
 
 void	xputs(char *tcaps)
 {
-	ft_putstr(tcaps);
+	if (tcaps)
+		ft_putstr(tcaps);
 }
 
 void	move_right(t_env *e)

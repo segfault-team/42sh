@@ -150,7 +150,7 @@ int				ft_exec_cmd(t_env *e, char **cmd)
 	ret = 0;
 	stat = 0;
 	e->cmd_len = ft_tablen(cmd);
-	tcaps_reset();
+	tcaps_reset(e);
 	if (e->cmd_len)
 	{
 		e->logix = ft_split_logic(e->logix, cmd);

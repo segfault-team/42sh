@@ -41,7 +41,10 @@ static int	replace_line(t_env *e, int *same_node, int *i)
 		e->hdoc = e->b_hdoc;
 	}
 	else
-		ft_printf("\n%s", e->prompt);
+	{
+		ft_putchar('\n');
+		ft_prompt(e->prompt);
+	}
 	return (--e->hdoc_nb);
 }
 
@@ -55,12 +58,15 @@ int			store_heredoc(t_env *e)
 	if (ft_strcmp(e->line, e->hdoc_words[i]))
 	{
 		tmp = e->hdoc->content;
+		if (!e->line)
+			e->line = ft_strdup("");
 		e->hdoc->content = ft_tabcat(e->hdoc->content, e->line);
 		e->hdoc->content_size = sizeof(e->hdoc->content);
 		if (tmp)
 			ft_free_tab(tmp);
 		strfree(&e->line);
-		ft_printf("\n%s", e->prompt);
+		ft_putchar('\n');
+		ft_prompt(e->prompt);
 	}
 	else
 		return (replace_line(e, &same_node, &i));
