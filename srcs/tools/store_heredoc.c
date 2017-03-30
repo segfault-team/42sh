@@ -55,6 +55,8 @@ int			store_heredoc(t_env *e)
 	if (ft_strcmp(e->line, e->hdoc_words[i]))
 	{
 		tmp = e->hdoc->content;
+		if (!e->line)
+			e->line = ft_strdup("");
 		e->hdoc->content = ft_tabcat(e->hdoc->content, e->line);
 		e->hdoc->content_size = sizeof(e->hdoc->content);
 		if (tmp)

@@ -8,7 +8,7 @@ int	redir_from_hdoc(t_env *e)
 
 	i = -1;
 	tmp = (char **)e->hdoc->content;
-	if (!tmp[i + 1])
+	if (!tmp || !tmp[i + 1])
 		return (0);
 	while (tmp[++i])
 	{
