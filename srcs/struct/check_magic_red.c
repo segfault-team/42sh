@@ -36,12 +36,15 @@ static int	is_bad_first_arg(t_env *e)
 	return (0);
 }
 
-int	check_magic_red(t_env *e)
+int			check_magic_red(t_env *e)
 {
 	int	i;
 
 	i = 0;
 	if (is_bad_first_arg(e))
 		return (-1);
+	while (e->magic[++i].cmd)
+		if (check_magic_content(e, i) == -1)
+			return (-1);
 	return (0);
 }

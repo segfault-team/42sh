@@ -8,7 +8,7 @@ static int	is_not_src_fd(t_env *e, int *i)
 		return (0);
 	}
 	else if (is_number(e->line[*i - 2]))
-			 return (0);
+		return (0);
 	return (1);
 }
 
@@ -45,7 +45,7 @@ static void	manage_parsing_aggregator(t_env *e, int *i)
 void		check_parsing_ampersand(t_env *e, int *i)
 {
 	if (*i + 1 < (int)ft_strlen(e->line) && *i
-			 && (e->line[*i - 1] == '>' || e->line[*i - 1] == '<'))
+		&& (e->line[*i - 1] == '>' || e->line[*i - 1] == '<'))
 		manage_parsing_aggregator(e, i);
 	else if (*i > 1 && e->line[*i - 1] && e->line[*i - 2]
 		&& e->line[*i - 1] == '&' && e->line[*i - 2] == '&')

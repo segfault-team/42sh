@@ -153,6 +153,9 @@ int				ft_parse_line(t_env *e)
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
+		if (!cmds[0])
+			ft_printfd(2, "%s: syntax error near unexpected token \";\"\n",
+					   SH_NAME);
 		while (cmds[++i])
 		{
 			ret = ft_iter_cmds(e, cmds[i]);

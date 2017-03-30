@@ -491,6 +491,7 @@ int						ft_check_output(int i, t_env *e);
 int						ft_check_heredoc(int i, t_env *e);
 void					check_magic_cmd(t_env *e);
 int						check_magic_red(t_env *e);
+int						check_magic_content(t_env *e, int i);
 
 /*
 **		Auto Completion

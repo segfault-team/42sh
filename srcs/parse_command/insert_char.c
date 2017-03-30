@@ -2,8 +2,8 @@
 
 void	insert_char(t_env *e, char c, int pos)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*new;
 
 	i = -1;

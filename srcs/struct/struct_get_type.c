@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 void		struct_arg_red(int i, t_env *e)
 {
 	if (i > 0 && (!ft_strcmp("|", e->magic[i - 1].cmd) ||

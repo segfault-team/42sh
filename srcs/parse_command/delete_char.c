@@ -2,8 +2,8 @@
 
 void	delete_char(t_env *e, int pos)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*new;
 
 	i = -1;
