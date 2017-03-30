@@ -99,8 +99,8 @@ int				main(int UNUSED(ac), char **UNUSED(av), char **env)
 	}
 	ft_write_history(e, O_TRUNC);
 	ret = e->exit;
-	ft_env_free(e);
 	if (!e->raw)
 		ft_putendl("exit");
+	ft_env_free(e);
 	return (ret);
 }
