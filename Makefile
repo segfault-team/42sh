@@ -13,7 +13,8 @@ SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c 
 					redir_to_aggregator.c isolate_aggregator_fd.c \
 					find_check_aggregator.c redirection_before_cmd.c \
 					redirection_input.c redir_from_hdoc.c \
-					check_redirections_part1.c check_redirections_part2.c
+					check_redirections_part1.c check_redirections_part2.c \
+					check_redirections_part3.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##

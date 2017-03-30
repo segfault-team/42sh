@@ -345,6 +345,7 @@ int						is_redir_from_symbol(t_env *e, int i);
 int						is_input_in_next_cmd(t_env *e, int i);
 int						is_heredoc(t_env *e, int i);
 int						redir_from_hdoc(t_env *e);
+int						is_put_after(t_env *e);
 
 /*
 **		Init - Reset
