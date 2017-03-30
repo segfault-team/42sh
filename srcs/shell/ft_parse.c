@@ -121,8 +121,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 				struct_find_red(e);
 			ret = ft_exec_cmd(e, e->cat[i]);
 		}
-		else// if (!is_input_redir(e, i) && !is_input_file(e, i))
+		else if (!is_last_cmd(e, RED_INDEX))
 			ret = redir_exec_open(i, e);
+		else
+			ret = ft_exec_cmd(e, e->cat[i]);
 		reset_last_ret(e, ret);
 		if (is_output_redir(e, RED_INDEX))
 			redir_fill_output(e);
@@ -159,7 +161,7 @@ int				ft_parse_line(t_env *e)
 			ret = ft_iter_cmds(e, cmds[i]);
 			if (ret == -42)
 				return (ret);
-			tcaps_set();
+			tcaps_set(e);
 		}
 	}
 	ft_free_tab(cmds);

@@ -1,17 +1,12 @@
 #include "shell.h"
-/*
-static int	token_error(t_env *e)
+
+static void	do_for_last_cmd(t_env *e)
 {
-	if (!e->magic[RED_INDEX].cmd)
-	{
-		return (ft_error(SH_NAME, "syntax error near unexpected token",
-					"'newline'"));
-	}
-	return (ft_error(SH_NAME, "syntax error near unexpected token",
-				e->magic[RED_INDEX].cmd));
+	FD.in = FD.fd[0];
+	ft_close(FD.fd[1]);
 }
-*/
-static int	is_last_cmd(t_env *e, int i)
+
+int		is_last_cmd(t_env *e, int i)
 {
 	while (e->magic[i].cmd)
 	{
@@ -22,12 +17,6 @@ static int	is_last_cmd(t_env *e, int i)
 	return (1);
 }
 
-static void	do_for_last_cmd(t_env *e)
-{
-	FD.in = FD.fd[0];
-	ft_close(FD.fd[1]);
-}
-
 int			redir_input(t_env *e)
 {
 	int		fd_file;
@@ -36,12 +25,7 @@ int			redir_input(t_env *e)
 	char	buf[4096];
 
 	red_index = RED_INDEX - 1;
-/*	while (e->magic[red_index].cmd && !is_input_file(e, red_index))
-		if (is_redir_pipe(e, red_index++))
-			return (0);*/
 	ret = -1;
-//	if (!e->magic[red_index].cmd || !is_input_file(e, red_index))
-//		return (input_error(e));
 	while (e->magic[++red_index].cmd && ft_strcmp(e->magic[red_index].cmd, "|"))
 	{
 		if (!ft_strcmp(e->magic[red_index].cmd, "<") && e->magic[red_index + 1].cmd

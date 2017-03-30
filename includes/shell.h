@@ -380,6 +380,7 @@ t_job					*ft_new_job(t_job *next, int pid);
 int						store_heredoc(t_env *e);
 void					reset_last_ret(t_env *e, int ret);
 int						token_error(t_env *e, int id);
+int						is_last_cmd(t_env *e, int i);
 
 /*
 **		History

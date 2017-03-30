@@ -15,20 +15,24 @@ void		tcaps_ctrl_mov_right(t_env *e)
 {
 	int	i;
 
-	i = TCAPS.nb_move;
-	while (i < TCAPS.nb_read && ft_isalpha(e->line[i + 1])
+	if (!(i = NB_MOVE))
+	{
+		move_right(e);
+		++i;
+	}
+	while (i > 0 && i < NB_READ && ft_isalpha(e->line[i + 1])
 			&& is_number(e->line[i - 1]))
 	{
 		move_right(e);
 		++i;
 	}
-	while (i < TCAPS.nb_read && (!ft_isalpha(e->line[i + 1])
+	while (i > 0 && i < NB_READ && (!ft_isalpha(e->line[i + 1])
 				|| !is_number(e->line[i - 1])))
 	{
 		move_right(e);
 		++i;
 	}
-	if (i + 1 < TCAPS.nb_read)
+	if (i + 1 < NB_READ)
 		move_right(e);
 }
 
@@ -38,19 +42,19 @@ void		tcaps_ctrl_mov_right(t_env *e)
 
 void		tcaps_ctrl_mov_left(t_env *e)
 {
-	int	i;
+	int		i;
 
-	i = TCAPS.nb_move;
+	i = NB_MOVE;
 	while (i > 0 && !ft_isalpha(e->line[i - 1]) && !is_number(e->line[i - 1]))
 	{
 		xputs(TGETSTR_LE);
-		--TCAPS.nb_move;
+		--NB_MOVE;
 		--i;
 	}
-	while (i >= 0 && (ft_isalpha(e->line[i - 1]) || is_number(e->line[i - 1])))
+	while (i > 0 && (ft_isalpha(e->line[i - 1]) || is_number(e->line[i - 1])))
 	{
 		xputs(TGETSTR_LE);
-		--TCAPS.nb_move;
+		--NB_MOVE;
 		--i;
 	}
 }
@@ -74,7 +78,7 @@ static void	tcaps_ctrl_up_down(t_env *e, char buf[3])
 			while (line--)
 			{
 				xputs(TGETSTR_LE);
-				--TCAPS.nb_move;
+				--NB_MOVE;
 			}
 			tcaps_recalc_pos(e);
 		}
