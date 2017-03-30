@@ -102,7 +102,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 */	while (e->cat[++i] && ret != -1)
 	{
 		while (is_aggregator(e, RED_INDEX)
-				|| is_output_redir(e, RED_INDEX))
+			   || is_output_redir(e, RED_INDEX) || is_heredoc(e, RED_INDEX))
 			struct_find_red(e);
 		if (!e->cat[i + 1] && redir_check_red(e, "|")
 			&& is_next_redir(e, RED_INDEX) == OUTPUT)
