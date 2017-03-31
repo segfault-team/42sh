@@ -53,9 +53,7 @@ int			is_valid_arg(char **cmd, char *sh_name)
 					return (history_arg_error(sh_name, cmd[i][j]));
 		}
 		if (cmd[i][0] != '-' && !is_only_numbers(cmd[i]))
-		{
 			return (output_history_arg_error(sh_name, cmd[i]));
-		}
 	}
 	return (1);
 }

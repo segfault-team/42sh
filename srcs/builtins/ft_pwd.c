@@ -72,5 +72,5 @@ int				ft_pwd(t_env *e, char **args)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	if (option != 1)
 		ft_strdel(&cwd);
-	return (0);
+	return (1);
 }

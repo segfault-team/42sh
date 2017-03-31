@@ -43,7 +43,7 @@ int			ft_read_history(t_env *e)
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;
-	return (0);
+	return (1);
 }
 
 /*
@@ -94,25 +94,28 @@ int			is_option(int i, char **cmd, char *option)
 
 int			ft_history(t_env *e, char **cmd, int i)
 {
-	if (i == 1 && !is_valid_arg(cmd, SH_NAME))
+	int		ret;
+
+	ret = -1;
+	if (i == 1 && is_valid_arg(cmd, SH_NAME) < 0)
 		return (-1);
 	if (!e->history)
-		return (0);
+		return (-1);
 	if (is_option(i, cmd, "-d"))
-		history_delete(e, cmd, i);
+		ret = history_delete(e, cmd, i);
 	else if (is_option(i, cmd, "-w"))
-		ft_write_history(e, O_TRUNC);
+		ret = ft_write_history(e, O_TRUNC);
 	else if (is_option(i, cmd, "-a"))
-		ft_write_history(e, O_APPEND);
+		ret = ft_write_history(e, O_APPEND);
 	else if (is_option(i, cmd, "-c"))
-		clear_history_list(e);
+		ret = clear_history_list(e);
 	else if (is_option(i, cmd, "-r"))
-		append_history_file_in_list(e);
+		ret = append_history_file_in_list(e);
 	else if (is_option(i, cmd, "-h"))
-		print_history_help();
+		ret = print_history_help();
 	else if (e->history)
-		print_history(e, cmd);
-	if (cmd[i + 1] && !is_redirection(e, i + 1))
+		ret = print_history(e, cmd);
+	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))
 		return (ft_history(e, cmd, i + 1));
-	return (1);
+	return (ret);
 }

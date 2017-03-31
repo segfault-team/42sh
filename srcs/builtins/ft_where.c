@@ -29,17 +29,17 @@ int			ft_where(t_env *e, char **cmd)
 	char	*path;
 
 	i = 0;
-	ret = 1;
+	ret = -1;
 	paths = ft_find_paths(e->env);
 	e->cmd_len = ft_tablen(cmd);
 	while (++i < (int)e->cmd_len)
 	{
-		if (ft_isbuiltin(cmd[i]) && ft_printf("%s is a shell built-in.", \
+		if (ft_isbuiltin(cmd[i]) && ft_printf("%s is a shell built-in.\n", \
 					cmd[i]))
-			ret = 0;
+			ret = 1;
 		if ((path = ft_find_exec(paths, cmd[i])))
 		{
-			ret = 0;
+			ret = 1;
 			ft_putendl(path);
 			strfree(&path);
 		}

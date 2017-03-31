@@ -41,5 +41,5 @@ int			ft_echo(char **args)
 	}
 	if (cr)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	return (1);
 }

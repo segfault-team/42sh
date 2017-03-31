@@ -20,7 +20,7 @@ int			ft_unsetenv(char ***env, char *name)
 				ft_free_tab(*env);
 				*env = tmp;
 				strfree(&nameequ);
-				return (0);
+				return (1);
 			}
 		}
 	}
@@ -45,9 +45,10 @@ int			ft_unsetenv_blt(t_env *e, char **cmd)
 				e->env = NULL;
 			}
 			else
-				ft_unsetenv(&e->env, cmd[i]);
+				if (ft_unsetenv(&e->env, cmd[i]) > 0)
+					return (1);
 		}
-		return (0);
+		return (-1);
 	}
 	return (ft_error("unsetenv", "too few arguments", NULL));
 }

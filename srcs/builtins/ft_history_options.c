@@ -20,10 +20,10 @@ int		print_history(t_env *e, char **cmd)
 		i = -1;
 	while (e->history[++i])
 		ft_printf("%d: %s\n", (i + 1), e->history[i]);
-	return (0);
+	return (1);
 }
 
-void	clear_history_list(t_env *e)
+int		clear_history_list(t_env *e)
 {
 	if (e->history)
 	{
@@ -31,6 +31,7 @@ void	clear_history_list(t_env *e)
 		e->history = NULL;
 	}
 	e->trunc_in_history = 1;
+	return (1);
 }
 
 int		append_history_file_in_list(t_env *e)
@@ -55,12 +56,11 @@ int		append_history_file_in_list(t_env *e)
 		++i;
 	new[++i] = NULL;
 	ft_close(history_fd);
-	ft_free_tab(e->history);
 	e->history = new;
 	return (1);
 }
 
-void	print_history_help(void)
+int		print_history_help(void)
 {
 	ft_printfd(2, "history: usage: history -[acdhrw]\n");
 	ft_printfd(2, "-a: \t\tprint list in file\n");
@@ -69,4 +69,5 @@ void	print_history_help(void)
 	ft_printfd(2, "-h: \t\tshow this message\n");
 	ft_printfd(2, "-r: \t\tappend history file in list\n");
 	ft_printfd(2, "-w: \t\twrite list in history file\n");
+	return (1);
 }

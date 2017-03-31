@@ -57,7 +57,9 @@ int		ft_waitsons(t_env *e)
 	}
 	e->child_running = 0;
 	e->jobs = NULL;
-	return (0);
+	if (!status)
+		return (1);
+	return (-1);
 }
 
 /*

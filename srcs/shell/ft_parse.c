@@ -63,8 +63,11 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
 	ft_printf("====  END CAT    ====\n");
-*/	while (e->cat[++i] && ret != -1)
+*/	while (e->cat[++i])
+	{
 		ret = exec_by_type(e, i, ret);
+		i += manage_operators(e, RED_INDEX, ret);
+	}
 	exec_end(e);
 	return (ret);
 }

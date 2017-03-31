@@ -9,7 +9,7 @@ static int		fork_child(t_env *e, pid_t pid)
 	if (!(son = ft_new_job(e->jobs, pid)))
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
-	return (0);
+	return (1);
 }
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
@@ -67,26 +67,17 @@ int				ft_exec(char **cmd, t_env *e)
 	return (ret);
 }
 
-static int		exec_cmd_bis(t_env *e, t_logic *ptr)
+static int		exec_cmd_bis(t_env *e, char **cmd)
 {
 	int		ret;
-	int		stat;
 
-	stat = 0;
 	ret = 0;
-	while (ptr)
+	if (ft_is_builtin(cmd[0]))
+		ret = ft_exec_builtin(e, cmd);
+	else
 	{
-		if (ptr->op > 0)
-			stat = ft_waitlogix(e);
-		if (ptr->op < 0 || (ptr->op == AND && !ret && !stat) ||
-				(ptr->op == OR && (ret || stat)))
-		{
-			if (ft_is_builtin(ptr->atom[0]))
-				ret = ft_exec_builtin(e, ptr->atom);
-			else
-				ret = ft_exec(ptr->atom, e);
-		}
-		ptr = ptr->next;
+		ft_exec(cmd, e);
+		ret = ft_waitlogix(e);
 	}
 	return (ret);
 }
@@ -94,20 +85,14 @@ static int		exec_cmd_bis(t_env *e, t_logic *ptr)
 int				ft_exec_cmd(t_env *e, char **cmd)
 {
 	int			ret;
-	t_logic		*ptr;
 
 	ret = 0;
 	e->cmd_len = ft_tablen(cmd);
 	tcaps_reset(e);
 	if (e->cmd_len)
-	{
-		e->logix = ft_split_logic(e->logix, cmd);
-		if (e->logix == NULL)
-			return (ft_error(SH_NAME, "malloc failed.", NULL));
-		ptr = e->logix;
-		ret = exec_cmd_bis(e, ptr);
-		ft_freelogic(e->logix);
-	}
+		ret = exec_cmd_bis(e, cmd);
+	else
+		return (-1);
 	e->cmd_len = 0;
 	return (ret);
 }

@@ -74,7 +74,7 @@ static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
 		else
 		{
 			ft_error("env", "illegal option --", &cmd[i][1]);
-			ft_error("usage", "env [-i name1=val1 ...] [-u name]", NULL);
+			ft_error("\nusage", "env [-i name1=val1 ...] [-u name]", NULL);
 			return (-1);
 		}
 	}
@@ -92,19 +92,18 @@ int				ft_env(t_env *e, char **cmd)
 	size_t	len;
 	int		i;
 
-	i = 0;
+	i = 1;
 	len = ft_tablen(cmd);
 	env_cpy = ft_tabdup(e->env);
 	if (len > 1)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
-		{
-			ft_exec(&cmd[i], e);
-			i = 0;
-		}
+			i = ft_exec(&cmd[i], e);
 	}
 	else
 		ft_puttab(e->env);
 	ft_free_tab(env_cpy);
+	if (!i)
+		return (1);
 	return (i);
 }

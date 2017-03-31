@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:16:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/05 21:44:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:36:55 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int				ft_setenv(char ***env, char *name, char *value)
 				strfree(&nameequ);
 				strfree(&tmp[i]);
 				tmp[i] = entry;
-				return (0);
+				return (1);
 			}
 		}
 	strfree(&nameequ);
 	*env = ft_tabcat(*env, entry);
 	strfree(&entry);
 	ft_free_tab(tmp);
-	return (0);
+	return (1);
 }
 
 int				ft_setenv_blt(t_env *e, char **cmd)

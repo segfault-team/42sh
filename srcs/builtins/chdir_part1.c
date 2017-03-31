@@ -115,5 +115,5 @@ int			ft_cd(t_env *e, char **cmd)
 		return (ft_error("cd", "too many arguments", NULL));
 	else
 		return (ft_cd_bis(cmd, e, home, option));
-	return (0);
+	return (1);
 }

@@ -100,6 +100,7 @@
 # define AGGREGATOR		1
 # define OUTPUT			2
 # define INPUT			3
+# define OPERATOR		4
 
 /*
 **	TPUTS STING DEFINE
@@ -284,6 +285,7 @@ typedef struct			s_env
 **
 */
 
+int						manage_operators(t_env *e, int i, int ret);
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
@@ -346,6 +348,10 @@ int						is_input_in_next_cmd(t_env *e, int i);
 int						is_heredoc(t_env *e, int i);
 int						redir_from_hdoc(t_env *e);
 int						is_put_after(t_env *e);
+int						is_operator(t_env *e, int i);
+int						is_and(t_env *e, int i);
+int						is_or(t_env *e, int i);
+
 
 /*
 **		Init - Reset
@@ -405,9 +411,9 @@ void					ft_store_history(t_env *e);
 
 int						history_delete(t_env *e, char **cmd, int i);
 int						print_history(t_env *e, char **cmd);
-void					clear_history_list(t_env *e);
+int						clear_history_list(t_env *e);
 int						append_history_file_in_list(t_env *e);
-void					print_history_help(void);
+int						print_history_help(void);
 int						history_delete_error(char *sh_name, char **cmd);
 int						history_error_with_id(char **cmd, char *sh_name, int id);
 int						is_valid_arg(char **cmd, char *sh_name);

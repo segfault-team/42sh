@@ -22,5 +22,5 @@ int	history_error_with_id(char **cmd, char *sh_name, int id)
 		ft_printfd(2, "%s: history: too many arguments\n");
 	else if (id == 2)
 		ft_printfd(2, "%s: history: %s: too many arguments\n", sh_name, cmd[1]);
-	return (0);
+	return (-1);
 }

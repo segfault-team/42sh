@@ -54,6 +54,9 @@ int		magic_type(t_env *e)
 	{
 		if (red_strstr(e->magic[i].cmd))
 			e->magic[i].type = ft_strdup("red");
+		else if (!ft_strcmp(e->magic[i].cmd, "||")
+					|| !ft_strcmp(e->magic[i].cmd, "&&"))
+			e->magic[i].type = ft_strdup("operator");
 		else if (struct_check_cmd(i, e))
 			e->magic[i].type = ft_strdup("cmd");
 		else
