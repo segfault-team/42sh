@@ -3,39 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vlistrat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 16:51:00 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/11/28 14:33:08 by lfabbro          ###   ########.fr       */
+/*   Created: 2015/11/26 11:27:44 by vlistrat          #+#    #+#             */
+/*   Updated: 2017/03/31 05:44:43 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strstr(const char *big, const char *little)
+static int	ft_find(char *str1, char *str2, int i)
 {
-	int		i;
 	int		j;
+	int		k;
 
-	i = 0;
 	j = 0;
-	if (!little || !*little)
-		return (((char *)big));
-	if (big)
+	k = 0;
+	while (str1[i])
 	{
-		while (*big)
+		j = 0;
+		if (str1[i] == str2[j])
 		{
-			while (*(big + i) == *(little + j))
+			k = i;
+			while (str2[j] && str1[i] == str2[j])
 			{
-				if (!*(little + j + 1))
-					return (((char *)&*(big + i - j)));
 				i++;
 				j++;
 			}
-			j = 0;
-			i = 0;
-			++big;
+			if (j == (int)ft_strlen(str2))
+				return (k);
+			i = k;
 		}
+		i++;
 	}
-	return (0);
+	return (-1);
+}
+
+char		*ft_strstr(const char *s1, const char *s2)
+{
+	int		i;
+	int		k;
+	char	*str1;
+	char	*str2;
+
+	i = 0;
+	str1 = (char*)s1;
+	str2 = (char*)s2;
+	if (str2[i] == '\0')
+		return (str1);
+	k = ft_find(str1, str2, i);
+	if (k != -1)
+		return (&str1[k]);
+	return (NULL);
 }

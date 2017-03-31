@@ -38,6 +38,8 @@ static void		redir_output_do(t_env *e, int fd, int i, char *out)
 		(!red ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
 	{
 		ft_printfd(fd, "%s", out ? out : "");
+		if (out && out[(int)ft_strlen(out) - 1] != '\n')
+			ft_printfd(fd, "\n");
 		ft_close(fd);
 	}
 	else
@@ -71,6 +73,7 @@ int				redir_fill_output(t_env *e)
 
 	tmp_join = NULL;
 	ret_output = NULL;
+	ft_bzero(tmp, 4095);
 	while ((len = read(FD.in, &tmp, 4095)) > 0)
 	{
 		tmp[len] = '\0';

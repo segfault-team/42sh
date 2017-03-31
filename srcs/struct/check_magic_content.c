@@ -18,7 +18,12 @@ int			check_magic_content(t_env *e, int i)
 		return (-1);
 	else if (e->magic[i + 1].cmd && !ft_strcmp(e->magic[i].cmd, ";")
 			&& !ft_strstr(e->magic[i + 1].cmd, ";"))
-		return (ft_error(SH_NAME, "syntax error near unexpected token \"%s\"",
-						  e->magic[i + 1].cmd));
+		return (token_error(e, i + 1));
+	else if (e->magic[i + 1].cmd
+			 && ((is_operator(e, i) && is_operator(e, i + 1))
+				 || (is_redir_pipe(e, i) && is_redir_pipe(e, i + 1))))
+		return (token_error(e, i + 1));
+	else if (!ft_strcmp(e->magic[i].cmd, "&"))
+		return (token_error(e, i));
 	return (0);
 }

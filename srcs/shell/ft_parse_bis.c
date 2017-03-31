@@ -14,9 +14,12 @@ int		ft_is_builtin(char *cmd)
 int		ft_exec_builtin(t_env *e, char **cmd)
 {
 	char	ret;
+	int		mem;
 
+	mem = RED_INDEX;
 	ret = 0;
-	redirection_before_cmd(e);
+	if (redirection_before_cmd(e) < 1)
+		return (-1);
 	ft_redirect(FD.in, STDIN_FILENO);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ft_exit(e);
@@ -36,24 +39,29 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
 		ret = ft_history(e, cmd, 1);
+	RED_INDEX = mem;
 	ft_close(FD.fd[1]);
+	ft_close(STDOUT_FILENO);
+//	dup2(FD.stdin, STDIN_FILENO);
+//	dup2(FD.stdout, STDOUT_FILENO);
+//	dup2(FD.stderr, STDERR_FILENO);
 	return (ret);
 }
 
 int		ft_waitsons(t_env *e)
 {
-	t_job		*ptr;
 	t_job		*tmp;
 	int			status;
 
-	ptr = e->jobs;
-	while (ptr)
+	tmp = NULL;
+	status = 0;
+	while (e->jobs)
 	{
-		waitpid(ptr->pid, &status, WUNTRACED);
+		waitpid(e->jobs->pid, &status, WUNTRACED);
 		ft_handle_ret_signal(status);
-		tmp = ptr->next;
-		free(ptr);
-		ptr = tmp;
+		tmp = e->jobs->next;
+		free(e->jobs);
+		e->jobs = tmp;
 	}
 	e->child_running = 0;
 	e->jobs = NULL;

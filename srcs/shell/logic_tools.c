@@ -42,15 +42,12 @@ void		ft_freelogic(t_logic *x)
 int			ft_waitlogix(t_env *e)
 {
 	int		status;
-	t_job	*ptr;
 
 	if (!e->jobs)
 		return (-1);
-	ptr = e->jobs;
-	waitpid(ptr->pid, &status, WUNTRACED);
+	waitpid(e->jobs->pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	e->jobs = e->jobs->next;
-	free(ptr);
 	if (!status)
 		return (1);
 	return (-1);

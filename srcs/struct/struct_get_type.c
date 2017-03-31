@@ -16,7 +16,7 @@ void		struct_arg_red(int i, t_env *e)
 	else if (is_only_numbers(e->magic[i].cmd) ||
 		   !ft_strcmp(e->magic[i].cmd, "-") || ft_strstr("<&", e->magic[i].cmd))
 		e->magic[i].type = ft_strdup("fd_aggregator");
-	else if (ft_strstr(">&", e->magic[i - 1].cmd))
+	else if (ft_strstr(e->magic[i - 1].cmd, ">&"))
 	{
 		e->magic[i].type = ft_strdup("output");
 		strfree(&e->magic[i - 1].cmd);

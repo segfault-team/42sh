@@ -84,3 +84,13 @@ char	*ft_getenv(char **env, char *name)
 	}
 	return (value);
 }
+
+int		ft_catlen(char ***cat)
+{
+	int		i;
+
+	i = 0;
+	while (cat[i])
+		++i;
+	return (i);
+}

@@ -12,7 +12,11 @@ int		redirection_before_cmd(t_env *e)
 	{
 		while (e->magic[RED_INDEX].cmd && !is_redir_pipe(e, RED_INDEX)
 				&& RED_INDEX)
+		{
 			struct_find_red(e);
+			if (is_input_redir(e, RED_INDEX))
+				ret = redir_input(e);
+		}
 		return ((ret = dup2(FD.fd[1], STDOUT_FILENO)));
 	}
 	else if (is_heredoc(e, RED_INDEX))
