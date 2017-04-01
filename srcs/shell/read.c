@@ -8,13 +8,13 @@
 
 static void		tcaps_enter(t_env *e)
 {
+	tcaps_ctrl_end(e);
 	if (!ft_multiline(e))
 		return ;
 	else if (!e->hdoc_words && !ft_heredoc(e))
 		return ;
 	if (e->hdoc_nb && store_heredoc(e))
 		return ;
-	tcaps_ctrl_end(e);
 	if (e->line)
 		parse_command(e);
 	if (!e->raw)
