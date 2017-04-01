@@ -21,7 +21,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	if (pid)
 	{
 		++e->child_running;
-		ft_close(FD.in);
+//		ft_close(FD.in);
 	}
 	else
 	{

@@ -85,7 +85,7 @@ int		ft_cd_check_option(char ***argv)
 			return (opt);
 		i++;
 	}
-	if ((*argv)[i][0] == '-' && (*argv)[i][1] == '-')
+	if ((*argv)[i] && (*argv)[i][0] == '-' && (*argv)[i][1] == '-')
 		i++;
 	*argv = &(*argv)[i - 1];
 	return (opt);

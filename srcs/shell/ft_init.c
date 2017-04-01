@@ -20,6 +20,7 @@ static void		ft_init_ter(t_env *e)
 	e->hdoc_nb = 0;
 	e->hdoc = NULL;
 	e->last_ret = ft_strdup("0");
+	e->check_input = 0;
 }
 
 static void		ft_init_bis(t_env *e)
