@@ -11,8 +11,8 @@ void	struct_find_red(t_env *e)
 		   && ft_strcmp(e->magic[RED_INDEX].type, "red")
 		   && !is_operator(e, RED_INDEX))
 		++(RED_INDEX);
-	if (!(e->magic[RED_INDEX].cmd))
-		RED_INDEX = 0;
+//	if (!(e->magic[RED_INDEX].cmd))
+//		RED_INDEX = 0;
 }
 
 /*

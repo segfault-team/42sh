@@ -4,10 +4,6 @@ static int		fork_child(t_env *e, pid_t pid)
 {
 	t_job		*son;
 
-//	while (is_aggregator(e, RED_INDEX) || is_heredoc(e, RED_INDEX))
-	while (RED_INDEX && !is_redir_pipe(e, RED_INDEX) && !is_operator(e, RED_INDEX)
-		   && !is_output_redir(e, RED_INDEX))
-		struct_find_red(e);
 	if (!(son = ft_new_job(e->jobs, pid)))
 		return (ft_error(SH_NAME, "malloc failed", NULL));
 	e->jobs = son;
@@ -18,22 +14,23 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t		pid;
 
+	redirection_before_cmd(e);
+	ft_close(FD.fd[1]);
 	if ((pid = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	if (pid)
 	{
 		++e->child_running;
-		ft_close(FD.fd[1]);
 		ft_close(FD.in);
 	}
 	else
 	{
-		if (redirection_before_cmd(e) == -1)
-			exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
-//		dup2(FD.stdout, STDOUT_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
+	dup2(FD.stdout, STDOUT_FILENO);
+	dup2(FD.stdin, STDIN_FILENO);
+	dup2(FD.stderr, STDERR_FILENO);
 	return (fork_child(e, pid));
 }
 

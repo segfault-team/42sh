@@ -27,6 +27,8 @@ int		is_redir_from_symbol(t_env *e, int i)
 
 int		is_next_redir(t_env *e, int i)
 {
+	if (!e->magic[i].cmd)
+		return (-1);
 	++i;
 	while (e->magic[i].cmd && !red_strstr(e->magic[i].cmd)
 			&& !is_operator(e, i))

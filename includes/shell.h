@@ -15,7 +15,9 @@
 
 */
 
-# define DEBUG(x) dprintf(2, "%s\n", x)
+static int		debug = -1;
+
+# define DEBUG dprintf(2, "DEBUG %d\n", ++debug)
 
 # define UATTR __attribute__((unused))
 

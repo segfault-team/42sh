@@ -47,7 +47,7 @@ int			redir_to_aggregator(t_env *e)
 	else if (fd_dst == -42)
 	{
 		close(fd_src);
-		close(FD.fd[1]);
+//		close(FD.fd[1]);
 	}
 	else if (ag_type == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);

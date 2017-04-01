@@ -25,12 +25,17 @@ static int		redir_file_output(t_env *e, char *ret_output)
 
 	i = RED_INDEX - 1;
 	fd_output = 0;
-	while (e->magic[++i].cmd && ft_strcmp(e->magic[i].cmd, "|"))
+	while (e->magic[++i].cmd && ft_strcmp(e->magic[i].cmd, "|")
+			&& !is_operator(e, i))
+	{
 		if ((!ft_strcmp(e->magic[i].cmd, ">")
 				|| !ft_strcmp(e->magic[i].cmd, ">>"))
 				&& e->magic[i + 1].cmd &&
 				!ft_strcmp(e->magic[i + 1].type, "output"))
+		{
 			redir_output_do(e, fd_output, i, ret_output);
+		}
+	}
 	strfree(&ret_output);
 	return (1);
 }
