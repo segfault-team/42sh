@@ -87,7 +87,7 @@ int			ft_cd_oldpwd(char **argv, t_env *e, int option)
 		ret = ft_error("cd", "no oldpwd in env", NULL);
 	else
 	{
-		ft_putstr(new[1]);
+		ft_putendl(new[1]);
 		ret = ft_cd_bis(new, e, new[1], option);
 	}
 	ft_free_tab(new);
