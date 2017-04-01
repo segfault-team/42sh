@@ -78,7 +78,10 @@ char	*ft_save_oldpwd(char **argv, t_env *e)
 
 	ret = NULL;
 	if ((ret = ft_getenv(e->env, "PWD")) == NULL)
+	{
+		ret = ft_strdup("/");
 		ft_setenv(&e->env, "OLDPWD", ret);
+	}
 	return (ret);
 }
 
