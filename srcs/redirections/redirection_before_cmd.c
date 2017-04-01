@@ -10,6 +10,7 @@ int		redirection_before_cmd(t_env *e)
 		ret = redir_to_aggregator(e);
 	else if (redir_check_red(e, "|") || is_output_redir(e, RED_INDEX))
 	{
+		dprintf(2, "LAST : %s\n", e->magic[RED_INDEX].cmd);
 		while (e->magic[RED_INDEX].cmd && !is_redir_pipe(e, RED_INDEX)
 			   && RED_INDEX && !is_operator(e, RED_INDEX))
 		{

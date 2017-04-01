@@ -39,7 +39,7 @@ int		find_nxt_operator(t_env *e)
 
 	len = 1;
 	while (e->magic[++RED_INDEX].cmd && !is_operator(e, RED_INDEX))
-		if (is_redirection(e, RED_INDEX))
+		if (is_redir_pipe(e, RED_INDEX))
 			++len;
 	return (len);
 }

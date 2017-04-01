@@ -30,10 +30,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (redirection_before_cmd(e) == -1)
 			exit(0);
-//		if ((is_input_in_next_cmd(e, RED_INDEX) || is_input_redir(e, RED_INDEX)))
-//			if (redir_input(e) == -1 && ft_printf("\n"))
-//				exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
+//		dup2(FD.stdout, STDOUT_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
 	return (fork_child(e, pid));

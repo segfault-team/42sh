@@ -41,10 +41,9 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		ret = ft_history(e, cmd, 1);
 	RED_INDEX = mem;
 	ft_close(FD.fd[1]);
-	ft_close(STDOUT_FILENO);
-//	dup2(FD.stdin, STDIN_FILENO);
-//	dup2(FD.stdout, STDOUT_FILENO);
-//	dup2(FD.stderr, STDERR_FILENO);
+	dup2(FD.stdin, STDIN_FILENO);
+	dup2(FD.stdout, STDOUT_FILENO);
+	dup2(FD.stderr, STDERR_FILENO);
 	return (ret);
 }
 

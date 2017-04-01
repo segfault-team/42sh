@@ -3,7 +3,8 @@
 static void	do_for_last_cmd(t_env *e)
 {
 	FD.in = FD.fd[0];
-	ft_close(FD.fd[1]);
+	if (!is_last_cmd(e, RED_INDEX))
+		ft_close(FD.fd[1]);
 }
 
 int			is_last_cmd(t_env *e, int i)
