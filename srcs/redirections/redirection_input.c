@@ -1,27 +1,5 @@
 #include "shell.h"
 
-static void	do_for_last_cmd(t_env *e)
-{
-
-//	if (is_next_redir(e, RED_INDEX) == PIPE || is_next_redir(e, RED_INDEX) == OUTPUT)
-//		ft_close(FD.fd[1]);
-}
-
-int			is_last_cmd(t_env *e, int i)
-{
-	if (!e->magic[i].cmd)
-		return (1);
-	if (is_redir_pipe(e, i))
-		++i;
-	while (e->magic[i].cmd && !is_operator(e, i))
-	{
-		if (is_redir_pipe(e, i))
-			return (0);
-		++i;
-	}
-	return (1);
-}
-
 static int	redir_input_do(t_env *e, int newfd[2])
 {
 	int		fd_file;

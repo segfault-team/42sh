@@ -1,14 +1,13 @@
 #include "shell.h"
 
-static int	put_new_node(t_env *e, int *same_node)
+static int	put_new_node(t_env *e, int *same_node, int *i)
 {
-	int		ret;
 	t_list	*new;
 
-	ret = 0;
 	if (*same_node != e->hdoc_nb)
 	{
-		new = (t_list *)malloc(sizeof(t_list));
+		if (!(new = (t_list *)malloc(sizeof(t_list))))
+			return (-1);
 		new->content = NULL;
 		new->next = NULL;
 		if (!e->b_hdoc)
@@ -21,10 +20,10 @@ static int	put_new_node(t_env *e, int *same_node)
 			e->hdoc->next = new;
 			e->hdoc = e->hdoc->next;
 		}
-		ret = 1;
 		*same_node = e->hdoc_nb;
+		++(*i);
 	}
-	return (ret);
+	return (1);
 }
 
 static int	replace_line(t_env *e, int *same_node, int *i)
@@ -54,7 +53,9 @@ int			store_heredoc(t_env *e)
 	static int	same_node = -1;
 	static int	i = -1;
 
-	i = put_new_node(e, &same_node);
+	if ((put_new_node(e, &same_node, &i)) < 0)
+		return (-1);
+	tmp = NULL;
 	if (ft_strcmp(e->line, e->hdoc_words[i]))
 	{
 		tmp = e->hdoc->content;
@@ -69,7 +70,11 @@ int			store_heredoc(t_env *e)
 		ft_prompt(e->prompt);
 	}
 	else
+	{
+		ft_printf("HDOC :\n");
+		ft_puttab(e->hdoc->content);
 		return (replace_line(e, &same_node, &i));
+	}
 	NB_READ = 0;
 	NB_MOVE = 0;
 	strfree(&e->line);

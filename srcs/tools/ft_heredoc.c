@@ -15,28 +15,23 @@ static char	*get_hdoc_word(t_env *e, char *str)
 {
 	static int	i = -1;
 	int			j;
-	int			last_in;
 
 	j = 0;
-	last_in = -1;
 	if (!str)
 		return (NULL);
 	if (i > 0 && str[i] && str[i] == ';')
 		++i;
 	while (str[++i] && str[i] != ';')
 		if (i && str[i - 1] == '<' && str[i] == '<')
-			last_in = i;
+			break ;
 	if (!str[i])
 	{
 		i = -1;
 		e->herestop = 0;
-	}
-	if (last_in == -1)
 		return (NULL);
-	else
-		i = last_in;
-	j = find_word_end(last_in, str);
-	return (ft_strsub(str, (last_in + 2), (j - (last_in + 2))));
+	}
+	j = find_word_end(i, str);
+	return (ft_strsub(str, (i + 2), (j - (i + 2))));
 }
 
 int			ft_heredoc(t_env *e)
