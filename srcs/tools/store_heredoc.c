@@ -70,11 +70,7 @@ int			store_heredoc(t_env *e)
 		ft_prompt(e->prompt);
 	}
 	else
-	{
-		ft_printf("HDOC :\n");
-		ft_puttab(e->hdoc->content);
 		return (replace_line(e, &same_node, &i));
-	}
 	NB_READ = 0;
 	NB_MOVE = 0;
 	strfree(&e->line);
