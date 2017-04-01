@@ -99,7 +99,7 @@ static void	manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
-void 			test(t_env *e)
+int 			test(t_env *e)
 {
 	int		i;
 	int		ret;
@@ -110,6 +110,8 @@ void 			test(t_env *e)
 	quote = '\0';
 	while (e->line[++i])
 	{
+		if (ret == -1)
+			return (-1);
 		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
 			e->line[i - 1] != '\\')
 			manage_quote(&quote, e->line[i]);
@@ -118,6 +120,7 @@ void 			test(t_env *e)
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
+	return (ret);
 }
 
 int				ft_parse_line(t_env *e)
@@ -128,7 +131,8 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	test(e);
+	if (test(e) == -1)
+		return (-1);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
