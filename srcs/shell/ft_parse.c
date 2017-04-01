@@ -48,6 +48,8 @@ int				do_all_substitution(t_env *e, int i)
 	{
 		if (substitution(e, i, x) == -1)
 			ret = -1;
+		if (!e->cat[i][x][0])
+			ret = -1;
 		x++;
 	}
 	return (ret);
@@ -61,9 +63,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-	if (!(e->cmd = ft_strsplit_quote_bs(cmds_i, ' ')) ||
+	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
+	e->cmd = ft_strsplit(ft_strdup("ls -l"), ' ');
 	if (magic_type(e) == -1)
 		return (-42);
 	e->len_mag = struct_len(&e->magic);

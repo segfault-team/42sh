@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void		ft_exit(t_env *e)
+void		ft_exit(t_env *e, char **cmd)
 {
 	if (e->cmd && e->cmd[1])
 	{

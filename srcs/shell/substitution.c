@@ -55,7 +55,7 @@ int			substitution(t_env *e, int y, int z)
 			ft_strdel(&tmp);
 		}
 		else if (e->cat[y][z][i] == '$' && e->cat[y][z][i + 1])
-			ret = do_env_subs(e, &e->cat[y][z], &i);
+			do_env_subs(e, &e->cat[y][z], &i);
 	}
 	strfree(&user_dir);
 	return (ret);
