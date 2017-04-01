@@ -38,7 +38,7 @@ int		find_nxt_operator(t_env *e)
 	int	len;
 
 	len = 1;
-	if (!e->magic[RED_INDEX].cmd)
+	if (RED_INDEX >= e->len_mag || !e->magic[RED_INDEX].cmd)
 		return (0);
 	while (e->magic[++RED_INDEX].cmd && !is_operator(e, RED_INDEX))
 		if (is_redir_pipe(e, RED_INDEX))

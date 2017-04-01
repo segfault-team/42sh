@@ -36,6 +36,7 @@ static void		ft_init_bis(t_env *e)
 	e->child_running = 0;
 	e->check_ctrl_c = 0;
 	e->i_mag = 0;
+	e->len_mag = 0;
 	e->b_hdoc = NULL;
 	e->quote = '\0';
 	e->last_cmd = NULL;
