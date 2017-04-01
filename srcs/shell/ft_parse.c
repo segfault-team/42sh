@@ -17,9 +17,7 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	else
 		ret = redir_exec_open(i, e);
 	if (is_output_redir(e, RED_INDEX))
-	{
 		redir_fill_output(e);
-	}
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);
@@ -36,6 +34,7 @@ static void		exec_end(t_env *e)
 	RED_INDEX = 0;
 	ft_tabfree(e->cmd);
 	e->cmd = NULL;
+	e->check_input = 0;
 }
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
@@ -62,7 +61,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
 	ft_printf("====  END CAT    ====\n");
-*/	while (++i < ft_catlen(e->cat) && e->cat[i])
+*/
+	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);

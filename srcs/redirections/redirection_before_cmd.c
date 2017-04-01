@@ -9,7 +9,10 @@ int		redirection_before_cmd(t_env *e)
 	if (is_aggregator(e, RED_INDEX))
 		ret = redir_to_aggregator(e);
 	else if (is_redir_pipe(e, RED_INDEX))
+	{
+		e->check_input = 1;
 		return (dup2(FD.fd[1], STDOUT_FILENO));
+	}
 	else if (is_output_redir(e, RED_INDEX))
 		dup2(FD.fd[1], STDOUT_FILENO);
 	else if (is_heredoc(e, RED_INDEX))
@@ -17,8 +20,7 @@ int		redirection_before_cmd(t_env *e)
 	else if (is_input_redir(e, RED_INDEX))
 	{
 		ret = redir_input(e);
-		if (is_next_redir(e, RED_INDEX) == PIPE || is_next_redir(e, RED_INDEX) == OUTPUT)
-			pipe(FD.fd);
+		e->check_input = 1;
 	}
 	else if (is_heredoc(e, RED_INDEX))
 		ret = redir_from_hdoc(e);
@@ -29,6 +31,11 @@ int		redirection_before_cmd(t_env *e)
 	{
 		struct_find_red(e);
 		return (redirection_before_cmd(e));
+	}
+	else if (nxt_redir == PIPE)
+	{
+		dup2(FD.fd[1], STDOUT_FILENO);
+		struct_find_red(e);
 	}
 	return (1);
 }

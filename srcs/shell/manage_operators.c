@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		find_next_op(t_env *e)
+static int	find_next_op(t_env *e)
 {
 	int		i;
 
@@ -12,7 +12,7 @@ int		find_next_op(t_env *e)
 	return (i);
 }
 
-int		manage_operators(t_env *e, int i, int ret)
+int			manage_operators(t_env *e, int i, int ret)
 {
 	static	int		next_op = 0;
 
@@ -20,6 +20,7 @@ int		manage_operators(t_env *e, int i, int ret)
 		next_op = 0;
 	if (!(next_op = find_next_op(e)))
 		return (0);
+	e->check_input = 0;
 	if (is_and(e, next_op) && ret == 1)
 		return (0);
 	else if (is_and(e, next_op) && ret == -1)

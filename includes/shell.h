@@ -260,6 +260,7 @@ typedef struct			s_env
 	int					child_running;
 	int					check_ctrl_c;
 	int					check_sigtstp;
+	int					check_input;
 	t_tputs				struct_tputs;
 	char				*hist_file;
 	size_t				trunc_in_history;

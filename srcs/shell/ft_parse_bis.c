@@ -14,9 +14,9 @@ int		ft_is_builtin(char *cmd)
 int		ft_exec_builtin(t_env *e, char **cmd)
 {
 	char	ret;
-	int		mem;
+//	int		mem;
 
-	mem = RED_INDEX;
+//	mem = RED_INDEX;
 	ret = 0;
 	if (redirection_before_cmd(e) < 1)
 		return (-1);
@@ -39,7 +39,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		ret = ft_where(e, cmd);
 	else if (!ft_strcmp(cmd[0], "history") && ++ret)
 		ret = ft_history(e, cmd, 1);
-	RED_INDEX = mem;
+//	RED_INDEX = mem;
 	ft_close(FD.fd[1]);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);

@@ -1,5 +1,18 @@
 #include "shell.h"
 
+static int		find_last_pipe(t_env *e)
+{
+	int		tmp;
+
+	if (!e->magic[RED_INDEX].cmd || !RED_INDEX)
+		return (0);
+	tmp = RED_INDEX;
+	while (--tmp)
+		if (is_redir_pipe(e, tmp) || is_operator(e, tmp))
+			return (tmp);
+	return (0);
+}
+
 static void		redir_output_do(t_env *e, int fd, int i, char *out)
 {
 	int		red;
@@ -23,7 +36,7 @@ static int		redir_file_output(t_env *e, char *ret_output)
 	int		fd_output;
 	int		i;
 
-	i = RED_INDEX - 1;
+	i = find_last_pipe(e);
 	fd_output = 0;
 	while (e->magic[++i].cmd && ft_strcmp(e->magic[i].cmd, "|")
 			&& !is_operator(e, i))
