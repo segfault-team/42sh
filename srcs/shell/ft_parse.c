@@ -2,12 +2,11 @@
 
 static int		exec_by_type(t_env *e, int i, int ret)
 {
-//	while (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX)
-//			|| is_heredoc(e, RED_INDEX))
-//		struct_find_red(e);
 	if (!e->cat[i + 1] && redir_check_red(e, "|")
 		&& is_next_redir(e, RED_INDEX) == OUTPUT)
+	{
 		ret = redir_exec_open(i, e);
+	}
 	else if (!e->cat[i + 1] && redir_check_red(e, "|"))
 	{
 		FD.fd[1] = STDOUT_FILENO;
@@ -18,7 +17,9 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	else
 		ret = redir_exec_open(i, e);
 	if (is_output_redir(e, RED_INDEX))
+	{
 		redir_fill_output(e);
+	}
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);
@@ -64,7 +65,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 */	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
-//		reset_last_ret(e, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 	}
 	exec_end(e);
