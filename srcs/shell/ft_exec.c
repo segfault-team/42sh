@@ -37,6 +37,25 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	return (fork_child(e, pid));
 }
 
+
+int				print_command_not_found(char *cmd, t_env *e)
+{
+	char *number;
+	char *string;
+
+	if (e->raw)
+	{
+		number = ft_itoa(-e->raw);
+		string = ft_strjoin("line ", number);
+		ft_error(cmd, string , "Command not found");
+		ft_strdel(&number);
+		ft_strdel(&string);
+	}
+	else
+		ft_error(cmd, "Command not found", NULL);
+	return (-1);
+}
+
 int				ft_exec(char **cmd, t_env *e)
 {
 	int		ret;
@@ -52,7 +71,7 @@ int				ft_exec(char **cmd, t_env *e)
 		strfree(&exec);
 		ft_free_tab(paths);
 		paths = NULL;
-		return (ft_error(cmd[0], "Command not found", NULL));
+		return (print_command_not_found(cmd[0], e));
 	}
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
 		ret = ft_fork_exec(exec, cmd, e);

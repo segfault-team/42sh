@@ -9,6 +9,8 @@ static void	free_hdoc_list(t_env *e)
 
 int			ft_reset_line(t_env *e)
 {
+	if (e->raw)
+		e->raw -= 1;
 	strfree(&e->line);
 	strfree(&e->line_bkp);
 	strfree(&MULTI);
