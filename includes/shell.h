@@ -247,6 +247,7 @@ typedef struct			s_env
 	char				***cat;
 	size_t				cmd_len;
 	size_t				i_mag;
+	size_t				len_mag;
 	t_magic				*magic;
 	t_logic				*logix;
 	t_pid_list			*pid_list;
@@ -497,7 +498,7 @@ void					tcaps_history_first_step(t_env *e);
 /*
 **	Magic struct
 */
-int						struct_len(t_magic *magic);
+int						struct_len(t_magic **magic);
 int						is_magic(t_env *e, int i);
 int						struct_check_cmd(int i, t_env *e);
 void					magic_free(t_env *e);
