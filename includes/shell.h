@@ -334,6 +334,8 @@ int						redir_fill_output(t_env *e);
 int						ft_redirect(int oldfd, int newfd);
 int						is_redirection(t_env *e, int i);
 int						is_output_redir(t_env *e, int i);
+int						find_next_output(t_env *e, int i);
+int						find_last_pipe(t_env *e);
 int						is_redir_pipe(t_env *e, int i);
 int						is_aggregator(t_env *e, int i);
 int						is_input_redir(t_env *e, int i);

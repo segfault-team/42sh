@@ -16,7 +16,7 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	}
 	else
 		ret = redir_exec_open(i, e);
-	if (is_output_redir(e, RED_INDEX))
+	if (find_next_output(e, find_last_pipe(e)))
 		redir_fill_output(e);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
