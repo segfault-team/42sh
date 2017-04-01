@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:16:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/31 01:36:55 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/01 13:59:15 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ int				ft_setenv(char ***env, char *name, char *value)
 	return (1);
 }
 
+static int		valid_name(char *s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+	{
+		if (!i && ft_isdigit(s[i]))
+			return (0);
+		else if (!ft_isalnum(s[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int				ft_setenv_blt(t_env *e, char **cmd)
 {
 	size_t	len;
@@ -59,7 +74,7 @@ int				ft_setenv_blt(t_env *e, char **cmd)
 	len = ft_tablen(cmd);
 	if (len == 3)
 	{
-		if (ft_isalpha_str(cmd[1]))
+		if (valid_name(cmd[1]))
 		{
 			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
 					ft_strequ(e->cmd[1], "HOME"))

@@ -400,6 +400,7 @@ void					reset_last_ret(t_env *e, int ret);
 int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);
 int						ft_catlen(char ***cat);
+char					*ft_xtoa(intmax_t nb);
 
 /*
 **		History

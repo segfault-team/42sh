@@ -11,7 +11,8 @@ int			is_last_cmd(t_env *e, int i)
 {
 	if (is_redir_pipe(e, i))
 		++i;
-	while (e->magic[i].cmd)
+	// CHECK EN PROOFNDEUR LA DERNIERE CONDITION
+	while (e->magic[i].cmd && !is_operator(e, i))
 	{
 		if (is_redir_pipe(e, i))
 			return (0);

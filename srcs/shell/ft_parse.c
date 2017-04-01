@@ -17,7 +17,6 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	}
 	else
 		ret = redir_exec_open(i, e);
-	reset_last_ret(e, ret);
 	if (is_output_redir(e, RED_INDEX))
 		redir_fill_output(e);
 	dup2(FD.stdin, STDIN_FILENO);
@@ -65,6 +64,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 */	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
+//		reset_last_ret(e, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 	}
 	exec_end(e);

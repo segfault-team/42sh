@@ -79,10 +79,13 @@ int			substitution(t_env *e)
 		else if (e->line[i] == '$' && e->line[i + 1] && e->line[i + 1] == '(')
 			ret = do_env_subs(e, &i);
 		else if (is_ret_last_cmd_ret(e->line, i))
-			do_substitution(e, &i, e->last_ret, 2);
+			do_substitution(e, &i, e->last_ret, 3);
 	}
 	strfree(&user_dir);
 	if (ret)
+	{
 		ft_printf("%s\n", e->line);
+		ret = 0;
+	}
 	return (ret);
 }

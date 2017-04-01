@@ -44,11 +44,15 @@ int			ft_waitlogix(t_env *e)
 	int		status;
 
 	if (!e->jobs)
+	{
+		reset_last_ret(e, 127);
 		return (-1);
+	}
 	waitpid(e->jobs->pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	e->jobs = e->jobs->next;
-	if (!status || status == 1)
+	reset_last_ret(e, WEXITSTATUS(status));
+	if (!status)
 		return (1);
 	return (-1);
 }
