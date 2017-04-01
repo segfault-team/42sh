@@ -63,9 +63,8 @@ int			ft_cd_bis(char **argv, t_env *e, char *home, int opt)
 	}
 	else
 	{
-		if (!ft_issetenv(e->env, "HOME") && e->home == NULL)
+		if (!(home = ft_getenv(e->env, "HOME")))
 			return (ft_error("cd", "no home set", NULL));
-		home = ft_strdup(e->home);
 	}
 	if (ft_chdir(argv, home, e, opt) == -1)
 		ft_chdir_error(home);
@@ -103,9 +102,8 @@ int			ft_cd(t_env *e, char **cmd)
 		return (-1);
 	if ((home = cmd[1]) == NULL)
 	{
-		if (!ft_issetenv(e->env, "HOME") && e->home == NULL)
+		if (!(home = ft_getenv(e->env, "HOME")))
 			return (ft_error("cd", "no home set", NULL));
-		home = e->home;
 		if (ft_chdir(cmd, home, e, 0) == -1)
 			ft_chdir_error(home);
 	}
