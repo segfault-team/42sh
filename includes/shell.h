@@ -298,7 +298,6 @@ void					ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
-void					ft_freelogic(t_logic *x);
 int						ft_waitlogix(t_env *e);
 int						substitution(t_env *e, int y, int z);
 int						manage_exclamation_mark(t_env *e, int *curr_pos, int y, int z);

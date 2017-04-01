@@ -42,6 +42,7 @@ void		ft_freelogic(t_logic *x)
 int			ft_waitlogix(t_env *e)
 {
 	int		status;
+	t_job	*tmp;
 
 	if (!e->jobs)
 	{
@@ -50,7 +51,9 @@ int			ft_waitlogix(t_env *e)
 	}
 	waitpid(e->jobs->pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
+	tmp = e->jobs;
 	e->jobs = e->jobs->next;
+	free(tmp);
 	reset_last_ret(e, WEXITSTATUS(status));
 	if (!status)
 		return (1);
