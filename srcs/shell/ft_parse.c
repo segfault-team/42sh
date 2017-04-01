@@ -38,10 +38,26 @@ static void		exec_end(t_env *e)
 	e->cmd = NULL;
 }
 
+int				do_all_substitution(t_env *e, int i)
+{
+	int x;
+	int ret;
+
+	ret = 0;
+	x = 0;
+	while (e->cat && e->cat[i] && e->cat[i][x])
+	{
+		if (substitution(e, i, x) == -1)
+			ret = -1;
+		x++;
+	}
+	return (ret);
+}
+
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;
-	int		ret;
+	int		ret;	
 
 	i = -1;
 	ret = 0;
@@ -64,7 +80,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_printf("====  END CAT    ====\n");
 */	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
-		ret = exec_by_type(e, i, ret);
+		if (do_all_substitution(e, i) == -1)
+			ret = -1;
+		else
+			ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 	}
 	exec_end(e);
@@ -79,8 +98,6 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if (substitution(e) == -1)
-		return (-1);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
