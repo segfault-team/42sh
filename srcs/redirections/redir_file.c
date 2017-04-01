@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int		find_last_pipe(t_env *e)
+int				find_last_pipe(t_env *e)
 {
 	int		tmp;
 
@@ -10,6 +10,18 @@ static int		find_last_pipe(t_env *e)
 	while (--tmp)
 		if (is_redir_pipe(e, tmp) || is_operator(e, tmp))
 			return (tmp);
+	return (0);
+}
+
+int				find_next_output(t_env *e, int i)
+{
+	if (!e->magic[i].cmd)
+		return (0);
+	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i))
+	{
+		if (is_output_redir(e, i))
+			return (i);
+	}
 	return (0);
 }
 
@@ -38,18 +50,11 @@ static int		redir_file_output(t_env *e, char *ret_output)
 
 	i = find_last_pipe(e);
 	fd_output = 0;
-	while (e->magic[++i].cmd && ft_strcmp(e->magic[i].cmd, "|")
-			&& !is_operator(e, i))
-	{
-		if ((!ft_strcmp(e->magic[i].cmd, ">")
-				|| !ft_strcmp(e->magic[i].cmd, ">>"))
-				&& e->magic[i + 1].cmd &&
-				!ft_strcmp(e->magic[i + 1].type, "output"))
-		{
+	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i))
+		if (is_output_redir(e, i))
 			redir_output_do(e, fd_output, i, ret_output);
-		}
-	}
 	strfree(&ret_output);
+	struct_find_red(e);
 	return (1);
 }
 

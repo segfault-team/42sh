@@ -40,7 +40,6 @@ int			ft_heredoc(t_env *e)
 
 	if (!(hdoc_word = get_hdoc_word(e, e->line)))
 		return (1);
-//	dprintf(2, "boid: %s\n", hdoc_word);
 	e->hdoc_words = new_tabcat(&e->hdoc_words, &hdoc_word);
 	e->herestock = ft_strdup(e->line);
 	e->herestop = 1;
@@ -48,7 +47,6 @@ int			ft_heredoc(t_env *e)
 	while (e->herestop)
 		if ((hdoc_word = get_hdoc_word(e, e->herestock)))
 		{
-//			dprintf(2, "boid: %s\n", hdoc_word);
 			e->hdoc_words = new_tabcat(&e->hdoc_words, &hdoc_word);
 			++e->hdoc_nb;
 		}
