@@ -8,16 +8,6 @@ static void	manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
-static int	is_ret_last_cmd_ret(char *line, int i)
-{
-	if (!line[i + 1])
-		return (0);
-	if (line[i] == '$' && line[i + 1] == '?' &&
-		(line[i + 2] == ' ' || !line[i + 2]))
-		return (1);
-	return (0);
-}
-
 void		do_substitution(char **target, int *curr_pos, char *substitute,
 							int nb_char_to_jump)
 {
@@ -74,8 +64,6 @@ int			substitution(t_env *e, int y, int z)
 			ret = manage_exclamation_mark(e, &i, y, z);
 		else if (e->cat[y][z][i] == '$' && e->cat[y][z][i + 1])
 			ret = do_env_subs(e, &e->cat[y][z], &i);
-		else if (is_ret_last_cmd_ret(e->cat[y][z], i))
-			do_substitution(&e->cat[y][z], &i, e->last_ret, 2);
 	}
 	strfree(&user_dir);
 	if (ret)

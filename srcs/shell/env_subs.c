@@ -27,7 +27,9 @@ int			do_env_subs(t_env *e, char **target, int *curr_pos)
 
 	if (!(var = isolate_var_name(SH_NAME, *target, *curr_pos + 1)))
 		return (-1);
-	if (!(substi = ft_getenv(e->env, var)))
+	if (!ft_strcmp(var, "?"))
+		substi = ft_strdup(e->last_ret);
+	else if (!(substi = ft_getenv(e->env, var)))
 		return (-1);
 	do_substitution(target, curr_pos, substi, (int)ft_strlen(var));
 	strfree(&var);
