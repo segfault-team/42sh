@@ -459,7 +459,7 @@ int						ft_cd(t_env *e, char **cmd);
 int						ft_pwd(t_env *e, char **cmd);
 int						ft_echo(char **args);
 int						ft_where(t_env *e, char **cmd);
-void					ft_exit(t_env *e);
+void					ft_exit(t_env *e, char **cmd);
 
 /*
 **		Termcaps
