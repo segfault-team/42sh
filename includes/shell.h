@@ -103,6 +103,7 @@ static int		debug = -1;
 # define OUTPUT			2
 # define INPUT			3
 # define OPERATOR		4
+# define HEREDOC		5
 
 /*
 **	TPUTS STING DEFINE

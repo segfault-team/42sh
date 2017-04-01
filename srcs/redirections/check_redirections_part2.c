@@ -46,6 +46,8 @@ int		is_next_redir(t_env *e, int i)
 		return (INPUT);
 	else if (is_operator(e, i))
 		return (OPERATOR);
+	else if (is_heredoc(e, i))
+		return (HEREDOC);
 	return (-1);
 }
 
