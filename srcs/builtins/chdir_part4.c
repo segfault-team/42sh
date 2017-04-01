@@ -5,12 +5,12 @@ int		ft_chdir_error(char *path)
 	struct stat	buf;
 
 	if (access(path, F_OK) == -1)
-		return (ft_error("cd", "No such file or directory:", path));
+		return (ft_error("cd", "No such file or directory", path));
 	lstat(path, &buf);
 	if (!S_ISDIR(buf.st_mode))
-		return (ft_error("cd", "Not a directory:", path));
+		return (ft_error("cd", "Not a directory", path));
 	if (access(path, X_OK | R_OK) == -1)
-		return (ft_error("cd", "Permission denied:", path));
+		return (ft_error("cd", "Permission denied", path));
 	return (-42);
 }
 
