@@ -1,13 +1,5 @@
 #include "shell.h"
 
-static void	manage_quote(char *quote, char current)
-{
-	if (!(*quote))
-		*quote = current;
-	else if (current == *quote)
-		*quote = '\0';
-}
-
 void		do_substitution(char **target, int *curr_pos, char *substitute,
 							int nb_char_to_jump)
 {
@@ -36,14 +28,12 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 int			substitution(t_env *e, int y, int z)
 {
 	int		i;
-
 	int		ret;
 	char	*user_dir;
 	char	*tmp;
 
 	i = -1;
 	ret = 0;
-
 	user_dir = ft_strdup("/Users/");
 	while (e->cat[y][z][++i])
 	{
@@ -68,7 +58,5 @@ int			substitution(t_env *e, int y, int z)
 			ret = do_env_subs(e, &e->cat[y][z], &i);
 	}
 	strfree(&user_dir);
-	if (ret)
-		ft_printf("%s\n", e->cat[y][z]);
 	return (ret);
 }

@@ -301,10 +301,10 @@ t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						ft_waitlogix(t_env *e);
 int						substitution(t_env *e, int y, int z);
-int						manage_exclamation_mark(t_env *e, int *curr_pos, int y, int z);
+int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
-int						manage_double_excl_mark(t_env *e, int *curr_pos, int y, int z);
-int						join_line(t_env *e, int *curr_pos, int y, int z);
+int						manage_double_excl_mark(t_env *e, int *curr_pos);
+int						join_line(t_env *e, int *curr_pos);
 void					do_substitution(char **target, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, char **target, int *curr);
