@@ -36,13 +36,14 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 int			substitution(t_env *e, int y, int z)
 {
 	int		i;
-	char	quote;
+
 	int		ret;
 	char	*user_dir;
+	char	*tmp;
 
 	i = -1;
 	ret = 0;
-	quote = '\0';
+
 	user_dir = ft_strdup("/Users/");
 	while (e->cat[y][z][++i])
 	{
@@ -51,17 +52,18 @@ int			substitution(t_env *e, int y, int z)
 			strfree(&user_dir);
 			return (-1);
 		}
-		if ((e->cat[y][z][i] == '"' || e->cat[y][z][i] == '\'') && i - 1 >= 0 &&
-			e->cat[y][z][i - 1] != '\\')
-			manage_quote(&quote, e->cat[y][z][i]);
 		else if (e->cat[y][z][i] == '~' && !i && e->cat[y][z][i + 1]
 				&& e->cat[y][z][i + 1] != ' '
 				&& e->cat[y][z][i + 1] != '/')
 			do_substitution(&e->cat[y][z], &i, user_dir, 0);
-		else if (e->cat[y][z][i] == '~' && !quote && !i)
-			do_substitution(&e->cat[y][z], &i, e->home, 0);
-		else if (e->cat[y][z][i] == '!' && !quote)
-			ret = manage_exclamation_mark(e, &i, y, z);
+		else if (e->cat[y][z][i] == '~' && !i)
+		{
+			tmp = ft_getenv(e->env, "HOME");
+			if (!tmp)
+				tmp = ft_strdup(e->home);
+			do_substitution(&e->cat[y][z], &i, tmp, 0);
+			ft_strdel(&tmp);
+		}
 		else if (e->cat[y][z][i] == '$' && e->cat[y][z][i + 1])
 			ret = do_env_subs(e, &e->cat[y][z], &i);
 	}

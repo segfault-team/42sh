@@ -2,7 +2,7 @@
 
 static int		ft_isspace(char c)
 {
-	return ((c == ' ' || c == '\t'));
+	return ((c && (c == ' ' || c == '\t')));
 }
 
 static int		is_quote(t_env *e)
@@ -12,8 +12,8 @@ static int		is_quote(t_env *e)
 	i = -1;
 	while (e->line[++i])
 	{
-		if (((e->line[i] == '"') &&
-			((i - 1 >= 0 && e->line[i - 1] != '\\') || !i)) || e->line[i] == '\'')
+		if ( (!i || (e->line[i - 1] != '\\' && e->quote != '\''))
+			&& ((e->line[i] == '"') || e->line[i] == '\''))
 		{
 			if (!e->quote)
 				e->quote = e->line[i];
@@ -84,11 +84,11 @@ int				ft_multiline(t_env *e)
 	char	*tmp;
 	int		check;
 
+	check = 0;
+	tmp = NULL;
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
-	if ((e->line && NB_READ >= 2
-				&& (check_last_char(e, '\\') || check_last_char(e, '|')))
-				|| check == 42)
+	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42)
 		return (manage_multi(e, tmp, check));
 	else if (MULTI)
 	{

@@ -91,6 +91,25 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	return (ret);
 }
 
+void 			test(t_env *e, int y, int z)
+{
+	int		i;
+	int		ret;
+	char	quote;
+
+	quote = '\0';
+	while (e->cat[y][z][++i])
+	{
+		if ((e->cat[y][z][i] == '"' || e->cat[y][z][i] == '\'') && i - 1 >= 0 &&
+			e->cat[y][z][i - 1] != '\\')
+			manage_quote(&quote, e->cat[y][z][i]);
+		else if (e->cat[y][z][i] == '!' && !quote)
+			ret = manage_exclamation_mark(e, &i, y, z);
+	}
+	if (ret)
+		ft_printf("%s\n", e->cat[y][z]);
+}
+
 int				ft_parse_line(t_env *e)
 {
 	int		i;
@@ -99,6 +118,7 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
+	test(e, i,  y,  z);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
