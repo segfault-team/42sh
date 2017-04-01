@@ -66,6 +66,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	if (magic_type(e) == -1)
 		return (-42);
+	e->len_mag = struct_len(&e->magic);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);

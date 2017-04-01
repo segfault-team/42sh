@@ -7,13 +7,13 @@ int		is_magic(t_env *e, int i)
 	return (0);
 }
 
-int		struct_len(t_magic *magic)
+int		struct_len(t_magic **magic)
 {
 	int	len;
 
 	len = 0;
-	if (magic)
-		while (magic[len].cmd)
+	if (*magic)
+		while ((*magic)[len].cmd)
 			++len;
 	return (len);
 }
