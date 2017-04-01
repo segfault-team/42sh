@@ -27,7 +27,7 @@ int		redirection_before_cmd(t_env *e)
 	if (ret == -1)
 		return (-1);
 	nxt_redir = is_next_redir(e, RED_INDEX);
-	if (nxt_redir != PIPE && nxt_redir != -1)
+	if (nxt_redir != PIPE && nxt_redir != -1 && nxt_redir != OPERATOR)
 	{
 		struct_find_red(e);
 		return (redirection_before_cmd(e));
