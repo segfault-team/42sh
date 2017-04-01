@@ -8,6 +8,8 @@ static void	do_for_last_cmd(t_env *e)
 
 int			is_last_cmd(t_env *e, int i)
 {
+	if (is_redir_pipe(e, i))
+		++i;
 	while (e->magic[i].cmd)
 	{
 		if (is_redir_pipe(e, i))

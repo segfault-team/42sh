@@ -49,8 +49,12 @@ int		is_next_redir(t_env *e, int i)
 
 int		is_input_in_next_cmd(t_env *e, int i)
 {
+	//PEU ETRE UN LA SOURCE DU PROB
+	if (!i)
+		return (0);
 	++i;
-	while (e->magic[i].cmd && !is_redir_pipe(e, i) && !is_input_redir(e, i))
+	while (e->magic[i].cmd && !is_redir_pipe(e, i) && !is_input_redir(e, i)
+		   && !is_operator(e, i))
 		++i;
 	if (is_input_redir(e, i))
 		return (1);

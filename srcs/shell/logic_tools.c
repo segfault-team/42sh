@@ -48,7 +48,7 @@ int			ft_waitlogix(t_env *e)
 	waitpid(e->jobs->pid, &status, WUNTRACED);
 	ft_handle_ret_signal(status);
 	e->jobs = e->jobs->next;
-	if (!status)
+	if (!status || status == 1)
 		return (1);
 	return (-1);
 }

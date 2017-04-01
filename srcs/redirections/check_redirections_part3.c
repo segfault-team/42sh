@@ -32,3 +32,14 @@ int		is_or(t_env *e, int i)
 		return (1);
 	return (0);
 }
+
+int		find_nxt_operator(t_env *e)
+{
+	int	len;
+
+	len = 1;
+	while (e->magic[++RED_INDEX].cmd && !is_operator(e, RED_INDEX))
+		if (is_redirection(e, RED_INDEX))
+			++len;
+	return (len);
+}

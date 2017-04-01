@@ -4,7 +4,9 @@ static int		fork_child(t_env *e, pid_t pid)
 {
 	t_job		*son;
 
-	while (is_aggregator(e, RED_INDEX) || is_heredoc(e, RED_INDEX))
+//	while (is_aggregator(e, RED_INDEX) || is_heredoc(e, RED_INDEX))
+	while (RED_INDEX && !is_redir_pipe(e, RED_INDEX) && !is_operator(e, RED_INDEX)
+		   && !is_output_redir(e, RED_INDEX))
 		struct_find_red(e);
 	if (!(son = ft_new_job(e->jobs, pid)))
 		return (ft_error(SH_NAME, "malloc failed", NULL));
@@ -14,7 +16,6 @@ static int		fork_child(t_env *e, pid_t pid)
 
 static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
-	static int	prev_red_index = -1;
 	pid_t		pid;
 
 	if ((pid = fork()) < 0)
@@ -29,14 +30,12 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		if (redirection_before_cmd(e) == -1)
 			exit(0);
-		if ((is_input_in_next_cmd(e, RED_INDEX) || is_input_redir(e, RED_INDEX))
-					&& RED_INDEX != prev_red_index)
-			if (redir_input(e) == -1 && ft_printf("\n"))
-				exit(0);
+//		if ((is_input_in_next_cmd(e, RED_INDEX) || is_input_redir(e, RED_INDEX)))
+//			if (redir_input(e) == -1 && ft_printf("\n"))
+//				exit(0);
 		ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
-	prev_red_index = RED_INDEX;
 	return (fork_child(e, pid));
 }
 

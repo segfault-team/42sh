@@ -1,34 +1,5 @@
 #include "shell.h"
 
-static int		struct_find_out(t_env *e)
-{
-	int mem_red_index;
-
-	mem_red_index = RED_INDEX;
-	while (e->magic[RED_INDEX].cmd &&
-			ft_strcmp(e->magic[RED_INDEX].type, "output"))
-		++RED_INDEX;
-	if (!(e->magic[RED_INDEX].cmd))
-		return (0);
-	return (1);
-}
-
-static int		nombrederedirectionsdanslacommande(t_env *e)
-{
-	int		nb_red;
-	int		i;
-
-	nb_red = 0;
-	i = RED_INDEX;
-	while (e->magic[i].type)
-	{
-		if (!ft_strcmp(e->magic[i].type, "output"))
-			++nb_red;
-		++i;
-	}
-	return (nb_red);
-}
-
 static void		redir_output_do(t_env *e, int fd, int i, char *out)
 {
 	int		red;

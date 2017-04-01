@@ -2,14 +2,13 @@
 
 static int		exec_by_type(t_env *e, int i, int ret)
 {
-	while (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX)
-			|| is_heredoc(e, RED_INDEX))
-		struct_find_red(e);
+//	while (is_aggregator(e, RED_INDEX) || is_output_redir(e, RED_INDEX)
+//			|| is_heredoc(e, RED_INDEX))
+//		struct_find_red(e);
 	if (!e->cat[i + 1] && redir_check_red(e, "|")
 		&& is_next_redir(e, RED_INDEX) == OUTPUT)
 		ret = redir_exec_open(i, e);
-	else if ((!e->cat[i + 1] && redir_check_red(e, "|")) ||
-		(!RED_INDEX && redir_check_red(e, "|")))
+	else if (!e->cat[i + 1] && redir_check_red(e, "|"))
 	{
 		FD.fd[1] = STDOUT_FILENO;
 		if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
@@ -55,10 +54,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-	ft_printf("====  MAGIC  ====\n");
+/*	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-/*	ft_printf("====   CAT       ====\n");
+	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
 			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);

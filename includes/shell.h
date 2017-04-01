@@ -351,6 +351,7 @@ int						is_put_after(t_env *e);
 int						is_operator(t_env *e, int i);
 int						is_and(t_env *e, int i);
 int						is_or(t_env *e, int i);
+int						find_nxt_operator(t_env *e);
 
 
 /*

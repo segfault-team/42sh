@@ -6,7 +6,7 @@
 /*   By: vlistrat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/26 11:27:44 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/03/31 05:44:43 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/01 07:18:07 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char		*ft_strstr(const char *s1, const char *s2)
 	char	*str2;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (NULL);
 	str1 = (char*)s1;
 	str2 = (char*)s2;
 	if (str2[i] == '\0')
