@@ -92,7 +92,6 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 	{
 		ret = ft_exec_builtin(e, cmd);
 		reset_last_ret(e, ((ret == 1) ? 0 : 127));
-
 	}
 	else
 	{

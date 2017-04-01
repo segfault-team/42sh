@@ -79,9 +79,9 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
+	ft_store_history(e);
 	if (substitution(e) == -1)
 		return (-1);
-	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
 		if (!cmds[0])
