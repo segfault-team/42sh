@@ -11,6 +11,10 @@ void	strfree(char **str)
 
 void	ft_env_free(t_env *e)
 {
+	if (e->new_term)
+		free(e->new_term);
+	if (e->old_term)
+		free(e->old_term);
 	strfree(&e->line);
 	strfree(&e->home);
 	strfree(&e->prompt);

@@ -58,12 +58,12 @@ int		ft_waitsons(t_env *e)
 	{
 		waitpid(e->jobs->pid, &status, WUNTRACED);
 		ft_handle_ret_signal(status);
+		ft_printf("pid: %d\n", e->jobs->pid);
 		tmp = e->jobs->next;
 		free(e->jobs);
 		e->jobs = tmp;
 	}
 	e->child_running = 0;
-	e->jobs = NULL;
 	if (!status)
 		return (1);
 	return (-1);
