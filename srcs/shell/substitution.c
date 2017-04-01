@@ -31,7 +31,7 @@ void		do_substitution(t_env *e, int *curr_pos, char *substitute,
 	while (*e->line)
 	{
 		if (e->line == &tmp[*curr_pos] && substitute)
-			ft_replace_word(&new, substitute, &e->line, nb_char_to_jump);
+			ft_replace_word(&new, substitute, &e->line, nb_char_to_jump + 1);
 		else
 		{
 			*new = *e->line;
