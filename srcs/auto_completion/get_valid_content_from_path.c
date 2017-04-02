@@ -17,7 +17,7 @@ static int	ft_start_with_bis(char *str, char *comp)
 	return (1);
 }
 
-char		*escape_specials(char *str)
+char		*escape_specials(char *str, int i, int len)
 {
 	char	*tmp;
 	char	*ret;
@@ -27,7 +27,10 @@ char		*escape_specials(char *str)
 	+ ft_countchar(str, '\'') + ft_countchar(str, '\"');
 	tmp = ft_strnew(strlen(str) + k);
 	ret = tmp;
-	while (*str)
+	ft_strncpy(tmp, str, i);
+	str += i;
+	tmp += i;
+	while (*str && len)
 	{
 		if (*str == ' ' || *str == '	' || *str == '\'' || *str == '\"')
 		{
@@ -37,7 +40,9 @@ char		*escape_specials(char *str)
 		*tmp = *str;
 		++tmp;
 		++str;
+		--len;
 	}
+	ft_strcpy(tmp, str);
 	return (ret);
 }
 
@@ -80,7 +85,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
 		if (!cur_inquote(e))
-			tmp = escape_specials(dir_entry->d_name);
+			tmp = escape_specials(dir_entry->d_name, 0, -1);
 		else
 			tmp = ft_strdup(dir_entry->d_name);
 		if (ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))

@@ -15,7 +15,8 @@ static char	*isolate_var_name(char *sh_name, char *line, int i)
 	if (!line[i])
 		return (gestion_error(sh_name, NULL, 0));
 	while (line[tmp] && line[tmp] != '/' && line[tmp] != ' '
-			&& line[tmp] != '$')
+			&& line[tmp] != '$' && line[tmp] != '\''
+			&& line[tmp] != '\"' && line[tmp] != '\\')
 		++tmp;
 	return (ft_strsub(line, i, (tmp - i)));
 }
@@ -25,13 +26,12 @@ int			do_env_subs(t_env *e, char **target, int *curr_pos)
 	char	*var;
 	char	*substi;
 
-	ft_printfd(2, "'%s' et %d\n", *target, *curr_pos);
 	if (!(var = isolate_var_name(SH_NAME, *target, *curr_pos + 1)))
 		return (-1);
 	if (!ft_strcmp(var, "?"))
 		substi = ft_strdup(e->last_ret);
 	else if (!(substi = ft_getenv(e->env, var)))
-		substi = ft_strdup("");
+		return (-1);
 	do_substitution(target, curr_pos, substi, (int)ft_strlen(var));
 	strfree(&var);
 	strfree(&substi);

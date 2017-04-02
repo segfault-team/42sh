@@ -37,7 +37,7 @@ static void		exec_end(t_env *e)
 	e->check_input = 0;
 }
 
-int				do_all_substitution(t_env *e, int i)
+/*int				do_all_substitution(t_env *e, int i)
 {
 	int x;
 	int ret;
@@ -53,7 +53,7 @@ int				do_all_substitution(t_env *e, int i)
 		x++;
 	}
 	return (ret);
-}
+}*/
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
@@ -83,10 +83,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 */
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
-		if (do_all_substitution(e, i) == -1)
-			ret = -1;
-		else
-			ret = exec_by_type(e, i, ret);
+		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 	}
 	exec_end(e);
@@ -143,7 +140,10 @@ int				ft_parse_line(t_env *e)
 					   SH_NAME);
 		while (cmds[++i])
 		{
-			ret = ft_iter_cmds(e, cmds[i]);
+			if (substitution(e, &cmds[i]) == -1)
+				ret = -42;
+			else
+				ret = ft_iter_cmds(e, cmds[i]);
 			if (ret == -42)
 				return (ret);
 			tcaps_set(e);
