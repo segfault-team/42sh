@@ -301,7 +301,7 @@ t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						ft_waitlogix(t_env *e);
-int						substitution(t_env *e, char **str);
+int						substitution(t_env *e, int y, int z);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
@@ -333,6 +333,7 @@ int						redir_exec_open(int i, t_env *e);
 int						redir_check_red(t_env *e, char *red);
 int						redir_fill_output(t_env *e);
 int						ft_redirect(int oldfd, int newfd);
+int						is_redir_sign(char c);
 int						is_redirection(t_env *e, int i);
 int						is_output_redir(t_env *e, int i);
 int						find_next_output(t_env *e, int i);
@@ -554,7 +555,6 @@ void					ft_fill_files(char **argv, t_env *e);
 int						ft_countchar(char *str, char c);
 int						calc_rows(t_env *e);
 void					merge_sort(t_list **source);
-char					*escape_specials(char *str, int i, int len);
 
 /*
 **      Parse Command
