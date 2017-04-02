@@ -1,5 +1,12 @@
 #include "shell.h"
 
+void		ft_dupp(t_env *e)
+{
+	dup2(FD.stdin, STDIN_FILENO);
+	dup2(FD.stdout, STDOUT_FILENO);
+	dup2(FD.stderr, STDERR_FILENO);
+}
+
 int			ft_redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)

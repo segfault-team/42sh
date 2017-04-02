@@ -90,7 +90,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	return (ret);
 }
 
-static void	manage_quote(char *quote, char current)
+static void		manage_quote(char *quote, char current)
 {
 	if (!(*quote))
 		*quote = current;
@@ -98,7 +98,7 @@ static void	manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
-int 			test(t_env *e)
+int				test(t_env *e)
 {
 	int		i;
 	int		ret;
@@ -137,7 +137,7 @@ int				ft_parse_line(t_env *e)
 	{
 		if (!cmds[0])
 			ft_printfd(2, "%s: syntax error near unexpected token \";\"\n",
-					   SH_NAME);
+					SH_NAME);
 		while (cmds[++i])
 		{
 			if (substitution(e, &cmds[i]) == -1)

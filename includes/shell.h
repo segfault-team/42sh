@@ -296,12 +296,12 @@ int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
 void					ft_banner(void);
 void					ft_prompt(char *prompt);
-void					ft_freelogic(t_logic *x);
+int						ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						ft_waitlogix(t_env *e);
-int						substitution(t_env *e, char **str);
+int						substitution(t_env *e, int y, int z);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
@@ -312,13 +312,14 @@ int						do_env_subs(t_env *e, char **target, int *curr);
 /*
 **		Exec
 */
-int						ft_exec_builtin(t_env *e, char **cmd);
+int						ft_exec_builtin(t_env *e, char **cmd, int ret);
 int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
 int						ft_exec(char **cmd, t_env *e);
 char					*ft_find_exec_readdir(char *paths, char *cmd);
 int						ft_exec_cmd(t_env *e, char **cmd);
 char					**ft_find_paths(char **env);
+int						print_command_not_found(char *cmd, t_env *e);
 char					*ft_find_exec(char **paths, char *cmd);
 char					**ft_trim_split_cmd(t_env *e);
 void					ft_close(int fd);
@@ -332,6 +333,7 @@ int						redir_exec_open(int i, t_env *e);
 int						redir_check_red(t_env *e, char *red);
 int						redir_fill_output(t_env *e);
 int						ft_redirect(int oldfd, int newfd);
+int						is_redir_sign(char c);
 int						is_redirection(t_env *e, int i);
 int						is_output_redir(t_env *e, int i);
 int						find_next_output(t_env *e, int i);
@@ -358,6 +360,7 @@ int						is_operator(t_env *e, int i);
 int						is_and(t_env *e, int i);
 int						is_or(t_env *e, int i);
 int						find_nxt_operator(t_env *e);
+void					ft_dupp(t_env *e);
 
 
 /*
@@ -386,6 +389,9 @@ int						ft_subs_tilde(t_env *e);
 int						is_number(char c);
 int						is_only_numbers(char *str);
 int						ft_multiline(t_env *e);
+int						is_bad_line(char *line);
+int						is_quote(t_env *e);
+int						ft_isspace(char c);
 int						ft_start_with(char *str, char *comp);
 int						open_file(char *file, int flags, mode_t mode);
 int						atoi_bis(const char *str);
@@ -453,6 +459,8 @@ void					strfree(char **str);
 **		Builtins
 */
 int						ft_env(t_env *e, char **cmd);
+void					ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i);
+int						ft_env_error(char *cmd);
 int						ft_cat_env_args(char ***env_cpy, char **cmd, int *i);
 int						ft_setenv_blt(t_env *e, char **cmd);
 int						ft_setenv(char ***env, char *name, char *value);
@@ -513,6 +521,8 @@ void					struct_find_red(t_env *e);
 t_magic					*struct_strsplit(char const *str, char div);
 t_magic					*struct_strsplit_quote(char const *s, char c);
 t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
+void					struct_init(int len, t_magic *magic);
+int						is_redit_sign(char c);
 int						ft_check_input(int i, t_env *e);
 int						ft_check_output(int i, t_env *e);
 int						ft_check_heredoc(int i, t_env *e);
@@ -545,7 +555,6 @@ void					ft_fill_files(char **argv, t_env *e);
 int						ft_countchar(char *str, char c);
 int						calc_rows(t_env *e);
 void					merge_sort(t_list **source);
-char					*escape_specials(char *str, int i, int len);
 
 /*
 **      Parse Command

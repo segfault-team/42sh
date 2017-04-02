@@ -9,21 +9,14 @@
 **		-->		{true, -42} -> {echo LOL, AND}
 */
 
-t_logic		*ft_split_logic(t_logic *x, char **cmd)
+static int		ft_split_logic_bis(t_logic *x, char **cmd,
+		t_logic *ptr, int op)
 {
-	t_logic		*ptr;
+	int			ret;
 	char		**tmp;
 	int			i;
-	int			op;
-	int			ret;
 
-	if ((x = ft_new_logic()) == NULL)
-		return (NULL);
-	ptr = x;
-	i = -1;
-	op = 0;
-	x->atom = ft_tabcat(NULL, cmd[++i]);
-	x->op = -42;
+	i = 0;
 	while (cmd[++i])
 	{
 		if ((ret = ft_check_op(cmd[i])))
@@ -38,13 +31,24 @@ t_logic		*ft_split_logic(t_logic *x, char **cmd)
 				op = 0;
 			}
 			if ((tmp = ft_tabcat(ptr->atom, cmd[i])) == NULL)
-			{
-				ft_freelogic(x);
-				return (NULL);
-			}
+				return (ft_freelogic(x));
 			ft_tabfree(ptr->atom);
 			ptr->atom = tmp;
 		}
 	}
+	return (0);
+}
+
+t_logic			*ft_split_logic(t_logic *x, char **cmd)
+{
+	t_logic		*ptr;
+
+	if ((x = ft_new_logic()) == NULL)
+		return (NULL);
+	ptr = x;
+	x->atom = ft_tabcat(NULL, cmd[0]);
+	x->op = -42;
+	if (ft_split_logic_bis(x, cmd, ptr, 0) < 0)
+		return (NULL);
 	return (x);
 }

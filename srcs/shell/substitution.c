@@ -5,7 +5,7 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 {
 	char	*new;
 	char	*tmp;
-	char 	*ret;
+	char	*ret;
 
 	new = ft_strnew((int)(ft_strlen(*target) + (int)ft_strlen(substitute)));
 	ret = new;

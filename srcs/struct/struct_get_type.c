@@ -14,7 +14,8 @@ void		struct_arg_red(int i, t_env *e)
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
 	else if (is_only_numbers(e->magic[i].cmd) ||
-		   !ft_strcmp(e->magic[i].cmd, "-") || ft_strstr("<&", e->magic[i].cmd))
+			!ft_strcmp(e->magic[i].cmd, "-") ||
+			ft_strstr("<&", e->magic[i].cmd))
 		e->magic[i].type = ft_strdup("fd_aggregator");
 	else if (ft_strstr(e->magic[i - 1].cmd, ">&"))
 	{
@@ -44,7 +45,7 @@ static int	is_valid_fd(char *cmd)
 **  test    -> "output"
 */
 
-int		magic_type(t_env *e)
+int			magic_type(t_env *e)
 {
 	int i;
 

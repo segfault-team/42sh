@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-int		ft_set_home(t_env *e)
+int			ft_set_home(t_env *e)
 {
 	int				uid;
 	struct passwd	*pwd;

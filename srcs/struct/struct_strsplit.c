@@ -28,20 +28,8 @@ static size_t		ft_wordlen(char const *str, char div)
 
 	wlen = 0;
 	while (str[wlen] != '\0' && str[wlen] != div)
-			++wlen;
+		++wlen;
 	return (wlen);
-}
-
-static void			struct_init(int len, t_magic *magic)
-{
-	int	i;
-
-	i = -1;
-	while (++i <= len)
-	{
-		magic[i].cmd = NULL;
-		magic[i].type = NULL;
-	}
 }
 
 t_magic				*struct_strsplit(char const *str, char div)
