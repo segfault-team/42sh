@@ -25,7 +25,7 @@ int			ft_check_op(char *s)
 	return (0);
 }
 
-void		ft_freelogic(t_logic *x)
+int			ft_freelogic(t_logic *x)
 {
 	t_logic	*ptr;
 
@@ -37,6 +37,7 @@ void		ft_freelogic(t_logic *x)
 		free(x);
 		x = ptr;
 	}
+	return (-1);
 }
 
 int			ft_waitlogix(t_env *e)
