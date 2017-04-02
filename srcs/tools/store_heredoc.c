@@ -57,7 +57,6 @@ int			store_heredoc(t_env *e)
 
 	if ((put_new_node(e, &same_node, &i)) < 0)
 		return (-1);
-	tmp = NULL;
 	if (ft_strcmp(e->line, e->hdoc_words[i]))
 	{
 		tmp = e->hdoc->content;

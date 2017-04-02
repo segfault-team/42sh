@@ -113,6 +113,8 @@ int			ft_history(t_env *e, char **cmd, int i)
 		ret = append_history_file_in_list(e);
 	else if (is_option(i, cmd, "-h"))
 		ret = print_history_help();
+	else if (is_option(i, cmd, "-p"))
+		ret = print_history_help();
 	else if (e->history)
 		ret = print_history(e, cmd);
 	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))

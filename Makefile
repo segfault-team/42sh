@@ -22,7 +22,7 @@ SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					ft_free.c ft_new.c ft_tabzero.c ft_reset.c ft_split_cmds.c \
 					ft_realloc_insert.c ft_start_with.c reset_last_ret.c \
-					ft_tools.c ft_remove_space.c multiline.c \
+					ft_tools.c ft_remove_space.c multiline.c multiline_bis.c\
 					ft_singletone.c is_only_numbers.c delete_line_in_tab.c \
 					open_file.c atoi_bis.c ft_check.c ft_heredoc.c store_heredoc.c \
 					ft_xtoa.c
@@ -43,7 +43,7 @@ SRC_TCAPS_NAME		= tcaps_init.c tcaps_paste.c tcaps.c tcaps_arrow.c \
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 
 ## BUILTINS FOLDER ##
-SRC_BUILTINS_NAME	= ft_echo.c ft_env.c ft_exit.c ft_history.c \
+SRC_BUILTINS_NAME	= ft_echo.c ft_env.c ft_env_bis.c ft_exit.c ft_history.c \
 					ft_setenv.c ft_unsetenv.c ft_where.c ft_history_options.c \
 					history_error.c history_tools.c ft_pwd.c history_delete.c \
 					chdir_part1.c chdir_part2.c chdir_part3.c chdir_part4.c

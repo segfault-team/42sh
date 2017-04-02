@@ -39,25 +39,6 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	return (add_job(e, pid));
 }
 
-
-int				print_command_not_found(char *cmd, t_env *e)
-{
-	char *number;
-	char *string;
-
-	if (e->raw)
-	{
-		number = ft_itoa(-e->raw);
-		string = ft_strjoin("line ", number);
-		ft_error(cmd, string , "Command not found");
-		ft_strdel(&number);
-		ft_strdel(&string);
-	}
-	else
-		ft_error(cmd, "Command not found", NULL);
-	return (-1);
-}
-
 int				ft_exec(char **cmd, t_env *e)
 {
 	int		ret;
@@ -92,7 +73,7 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 	ret = 0;
 	if (ft_is_builtin(cmd[0]))
 	{
-		ret = ft_exec_builtin(e, cmd);
+		ret = ft_exec_builtin(e, cmd, 0);
 		reset_last_ret(e, ((ret == 1) ? 0 : 127));
 	}
 	else

@@ -1,12 +1,5 @@
 #include "shell.h"
 
-static int	is_redir_sign(char c)
-{
-	if (c == '<' || c == '>' || c == '|' || c == '&')
-		return (1);
-	return (0);
-}
-
 int			ft_check_input(int i, t_env *e)
 {
 	if (!ft_strcmp(e->magic[i].cmd, "<") ||
@@ -65,7 +58,6 @@ int			struct_check_cmd(int i, t_env *e)
 		return (1);
 	else if (i && !ft_strcmp(e->magic[i - 1].type, "output"))
 		return (1);
-//  else if (OPERATOR LOGIQUE) return (1);
 	else if (i == 0 && !red_strstr(e->magic[i].cmd))
 		return (1);
 	return (0);
