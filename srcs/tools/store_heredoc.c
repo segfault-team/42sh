@@ -31,7 +31,8 @@ static int	replace_line(t_env *e, int *same_node, int *i)
 	strfree(&e->line);
 	if (e->hdoc_nb - 1 == 0)
 	{
-		e->line = ft_strdup(e->herestock);
+		if (e->herestock)
+			e->line = ft_strdup(e->herestock);
 		strfree(&e->herestock);
 		strfree(&e->prompt);
 		e->prompt = ft_strdup(STD_PROMPT);

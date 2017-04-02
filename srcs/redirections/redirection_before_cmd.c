@@ -15,15 +15,13 @@ int		redirection_before_cmd(t_env *e)
 	}
 	else if (is_output_redir(e, RED_INDEX))
 		dup2(FD.fd[1], STDOUT_FILENO);
-	else if (is_heredoc(e, RED_INDEX))
+	else if (e->hdoc && is_heredoc(e, RED_INDEX))
 		ret = redir_from_hdoc(e);
 	else if (is_input_redir(e, RED_INDEX))
 	{
 		ret = redir_input(e);
 		e->check_input = 1;
 	}
-	else if (is_heredoc(e, RED_INDEX))
-		ret = redir_from_hdoc(e);
 	if (ret == -1)
 		return (-1);
 	nxt_redir = is_next_redir(e, RED_INDEX);
