@@ -2,10 +2,6 @@
 
 void		ft_prompt(char *prompt)
 {
-	t_env	*e;
-
-	e = env_access(NULL);
-	tcaps_ctrl_end(e);
 	ft_putstr(GREEN);
 	ft_putstr(prompt);
 	ft_putstr(ENDC);
@@ -40,7 +36,7 @@ static void	midline_insert(t_env *e, int s_move, int len)
 	if (!e->raw)
 	{
 		tcaps_del_prompt(e);
-		ft_printf("%s%s%s", GREEN, e->prompt, ENDC);
+		ft_prompt(e->prompt);
 		s_move += ft_putstr(e->line);
 	}
 	while (s_move-- > NB_MOVE)

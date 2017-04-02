@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/30 20:32:18 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/02 03:37:11 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ static void	ft_sigint(t_env *e)
 	else if (!e->child_running)
 	{
 		tcaps_ctrl_end(e);
+		e->hdoc_nb = 0;
+		strfree(&e->herestock);
+		if (e->hdoc_words)
+		{
+			ft_free_tab(e->hdoc_words);
+			e->hdoc_words = NULL;
+		}
 		strfree(&MULTI);
 		TCAPS.hist_move = -1;
 		ft_putchar('\n');

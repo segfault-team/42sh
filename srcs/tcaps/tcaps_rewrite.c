@@ -29,7 +29,7 @@ int		tcaps_rewrite_line(t_env *e, char *str)
 	xputs(TGETSTR_CE);
 	xputs(TGETSTR_ED);
 	ft_prompt(e->prompt);
-	tputs(str, 1, dsh_putchar);
+	ft_putstr(str);
 	xputs(TGETSTR_RC);
 	return (0);
 }
