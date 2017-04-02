@@ -1,44 +1,5 @@
 #include "shell.h"
 
-static int		ft_isspace(char c)
-{
-	return ((c && (c == ' ' || c == '\t')));
-}
-
-static int		is_quote(t_env *e)
-{
-	int			i;
-
-	i = -1;
-	while (e->line[++i])
-	{
-		if ( (!i || (e->line[i - 1] != '\\' && e->quote != '\''))
-			&& ((e->line[i] == '"') || e->line[i] == '\''))
-		{
-			if (!e->quote)
-				e->quote = e->line[i];
-			else if (e->quote == e->line[i])
-				e->quote = '\0';
-		}
-	}
-	if (e->quote)
-		return (1);
-	return (0);
-}
-
-static int		is_bad_line(char *line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i] && line[i] != ' ')
-		if (line[i] == '|' ||
-			line[i] == '&' ||
-			line[i] == ';')
-			return (1);
-	return (0);
-}
-
 static int		ft_check_line(t_env *e)
 {
 	char *tmp;
@@ -51,7 +12,7 @@ static int		ft_check_line(t_env *e)
 		return (0);
 	if (is_quote(e))
 	{
-		if (ft_strcmp(e->line,"\n"))
+		if (ft_strcmp(e->line, "\n"))
 		{
 			tmp = e->line;
 			e->line = ft_strjoin(e->line, "\n");

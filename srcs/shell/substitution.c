@@ -5,7 +5,7 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 {
 	char	*new;
 	char	*tmp;
-	char 	*ret;
+	char	*ret;
 
 	new = ft_strnew((int)(ft_strlen(*target) + (int)ft_strlen(substitute)));
 	ret = new;
@@ -13,7 +13,7 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 	while (*target && **target)
 	{
 		if (*target == &tmp[*curr_pos] && substitute)
-			ft_replace_word(&new, substitute, &*target, nb_char_to_jump + 1 );
+			ft_replace_word(&new, substitute, &*target, nb_char_to_jump + 1);
 		else
 		{
 			*new = **target;

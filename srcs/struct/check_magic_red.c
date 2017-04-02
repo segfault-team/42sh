@@ -1,14 +1,14 @@
 #include "shell.h"
 
-int token_error(t_env *e, int id)
+int			token_error(t_env *e, int id)
 {
 	char	*ret;
 
 	ret = NULL;
 	if (!e->magic[RED_INDEX].cmd)
 	{
-		return (ft_error(SH_NAME, "syntax error near unexpected token",
-						 "'newline'"));
+		return (ft_error(SH_NAME, "syntax error near unexpected token",\
+					"'newline'"));
 	}
 	if ((int)ft_strlen(e->magic[id].cmd) > 2)
 	{
@@ -17,8 +17,8 @@ int token_error(t_env *e, int id)
 	}
 	else
 		ret = ft_strdup(e->magic[id].cmd);
-	ft_printfd(2, "%s: syntax error near unexpected token \"%s\"",
-			   SH_NAME, ret);
+	ft_printfd(2, "%s: syntax error near unexpected token \"%s\"",\
+			SH_NAME, ret);
 	strfree(&ret);
 	return (-1);
 }

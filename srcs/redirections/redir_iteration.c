@@ -10,11 +10,9 @@ void	struct_find_red(t_env *e)
 	if (RED_INDEX >= e->len_mag)
 		return ;
 	while (e->magic[RED_INDEX].cmd
-		   && ft_strcmp(e->magic[RED_INDEX].type, "red")
-		   && !is_operator(e, RED_INDEX))
+			&& ft_strcmp(e->magic[RED_INDEX].type, "red")
+			&& !is_operator(e, RED_INDEX))
 		++(RED_INDEX);
-//	if (!(e->magic[RED_INDEX].cmd))
-//		RED_INDEX = 0;
 }
 
 /*

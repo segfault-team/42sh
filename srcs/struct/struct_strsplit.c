@@ -28,7 +28,7 @@ static size_t		ft_wordlen(char const *str, char div)
 
 	wlen = 0;
 	while (str[wlen] != '\0' && str[wlen] != div)
-			++wlen;
+		++wlen;
 	return (wlen);
 }
 

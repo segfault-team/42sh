@@ -1,5 +1,24 @@
 #include "shell.h"
 
+int		is_redir_sign(char c)
+{
+	if (c == '<' || c == '>' || c == '|' || c == '&')
+		return (1);
+	return (0);
+}
+
+void	struct_init(int len, t_magic *magic)
+{
+	int i;
+
+	i = -1;
+	while (++i <= len)
+	{
+		magic[i].cmd = NULL;
+		magic[i].type = NULL;
+	}
+}
+
 int		is_magic(t_env *e, int i)
 {
 	if (e->magic[i].cmd)
