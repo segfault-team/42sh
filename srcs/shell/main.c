@@ -40,7 +40,7 @@ static void	midline_insert(t_env *e, int s_move, int len)
 	if (!e->raw)
 	{
 		tcaps_del_prompt(e);
-		ft_prompt(e->prompt);
+		ft_printf("%s%s%s", GREEN, e->prompt, ENDC);
 		s_move += ft_putstr(e->line);
 	}
 	while (s_move-- > NB_MOVE)
