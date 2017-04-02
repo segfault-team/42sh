@@ -64,10 +64,12 @@ static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
 	i = 0;
 	while (++i < (int)len && cmd[i] && cmd[i][0] == '-')
 	{
-		if (cmd[i][1] == 'u' && cmd[i + 1])
+		if (cmd[i][1] == 'u')
 		{
-			ft_unsetenv(env_cpy, cmd[i + 1]);
-			++i;
+			if (cmd[i + 1])
+				ft_unsetenv(env_cpy, cmd[++i]);
+			else
+				return (i);
 		}
 		else if (cmd[i][1] == 'i')
 			return (ft_opt_i(cmd, env_cpy, i, len));
@@ -98,10 +100,7 @@ int				ft_env(t_env *e, char **cmd)
 	if (len > 1)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
-		{
-			//ft_bzero(&FD.fd, 2);
 			i = ft_exec_cmd(e, &cmd[i]);
-		}
 	}
 	else
 		ft_puttab(e->env);
