@@ -5,7 +5,7 @@ void	tcaps_ctrl_d(t_env *e)
 	if (MULTI || NB_READ)
 		tcaps_del_fwd(e);
 	else
-		ft_exit(e);
+		ft_exit(e, NULL);
 }
 
 /*

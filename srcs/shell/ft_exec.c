@@ -22,7 +22,8 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		ft_close(FD.fd[1]);
 		return (1);
 	}
-	ft_close(FD.fd[1]);
+	if (RED_INDEX != e->len_mag || is_next_redir(e, RED_INDEX) != -1)
+		ft_close(FD.fd[1]);
 	if ((pid = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	if (!pid)
