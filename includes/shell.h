@@ -301,7 +301,7 @@ t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						ft_waitlogix(t_env *e);
-int						substitution(t_env *e, int y, int z);
+int						substitution(t_env *e, char **target);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
@@ -555,6 +555,7 @@ void					ft_fill_files(char **argv, t_env *e);
 int						ft_countchar(char *str, char c);
 int						calc_rows(t_env *e);
 void					merge_sort(t_list **source);
+char					*escape_specials(char *str, int i, int len);
 
 /*
 **      Parse Command
