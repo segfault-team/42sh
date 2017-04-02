@@ -98,7 +98,10 @@ int				ft_env(t_env *e, char **cmd)
 	if (len > 1)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
-			i = ft_exec(&cmd[i], e);
+		{
+			//ft_bzero(&FD.fd, 2);
+			i = ft_exec_cmd(e, &cmd[i]);
+		}
 	}
 	else
 		ft_puttab(e->env);

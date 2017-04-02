@@ -24,6 +24,7 @@ SRC = ft_strlen.c\
 		ft_itoa_base.c\
 		ft_imaxtoa_base.c\
 		ft_uimaxtoa_base.c\
+		ft_strisdigit.c\
 		ft_isalpha.c\
 		ft_isdigit.c\
 		ft_isalnum.c\

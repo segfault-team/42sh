@@ -22,7 +22,7 @@ int		ft_exec_builtin(t_env *e, char **cmd)
 		return (-1);
 	ft_redirect(FD.in, STDIN_FILENO);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
-		ft_exit(e);
+		ft_exit(e, cmd);
 	else if (!ft_strcmp(cmd[0], "env") && ++ret)
 		ret = ft_env(e, cmd);
 	else if (!ft_strcmp(cmd[0], "setenv") && ++ret)
@@ -58,7 +58,6 @@ int		ft_waitsons(t_env *e)
 	{
 		waitpid(e->jobs->pid, &status, WUNTRACED);
 		ft_handle_ret_signal(status);
-		ft_printf("pid: %d\n", e->jobs->pid);
 		tmp = e->jobs->next;
 		free(e->jobs);
 		e->jobs = tmp;
