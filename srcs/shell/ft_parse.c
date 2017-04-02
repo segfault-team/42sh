@@ -56,7 +56,7 @@ int				do_all_substitution(t_env *e, int i)
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;
-	int		ret;	
+	int		ret;
 
 	i = -1;
 	ret = 0;

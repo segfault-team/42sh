@@ -14,20 +14,23 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t		pid;
 
-	redirection_before_cmd(e);
+	if ((redirection_before_cmd(e)) < 0)
+	{
+		dup2(FD.stdout, STDOUT_FILENO);
+		dup2(FD.stdin, STDIN_FILENO);
+		dup2(FD.stderr, STDERR_FILENO);
+		ft_close(FD.fd[1]);
+		return (1);
+	}
 	ft_close(FD.fd[1]);
 	if ((pid = fork()) < 0)
 		ft_error(SH_NAME, "failed to fork process", NULL);
-	if (pid)
-	{
-		++e->child_running;
-//		ft_close(FD.in);
-	}
-	else
+	if (!pid)
 	{
 		ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
+	++e->child_running;
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);

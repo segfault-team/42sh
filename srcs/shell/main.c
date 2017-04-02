@@ -2,6 +2,10 @@
 
 void		ft_prompt(char *prompt)
 {
+	t_env	*e;
+
+	e = env_access(NULL);
+	tcaps_ctrl_end(e);
 	ft_putstr(GREEN);
 	ft_putstr(prompt);
 	ft_putstr(ENDC);
