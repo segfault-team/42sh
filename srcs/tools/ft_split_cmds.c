@@ -81,7 +81,7 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote, int bs)
 	int		i;
 	int		j;
 
-	if ((cpy = ft_strnew(ft_strlen_chr(s, c, '\0'))) == NULL)
+	if ((cpy = ft_strnew(ft_strlen_chr(s, c, '\0') + 1)) == NULL)
 		return (NULL);
 	i = -1;
 	j = 0;

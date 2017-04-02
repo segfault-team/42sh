@@ -12,7 +12,7 @@ static int		is_quote(t_env *e)
 	i = -1;
 	while (e->line[++i])
 	{
-		if ( (!i || (e->line[i - 1] != '\\' && e->quote != '\''))
+		if ( (!i || ((i > 0 && e->line[i - 1] != '\\')))
 			&& ((e->line[i] == '"') || e->line[i] == '\''))
 		{
 			if (!e->quote)
@@ -34,7 +34,7 @@ static int		is_bad_line(char *line)
 	while (line[++i] && line[i] != ' ')
 		if (line[i] == '|' ||
 			line[i] == '&' ||
-			line[i] == ';')
+ 			line[i] == ';')
 			return (1);
 	return (0);
 }

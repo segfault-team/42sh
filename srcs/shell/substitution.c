@@ -12,8 +12,13 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 	tmp = *target;
 	while (*target && **target)
 	{
-		if (*target == &tmp[*curr_pos] && substitute)
-			ft_replace_word(&new, substitute, &*target, nb_char_to_jump + 1);
+		if (*target == &tmp[*curr_pos])
+		{
+			if (!substitute)
+				*target += nb_char_to_jump;
+			else
+				ft_replace_word(&new, substitute, &*target, nb_char_to_jump + 1);
+		}
 		else
 		{
 			*new = **target;
@@ -23,10 +28,10 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 	}
 	strfree(&tmp);
 	tmp = ft_strtrim(ret);
-	if (tmp)
+	if (substitute)
 		*target = escape_specials(tmp, *curr_pos, ft_strlen(substitute));
 	else
-		*target = tmp;
+		*target = ft_strdup(ret);
 	ft_strdel(&ret);
 	ft_strdel(&tmp);
 }
@@ -53,11 +58,17 @@ int			substitution(t_env *e, char **str)
 				&& (*str)[i + 1] != ' '
 				&& (*str)[i + 1] != '/'
 				&& (*str)[i + 1] != '~'
-				&& !(*str)[i - 1])
+				&& (!(*str)[i - 1]
+				|| (*str)[i - 1] == ' '))
+		{
+			tmp = ft_strdup((*str));
 			do_substitution(str, &i, user_dir, 0);
+			if (access(&(*str)[i], F_OK) == -1)
+				*str = tmp;
+		}
 		else if ((*str)[i] == '~'
 				&& (!(*str)[i - 1]
-				|| (*str)[i - 1] != '~')
+				|| (*str)[i - 1] == ' ')
 				&& (!(*str)[i + 1]
 				|| ((*str)[i + 1] != '~'
 				&& (*str)[i + 1] != '\''
@@ -70,7 +81,7 @@ int			substitution(t_env *e, char **str)
 			ft_strdel(&tmp);
 		}
 		else if ((*str)[i] == '$' && (*str)[i + 1])
-			ret = do_env_subs(e, str, &i);
+			do_env_subs(e, str, &i);
 	}
 	strfree(&user_dir);
 	return (ret);
