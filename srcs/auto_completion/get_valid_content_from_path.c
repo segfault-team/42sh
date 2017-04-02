@@ -25,7 +25,7 @@ char		*escape_specials(char *str)
 
 	k = ft_countchar(str, ' ') + ft_countchar(str, '	')
 	+ ft_countchar(str, '\'') + ft_countchar(str, '\"');
-	tmp = ft_strnew(strlen(str) + k);
+	tmp = ft_strnew(ft_strlen(str) + k);
 	ret = tmp;
 	while (*str)
 	{
