@@ -57,6 +57,7 @@ int			ft_heredoc(t_env *e)
 		strfree(&e->line);
 		strfree(&e->prompt);
 		e->prompt = ft_strdup(BS_PROMPT);
+		tcaps_ctrl_end(e);
 		ft_putchar('\n');
 		ft_prompt(e->prompt);
 		return (0);

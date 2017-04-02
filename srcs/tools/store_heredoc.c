@@ -42,6 +42,7 @@ static int	replace_line(t_env *e, int *same_node, int *i)
 	}
 	else
 	{
+		tcaps_ctrl_end(e);
 		ft_putchar('\n');
 		ft_prompt(e->prompt);
 	}
@@ -67,6 +68,7 @@ int			store_heredoc(t_env *e)
 		if (tmp)
 			ft_free_tab(tmp);
 		strfree(&e->line);
+		tcaps_ctrl_end(e);
 		ft_putchar('\n');
 		ft_prompt(e->prompt);
 	}

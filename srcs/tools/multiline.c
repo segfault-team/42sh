@@ -74,6 +74,7 @@ static int		manage_multi(t_env *e, char *tmp, int check)
 	strfree(&e->line);
 	NB_READ = 0;
 	NB_MOVE = 0;
+	tcaps_ctrl_end(e);
 	ft_putchar('\n');
 	ft_prompt(e->prompt);
 	return (0);
