@@ -43,7 +43,7 @@ SRC_TCAPS_NAME		= tcaps_init.c tcaps_paste.c tcaps.c tcaps_arrow.c \
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 
 ## BUILTINS FOLDER ##
-SRC_BUILTINS_NAME	= ft_echo.c ft_env.c ft_exit.c ft_history.c \
+SRC_BUILTINS_NAME	= ft_echo.c ft_env.c ft_env_bis.c ft_exit.c ft_history.c \
 					ft_setenv.c ft_unsetenv.c ft_where.c ft_history_options.c \
 					history_error.c history_tools.c ft_pwd.c history_delete.c \
 					chdir_part1.c chdir_part2.c chdir_part3.c chdir_part4.c
