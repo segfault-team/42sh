@@ -30,6 +30,7 @@ SRC = ft_strlen.c\
 		ft_isalnum.c\
 		ft_isascii.c\
 		ft_isprint.c\
+		ft_isquote.c\
 		ft_isnbr.c\
 		ft_isalpha_str.c\
 		ft_issticky.c\

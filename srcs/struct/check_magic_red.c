@@ -17,7 +17,7 @@ int			token_error(t_env *e, int id)
 	}
 	else
 		ret = ft_strdup(e->magic[id].cmd);
-	ft_printfd(2, "%s: syntax error near unexpected token \"%s\"",\
+	ft_printfd(2, "%s: syntax error near unexpected token \"%s\"\n",\
 			SH_NAME, ret);
 	strfree(&ret);
 	return (-1);

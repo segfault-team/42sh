@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 14:51:29 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/29 15:54:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/03 15:30:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,15 @@ static size_t	ft_count_words(char const *s, char c, char quote)
 	return (nw);
 }
 
-static size_t	ft_strlen_chr(char const *s, char c)
+static size_t	ft_strlen_chr(char const *s, char c, char quote)
 {
 	size_t	len;
 	int		i;
 	int		bs;
-	char	quote;
 
 	len = 0;
 	i = 0;
 	bs = 0;
-	quote = '\0';
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')
@@ -61,6 +59,7 @@ static size_t	ft_strlen_chr(char const *s, char c)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
+//			if ((!quote && !ft_isquote(s[i])) || bs || (quote && s[i] != quote))
 			++len;
 			bs = 0;
 		}
@@ -75,7 +74,7 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote, int bs)
 	int		i;
 	int		j;
 
-	if ((cpy = ft_strnew(ft_strlen_chr(s, c))) == NULL)
+	if ((cpy = ft_strnew(ft_strlen_chr(s, c, '\0'))) == NULL)
 		return (NULL);
 	i = -1;
 	j = 0;
@@ -89,12 +88,11 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote, int bs)
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
-			cpy[j++] = s[i];
+			if ((!quote && !ft_isquote(s[i])) || bs || (quote && s[i] != quote))
+				cpy[j++] = s[i];
 			bs = 0;
 		}
 	}
-	if (bs)
-		cpy[j - 1] = '\0';
 	return (cpy);
 }
 

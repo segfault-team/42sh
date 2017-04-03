@@ -59,7 +59,7 @@ int			ft_cd_bis(char **argv, t_env *e, char *home, int opt)
 			home = ft_repstr(argv, argv[1], argv[2], e);
 		}
 		if (!home)
-			return (ft_error("cd", "string not in pwd:", argv[1]));
+			return (ft_error("cd", "no such file or directory", argv[1]));
 	}
 	else
 	{

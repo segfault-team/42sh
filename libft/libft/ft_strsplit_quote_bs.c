@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 14:53:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/29 19:28:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/03 13:45:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,13 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote)
 	return (cpy);
 }
 
-static int		ft_skip(char const *s, char c)
+static int		ft_skip(char const *s, char c, char quote)
 {
 	int		i;
 	int		bs;
-	char	quote;
 
 	i = 0;
 	bs = 0;
-	quote = '\0';
 	while (s[i] == c)
 		++i;
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
@@ -146,7 +144,7 @@ char			**ft_strsplit_quote_bs(char const *s, char c)
 		{
 			if ((tab[i] = ft_strcpy_chr(s, c, '\0')) == NULL)
 				return (tab);
-			s += ft_skip(s, c);
+			s += ft_skip(s, c, '\0');
 		}
 	}
 	return (tab);
