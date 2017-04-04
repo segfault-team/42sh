@@ -6,7 +6,7 @@ SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
 					manage_exclamation_mark.c env_subs.c read.c \
 					manage_exclamation_mark_bis.c ft_parse_bis.c \
 					ft_exec_bis.c ft_init_env.c logic_tools.c \
-					manage_operators.c
+					manage_operators.c prompt.c
 SRC_SHELL 			= $(addprefix shell/,$(SRC_SHELL_NAME))
 
 ## REDIRECTIONS FOLDER ##
