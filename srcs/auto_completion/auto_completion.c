@@ -5,6 +5,7 @@ char		*get_path_from_arg(char *arg)
 	char	*path;
 	int		i;
 	int		x;
+	char	*tmp;
 
 	i = ft_strlen(arg);
 	while (i > 0 && arg[i - 1] != '/')
@@ -20,6 +21,9 @@ char		*get_path_from_arg(char *arg)
 			ft_strncpy(&path[x], &path[x + 1], i - x - 1);
 		x++;
 	}
+	tmp = path;
+	substitution(e, &path);
+	ft_strdel(&path);
 	return (path);
 }
 
