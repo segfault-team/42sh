@@ -31,6 +31,8 @@ char		*ft_create_prompt(t_env *e, char *prompt)
 	if (!new_prompt)
 		new_prompt = ft_strdup(getcwd(str, 255));
 	tmp = ft_getdir(new_prompt);
+	ft_strdel(&new_prompt);
 	new_prompt = ft_strjoin(tmp, prompt);
+	ft_strdel(&tmp);
 	return (new_prompt);
 }
