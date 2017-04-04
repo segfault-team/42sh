@@ -46,15 +46,21 @@ static void		print_last_cmd(t_env *e)
 static int		locate_history(char **history, int c_pos, char *comp, int dir)
 {
 	int max;
+	int	init;
 
 	max = (int)ft_tablen(history);
+	init = 0;
 	if (c_pos == -1)
+	{
+		init = 1;
 		c_pos = max - 1;
+	}
 	if (max < (c_pos + 1))
 		return (-1);
 	while (history[c_pos] && c_pos && c_pos < max)
 	{
-		c_pos += dir;
+		if (!init)
+			c_pos += dir;
 		if (!comp || (history[c_pos] && ft_start_with(history[c_pos], comp)))
 			return (c_pos);
 	}
