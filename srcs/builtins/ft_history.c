@@ -22,6 +22,8 @@ void		ft_store_history(t_env *e)
 			ft_strncpy(&e->line[x], &e->line[x + 1], i - x);
 		x++;
 	}
+	if (x && e->line[x - 1] == '\n')
+		e->line[x - 1] = '\0';
 	if (is_not_history_cmd ||
 		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{
