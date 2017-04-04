@@ -7,7 +7,7 @@ void	tcaps_ctrl_d(t_env *e)
 	else if (e->hdoc_nb && e->hdoc_words)
 	{
 		strfree(&e->line);
-		if (e->hdoc_words[e->hdoc_index])
+		if (e->hdoc_index >= 0 && e->hdoc_words[e->hdoc_index])
 			e->line = ft_strdup(e->hdoc_words[e->hdoc_index]);
 		else
 			e->line = ft_strdup(e->hdoc_words[0]);
