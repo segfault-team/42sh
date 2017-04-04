@@ -30,6 +30,8 @@ static char	*get_hdoc_word(t_env *e, char *str)
 		e->herestop = 0;
 		return (NULL);
 	}
+	if (str[i + 1] && str[i + 1] != ' ')
+		--i;
 	j = find_word_end(i, str);
 	return (ft_strsub(str, (i + 2), (j - (i + 2))));
 }

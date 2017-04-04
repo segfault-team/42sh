@@ -4,6 +4,12 @@ void	tcaps_ctrl_d(t_env *e)
 {
 	if (MULTI || NB_READ)
 		tcaps_del_fwd(e);
+	else if (e->hdoc_nb && e->hdoc_words && e->hdoc_index >= 0)
+	{
+		strfree(&e->line);
+		e->line = ft_strdup(e->hdoc_words[e->hdoc_index]);
+		tcaps_enter(e);
+	}
 	else
 		ft_exit(e, NULL);
 }
