@@ -45,7 +45,7 @@ static void		manage_quote(char *quote, char current)
 		*quote = '\0';
 }
 
-int				test(t_env *e)
+static int		do_exclamation_subs(t_env *e)
 {
 	int		i;
 	int		ret;
@@ -103,13 +103,13 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
+	e->len_mag = struct_len(&e->magic);
 	if (magic_type(e) == -1)
 		return (-42);
-	e->len_mag = struct_len(&e->magic);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-	/*
+/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
@@ -143,7 +143,7 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if (test(e) == -1)
+	if (do_exclamation_subs(e) == -1)
 		return (-1);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)

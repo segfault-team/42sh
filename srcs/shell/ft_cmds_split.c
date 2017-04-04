@@ -31,7 +31,8 @@ static int	ft_nb_elem_cmd(t_env *e, int *z)
 	static int	last_cmd = 0;
 
 	len = 0;
-	while (e->magic[++(*z)].cmd && !is_redir_pipe(e, *z) && !is_operator(e, *z))
+	while (*z < e->len_mag && e->magic[++(*z)].cmd
+		   && !is_redir_pipe(e, *z) && !is_operator(e, *z))
 	{
 		if (e->magic[*z].type && !ft_strcmp(e->magic[*z].type, "cmd"))
 			++len;
