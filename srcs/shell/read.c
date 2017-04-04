@@ -6,7 +6,7 @@
 **	this avoid writing over multi lines
 */
 
-static void		tcaps_enter(t_env *e)
+void			tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	if (!ft_multiline(e))

@@ -269,6 +269,7 @@ typedef struct			s_env
 	int					raw;
 	int					is_out_close;
 	int					is_valid_pipe;
+	int					hdoc_index;
 }						t_env;
 
 /*
@@ -427,6 +428,7 @@ int						is_valid_arg(char **cmd, char *sh_name);
 */
 void					xputs(char *tag);
 void					move_right(t_env *e);
+void					tcaps_enter(t_env *e);
 
 /*
 **		Realloc

@@ -35,6 +35,7 @@ static void		exec_end(t_env *e)
 	ft_tabfree(e->cmd);
 	e->cmd = NULL;
 	e->check_input = 0;
+	e->hdoc_index = -1;
 }
 
 static int		do_exclamation_subs(t_env *e)
