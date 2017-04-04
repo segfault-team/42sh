@@ -2,6 +2,8 @@
 
 void		struct_arg_red(int i, t_env *e)
 {
+	int	len;
+
 	if (i > 0 && (!ft_strcmp("|", e->magic[i - 1].cmd) ||
 				!ft_strcmp(e->magic[i - 1].type, "cmd") ||
 				!ft_strcmp(e->magic[i - 1].type, "heredoc")) &&
@@ -13,21 +15,17 @@ void		struct_arg_red(int i, t_env *e)
 		e->magic[i].type = ft_strdup("heredoc");
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
-	else if (is_only_numbers(e->magic[i].cmd) ||
-			!ft_strcmp(e->magic[i].cmd, "-") ||
-			ft_strstr("<&", e->magic[i].cmd))
-		e->magic[i].type = ft_strdup("fd_aggregator");
-/*	else if (ft_strstr(e->magic[i - 1].cmd, ">&"))
+	else if ((is_only_numbers(e->magic[i].cmd) ||
+			 !ft_strcmp(e->magic[i].cmd, "-")) && i && e->magic[i - 1].cmd)// ||
+//			ft_strstr("<&", e->magic[i].cmd))
 	{
-		if (ft_strstr(e->magic[i - 1].cmd, ">&") != e->magic[i - 1].cmd)
-		{
-			dprintf(2, "ambigous redirection\n");
-		}
-		e->magic[i].type = ft_strdup("output");
-		strfree(&e->magic[i - 1].cmd);
-		e->magic[i - 1].cmd = ft_strdup(">");
+		len = (int)ft_strlen(e->magic[i - 1].cmd) - 1;
+		if (e->magic[i - 1].cmd[len] == '>' || e->magic[i - 1].cmd[len] == '>')
+			e->magic[i].type = ft_strdup("fd_aggregator");
+		else
+			e->magic[i].type = ft_strdup("cmd");
 	}
-*/	else
+	else
 		e->magic[i].type = ft_strdup("cmd");
 }
 
