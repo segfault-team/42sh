@@ -557,7 +557,6 @@ void					check_parsing_double(t_env *e, int *i, char c);
 void					check_parsing_ampersand(t_env *e, int *i);
 void					insert_char(t_env *e, char c, int pos);
 void					delete_char(t_env *e, int pos);
-void					manage_quote(char *quote, char current);
 
 /*
 **		Chdir

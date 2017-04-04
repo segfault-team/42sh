@@ -52,7 +52,12 @@ static int		do_exclamation_subs(t_env *e)
 			return (-1);
 		if ((e->line[i] == '\"' || e->line[i] == '\'') && i - 1 >= 0 &&
 			e->line[i - 1] != '\\')
-			manage_quote(&quote, e->line[i]);
+		{
+			if (!quote)
+				quote = e->line[i];
+			else if (e->line[i] == quote)
+				quote = '\0';
+		}
 		else if (e->line[i] == '!' && !quote)
 			ret = manage_exclamation_mark(e, &i);
 	}
@@ -60,6 +65,7 @@ static int		do_exclamation_subs(t_env *e)
 		ft_printf("%s\n", e->line);
 	return (ret);
 }
+
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
