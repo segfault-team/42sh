@@ -41,6 +41,8 @@ static void		ft_init_bis(t_env *e)
 	e->quote = '\0';
 	e->last_cmd = NULL;
 	MULTI = NULL;
+	e->is_out_close = 0;
+	e->is_valid_pipe = 1;
 	ft_init_ter(e);
 }
 

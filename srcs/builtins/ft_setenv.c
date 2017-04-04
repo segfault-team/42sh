@@ -60,29 +60,31 @@ static int		valid_name(char *s)
 	while (s[++i])
 	{
 		if (!i && ft_isdigit(s[i]))
-			return (0);
+			return (ft_error("setenv", \
+						"variable name must begin with a letter", NULL));
 		else if (!ft_isalnum(s[i]))
-			return (0);
+			return (ft_error("setenv", \
+						"variable name must contain only alphanumerics", NULL));
 	}
-	return (1);
+	return (0);
 }
 
 int				ft_setenv_blt(t_env *e, char **cmd)
 {
 	size_t	len;
 
-	len = ft_tablen(cmd);
-	if (len == 3)
+	if ((len = ft_tablen(cmd)) == 1)
+		return (ft_error("setenv", "wrong number of arguments", NULL));
+	if (len > 1 && !valid_name(cmd[1]))
 	{
-		if (valid_name(cmd[1]))
+		if (len == 3)
 		{
-			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
-					ft_strequ(e->cmd[1], "HOME"))
-				e->home = ft_strdup(e->cmd[2]);
-			return (ft_setenv(&e->env, cmd[1], cmd[2]));
+				if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
+						ft_strequ(e->cmd[1], "HOME"))
+					e->home = ft_strdup(e->cmd[2]);
+				return (ft_setenv(&e->env, cmd[1], cmd[2]));
 		}
-		return (ft_error("setenv", \
-					"variable name must contain only alphanumerics", NULL));
+		return (ft_error("setenv", "wrong number of arguments", NULL));
 	}
-	return (ft_error("setenv", "wrong number of arguments", NULL));
+	return (-1);
 }

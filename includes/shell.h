@@ -284,6 +284,8 @@ typedef struct			s_env
 	char				**hdoc_words;
 	int					hdoc_nb;
     int					raw;
+	int					is_out_close;
+	int					is_valid_pipe;
 }						t_env;
 
 /*
@@ -361,7 +363,8 @@ int						is_and(t_env *e, int i);
 int						is_or(t_env *e, int i);
 int						find_nxt_operator(t_env *e);
 void					ft_dupp(t_env *e);
-
+void					output_aggre(t_env *e, int fd_src, int fd_dst);
+void					close_aggre(t_env *e, int fd_src, int fd_dst);
 
 /*
 **		Init - Reset

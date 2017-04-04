@@ -40,7 +40,7 @@ int			check_magic_red(t_env *e)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (is_bad_first_arg(e))
 		return (-1);
 	while (e->magic[++i].cmd)

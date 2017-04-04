@@ -42,6 +42,31 @@ static void		print_last_cmd(t_env *e)
 	}
 }
 
+
+static int		locate_history(char **history, int c_pos, char *comp, int dir)
+{
+	int max;
+	int	init;
+
+	max = (int)ft_tablen(history);
+	init = 0;
+	if (c_pos == -1)
+	{
+		init = 1;
+		c_pos = max - 1;
+	}
+	if (max < (c_pos + 1))
+		return (-1);
+	while (history[c_pos] && c_pos && c_pos < max)
+	{
+		if (!init)
+			c_pos += dir;
+		if (!comp || (history[c_pos] && ft_start_with(history[c_pos], comp)))
+			return (c_pos);
+	}
+	return (-1);
+}
+
 /*
 **		MANAGE THE TERMCAPS HISTORY
 **		FOR UP ARROW
@@ -49,18 +74,23 @@ static void		print_last_cmd(t_env *e)
 
 int				tcaps_history_up(t_env *e)
 {
+	int	pos;
+
 	TCAPS.nb_move = TCAPS.nb_read;
 	if (!e->history || !e->history[0])
 		return (0);
+	pos = locate_history(e->history, TCAPS.hist_move, e->line_bkp ? e->line_bkp : e->line, -1);
 	if (TCAPS.hist_move == -1)
 	{
 		if (e->line)
 			e->line_bkp = ft_strdup(e->line);
-		TCAPS.hist_move = (int)ft_tablen(e->history);
+		else
+			e->line_bkp = ft_strdup("");
+		TCAPS.hist_move = pos;
 	}
-	if (access(HIST_FILE, F_OK) != -1 && TCAPS.hist_move > 0)
+	if (access(HIST_FILE, F_OK) != -1 && TCAPS.hist_move > 0 && pos >= 0)
 	{
-		--TCAPS.hist_move;
+		TCAPS.hist_move = pos;
 		clear_cmd(e);
 		strfree(&e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
@@ -77,15 +107,15 @@ int				tcaps_history_up(t_env *e)
 
 int				tcaps_history_down(t_env *e)
 {
-	int	hist_tab_len;
+	int	pos;
 
 	if (TCAPS.hist_move == -1 || !e->history || !e->history[0])
 		return (0);
-	hist_tab_len = (int)ft_tablen(e->history);
+	pos = locate_history(e->history, TCAPS.hist_move, e->line_bkp ? e->line_bkp : e->line , 1);
 	clear_cmd(e);
-	if (TCAPS.hist_move == hist_tab_len - 1)
+	if (pos == - 1)
 	{
-		TCAPS.hist_move = -1;
+		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		if (e->line_bkp)
 		{
@@ -96,7 +126,7 @@ int				tcaps_history_down(t_env *e)
 	}
 	else
 	{
-		++TCAPS.hist_move;
+		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
 		print_new_cmd_from_history(e);
