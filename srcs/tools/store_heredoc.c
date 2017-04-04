@@ -13,6 +13,7 @@ static int	put_new_node(t_env *e, int *same_node)
 		if (!e->b_hdoc)
 		{
 			e->hdoc = new;
+		++e->hdoc_index;
 			e->b_hdoc = e->hdoc;
 		}
 		else
@@ -21,7 +22,6 @@ static int	put_new_node(t_env *e, int *same_node)
 			e->hdoc = e->hdoc->next;
 		}
 		*same_node = e->hdoc_nb;
-		++e->hdoc_index;
 	}
 	return (1);
 }
@@ -51,6 +51,7 @@ static int	replace_line(t_env *e, int *same_node)
 		ft_putchar('\n');
 		ft_prompt(e->prompt);
 		NB_READ = 0;
+		++e->hdoc_index;
 	}
 	return (--e->hdoc_nb);
 }
@@ -62,7 +63,7 @@ int			store_heredoc(t_env *e)
 
 	if ((put_new_node(e, &same_node)) < 0)
 		return (-1);
-	if (ft_strcmp(e->line, e->hdoc_words[e->hdoc_index]))
+	if (e->hdoc_index >= 0 && ft_strcmp(e->line, e->hdoc_words[e->hdoc_index]))
 	{
 		tmp = e->hdoc->content;
 		e->line = (!e->line) ? ft_strdup("") : e->line;
