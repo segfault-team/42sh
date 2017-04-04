@@ -29,6 +29,8 @@ static int	put_new_node(t_env *e, int *same_node, int *i)
 static int	replace_line(t_env *e, int *same_node, int *i)
 {
 	strfree(&e->line);
+	if (!e->hdoc->content)
+		e->hdoc->content = ft_tabcat(e->hdoc->content, "");
 	if (e->hdoc_nb - 1 == 0)
 	{
 		if (e->herestock)
