@@ -70,6 +70,7 @@ int			ft_cd_bis(char **argv, t_env *e, char *home, int opt)
 		ft_chdir_error(home);
 	ft_strdel(&home);
 	ft_free_tab(tmp);
+	e->prompt = ft_create_prompt(e, STD_PROMPT);
 	return (1);
 }
 
@@ -90,6 +91,7 @@ int			ft_cd_oldpwd(char **argv, t_env *e, int option)
 		ret = ft_cd_bis(new, e, new[1], option);
 	}
 	ft_free_tab(new);
+	e->prompt = ft_create_prompt(e, STD_PROMPT);
 	return (ret);
 }
 
@@ -106,6 +108,7 @@ int			ft_cd(t_env *e, char **cmd)
 			return (ft_error("cd", "no home set", NULL));
 		if (ft_chdir(cmd, home, e, 0) == -1)
 			ft_chdir_error(home);
+		e->prompt = ft_create_prompt(e, STD_PROMPT);
 	}
 	else if (!ft_strcmp(cmd[1], "-"))
 		return (ft_cd_oldpwd(cmd, e, option));

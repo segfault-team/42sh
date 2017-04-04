@@ -61,7 +61,7 @@ int				ft_multiline(t_env *e)
 		if (!e->hdoc_words)
 		{
 			strfree(&e->prompt);
-			e->prompt = ft_strdup(STD_PROMPT);
+			e->prompt = ft_create_prompt(e, STD_PROMPT);
 		}
 	}
 	return (1);
