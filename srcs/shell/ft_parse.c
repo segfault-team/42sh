@@ -2,10 +2,7 @@
 
 static int		exec_by_type(t_env *e, int i, int ret)
 {
-	if (!e->cat[i + 1] && redir_check_red(e, "|")
-		&& is_next_redir(e, RED_INDEX) == OUTPUT)
-		ret = redir_exec_open(i, e);
-	else if (!e->cat[i + 1] && redir_check_red(e, "|"))
+	if (!e->cat[i + 1] && redir_check_red(e, "|") && !is_output_after(e, RED_INDEX + 1))
 	{
 		FD.fd[1] = STDOUT_FILENO;
 		if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
@@ -108,7 +105,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 		e->is_out_close = 0;
-		if (is_last_cmd(e, RED_INDEX))
+		if (is_last_cmd(e, RED_INDEX + 1))
 			e->is_valid_pipe = 0;
 	}
 	e->is_valid_pipe = 1;

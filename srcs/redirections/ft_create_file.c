@@ -51,10 +51,15 @@ void		ft_create_file(t_env *e)
 				fd = open(e->magic[i].cmd, O_CREAT | O_TRUNC, OFLAGS);
 			else
 				fd = open(e->magic[i].cmd, O_CREAT, OFLAGS);
+			ft_close(fd);
 		}
 		else if (ft_strstr(e->magic[i].cmd, ">&"))
+		{
 			fd = create_aggre_file(e, i);
 			if (fd != -1)
-			ft_close(fd);
+				ft_close(fd);
+		}
 	}
 }
+
+
