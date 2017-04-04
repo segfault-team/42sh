@@ -6,10 +6,16 @@ static void	manage_chev(t_env *e, int *i)
 	{
 		if (e->line[*i + 1] && e->line[*i + 1] != '&')
 			check_parsing_double(e, i, e->line[*i]);
+		while (e->line[*i + 1] && e->line[*i + 2]
+			   && (e->line[*i + 2] == ' ' || e->line[*i + 2] == '\t')
+			   && e->line[*i + 2])
+			delete_char(e, (*i + 2));
 	}
 	else if (*i > 1 && e->line[*i - 1] == e->line[*i]
-			&& e->line[*i - 2] == e->line[*i])
+			 && e->line[*i - 2] == e->line[*i])
+	{
 		insert_char(e, ' ', *i);
+	}
 }
 
 void		parse_command(t_env *e)
