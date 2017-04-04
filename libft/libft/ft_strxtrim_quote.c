@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:32:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/04 13:44:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/04 15:18:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,28 @@
 **		NULL terminated trimmed string.
 */
 
-static char		ft_quote(char quote, char c)
-{
-	if (quote == '\0' && (c == '\'' || c == '\"'))
-		quote = c;
-	else if (quote != '\0' && quote == c)
-		quote = '\0';
-	return (quote);
-}
-
 static size_t	ft_trim_len_quote(const char *str, char x)
 {
 	int		i;
+	int		bs;
 	size_t	len;
 	char	quote;
 
 	i = 0;
+	bs = 0;
 	len = 0;
 	quote = '\0';
 	while (str[i])
 	{
-		quote = ft_quote(quote, str[i]);
-		if (quote != '\0' || str[i] != x)
-			++len;
+		if (!bs && str[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
+		{
+			quote = ft_check_quote_bs(str[i], quote, bs);
+			if (quote || str[i] != x || bs)
+				++len;
+			bs = 0;
+		}
 		++i;
 	}
 	return (len);
@@ -50,25 +49,26 @@ static char		*ft_strxtrim_quote_ret(char const *str, char x,
 		int len, char quote)
 {
 	char	*trim;
+	int		bs;
 	int		i;
 	int		j;
 
+	bs = 0;
 	i = 0;
 	j = 0;
 	if ((trim = ft_strnew(len)) == NULL)
 		return (NULL);
 	while (str[i])
 	{
-		if (i > 1
-			&& ((str[i] == ';' && str[i - 2] == ';')
-				|| (str[i] == ';' && str[i - 1] == ';')))
+		if (!bs && str[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
 		{
-			free(trim);
-			return (NULL);
+			quote = ft_check_quote_bs(str[i], quote, bs);
+			if (quote || str[i] != x || bs)
+				trim[j++] = str[i];
+			bs = 0;
 		}
-		quote = ft_quote(quote, str[i]);
-		if (quote != '\0' || str[i] != x)
-			trim[j++] = str[i];
 		++i;
 	}
 	trim[j] = '\0';
