@@ -37,14 +37,6 @@ static void		exec_end(t_env *e)
 	e->check_input = 0;
 }
 
-static void		manage_quote(char *quote, char current)
-{
-	if (!(*quote))
-		*quote = current;
-	else if (current == *quote)
-		*quote = '\0';
-}
-
 int				test(t_env *e)
 {
 	int		i;
@@ -68,24 +60,6 @@ int				test(t_env *e)
 		ft_printf("%s\n", e->line);
 	return (ret);
 }
-
-/*int				do_all_substitution(t_env *e, int i)
-{
-	int x;
-	int ret;
-
-	ret = 0;
-	x = 0;
-	while (e->cat && e->cat[i] && e->cat[i][x])
-	{
-		if (substitution(e, i, x) == -1)
-			ret = -1;
-		if (!e->cat[i][x][0])
-			ret = -1;
-		x++;
-	}
-	return (ret);
-}*/
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {

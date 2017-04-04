@@ -21,7 +21,6 @@ static void		tcaps_enter(t_env *e)
 		ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))
 		;
-//		ft_putchar('\n');
 	if (e->x && !e->raw)
 		ft_prompt(e->prompt);
 	ft_reset_line(e);

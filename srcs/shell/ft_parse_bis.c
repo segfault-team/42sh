@@ -79,3 +79,11 @@ char	**ft_trim_split_cmd(t_env *e)
 	ft_strdel(&trline);
 	return (cmds);
 }
+
+void	manage_quote(char *quote, char current)
+{
+	if (!(*quote))
+		*quote = current;
+	else if (current == *quote)
+		*quote = '\0';
+}

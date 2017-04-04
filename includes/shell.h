@@ -364,6 +364,7 @@ void					ft_set_shlvl(t_env *e);
 int						ft_handle_ret_signal(int status);
 void					ft_set_sig_handler(void);
 void					ft_sig_handler(int sig);
+void					ft_sigint(t_env *e);
 t_env					*env_access(t_env *e);
 
 /*
@@ -556,6 +557,8 @@ void					check_parsing_double(t_env *e, int *i, char c);
 void					check_parsing_ampersand(t_env *e, int *i);
 void					insert_char(t_env *e, char c, int pos);
 void					delete_char(t_env *e, int pos);
+void					manage_quote(char *quote, char current);
+
 /*
 **		Chdir
 */
