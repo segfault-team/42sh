@@ -23,7 +23,6 @@ char		*get_path_from_arg(t_env *e, char *arg)
 	}
 	tmp = path;
 	substitution(e, &path);
-	ft_strdel(&path);
 	return (path);
 }
 
