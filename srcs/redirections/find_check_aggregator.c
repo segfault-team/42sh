@@ -10,15 +10,12 @@ static int		nb_elems_is_invalid(t_aggre_elems *ag)
 
 	error = 0;
 	if (ag->nb_chevron > 1)
-		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many\
-				chevrons in your aggregator\n");
-	// too many ... 'chevrons' ?? 
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many chevrons in your aggregator\n");
+	// too many ... 'chevrons' ??
 	else if (ag->nb_ampersand > 1)
-		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many\
-				ampersands in your aggregator\n");
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many ampersands in your aggregator\n");
 	else if (ag->type == ERROR)
-		error = ft_printfd(STDERR_FILENO, "sh: syntax error in your\
-				aggregator\n");
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error in your aggregator\n");
 	if (error)
 		ag->type = ERROR;
 	return (error);
@@ -57,6 +54,10 @@ int				find_aggregator_type(t_env *e)
 	ag.nb_ampersand = 0;
 	ag.type = -1;
 	while (e->magic[RED_INDEX].cmd[++i] && !nb_elems_is_invalid(&ag))
+	{
 		assign_nb_elems_in_struct(&ag, e->magic[RED_INDEX].cmd[i]);
+		if (ag.type != -1)
+			return (ag.type);
+	}
 	return (ag.type);
 }

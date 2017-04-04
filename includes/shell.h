@@ -344,7 +344,7 @@ int						is_redir_pipe(t_env *e, int i);
 int						is_aggregator(t_env *e, int i);
 int						is_input_redir(t_env *e, int i);
 int						redir_to_aggregator(t_env *e);
-int						isolate_fd_destination(t_env *e);
+int						isolate_fd_destination(t_env *e, int *is_file);
 int						isolate_fd_source(t_env *e);
 int						is_redir_from_symbol(t_env *e, int i);
 int						find_aggregator_type(t_env *e);
@@ -365,6 +365,7 @@ int						find_nxt_operator(t_env *e);
 void					ft_dupp(t_env *e);
 void					output_aggre(t_env *e, int fd_src, int fd_dst);
 void					close_aggre(t_env *e, int fd_src, int fd_dst);
+int						space_after_aggre(char *s);
 
 /*
 **		Init - Reset

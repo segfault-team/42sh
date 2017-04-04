@@ -121,7 +121,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_printf("====   CMD       ====\n");
 	ft_puttab(e->cmd);
 	ft_printf("====  END CMD    ====\n");
-	*/
+*/
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
