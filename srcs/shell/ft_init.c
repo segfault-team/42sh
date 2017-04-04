@@ -82,7 +82,7 @@ int				ft_init(t_env *e, char **env)
 	FD.stderr = dup(STDERR_FILENO);
 	ft_init_bis(e);
 	ft_bzero(e->buf, 3);
-	e->prompt = ft_strdup(STD_PROMPT);
+	e->prompt = ft_create_prompt(e, STD_PROMPT);
 	ft_set_shlvl(e);
 	return (tcaps_init(e));
 }

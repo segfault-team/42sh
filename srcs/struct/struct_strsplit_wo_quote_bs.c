@@ -22,7 +22,7 @@ static size_t	ft_count_words(char const *s, char c, char quote)
 		else
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
-			if (!quote && !bs && s[i] != c &&
+			if (!quote && s[i] != c &&
 					(s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			if (!quote && bs && s[i] == c &&

@@ -106,7 +106,7 @@ static void	ft_sigint(t_env *e)
 		TCAPS.hist_move = -1;
 		ft_putchar('\n');
 		strfree(&e->prompt);
-		e->prompt = ft_strdup(STD_PROMPT);
+		e->prompt = ft_create_prompt(e, STD_PROMPT);
 		ft_prompt(e->prompt);
 	}
 }
