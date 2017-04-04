@@ -8,10 +8,20 @@ void		ft_store_history(t_env *e)
 {
 	char		**tmp;
 	int			is_not_history_cmd;
+	int			x;
+	int			i;
 
 	tmp = NULL;
+	x = 0;
+	i = ft_strlen(e->line);
 	tmp = e->history;
 	is_not_history_cmd = ft_strcmp(e->line, "history");
+	while (e->line && e->line[x])
+	{
+		if (e->line[x] == '\n')
+			ft_strncpy(&e->line[x], &e->line[x + 1], i - x);
+		x++;
+	}
 	if (is_not_history_cmd ||
 		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{

@@ -23,8 +23,8 @@ void			clear_cmd(t_env *e)
 static void		print_new_cmd_from_history(t_env *e)
 {
 	ft_printf("%s", e->history[TCAPS.hist_move]);
-	TCAPS.nb_read = (int)ft_strlen(e->history[TCAPS.hist_move]);
-	TCAPS.nb_move = TCAPS.nb_read;
+	NB_READ = (int)ft_strlen(e->history[TCAPS.hist_move]);
+	NB_MOVE = NB_READ;
 }
 
 static void		print_last_cmd(t_env *e)
@@ -32,13 +32,13 @@ static void		print_last_cmd(t_env *e)
 	if (e->line)
 	{
 		ft_printf("%s", e->line);
-		TCAPS.nb_read = (int)ft_strlen(e->line);
-		TCAPS.nb_move = TCAPS.nb_read;
+		NB_READ = (int)ft_strlen(e->line);
+		NB_MOVE = NB_READ;
 	}
 	else
 	{
-		TCAPS.nb_read = 0;
-		TCAPS.nb_move = 0;
+		NB_READ = 0;
+		NB_MOVE = 0;
 	}
 }
 
