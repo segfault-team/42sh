@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char		*get_path_from_arg(char *arg)
+char		*get_path_from_arg(t_env *e, char *arg)
 {
 	char	*path;
 	int		i;
