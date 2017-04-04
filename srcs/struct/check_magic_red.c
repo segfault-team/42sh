@@ -23,14 +23,31 @@ int			token_error(t_env *e, int id)
 
 static int	is_bad_first_arg(t_env *e)
 {
-	if (is_magic(e, 0)
-		&& (is_redirection(e, 0)
-			|| ft_strstr(e->magic[0].cmd, ";")
-			|| ft_strstr(e->magic[0].cmd, "|")
-			|| ft_strstr(e->magic[0].cmd, ">")
-			|| ft_strstr(e->magic[0].cmd, "&")
-			|| ft_strstr(e->magic[0].cmd, "<")))
-		return (token_error(e, 0));
+	int 	x;
+	int		bs;
+	char	quote;
+
+	x = 0;
+	bs = 0;
+	quote ='\0';
+	if (is_magic(e, 0) && (is_redirection(e, 0)))
+	{
+		while (e->magic[0].cmd[x])
+		{
+			if (!bs && e->magic[0].cmd[x] == '\\' && !quote)
+				bs = 1;
+			else
+			{
+				quote = ft_check_quote_bs(e->magic[0].cmd[x], quote, bs);
+				if (!quote && !bs && 
+					(e->magic[0].cmd[x] == ';' || e->magic[0].cmd[x] == '|'
+					|| e->magic[0].cmd[x] == '>' || e->magic[0].cmd[x] == '&'
+					|| e->magic[0].cmd[x] == '<'))
+					return (token_error(e, 0));
+				bs = 0;
+			}
+		}
+	}
 	return (0);
 }
 
