@@ -91,11 +91,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-42);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-	ft_create_file(e);
-/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+/*
 	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
@@ -105,6 +104,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_puttab(e->cmd);
 	ft_printf("====  END CMD    ====\n");
 */
+	ft_create_file(e);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		if ((ret = exec_by_type(e, i, ret)) == -1)

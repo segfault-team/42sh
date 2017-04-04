@@ -46,7 +46,7 @@ int			red_strstr(char *s)
 		else
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
-			if (!quote)
+			if (!quote && !bs)
 			{
 				if (s[i] == '|' && s[i + 1] == '|')
 					return (0);
