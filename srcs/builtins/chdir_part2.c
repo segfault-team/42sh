@@ -25,7 +25,7 @@ char	*ft_processpath(char *path)
 
 	str = ft_strnew(ft_strlen(path));
 	if (!str)
-		ft_printfd(2, "MANAGE ERROR\n");
+		return (path);
 	i = 0;
 	while (*path)
 	{

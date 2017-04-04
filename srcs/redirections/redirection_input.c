@@ -46,6 +46,5 @@ int			redir_input(t_env *e)
 	if (redir_input_do(e, newfd) < 0)
 		return (-1);
 	FD.in = newfd[0];
-	dprintf(2, "IN: %d\n", FD.in);
 	return (1);
 }
