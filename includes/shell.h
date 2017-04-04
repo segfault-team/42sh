@@ -15,10 +15,6 @@
 
 */
 
-static int		debug = -1;
-
-# define DEBUG dprintf(2, "DEBUG %d\n", ++debug)
-
 # define UATTR __attribute__((unused))
 
 # include <unistd.h>
@@ -52,7 +48,6 @@ static int		debug = -1;
 # define C_LNK			C_MAGENTA
 # define C_SOCK			C_GREEN
 # define C_WHT			C_WHITE
-
 
 # define RED			"\033[31m"
 # define ENDC			"\033[;0m"
@@ -127,18 +122,6 @@ static int		debug = -1;
 # define TGETSTR_SC 	e->struct_tputs.sc
 # define TGETSTR_DL 	e->struct_tputs.dl
 # define TGETSTR_RC 	e->struct_tputs.rc
-
-/*
-**	UNUSED VARIABLE
-*/
-# ifdef UNUSED
-# elif defined(__GNUC__)
-#  define UNUSED(x) UNUSED_ ## x __attribute__((unused))
-# elif defined(__LCLINT__)
-#  define UNUSED(x) -/*@unused@*/ x
-# else
-#  define UNUSED(x) x
-# endif
 
 typedef struct			s_tputs
 {
@@ -224,11 +207,11 @@ typedef struct			s_file
 	char				*color;
 }						t_file;
 
-typedef struct		s_pos
+typedef struct			s_pos
 {
-	int				i;
-	int				j;
-}					t_pos;
+	int					i;
+	int					j;
+}						t_pos;
 
 typedef struct			s_env
 {
@@ -273,7 +256,7 @@ typedef struct			s_env
 	int					selected;
 	size_t				total_len;
 	int					c_match;
-	int 				start;
+	int					start;
 	int					printed;
 	int					row;
 	char				*heredoc;
@@ -283,15 +266,14 @@ typedef struct			s_env
 	char				*herestock;
 	char				**hdoc_words;
 	int					hdoc_nb;
-    int					raw;
+	int					raw;
 	int					is_out_close;
 	int					is_valid_pipe;
 }						t_env;
 
 /*
-**
+** MISC
 */
-
 int						manage_operators(t_env *e, int i, int ret);
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
@@ -311,6 +293,7 @@ int						join_line(t_env *e, int *curr_pos);
 void					do_substitution(char **target, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, char **target, int *curr);
+
 /*
 **		Exec
 */
@@ -351,7 +334,7 @@ int						find_aggregator_type(t_env *e);
 int						is_next_redir(t_env *e, int i);
 void					ft_create_file(t_env *e);
 int						redirection_before_cmd(t_env *e);
-int						is_input_file(t_env *e, int  i);
+int						is_input_file(t_env *e, int i);
 int						redir_input(t_env *e);
 int						is_redir_from_symbol(t_env *e, int i);
 int						is_input_in_next_cmd(t_env *e, int i);
@@ -377,7 +360,6 @@ void					ft_set_shlvl(t_env *e);
 /*
 **		Signals
 */
-//int					ft_check_signals(int call, int sig);
 int						ft_handle_ret_signal(int status);
 void					ft_set_sig_handler(void);
 void					ft_sig_handler(int sig);
@@ -434,7 +416,8 @@ int						clear_history_list(t_env *e);
 int						append_history_file_in_list(t_env *e);
 int						print_history_help(void);
 int						history_delete_error(char *sh_name, char **cmd);
-int						history_error_with_id(char **cmd, char *sh_name, int id);
+int						history_error_with_id(char **cmd, char *sh_name, \
+							int id);
 int						is_valid_arg(char **cmd, char *sh_name);
 
 /*
@@ -463,7 +446,8 @@ void					strfree(char **str);
 **		Builtins
 */
 int						ft_env(t_env *e, char **cmd);
-void					ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i);
+void					ft_env_bis(t_env *e, char ***env_cpy, char **cmd, \
+							int i);
 int						ft_env_error(char *cmd);
 int						ft_cat_env_args(char ***env_cpy, char **cmd, int *i);
 int						ft_setenv_blt(t_env *e, char **cmd);
@@ -522,7 +506,6 @@ void					struct_arg_red(int i, t_env *e);
 int						magic_type(t_env *e);
 void					magic_realloc(t_env *e);
 void					struct_find_red(t_env *e);
-//t_magic					*struct_strsplit(char const *str, char div);
 t_magic					*struct_strsplit_quote_bs(char const *s, char c);
 t_magic					*struct_strsplit_wo_quote_bs(char const *s, char c);
 void					struct_init(int len, t_magic *magic);
@@ -538,8 +521,10 @@ int						check_magic_content(t_env *e, int i);
 **		Auto Completion
 */
 int						auto_completion(t_env *e);
-char					**get_valid_content_from_path(t_env *e, char *curr_path, char *arg);
-void					print_auto_completion(t_env *e, char *arg, char *path, char **content);
+char					**get_valid_content_from_path(t_env *e, \
+							char *curr_path, char *arg);
+void					print_auto_completion(t_env *e, char *arg, \
+							char *path, char **content);
 void					ft_putstr_spec(t_env *e, char *str);
 int						valid_selection(t_env *e);
 void					tcaps_manage_printable_char(t_env *e);
@@ -564,12 +549,12 @@ char					*escape_specials(char *str, int i, int len);
 /*
 **      Parse Command
 */
-void    parse_command(t_env *e);
-void    check_parsing_simple(t_env *e, int *i, char c);
-void    check_parsing_double(t_env *e, int *i, char c);
-void	check_parsing_ampersand(t_env *e, int *i);
-void    insert_char(t_env *e, char c, int pos);
-void	delete_char(t_env *e, int pos);
+void					parse_command(t_env *e);
+void					check_parsing_simple(t_env *e, int *i, char c);
+void					check_parsing_double(t_env *e, int *i, char c);
+void					check_parsing_ampersand(t_env *e, int *i);
+void					insert_char(t_env *e, char c, int pos);
+void					delete_char(t_env *e, int pos);
 /*
 **		Chdir
 */
@@ -579,7 +564,8 @@ int						ft_cd_check_option(char ***argv);
 char					*ft_save_oldpwd(char **argv, t_env *e);
 char					*ft_create_path(char **paths, int process);
 char					*ft_repstr(char **argv, char *s1, char *s2, t_env *e);
-void					ft_fill_array(void **array, void *a1, void *a2, void *a3);
+void					ft_fill_array(void **array, void *a1, void *a2, \
+							void *a3);
 void					ft_array_strdel(char **array);
 void					ft_remove_usless_slash(char *str);
 void					ft_replace_word(char **s1, char *s2, char **s3, int i);
