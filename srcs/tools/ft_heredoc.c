@@ -34,6 +34,23 @@ static char	*get_hdoc_word(t_env *e, char *str)
 	return (ft_strsub(str, (i + 2), (j - (i + 2))));
 }
 
+static int	stop_heredocs(t_env *e)
+{
+	if (!e->herestop)
+	{
+		NB_READ = 0;
+		NB_MOVE = 0;
+		strfree(&e->line);
+		strfree(&e->prompt);
+		e->prompt = ft_strdup(BS_PROMPT);
+		tcaps_ctrl_end(e);
+		ft_putchar('\n');
+		ft_prompt(e->prompt);
+		return (0);
+	}
+	return (1);
+}
+
 int			ft_heredoc(t_env *e)
 {
 	char	*hdoc_word;
@@ -50,17 +67,7 @@ int			ft_heredoc(t_env *e)
 			e->hdoc_words = new_tabcat(&e->hdoc_words, &hdoc_word);
 			++e->hdoc_nb;
 		}
-	if (!e->herestop)
-	{
-		NB_READ = 0;
-		NB_MOVE = 0;
-		strfree(&e->line);
-		strfree(&e->prompt);
-		e->prompt = ft_strdup(BS_PROMPT);
-		tcaps_ctrl_end(e);
-		ft_putchar('\n');
-		ft_prompt(e->prompt);
+	if (!stop_heredocs(e))
 		return (0);
-	}
 	return (1);
 }
