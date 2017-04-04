@@ -41,12 +41,16 @@ static int	replace_line(t_env *e, int *same_node)
 		*same_node = -1;
 		e->hdoc_index = -1;
 		e->hdoc = e->b_hdoc;
+		if (e->hdoc_words)
+			ft_free_tab(e->hdoc_words);
+		e->hdoc_words = NULL;
 	}
 	else
 	{
 		tcaps_ctrl_end(e);
 		ft_putchar('\n');
 		ft_prompt(e->prompt);
+		NB_READ = 0;
 	}
 	return (--e->hdoc_nb);
 }
