@@ -30,19 +30,32 @@ int			ft_check_heredoc(int i, t_env *e)
 **  CHECK IF A REDIRECTION IS IN 'str'
 */
 
-int			red_strstr(char *str)
+int			red_strstr(char *s)
 {
-	int i;
+	int 	i;
+	int		bs;
+	char	quote;
 
 	i = -1;
-	while (str[++i])
+	bs = 0;
+	quote = '\0';
+	while (s[++i])
 	{
-		if (str[i] == '|' && str[i + 1] == '|')
-			return (0);
-		if (str[i] == '&' && str[i + 1] == '&')
-			return (0);
-		if (is_redir_sign(str[i]))
-			return (1);
+		if (!bs && s[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
+		{
+			quote = ft_check_quote_bs(s[i], quote, bs);
+			if (!quote)
+			{
+				if (s[i] == '|' && s[i + 1] == '|')
+					return (0);
+				if (s[i] == '&' && s[i + 1] == '&')
+					return (0);
+				if (is_redir_sign(s[i]))
+					return (1);
+			}
+		}
 	}
 	return (0);
 }

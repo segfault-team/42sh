@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/06 17:32:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/03 15:30:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/04 13:44:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,15 @@ static size_t	ft_trim_len_quote(const char *str, char x)
 	return (len);
 }
 
-char			*ft_strxtrim_quote_ret(char const *str, char x, int len)
+static char		*ft_strxtrim_quote_ret(char const *str, char x,
+		int len, char quote)
 {
 	char	*trim;
 	int		i;
 	int		j;
-	char	quote;
 
 	i = 0;
 	j = 0;
-	trim = NULL;
-	quote = '\0';
 	if ((trim = ft_strnew(len)) == NULL)
 		return (NULL);
 	while (str[i])
@@ -84,7 +82,7 @@ char			*ft_strxtrim_quote(char const *str, char x)
 	if (str)
 	{
 		len = ft_trim_len_quote(str, x);
-		return (ft_strxtrim_quote_ret(str, x, len));
+		return (ft_strxtrim_quote_ret(str, x, len, '\0'));
 	}
 	return (NULL);
 }

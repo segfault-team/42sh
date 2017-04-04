@@ -2,26 +2,33 @@
 
 int		ft_isspace(char c)
 {
-	return ((c && (c == ' ' || c == '\t')));
+	return (c == ' ' || c == '\t');
 }
 
-int		is_quote(t_env *e)
+/*
+**	bs == back slash
+*/
+
+int		check_quote(char *s)
 {
-	int			i;
+	int		i;
+	int		bs;
+	char	quote;
 
 	i = -1;
-	while (e->line[++i])
+	bs = 0;
+	quote = '\0';
+	while (s[++i])
 	{
-		if ((!i || (e->line[i - 1] != '\\' && e->quote != '\''))
-			&& ((e->line[i] == '"') || e->line[i] == '\''))
+		if (!bs && s[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
 		{
-			if (!e->quote)
-				e->quote = e->line[i];
-			else if (e->quote == e->line[i])
-				e->quote = '\0';
+			quote = ft_check_quote_bs(s[i], quote, bs);
+			bs = 0;
 		}
 	}
-	if (e->quote)
+	if (quote != '\0')
 		return (1);
 	return (0);
 }

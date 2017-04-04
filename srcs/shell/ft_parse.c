@@ -58,7 +58,7 @@ int				test(t_env *e)
 	{
 		if (ret == -1)
 			return (-1);
-		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
+		if ((e->line[i] == '\"' || e->line[i] == '\'') && i - 1 >= 0 &&
 			e->line[i - 1] != '\\')
 			manage_quote(&quote, e->line[i]);
 		else if (e->line[i] == '!' && !quote)
@@ -101,18 +101,20 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_printf("----------------\n");
 	*/
 	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
-		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
+		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
 	if (magic_type(e) == -1)
 		return (-42);
+	/*
+	ft_printf("====  MAGIC  ====\n");
+	for (int j = 0 ; e->magic[j].cmd ; j++)
+		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	*/
 	e->len_mag = struct_len(&e->magic);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-/*	
-	ft_printf("====  MAGIC  ====\n");
-	for (int j = 0 ; e->magic[j].cmd ; j++)
-		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	/*
 	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
