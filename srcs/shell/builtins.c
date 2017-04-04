@@ -25,7 +25,11 @@ int			ft_is_builtin(char *cmd)
 int			ft_exec_builtin(t_env *e, char **cmd, int ret)
 {
 	if (redirection_before_cmd(e) < 1)
+	{
+		ft_close(FD.fd[1]);
+		ft_dupp(e);
 		return (-1);
+	}
 	ft_redirect(FD.in, STDIN_FILENO);
 	if (!ft_strcmp(cmd[0], "exit") && ++ret)
 		ret = ft_exit(e, cmd);
