@@ -3,6 +3,7 @@
 static int	create_aggre_file(t_env *e, int i)
 {
 	char	*file;
+	int		ret;
 	int		j;
 	int		k;
 

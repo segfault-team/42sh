@@ -26,11 +26,13 @@ static void		exec_end(t_env *e)
 {
 	ft_waitsons(e);
 	ft_triple_free(e);
-	ft_free_tab(e->hdoc_words);
+	if (e->hdoc_words)
+		ft_free_tab(e->hdoc_words);
 	e->hdoc_words = NULL;
 	magic_free(e);
 	RED_INDEX = 0;
-	ft_tabfree(e->cmd);
+	if (e->cmd)
+		ft_tabfree(e->cmd);
 	e->cmd = NULL;
 	e->check_input = 0;
 	e->hdoc_index = -1;
@@ -87,10 +89,10 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-42);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+/*
 	ft_printf("====   CAT       ====\n");
 	for (int k = 0 ; e->cat[k] ; ++k)
 		for (int l = 0 ; e->cat[k][l] ; ++l)
