@@ -4,7 +4,7 @@ int				find_last_pipe(t_env *e)
 {
 	int		tmp;
 
-	if (!e->magic[RED_INDEX].cmd || !RED_INDEX)
+	if (!RED_INDEX || !e->magic[RED_INDEX].cmd)
 		return (0);
 	tmp = RED_INDEX;
 	while (--tmp)

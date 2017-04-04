@@ -1,88 +1,89 @@
 #include "shell.h"
 
+static char	*pre_substitution(char **new, char **ret, char *target, int len)
+{
+	*new = ft_strnew((int)(ft_strlen(target) + len));
+	*ret = *new;
+	return (target);
+}
+
+static void	simple_replace(char **new, char **target)
+{
+	**new = **target;
+	++(*new);
+}
+
 void		do_substitution(char **target, int *curr_pos, char *substitute,
-							int nb_char_to_jump)
+							int jmp)
 {
 	char	*new;
 	char	*tmp;
 	char	*ret;
 
-	new = ft_strnew((int)(ft_strlen(*target) + (int)ft_strlen(substitute)));
-	ret = new;
-	tmp = *target;
-	while (*target && **target)
+	tmp = pre_substitution(&new, &ret, *target, (int)ft_strlen(substitute));
+	while (((*target)) && **target)
 	{
 		if (*target == &tmp[*curr_pos])
 		{
 			if (!substitute)
-				*target += nb_char_to_jump;
+				*target += jmp;
 			else
-				ft_replace_word(&new, substitute, &*target, nb_char_to_jump + 1);
+				ft_replace_word(&new, substitute, &*target, jmp + 1);
 		}
 		else
-		{
-			*new = **target;
-			new++;
-		}
-		*target = *target + 1;
+			simple_replace(&new, target);
+		(*target)++;
 	}
 	strfree(&tmp);
 	tmp = ft_strtrim(ret);
-	if (substitute)
-		*target = escape_specials(tmp, *curr_pos, ft_strlen(substitute));
-	else
-		*target = ft_strdup(ret);
+	*target = (substitute)
+	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
 	ft_strdel(&ret);
 	ft_strdel(&tmp);
+}
+
+static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
+{
+	char	*tmp;
+
+	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
+		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '~' && (!(*str)[i - 1]
+		|| (*str)[i - 1] == ' '))
+	{
+		tmp = ft_strdup((*str));
+		do_substitution(str, &i, user_dir, 0);
+		if (access(&(*str)[i], F_OK) == -1)
+		{
+			ft_strdel(str);
+			*str = tmp;
+		}
+	}
+	else if ((*str)[i] == '~' && (!(*str)[i - 1] || (*str)[i - 1] == ' ')
+			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'
+			&& (*str)[i + 1] != '\'' && (*str)[i + 1] != '\"')))
+	{
+		tmp = ft_getenv(e->env, "HOME");
+		if (!tmp)
+			tmp = ft_strdup(e->home);
+		do_substitution(str, &i, tmp, 0);
+		ft_strdel(&tmp);
+	}
 }
 
 int			substitution(t_env *e, char **str)
 {
 	int		i;
-	int		ret;
 	char	*user_dir;
-	char	*tmp;
 
 	i = -1;
-	ret = 0;
 	user_dir = ft_strdup("/Users/");
 	while ((*str)[++i])
 	{
-		if (ret == -1)
-		{
-			strfree(&user_dir);
-			return (-1);
-		}
-		else if ((*str)[i] == '~'
-				&& (*str)[i + 1]
-				&& (*str)[i + 1] != ' '
-				&& (*str)[i + 1] != '/'
-				&& (*str)[i + 1] != '~'
-				&& (!(*str)[i - 1]
-				|| (*str)[i - 1] == ' '))
-		{
-			tmp = ft_strdup((*str));
-			do_substitution(str, &i, user_dir, 0);
-			if (access(&(*str)[i], F_OK) == -1)
-				*str = tmp;
-		}
-		else if ((*str)[i] == '~'
-				&& (!(*str)[i - 1]
-				|| (*str)[i - 1] == ' ')
-				&& (!(*str)[i + 1]
-				|| ((*str)[i + 1] != '~'
-				&& (*str)[i + 1] != '\''
-				&& (*str)[i + 1] != '\"')))
-		{
-			tmp = ft_getenv(e->env, "HOME");
-			if (!tmp)
-				tmp = ft_strdup(e->home);
-			do_substitution(str, &i, tmp, 0);
-			ft_strdel(&tmp);
-		}
-		else if ((*str)[i] == '$' && (*str)[i + 1])
+		if ((*str)[i] == '$' && (*str)[i + 1])
 			do_env_subs(e, str, &i);
+		else
+			substitution_tilde(e, str, i, user_dir);
 	}
 	strfree(&user_dir);
-	return (ret);
+	return (0);
 }
