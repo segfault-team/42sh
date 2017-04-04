@@ -12,6 +12,7 @@ static int		nb_elems_is_invalid(t_aggre_elems *ag)
 	if (ag->nb_chevron > 1)
 		error = dprintf(STDERR_FILENO, "sh: syntax error - too many\
 				chevrons in your aggregator\n");
+	// too many ... 'chevrons' ?? 
 	else if (ag->nb_ampersand > 1)
 		error = dprintf(STDERR_FILENO, "sh: syntax error - too many\
 				ampersands in your aggregator\n");

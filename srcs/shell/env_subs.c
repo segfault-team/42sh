@@ -30,8 +30,8 @@ int			do_env_subs(t_env *e, char **target, int *curr_pos)
 		return (-1);
 	if (!ft_strcmp(var, "?"))
 		substi = ft_strdup(e->last_ret);
-	else if (!(substi = ft_getenv(e->env, var)))
-		return (-1);
+	else
+		substi = ft_getenv(e->env, var);
 	do_substitution(target, curr_pos, substi, (int)ft_strlen(var));
 	strfree(&var);
 	strfree(&substi);

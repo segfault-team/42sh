@@ -44,7 +44,7 @@ void	actual_print(t_env *e, int i, int moar)
 	xputs(e->struct_tputs.cd);
 	while (i < e->row && (i - e->start) < e->tcaps.ws.ws_row - 1 - moar)
 	{
-		putchar('\n');
+		ft_putchar('\n');
 		moar += write_line(e, i, e->row, tmp);
 		i++;
 	}

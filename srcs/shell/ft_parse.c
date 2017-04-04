@@ -37,59 +37,6 @@ static void		exec_end(t_env *e)
 	e->check_input = 0;
 }
 
-/*int				do_all_substitution(t_env *e, int i)
-{
-	int x;
-	int ret;
-
-	ret = 0;
-	x = 0;
-	while (e->cat && e->cat[i] && e->cat[i][x])
-	{
-		if (substitution(e, i, x) == -1)
-			ret = -1;
-		if (!e->cat[i][x][0])
-			ret = -1;
-		x++;
-	}
-	return (ret);
-}*/
-
-int				ft_iter_cmds(t_env *e, char *cmds_i)
-{
-	int		i;
-	int		ret;
-
-	i = -1;
-	ret = 0;
-	FD.in = STDIN_FILENO;
-	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
-		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
-		return (ft_error(SH_NAME, "parsing error.", NULL));
-	if (magic_type(e) == -1)
-		return (-42);
-	e->len_mag = struct_len(&e->magic);
-	if ((e->cat = ft_cmds_split(e)) == NULL)
-		return (-1);
-	ft_create_file(e);
-/*	ft_printf("====  MAGIC  ====\n");
-	for (int j = 0 ; e->magic[j].cmd ; j++)
-		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-	ft_printf("====   CAT       ====\n");
-	for (int k = 0 ; e->cat[k] ; ++k)
-		for (int l = 0 ; e->cat[k][l] ; ++l)
-			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-	ft_printf("====  END CAT    ====\n");
-*/
-	while (++i < ft_catlen(e->cat) && e->cat[i])
-	{
-		ret = exec_by_type(e, i, ret);
-		i += manage_operators(e, RED_INDEX, ret);
-	}
-	exec_end(e);
-	return (ret);
-}
-
 static void		manage_quote(char *quote, char current)
 {
 	if (!(*quote))
@@ -119,6 +66,68 @@ int				test(t_env *e)
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
+	return (ret);
+}
+
+/*int				do_all_substitution(t_env *e, int i)
+{
+	int x;
+	int ret;
+
+	ret = 0;
+	x = 0;
+	while (e->cat && e->cat[i] && e->cat[i][x])
+	{
+		if (substitution(e, i, x) == -1)
+			ret = -1;
+		if (!e->cat[i][x][0])
+			ret = -1;
+		x++;
+	}
+	return (ret);
+}*/
+
+int				ft_iter_cmds(t_env *e, char *cmds_i)
+{
+	int		i;
+	int		ret;
+
+	i = -1;
+	ret = 0;
+	FD.in = STDIN_FILENO;
+	/*
+	ft_printf("----------------\n");
+	ft_printf("cmds: %s\n", cmds_i);
+	ft_printf("----------------\n");
+	*/
+	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
+		!(e->magic = struct_strsplit_wo_quote_bs(cmds_i, ' ')))
+		return (ft_error(SH_NAME, "parsing error.", NULL));
+	if (magic_type(e) == -1)
+		return (-42);
+	e->len_mag = struct_len(&e->magic);
+	if ((e->cat = ft_cmds_split(e)) == NULL)
+		return (-1);
+	ft_create_file(e);
+/*	
+	ft_printf("====  MAGIC  ====\n");
+	for (int j = 0 ; e->magic[j].cmd ; j++)
+		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	ft_printf("====   CAT       ====\n");
+	for (int k = 0 ; e->cat[k] ; ++k)
+		for (int l = 0 ; e->cat[k][l] ; ++l)
+			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+	ft_printf("====  END CAT    ====\n");
+	ft_printf("====   CMD       ====\n");
+	ft_puttab(e->cmd);
+	ft_printf("====  END CMD    ====\n");
+	*/
+	while (++i < ft_catlen(e->cat) && e->cat[i])
+	{
+		ret = exec_by_type(e, i, ret);
+		i += manage_operators(e, RED_INDEX, ret);
+	}
+	exec_end(e);
 	return (ret);
 }
 

@@ -28,7 +28,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		ft_error(SH_NAME, "failed to fork process", NULL);
 	if (!pid)
 	{
-		dprintf(2, "FD: %d\n", FD.in);
+		//dprintf(2, "FD: %d\n", FD.in);
 		ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
 	}
