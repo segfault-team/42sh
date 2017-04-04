@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_reset.c                                         :+:      :+:    :+:   */
+/*   ft_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 15:49:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/24 14:40:09 by kboddez          ###   ########.fr       */
+/*   Created: 2017/03/29 14:28:05 by lfabbro           #+#    #+#             */
+/*   Updated: 2017/04/04 13:42:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "libft.h"
 
-int		ft_reset_line(t_env *e)
+char	ft_check_quote_bs(char c, char quote, int bs)
 {
-	if (e->line)
-		strfree(&e->line);
-	e->tcaps.nb_move = 0;
-	e->tcaps.nb_read = 0;
-	e->quote = '\0';
-	return (0);
+	if (quote == '\0' && !bs && (c == '\'' || c == '\"'))
+		return (c);
+	else if (c == quote && ((!bs && quote == '\"') || quote == '\''))
+		return ('\0');
+	return (quote);
+}
+
+char	ft_check_quote(char c, char quote)
+{
+	if (quote == '\0' && (c == '\'' || c == '\"'))
+		return (c);
+	else if (c == quote)
+		return ('\0');
+	return (quote);
 }

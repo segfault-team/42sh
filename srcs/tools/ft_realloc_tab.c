@@ -40,7 +40,7 @@ void		magic_realloc(t_env *e)
 	j = -1;
 	if (!(new = (t_magic *)malloc(sizeof(t_magic) * (nb_valid_types(e) + 1))))
 		return ;
-	while (e->magic[++i].type != NULL)
+	while (e->magic[++i].type)
 	{
 		if (ft_strcmp(e->magic[i].type, "ignore"))
 		{

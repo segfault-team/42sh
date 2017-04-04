@@ -49,7 +49,7 @@ static void	tcaps_ctrl_p(t_env *e, int cut_len, int tmp)
 	NB_READ = (int)ft_strlen(e->line);
 	tmp = NB_READ - (NB_MOVE + cut_len);
 	xputs(TGETSTR_CR);
-	tcaps_prompt(e->prompt);
+	ft_prompt(e->prompt);
 	ft_putstr(e->line);
 	NB_MOVE = NB_READ;
 	while (tmp--)

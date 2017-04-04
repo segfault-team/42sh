@@ -7,11 +7,12 @@
 void	struct_find_red(t_env *e)
 {
 	++(RED_INDEX);
-	while (e->magic[RED_INDEX].cmd &&
-			ft_strcmp(e->magic[RED_INDEX].type, "red"))
+	if (RED_INDEX >= e->len_mag)
+		return ;
+	while (e->magic[RED_INDEX].cmd
+			&& ft_strcmp(e->magic[RED_INDEX].type, "red")
+			&& !is_operator(e, RED_INDEX))
 		++(RED_INDEX);
-	if (!(e->magic[RED_INDEX].cmd))
-		RED_INDEX = 0;
 }
 
 /*
@@ -20,6 +21,8 @@ void	struct_find_red(t_env *e)
 
 int		redir_check_red(t_env *e, char *red)
 {
+	if (RED_INDEX >= e->len_mag)
+		return (0);
 	if (e->magic[RED_INDEX].cmd && red &&
 			!ft_strcmp(e->magic[RED_INDEX].cmd, red))
 		return (1);
@@ -35,10 +38,9 @@ int		redir_exec_open(int i, t_env *e)
 	int		ret;
 
 	ret = 0;
-	if (is_next_redir(e, RED_INDEX) != INPUT)
-		struct_find_red(e);
 	if (pipe(FD.fd) < 0)
 		return (ft_error(SH_NAME, "Pipe failed.", NULL));
+	struct_find_red(e);
 	ret = ft_exec_cmd(e, e->cat[i]);
 	FD.in = FD.fd[0];
 	return (ret);

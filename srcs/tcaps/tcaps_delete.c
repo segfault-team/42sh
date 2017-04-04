@@ -67,7 +67,6 @@ void		tcaps_del_bkw(t_env *e)
 		tcaps_del_bkw_end(e);
 	else
 	{
-	// Pourquoi si on a rien lu on efface line?
 		if (!NB_READ)
 			strfree(&e->line);
 		xputs(TGETSTR_LE);

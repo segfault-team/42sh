@@ -1,61 +1,60 @@
 #include "shell.h"
 
-static int		struct_find_out(t_env *e)
+int				find_last_pipe(t_env *e)
 {
-	int mem_red_index;
+	int		tmp;
 
-	mem_red_index = RED_INDEX;
-	while (e->magic[RED_INDEX].cmd &&
-			ft_strcmp(e->magic[RED_INDEX].type, "red"))
-		++RED_INDEX;
-	if (!(e->magic[RED_INDEX].cmd))
-	{
-		RED_INDEX = mem_red_index;
+	if (!RED_INDEX || !e->magic[0].cmd || !e->magic[RED_INDEX].cmd)
 		return (0);
-	}
-	return (1);
+	tmp = RED_INDEX;
+	while (--tmp)
+		if (is_redir_pipe(e, tmp) || is_operator(e, tmp))
+			return (tmp);
+	return (0);
 }
 
-static int		nombrederedirectionsdanslacommande(t_env *e)
+int				find_next_output(t_env *e, int i)
 {
-	int		nb_red;
-	int		i;
-
-	nb_red = 0;
-	i = RED_INDEX;
-	while (e->magic[i].type)
+	if (!e->magic[i].cmd)
+		return (0);
+	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i))
 	{
-		if (!ft_strcmp(e->magic[i].type, "red"))
-			++nb_red;
-		++i;
+		if (is_output_redir(e, i))
+			return (i);
 	}
-	return (nb_red);
+	return (0);
+}
+
+static void		redir_output_do(t_env *e, int fd, int i, char *out)
+{
+	int		red;
+
+	red = ft_strcmp(e->magic[i].cmd, ">>");
+	if ((fd = open(e->magic[i + 1].cmd,
+		(!red ? TWO_RED_FLAGS : ONE_RED_FLAGS), OFLAGS)) > -1)
+	{
+		ft_printfd(fd, "%s", out ? out : "");
+		if (out && out[(int)ft_strlen(out) - 1] != '\n')
+			ft_printfd(fd, "\n");
+		ft_close(fd);
+	}
+	else
+		ft_error(SH_NAME, "failed opening file",\
+			e->magic[i].cmd ? e->magic[i].cmd : NULL);
 }
 
 static int		redir_file_output(t_env *e, char *ret_output)
 {
 	int		fd_output;
-	int		nb_red;
-	int		red_type;
+	int		i;
 
-	red_type = 0;
-	nb_red = nombrederedirectionsdanslacommande(e);
+	i = find_last_pipe(e);
 	fd_output = 0;
-	while (nb_red-- && struct_find_out(e))
-	{
-		red_type = ft_strcmp(e->magic[RED_INDEX].cmd, ">>");
-		if ((fd_output = open_file(e->magic[++RED_INDEX].cmd,
-						(!red_type ? TWO_RED_FLAGS : ONE_RED_FLAGS),
-						OFLAGS)) > -1)
-		{
-			ft_printfd(fd_output, "%s", ret_output);
-			ft_close(fd_output);
-		}
-		else
-			ft_error(SH_NAME, "failed opening file",\
-					e->magic[RED_INDEX].cmd ? e->magic[RED_INDEX].cmd : NULL);
-	}
+	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i))
+		if (is_output_redir(e, i))
+			redir_output_do(e, fd_output, i, ret_output);
 	strfree(&ret_output);
+	struct_find_red(e);
 	return (1);
 }
 
@@ -68,6 +67,7 @@ int				redir_fill_output(t_env *e)
 
 	tmp_join = NULL;
 	ret_output = NULL;
+	ft_bzero(tmp, 4095);
 	while ((len = read(FD.in, &tmp, 4095)) > 0)
 	{
 		tmp[len] = '\0';

@@ -2,7 +2,8 @@
 
 static int	is_not_valid_arg(char c)
 {
-	return (c != 'a' && c != 'c' && c != 'd' && c != 'h' && c != 'r' &&  c != 'w');
+	return (c != 'a' && c != 'c' && c != 'd' && c != 'h'
+			&& c != 'r' && c != 'w');
 }
 
 static char	*join_char(char c1, char c2)
@@ -52,9 +53,7 @@ int			is_valid_arg(char **cmd, char *sh_name)
 					return (history_arg_error(sh_name, cmd[i][j]));
 		}
 		if (cmd[i][0] != '-' && !is_only_numbers(cmd[i]))
-		{
 			return (output_history_arg_error(sh_name, cmd[i]));
-		}
 	}
 	return (1);
 }

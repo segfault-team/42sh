@@ -1,77 +1,89 @@
 #include "shell.h"
 
-static void	manage_quote(char *quote, char current)
+static char	*pre_substitution(char **new, char **ret, char *target, int len)
 {
-	if (!(*quote))
-		*quote = current;
-	else if (current == *quote)
-		*quote = '\0';
+	*new = ft_strnew((int)(ft_strlen(target) + len));
+	*ret = *new;
+	return (target);
 }
 
-void		do_substitution(t_env *e, int *curr_pos, char *substitute,
-							int nb_char_to_jump)
+static void	simple_replace(char **new, char **target)
+{
+	**new = **target;
+	++(*new);
+}
+
+void		do_substitution(char **target, int *curr_pos, char *substitute,
+							int jmp)
 {
 	char	*new;
-	int		i_line;
-	int		i_new;
-	int		i_sub;
+	char	*tmp;
+	char	*ret;
 
-	new = ft_strnew((int)(ft_strlen(e->line) + (int)ft_strlen(substitute)));
-	i_line = -1;
-	i_sub = -1;
-	i_new = -1;
-	while (e->line[++i_line])
+	tmp = pre_substitution(&new, &ret, *target, (int)ft_strlen(substitute));
+	while (((*target)) && **target)
 	{
-		if (i_line == *curr_pos)
+		if (*target == &tmp[*curr_pos])
 		{
-			while (substitute[++i_sub])
-			{
-				new[++i_new] = substitute[i_sub];
-				++(*curr_pos);
-			}
-// CHEcKER ICI QUE CA NE REPERCUTE PAS TROP LA SUITE
-// SUPPRIME LAST CHAR
-			++(*curr_pos);
-//			i_line += nb_char_to_jump;
+			if (!substitute)
+				*target += jmp;
+			else
+				ft_replace_word(&new, substitute, &*target, jmp + 1);
 		}
 		else
-			new[++i_new] = e->line[i_line];
+			simple_replace(&new, target);
+		(*target)++;
 	}
-	new[++i_new] = '\0';
-	strfree(&e->line);
-	e->line = new;
+	strfree(&tmp);
+	tmp = ft_strtrim(ret);
+	*target = (substitute)
+	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
+	ft_strdel(&ret);
+	ft_strdel(&tmp);
 }
 
-int 		substitution(t_env *e)
+static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
+{
+	char	*tmp;
+
+	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
+		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '~' && (!(*str)[i - 1]
+		|| (*str)[i - 1] == ' '))
+	{
+		tmp = ft_strdup((*str));
+		do_substitution(str, &i, user_dir, 0);
+		if (access(&(*str)[i], F_OK) == -1)
+		{
+			ft_strdel(str);
+			*str = tmp;
+		}
+	}
+	else if ((*str)[i] == '~' && (!(*str)[i - 1] || (*str)[i - 1] == ' ')
+			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'
+			&& (*str)[i + 1] != '\'' && (*str)[i + 1] != '\"')))
+	{
+		tmp = ft_getenv(e->env, "HOME");
+		if (!tmp)
+			tmp = ft_strdup(e->home);
+		do_substitution(str, &i, tmp, 0);
+		ft_strdel(&tmp);
+	}
+}
+
+int			substitution(t_env *e, char **str)
 {
 	int		i;
-	char	quote;
-	int		ret;
 	char	*user_dir;
 
 	i = -1;
-	ret = 0;
-	quote = '\0';
 	user_dir = ft_strdup("/Users/");
-	if (e->line[0] && e->line[0] == '~')
-		return (ft_error(SH_NAME, e->home, ": is a directory"));
-	while (e->line[++i])
+	while ((*str)[++i])
 	{
-		if (ret == -1)
-			return (-1);
-		if ((e->line[i] == '"' || e->line[i] == '\'') && i - 1 >= 0 &&
-			e->line[i - 1] != '\\')
-			manage_quote(&quote, e->line[i]);
-		else if (e->line[i] == '~' && i && e->line[i - 1] == ' ' &&
-				 e->line[i + 1] && e->line[i + 1] != ' ')
-			do_substitution(e, &i, user_dir, 0);
-		else if (e->line[i] == '~' && !quote && i && e->line[i - 1] == ' ')
-			do_substitution(e, &i, e->home, 0);
-		else if (e->line[i] == '!' && !quote)
-			ret = manage_exclamation_mark(e, &i);
+		if ((*str)[i] == '$' && (*str)[i + 1])
+			do_env_subs(e, str, &i);
+		else
+			substitution_tilde(e, str, i, user_dir);
 	}
 	strfree(&user_dir);
-	if (ret)
-		ft_printf("%s\n", e->line);
-	return (ret);
+	return (0);
 }

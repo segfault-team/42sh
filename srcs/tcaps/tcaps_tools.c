@@ -7,7 +7,8 @@ int		dsh_putchar(int c)
 
 void	xputs(char *tcaps)
 {
-	ft_putstr(tcaps);
+	if (tcaps)
+		ft_putstr(tcaps);
 }
 
 void	move_right(t_env *e)
@@ -21,4 +22,11 @@ void	move_right(t_env *e)
 		xputs(TGETSTR_ND);
 	++TCAPS.nb_move;
 	tcaps_recalc_pos(e);
+}
+
+int		tcaps_is_delete_key(t_env *e)
+{
+	if (e->line && e->buf[0] == 127 && NB_MOVE > 0)
+		return (1);
+	return (0);
 }

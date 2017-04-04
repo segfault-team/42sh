@@ -1,5 +1,6 @@
 # Object files
-lol
+*lol*
+*LOL*
 *.o
 *.ko
 *.obj
@@ -55,4 +56,7 @@ tests
 *.DS_Store
 a.out
 
+log*
 .sh_history
+boid
+*boid*

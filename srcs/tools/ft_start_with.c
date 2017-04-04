@@ -1,5 +1,6 @@
 #include "shell.h"
-int	ft_start_with(char *str, char *comp)
+
+int		ft_start_with(char *str, char *comp)
 {
 	int	i;
 

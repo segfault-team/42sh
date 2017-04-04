@@ -1,25 +1,19 @@
 #include "libft.h"
 
 /*
-**
 **	Description:
 **		this function split the line by the char ';',
 **		it keeps hold '\' '\\' '\;' and things in quotes.
 **		How it works? .. again, it's black magic.
-**
 */
 
-static size_t	ft_count_words(char const *s, char c)
+static size_t	ft_count_words(char const *s, char c, char quote, int bs)
 {
 	size_t	nw;
 	int		i;
-	int		bs;
-	char	quote;
 
 	i = 0;
 	nw = 0;
-	bs = 0;
-	quote = '\0';
 	while (s[i] && s[i] == c)
 		++i;
 	while (s[i])
@@ -28,14 +22,12 @@ static size_t	ft_count_words(char const *s, char c)
 			bs = 1;
 		else
 		{
-			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
-				quote = s[i];
-			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
-				quote = '\0';
-			if (quote == '\0' && (s[i] != c && (s[i + 1] == c
-							|| s[i + 1] == '\0')))
+			quote = ft_check_quote_bs(s[i], quote, bs);
+			if (!quote && (s[i] != c &&
+						(s[i + 1] == c || s[i + 1] == '\0')))
 				++nw;
-			if (!quote && bs && s[i] == c && (s[i + 1] == c || s[i + 1] == '\0'))
+			if (!quote && bs && s[i] == c &&
+					(s[i + 1] == c || s[i + 1] == '\0'))
 				++nw;
 			bs = 0;
 		}
@@ -44,33 +36,20 @@ static size_t	ft_count_words(char const *s, char c)
 	return (nw);
 }
 
-static size_t	ft_strlen_chr(char const *s, char c)
+static size_t	ft_strlen_chr(char const *s, char c, char quote, int bs)
 {
 	size_t	len;
 	int		i;
-	int		bs;
-	char	quote;
 
 	len = 0;
 	i = 0;
-	bs = 0;
-	quote = '\0';
-	while (s[i] == c)
-		++i;
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
-		if (!bs && s[i] == '\\' && quote != '\'')
-		{
-			bs = 1;
-			if (s[i + 1] != c)
-				++len;
-		}
+		if (!bs && s[i] == '\\' && quote != '\'' && (bs = 1))
+			len += (s[i + 1] != c) ? 1 : 0;
 		else
 		{
-			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
-				quote = s[i];
-			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
-				quote = '\0';
+			quote = ft_check_quote_bs(s[i], quote, bs);
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
@@ -82,36 +61,23 @@ static size_t	ft_strlen_chr(char const *s, char c)
 	return (len);
 }
 
-static char		*ft_strcpy_chr(char const *s, char c)
+static char		*ft_strcpy_chr(char const *s, char c, char quote, int bs)
 {
 	char	*cpy;
 	int		i;
 	int		j;
-	char	quote;
-	int		bs;
 
-	if ((cpy = ft_strnew(ft_strlen_chr(s, c))) == NULL)
+	if ((cpy = ft_strnew(ft_strlen_chr(s, c, '\0', 0))) == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
-	bs = 0;
-	quote = '\0';
-	while (s[i] == c)
-		++i;
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
-		if (!bs && s[i] == '\\' && quote != '\'')
-		{
-			bs = 1;
-			if (s[i + 1] != c)
-				cpy[j++] = s[i];
-		}
+		if (!bs && s[i] == '\\' && quote != '\'' && (bs = 1))
+			(s[i + 1] != c) ? cpy[j++] = s[i] : 0;
 		else
 		{
-			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
-				quote = s[i];
-			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
-				quote = '\0';
+			quote = ft_check_quote_bs(s[i], quote, bs);
 			if (bs && ((quote == '\'' && s[i] == '\\') ||
 						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
@@ -140,14 +106,13 @@ static int		ft_skip(char const *s, char c)
 			bs = 1;
 		else
 		{
-			if (quote == '\0' && !bs && (s[i] == '\'' || s[i] == '\"'))
-				quote = s[i];
-			else if (s[i] == quote && ((!bs && quote == '\"') || quote == '\''))
-				quote = '\0';
+			quote = ft_check_quote_bs(s[i], quote, bs);
 			bs = 0;
 		}
 		++i;
 	}
+	while (s[i] == c)
+		++i;
 	return (i);
 }
 
@@ -161,12 +126,12 @@ char			**ft_split_cmds(char const *s, char c)
 	if (s)
 	{
 		i = -1;
-		nw = ft_count_words(s, c);
+		nw = ft_count_words(s, c, '\0', 0);
 		if ((tab = ft_tabnew(nw + 1)) == NULL)
 			return (NULL);
 		while (++i < nw)
 		{
-			if ((tab[i] = ft_strcpy_chr(s, c)) == NULL)
+			if ((tab[i] = ft_strcpy_chr(s, c, '\0', 0)) == NULL)
 				return (tab);
 			s += ft_skip(s, c);
 		}

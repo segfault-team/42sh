@@ -4,26 +4,20 @@
 #define INPUT_AGGRE     0
 #define OUTPUT_AGGRE    1
 
-typedef struct	s_aggre_elems
-{
-	int			nb_chevron;
-	int			nb_ampersand;
-	int			type;
-}				t_aggre_elems;
-
 static int		nb_elems_is_invalid(t_aggre_elems *ag)
 {
 	int error;
 
 	error = 0;
 	if (ag->nb_chevron > 1)
-		error = dprintf(STDERR_FILENO, "sh: syntax error - too many\
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many\
 				chevrons in your aggregator\n");
+	// too many ... 'chevrons' ?? 
 	else if (ag->nb_ampersand > 1)
-		error = dprintf(STDERR_FILENO, "sh: syntax error - too many\
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error - too many\
 				ampersands in your aggregator\n");
 	else if (ag->type == ERROR)
-		error = dprintf(STDERR_FILENO, "sh: syntax error in your\
+		error = ft_printfd(STDERR_FILENO, "sh: syntax error in your\
 				aggregator\n");
 	if (error)
 		ag->type = ERROR;

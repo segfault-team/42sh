@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tcaps_rewrite_line.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 18:04:57 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/03/03 01:32:33 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 /*
@@ -40,8 +28,8 @@ int		tcaps_rewrite_line(t_env *e, char *str)
 	xputs(TGETSTR_DL);
 	xputs(TGETSTR_CE);
 	xputs(TGETSTR_ED);
-	tcaps_prompt(e->prompt);
-	tputs(str, 1, dsh_putchar);
+	ft_prompt(e->prompt);
+	ft_putstr(str);
 	xputs(TGETSTR_RC);
 	return (0);
 }

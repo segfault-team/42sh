@@ -5,7 +5,8 @@ void	tcaps_recalc_pos(t_env *e)
 	int		tmp;
 
 	tmp = NB_MOVE + (int)ft_strlen(e->prompt);
-	ioctl(0, TIOCGWINSZ, &TCAPS.ws);
+	if (ioctl(0, TIOCGWINSZ, &TCAPS.ws) == -1)
+		return ;
 	if (TCAPS.ws.ws_col)
 		TCAPS.nb_line = (tmp / (TCAPS.ws.ws_col)) + 1;
 	else

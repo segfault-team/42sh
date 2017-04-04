@@ -37,8 +37,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 		(*new_list).next = NULL;
 		return (new_list);
 	}
-	(*new_list).content = (void *)malloc(sizeof(*content) * \
-			ft_strlen((const char *)content));
+	(*new_list).content = (void *)malloc(content_size);
 	ft_memmove((void *)(*new_list).content, content, content_size);
 	(*new_list).content_size = content_size;
 	(*new_list).next = NULL;

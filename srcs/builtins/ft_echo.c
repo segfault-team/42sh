@@ -1,15 +1,5 @@
 #include "shell.h"
 
-static int	ft_sslen(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
 static int	ft_echo_check(char *str)
 {
 	if (*str == '-')
@@ -33,7 +23,7 @@ int			ft_echo(char **args)
 
 	cr = 1;
 	i = 1;
-	len = ft_sslen(args);
+	len = ft_tablen(args);
 	if (len > 1)
 	{
 		while (args[i] && ft_echo_check(args[i]))
@@ -51,5 +41,5 @@ int			ft_echo(char **args)
 	}
 	if (cr)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (0);
+	return (1);
 }
