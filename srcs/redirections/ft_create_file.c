@@ -3,6 +3,7 @@
 static int	create_aggre_file(t_env *e, int i)
 {
 	char	*file;
+	int		ret;
 	int		j;
 	int		k;
 
@@ -16,7 +17,9 @@ static int	create_aggre_file(t_env *e, int i)
 	file = ft_strnew((int)ft_strlen(e->magic[i].cmd) - j);
 	while (e->magic[i].cmd[++j])
 		file[++k] = e->magic[i].cmd[j];
-	return (open(file, O_CREAT | O_TRUNC, OFLAGS));
+	ret = open(file, O_CREAT | O_TRUNC, OFLAGS);
+	strfree(&file);
+	return (ret);
 }
 
 int			space_after_aggre(char *s)

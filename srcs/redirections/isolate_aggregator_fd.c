@@ -31,6 +31,7 @@ static int	isolate_file(t_env *e, int i)
 	int		k;
 	char	*file;
 	int		fd;
+	int		ret;
 
 	j = 1;
 	k = -1;
@@ -41,7 +42,9 @@ static int	isolate_file(t_env *e, int i)
 	file = ft_strnew((int)ft_strlen(e->magic[i].cmd) - j);
 	while (e->magic[i].cmd[++j])
 		file[++k] = e->magic[i].cmd[j];
-	return (open_file(file, ONE_RED_FLAGS, OFLAGS));
+	ret = open_file(file, ONE_RED_FLAGS, OFLAGS);
+	strfree(&file);
+	return (ret);
 }
 
 int			isolate_fd_source(t_env *e)
