@@ -106,11 +106,3 @@ char	**ft_trim_split_cmd(t_env *e)
 	cmds = ft_split_cmds(e->line, ';');
 	return (cmds);
 }
-
-void	manage_quote(char *quote, char current)
-{
-	if (!(*quote))
-		*quote = current;
-	else if (current == *quote)
-		*quote = '\0';
-}
