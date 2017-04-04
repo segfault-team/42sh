@@ -71,7 +71,7 @@
 # define AND			1
 # define OR				2
 
-# define STD_PROMPT		"$> "
+# define STD_PROMPT		" $> "
 # define H_PROMPT		"heredoc> "
 # define BS_PROMPT		"> "
 # define HIST_NAME		"/.sh_history"
