@@ -50,7 +50,6 @@ int				ft_multiline(t_env *e)
 	tmp = NULL;
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
-	dprintf(2, "BOOOID\n");
 	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42)
 		return (manage_multi(e, tmp, check));
 	else if (MULTI)

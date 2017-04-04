@@ -109,7 +109,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-/*	
+/*
 	ft_printf("====  MAGIC  ====\n");
 	for (int j = 0 ; e->magic[j].cmd ; j++)
 		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
@@ -126,7 +126,11 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	{
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);
+		e->is_out_close = 0;
+		if (is_last_cmd(e, RED_INDEX))
+			e->is_valid_pipe = 0;
 	}
+	e->is_valid_pipe = 1;
 	exec_end(e);
 	return (ret);
 }

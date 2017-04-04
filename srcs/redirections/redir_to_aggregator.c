@@ -16,17 +16,6 @@ static int	aggregator_error(int id, char *sh_name)
 	return (-1);
 }
 
-static void	output_aggre(t_env *e, int fd_src, int fd_dst)
-{
-	if (fd_src != fd_dst)
-	{
-		if (is_redir_pipe(e, RED_INDEX + 1))
-			dup2(FD.fd[1], fd_src);
-		else
-			dup2(fd_dst, fd_src);
-	}
-}
-
 static int	is_valid_src(int fd)
 {
 	if (!fd || fd == 1 || fd == 2)
@@ -63,7 +52,7 @@ int			redir_to_aggregator(t_env *e)
 	if (ag_type == ERROR)
 		return (-1);
 	else if (fd_dst == -42)
-		close(fd_src);
+		close_aggre(e, fd_src, fd_dst);
 	else if (ag_type == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);
 	else
