@@ -59,7 +59,8 @@ static char	**ft_find_tab(t_env *e, int *z)
 			&& ft_strcmp(e->magic[k].type, "heredoc")
 			&& ft_strcmp(e->magic[k].type, "fd_aggregator")
 			&& ft_strcmp(e->magic[k].type, "operator"))
-			ret[j++] = ft_strdup(e->magic[k].cmd);
+			if ((ret[j++] = ft_strdup_wo_quote_bs(e->magic[k].cmd)) == NULL)
+				return (ret);
 	}
 	return (ret);
 }

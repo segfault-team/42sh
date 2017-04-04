@@ -57,12 +57,13 @@ static int		locate_history(char **history, int c_pos, char *comp, int dir)
 	}
 	if (max < (c_pos + 1))
 		return (-1);
-	while (history[c_pos] && c_pos && c_pos < max)
+	while (history[c_pos] && c_pos >= 0 && c_pos < max)
 	{
 		if (!init)
 			c_pos += dir;
 		if (!comp || (history[c_pos] && ft_start_with(history[c_pos], comp)))
 			return (c_pos);
+		init = 0;
 	}
 	return (-1);
 }
