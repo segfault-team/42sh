@@ -45,7 +45,7 @@ static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
 	char	*tmp;
 
 	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
-		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '~' && (!(*str)[i - 1]
+		&& ft_isalnum((*str)[i + 1]) && (!(*str)[i - 1]
 		|| (*str)[i - 1] == ' '))
 	{
 		tmp = ft_strdup((*str));
