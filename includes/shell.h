@@ -536,7 +536,7 @@ void					complete_arg(t_env *e, char *arg);
 char					*ft_pick_color(char *perm);
 char					ft_file_type(int mode);
 char					*ft_perms(int mode);
-char					*get_path_from_arg(char *arg);
+char					*get_path_from_arg(t_env *e, char *arg);
 char					*isolate_arg_to_complete(char *arg);
 int						ft_is_dir(char *target);
 int						countchar(char *str, char c);

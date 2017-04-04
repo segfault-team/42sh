@@ -58,7 +58,7 @@ static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
 			*str = tmp;
 		}
 	}
-	else if ((*str)[i] == '~' && (!(*str)[i - 1] || (*str)[i - 1] == ' ')
+	else if ((*str)[i] == '~' && (i == 0 || (*str)[i - 1] == ' ')
 			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'
 			&& (*str)[i + 1] != '\'' && (*str)[i + 1] != '\"')))
 	{
