@@ -10,7 +10,7 @@ static int		ft_check_line(t_env *e)
 		e->line = ft_strdup("\n");
 	else if (is_bad_line(e->line))
 		return (0);
-	if (is_quote(e))
+	if (check_quote(e->line))
 	{
 		if (ft_strcmp(e->line, "\n"))
 		{

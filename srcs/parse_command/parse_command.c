@@ -21,7 +21,7 @@ void		parse_command(t_env *e)
 	quote = '\0';
 	while (e->line[++i])
 	{
-		if (((e->line[i] == '"') && ((i - 1 >= 0 &&
+		if (((e->line[i] == '\"') && ((i - 1 >= 0 &&
 			e->line[i - 1] != '\\') || !i)) || e->line[i] == '\'')
 		{
 			if (!quote)

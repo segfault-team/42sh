@@ -26,11 +26,11 @@ SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					ft_tools.c ft_remove_space.c multiline.c multiline_bis.c\
 					ft_singletone.c is_only_numbers.c delete_line_in_tab.c \
 					open_file.c atoi_bis.c ft_check.c ft_heredoc.c store_heredoc.c \
-					ft_xtoa.c
+					ft_xtoa.c ft_strdup_wo_quote_bs.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##
-SRC_STRUCT_NAME		= struct_get_type.c \
+SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit_quote_bs.c \
 					struct_strsplit_wo_quote_bs.c struct_tools.c struct_check.c \
 					check_magic_cmd.c check_magic_red.c check_magic_content.c
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
