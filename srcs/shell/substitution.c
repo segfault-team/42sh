@@ -19,24 +19,22 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 	char	*new;
 	char	*tmp;
 	char	*ret;
+	int		escape;
 
+	escape = **target != '!' ? 1 : 0;
 	tmp = pre_substitution(&new, &ret, *target, (int)ft_strlen(substitute));
 	while (((*target)) && **target)
 	{
 		if (*target == &tmp[*curr_pos])
-		{
-			if (!substitute)
-				*target += jmp;
-			else
-				ft_replace_word(&new, substitute, &*target, jmp + 1);
-		}
+			(!substitute) ? *target += jmp
+				: ft_replace_word(&new, substitute, &*target, jmp + 1);
 		else
 			simple_replace(&new, target);
 		(*target)++;
 	}
 	strfree(&tmp);
 	tmp = ft_strtrim(ret);
-	*target = (substitute)
+	*target = substitute && escape
 	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
 	ft_strdel(&ret);
 	ft_strdel(&tmp);
