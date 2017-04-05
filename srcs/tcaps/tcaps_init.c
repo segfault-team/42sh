@@ -11,16 +11,14 @@ int		tcaps_get_term_name(char **env, int raw)
 	if ((term = ft_getenv(env, "TERM")) == NULL)
 	{
 		if (!raw)
-			ft_error(SH_NAME, "WARNING",
-					"TERM environment variable is not set");
-		term = ft_strdup("=xterm");
+			ft_error("WARNING", "TERM environment variable is not set", NULL);
+		term = ft_strdup("xterm");
 	}
-	if (tgetent(NULL, "xterm") != 1)
+	if (tgetent(NULL, term) != 1)
 	{
-		free(term);
+		strfree(&term);
 		if (!raw)
-			ft_error(SH_NAME, "WARNING",
-					"could not find terminfo database");
+			ft_error("WARNING", "could not find terminfo database", NULL);
 		return (-1);
 	}
 	strfree(&term);
@@ -38,8 +36,7 @@ int		tcaps_set(t_env *e)
 	if (tcgetattr(STDIN_FILENO, e->new_term) < 0)
 	{
 		if (e && !e->raw)
-			ft_error(SH_NAME, "WARNING",
-					"could not find termios structure");
+			ft_error("WARNING", "could not find termios structure", NULL);
 		return (-1);
 	}
 	ft_memcpy(e->old_term, e->new_term, sizeof(struct termios));

@@ -39,8 +39,8 @@ static void		redir_output_do(t_env *e, int fd, int i, char *out)
 		ft_close(fd);
 	}
 	else
-		ft_error(SH_NAME, "failed opening file",\
-			e->magic[i].cmd ? e->magic[i].cmd : NULL);
+		ft_error("failed opening file",\
+			e->magic[i].cmd ? e->magic[i].cmd : NULL, NULL);
 }
 
 static int		redir_file_output(t_env *e, char *ret_output)

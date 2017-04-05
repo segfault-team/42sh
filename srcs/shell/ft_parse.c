@@ -51,15 +51,15 @@ static int		do_exclamation_subs(t_env *e)
 	{
 		if (ret == -1)
 			return (-1);
-		if ((e->line[i] == '\"' || e->line[i] == '\'') && i - 1 >= 0 &&
-			e->line[i - 1] != '\\')
+		if ((e->line[i] == '\'')
+			&& !ft_is_escaped(e->line, i))
 		{
 			if (!quote)
 				quote = e->line[i];
 			else if (e->line[i] == quote)
 				quote = '\0';
 		}
-		else if (e->line[i] == '!' && !quote)
+		else if (e->line[i] == '!' && !quote && !ft_is_escaped(e->line, i))
 			ret = manage_exclamation_mark(e, &i);
 	}
 	if (ret)
@@ -124,8 +124,6 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if (do_exclamation_subs(e) == -1)
-		return (-1);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{

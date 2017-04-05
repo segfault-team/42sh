@@ -30,7 +30,7 @@ static int		manage_multi(t_env *e, char *tmp, int check)
 	tmp = ft_strjoin(MULTI, e->line);
 	strfree(&MULTI);
 	MULTI = tmp;
-	if (check && MULTI && MULTI[ft_strlen(MULTI) - 1] == '\\')
+	if (check && MULTI && ft_is_escaped(MULTI, ft_strlen(MULTI)))
 		MULTI[ft_strlen(MULTI) - 1] = '\0';
 	strfree(&e->line);
 	NB_READ = 0;

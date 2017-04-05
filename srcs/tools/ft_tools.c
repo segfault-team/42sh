@@ -9,12 +9,12 @@ int		ft_check_file_perm(char *file)
 	{
 		if (access(file, R_OK) == -1)
 		{
-			ft_error(SH_NAME, "Cannot access file for reading", file);
+			ft_error("Cannot access file for reading", file, NULL);
 			ret = -1;
 		}
 		if (access(file, W_OK) == -1)
 		{
-			ft_error(SH_NAME, "Cannot access file for writing", file);
+			ft_error("Cannot access file for writing", file, NULL);
 			ret = -1;
 		}
 	}

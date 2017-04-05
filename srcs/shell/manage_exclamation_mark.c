@@ -49,13 +49,16 @@ static int	manage_for_neg_number(t_env *e, int *curr_pos)
 
 static int	manage_for_string(t_env *e, int *curr_pos)
 {
+	int		start;
 	int		i;
 	char	*cmp;
 
-	i = *curr_pos + 1;
-	while (e->line[i] && e->line[i] != ' ')
-		++i;
-	cmp = ft_strsub(e->line, *curr_pos + 1, i);
+	start = *curr_pos + 1;
+	i = 0;
+	while (e->line[start + i] && e->line[start + i] != ' '
+		&& e->line[start + i] != '\'' && e->line[start + i] != '\"')
+		i++;
+	cmp = ft_strsub(e->line, start, i);
 	i = ft_tablen(e->history) - 1;
 	while (i && !ft_start_with(e->history[i], cmp))
 		--i;

@@ -48,10 +48,10 @@ int			ft_read_history(t_env *e)
 
 	i = 0;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
+		return (ft_error("Cannot read", HIST_FILE, NULL));
 	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
+		return (ft_error("Malloc failed.", NULL, NULL));
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;
@@ -73,7 +73,7 @@ int			ft_write_history(t_env *e, int flag)
 	tmp = NULL;
 	flag = (e->trunc_in_history) ? O_TRUNC : flag;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot open history file", HIST_FILE));
+		return (ft_error("Cannot open history file", HIST_FILE, NULL));
 	len_tab = ft_tablen(e->history);
 	i = -1;
 	while (++i < len_tab)

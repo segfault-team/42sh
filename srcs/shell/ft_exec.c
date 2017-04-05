@@ -5,7 +5,7 @@ static int		add_job(t_env *e, pid_t pid)
 	t_job		*son;
 
 	if (!(son = ft_new_job(e->jobs, pid)))
-		return (ft_error(SH_NAME, "malloc failed", NULL));
+		return (ft_error("malloc failed", NULL, NULL));
 	e->jobs = son;
 	return (1);
 }
@@ -26,7 +26,7 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 		&& !e->is_out_close)
 		ft_close(FD.fd[1]);
 	if ((pid = fork()) < 0)
-		ft_error(SH_NAME, "failed to fork process", NULL);
+		ft_error("failed to fork process", NULL, NULL);
 	if (!pid)
 	{
 		ft_redirect(FD.in, STDIN_FILENO);
