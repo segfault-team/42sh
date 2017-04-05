@@ -43,6 +43,7 @@ static int		tcaps_history_down_bis(t_env *e, int pos)
 {
 	if (pos == -1)
 	{
+		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		if (e->line_bkp)
 		{
@@ -68,6 +69,7 @@ int				tcaps_history_down(t_env *e)
 		return (1);
 	else
 	{
+		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
 		print_new_cmd_from_history(e);
