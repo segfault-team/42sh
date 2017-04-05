@@ -11,7 +11,7 @@ int			ft_exit(t_env *e, char **cmd)
 		}
 		else if (ft_tablen(cmd) > 1)
 		{
-			ft_error(SH_NAME, "exit", "too many arguments");
+			ft_error("exit", "too many arguments", NULL);
 			return (-1);
 		}
 		else
@@ -21,6 +21,6 @@ int			ft_exit(t_env *e, char **cmd)
 		e->exit = 0;
 	e->x = 0;
 	if (tcaps_reset(e) && !e->raw)
-		ft_error(SH_NAME, "cannot reset termios structure", NULL);
+		ft_error("cannot reset termios structure", NULL, NULL);
 	return (0);
 }

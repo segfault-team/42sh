@@ -57,9 +57,9 @@ int			cur_inquote(t_env *e)
 	pos = NB_MOVE - 1;
 	while (e->line[pos] && pos)
 	{
-		if (e->line[pos] == '\'' && e->line[pos - 1] != '\\')
+		if (e->line[pos] == '\'' && !ft_is_escaped(e->line, pos))
 			s_quote++;
-		else if (e->line[pos] == '\"' && e->line[pos - 1] != '\\')
+		else if (e->line[pos] == '\"' && !ft_is_escaped(e->line, pos))
 			d_quote++;
 		pos--;
 	}
@@ -93,7 +93,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 		ft_strdel(&tmp);
 	}
 	if (closedir(dir_id))
-		ft_error("closedir", "failed closing dir", curr_path);
+		ft_error("closedir in autocomp", "failed closing dir", curr_path);
 	return (first);
 }
 

@@ -7,31 +7,29 @@
 void		ft_store_history(t_env *e)
 {
 	char		**tmp;
+	char		*line_cpy;
 	int			is_not_history_cmd;
 	int			x;
-	int			i;
 
-	tmp = NULL;
-	x = 0;
-	i = ft_strlen(e->line);
+	x = -1;
 	tmp = e->history;
-	is_not_history_cmd = ft_strcmp(e->line, "history");
-	while (e->line && e->line[x])
-	{
-		if (e->line[x] == '\n')
-			ft_strncpy(&e->line[x], &e->line[x + 1], i - x);
-		x++;
-	}
-	if (x && e->line[x - 1] == '\n')
-		e->line[x - 1] = '\0';
+	line_cpy = ft_strdup(e->line);
+	is_not_history_cmd = ft_strcmp(line_cpy, "history");
+	while (line_cpy && line_cpy[++x])
+		if (x > 0 && line_cpy[x] && line_cpy[x] == '\n')
+		{
+			line_cpy = ft_delete_char(line_cpy, x);
+			--x;
+		}
 	if (is_not_history_cmd ||
 		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{
-		e->history = ft_tabcat(e->history, e->line);
+		e->history = ft_tabcat(e->history, line_cpy);
 		if (tmp)
 			ft_free_tab(tmp);
 	}
 	strfree(&e->last_cmd);
+	strfree(&line_cpy);
 	e->last_cmd = ft_strdup(e->line);
 }
 
@@ -48,10 +46,10 @@ int			ft_read_history(t_env *e)
 
 	i = 0;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
+		return (ft_error("Cannot read", HIST_FILE, NULL));
 	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
+		return (ft_error("Malloc failed.", NULL, NULL));
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;
@@ -73,7 +71,7 @@ int			ft_write_history(t_env *e, int flag)
 	tmp = NULL;
 	flag = (e->trunc_in_history) ? O_TRUNC : flag;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot open history file", HIST_FILE));
+		return (ft_error("Cannot open history file", HIST_FILE, NULL));
 	len_tab = ft_tablen(e->history);
 	i = -1;
 	while (++i < len_tab)

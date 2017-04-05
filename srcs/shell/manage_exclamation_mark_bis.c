@@ -2,7 +2,7 @@
 
 int		error_em(char *arg, char *sh_name)
 {
-	ft_printf("%s: !%s event not found\n", sh_name, arg);
+	ft_printf("\n%s: !%s: event not found\n", sh_name, arg ? arg : "");
 	strfree(&arg);
 	return (-1);
 }
