@@ -54,7 +54,7 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 		|| (*str)[i - 1] == ' '))
 	{
 		if ((tmp = ft_getpath_login(&(*str)[i + 1])))
-			do_substitution(str, &i, tmp, ft_strlen(tmp));
+			do_substitution(str, &i, tmp, ft_strlen(&(*str)[i + 1]));
 		else if ((pwd = getpwnam(&(*str)[i + 1])))
 			do_substitution(str, &i, pwd->pw_dir, ft_strlen(pwd->pw_name));
 	}

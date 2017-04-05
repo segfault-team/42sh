@@ -52,5 +52,5 @@ char		*ft_getpath_login(char *login)
 		strfree(&line);
 	}
 	close(fd);
-	return (path);
+	return (NULL);
 }
