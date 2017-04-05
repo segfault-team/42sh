@@ -76,8 +76,8 @@ static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 		if (is_valid_opt(cmd[i][j]))
 		{
 			add_opt(opt, cmd[i][j], &opt_d, i);
-			if (opt_d)
-				manage_arg_opt_d(i, j, &opt_d, cmd);
+//			if (opt_d)
+//				manage_arg_opt_d(i, j, &opt_d, cmd);
 		}
 		else if (cmd[i][j] == '-' && cmd[i][j + 1] && cmd[i][j + 1] == '-')
 			return (manage_suspend_opt(i, cmd, opt));
