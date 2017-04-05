@@ -102,9 +102,12 @@ int			ft_cd(t_env *e, char **cmd)
 
 	if ((option = ft_cd_check_option(&cmd)) == -1)
 		return (-1);
-	if ((home = cmd[1]) == NULL)
+	// && e->home == NULL
+	if ((home = cmd[1]) == NULL && e->home == NULL)
 	{
 		if (!(home = ft_getenv(e->env, "HOME")))
+			home = ft_strdup(e->home);
+		if (!home)
 			return (ft_error("cd", "no home set", NULL));
 		if (ft_chdir(cmd, home, e, 0) == -1)
 			ft_chdir_error(home);
