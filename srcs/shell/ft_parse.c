@@ -77,7 +77,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	FD.in = STDIN_FILENO;
 	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
-		return (ft_error(SH_NAME, "parsing error.", NULL));
+		return (ft_error("parsing error.", NULL, NULL));
 	e->len_mag = struct_len(&e->magic);
 	if (magic_type(e) == -1)
 		return (-42);
