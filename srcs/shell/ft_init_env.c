@@ -6,7 +6,6 @@
 int			ft_set_home(t_env *e, char *path)
 {
 	int				uid;
-	char			*tmp;
 	char			*login;
 	struct passwd	*pwd;
 
@@ -23,10 +22,10 @@ int			ft_set_home(t_env *e, char *path)
 		}
 		if ((login = getlogin()))
 		{
-			tmp = ft_strjoin(USERS_DIR, login);
-			e->home = ft_strdup(tmp);
-			ft_setenv(&e->env, "HOME", tmp);
-			strfree(&tmp);
+			login = ft_strjoin(USERS_DIR, login);
+			e->home = ft_strdup(login);
+			ft_setenv(&e->env, "HOME", login);
+			strfree(&login);
 			return (1);
 		}
 	}
