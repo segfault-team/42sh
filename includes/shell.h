@@ -358,7 +358,7 @@ int						is_output_after(t_env *e, int i);
 */
 int						ft_reset_line(t_env *e);
 int						ft_init(t_env *e, char **env);
-int						ft_set_home(t_env *e);
+int						ft_set_home(t_env *e, char *path);
 void					ft_set_shlvl(t_env *e);
 
 /*
@@ -404,6 +404,8 @@ int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);
 int						ft_catlen(char ***cat);
 char					*ft_xtoa(intmax_t nb);
+char					*ft_getpath_uid(int uid, char *path);
+char					*ft_getpath_login(char *login);
 
 /*
 **		History
