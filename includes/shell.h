@@ -58,6 +58,7 @@
 # define ITALIC			"\x1b[3m"
 # define SH_NAME		"21sh"
 # define PATH			"/usr/bin:/bin:/usr/sbin:/sbin"
+# define USERS_DIR		"/Users/"
 # define FD				e->fd
 # define BUF			e->buf
 # define TCAPS			e->tcaps
