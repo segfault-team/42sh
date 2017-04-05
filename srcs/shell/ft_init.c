@@ -22,6 +22,7 @@ static void		ft_init_ter(t_env *e)
 	e->last_ret = ft_strdup("0");
 	e->check_input = 0;
 	e->hdoc_index = -1;
+	e->last_cmd_ret = 0;
 }
 
 static void		ft_init_bis(t_env *e)
@@ -71,7 +72,7 @@ int				ft_init(t_env *e, char **env)
 	e->trunc_in_history = 0;
 	e->env = ft_tabdup(env);
 	if (!ft_set_home(e))
-		ft_error(SH_NAME, "WARNING: no home set", NULL);
+		ft_error("WARNING: no home set", NULL, NULL);
 	e->hist_file = init_hist_file(e);
 	if (ft_read_history(e) < 0)
 	{

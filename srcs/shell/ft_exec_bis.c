@@ -10,11 +10,15 @@ int		print_command_not_found(char *cmd, t_env *e)
 		number = ft_itoa(-e->raw);
 		string = ft_strjoin("line ", number);
 		ft_error(cmd, string, "Command not found");
+		e->last_cmd_ret = 127;
 		ft_strdel(&number);
 		ft_strdel(&string);
 	}
 	else
+	{
 		ft_error(cmd, "Command not found", NULL);
+		e->last_cmd_ret = 127;
+	}
 	return (-1);
 }
 
@@ -89,6 +93,6 @@ void	ft_close(int fd)
 	if (fd != 1 && fd != 0)
 	{
 		if (close(fd) == -1)
-			ft_error(SH_NAME, "IO stream error.\n", NULL);
+			ft_error("IO stream error.\n", NULL, NULL);
 	}
 }

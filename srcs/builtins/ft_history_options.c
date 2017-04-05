@@ -43,12 +43,12 @@ int		append_history_file_in_list(t_env *e)
 	int		i;
 
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
+		return (ft_error("Cannot read", HIST_FILE, NULL));
 	len = ft_tablen(e->history) + 4096;
 	nb_lines = 0;
 	i = -1;
 	if ((new = malloc(sizeof(e->history) * len)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
+		return (ft_error("Malloc failed.", NULL, NULL));
 	while (e->history[++i])
 		new[i] = e->history[i];
 	new[i] = NULL;

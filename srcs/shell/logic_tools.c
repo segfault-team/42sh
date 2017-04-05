@@ -56,6 +56,7 @@ int			ft_waitlogix(t_env *e)
 	e->jobs = e->jobs->next;
 	free(tmp);
 	reset_last_ret(e, WEXITSTATUS(status));
+	e->last_cmd_ret = status;
 	if (!status)
 		return (1);
 	return (-1);

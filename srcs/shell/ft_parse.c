@@ -11,8 +11,10 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	}
 	else
 		ret = redir_exec_open(i, e);
-	if (find_next_output(e, find_last_pipe(e)))
+	if (find_next_output(e, find_last_pipe(e)) && e->last_cmd_ret != 127)
 		redir_fill_output(e);
+	if (e->last_cmd_ret == 127)
+		close(FD.fd[1]);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);
@@ -48,21 +50,20 @@ static int		do_exclamation_subs(t_env *e)
 	{
 		if (ret == -1)
 			return (-1);
-		if ((e->line[i] == '\"' || e->line[i] == '\'') && i - 1 >= 0 &&
-			e->line[i - 1] != '\\')
+		if ((e->line[i] == '\'')
+			&& !ft_is_escaped(e->line, i))
 		{
 			if (!quote)
 				quote = e->line[i];
 			else if (e->line[i] == quote)
 				quote = '\0';
 		}
-		else if (e->line[i] == '!' && !quote)
+		else if (e->line[i] == '!' && !quote && !ft_is_escaped(e->line, i))
 			ret = manage_exclamation_mark(e, &i);
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
-	return (ret);
-}
+	return (ret);}
 
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
@@ -121,8 +122,6 @@ int				ft_parse_line(t_env *e)
 
 	i = -1;
 	ret = 0;
-	if (do_exclamation_subs(e) == -1)
-		return (-1);
 	ft_store_history(e);
 	if ((cmds = ft_trim_split_cmd(e)) != NULL)
 	{
