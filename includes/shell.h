@@ -513,6 +513,9 @@ void					tcaps_ctrl_arrow(t_env *e);
 void					tcaps_ctrl_end(t_env *e);
 void					tcaps_cut_paste(t_env *e);
 void					clear_cmd(t_env *e);
+void					print_new_cmd_from_history(t_env *e);
+void					print_last_cmd(t_env *e);
+int						locate_history(char **history, int c_pos, char *comp, int dir);
 void					tcaps_ctrl_d(t_env *e);
 void					init_tputs_string(t_env *e);
 int						tcaps_init(t_env *e);
@@ -577,6 +580,7 @@ void					check_parsing_simple(t_env *e, int *i, char c);
 void					check_parsing_double(t_env *e, int *i, char c);
 void					check_parsing_ampersand(t_env *e, int *i);
 void					insert_char(t_env *e, char c, int pos);
+void					insert_char_in_line(char **str, char c, int pos);
 void					delete_char(t_env *e, int pos);
 
 /*

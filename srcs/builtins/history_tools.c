@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void        init_opt_hist(t_opt_hist *opt)
+void	init_opt_hist(t_opt_hist *opt)
 {
 	opt->a = 0;
 	opt->c = 0;

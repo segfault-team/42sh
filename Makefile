@@ -33,7 +33,8 @@ SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit_quote_bs.c \
 					struct_strsplit_wo_quote_bs.c struct_tools.c struct_check.c \
-					check_magic_cmd.c check_magic_red.c check_magic_content.c
+					check_magic_cmd.c check_magic_red.c check_magic_content.c \
+					struct_check_bis.c
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
 ## TCAPS FOLDER ##
@@ -41,7 +42,8 @@ SRC_TCAPS_NAME		= tcaps_init.c tcaps_paste.c tcaps.c tcaps_arrow.c \
 					tcaps_check.c tcaps_tools.c tcaps_putstr.c\
 					tcaps_cut_paste.c tcaps_delete.c tcaps_history.c \
 					tcaps_insert.c tcaps_positions.c tcaps_rewrite.c \
-					tcaps_ctrl_home_end.c tcaps_ctrl_arrow.c tcaps_clear.c
+					tcaps_ctrl_home_end.c tcaps_ctrl_arrow.c tcaps_clear.c \
+					tcaps_history_bis.c
 SRC_TCAPS			= $(addprefix tcaps/,$(SRC_TCAPS_NAME))
 
 ## BUILTINS FOLDER ##
@@ -110,20 +112,24 @@ $(NAME): $(OBJ)
 lib:
 	@(make -C ./libft)
 
-clean:
+clean: libclean
 	@(printf "$(RED) Removing $(NAME) objects $(ENDC)\n")
 	@(rm -f $(OBJ) $(OBJ_PATH))
+
+fullclean : clean libclean
 
 fclean: clean libfclean
 	@(printf "$(RED) Removing $(NAME) executables $(ENDC)\n")
 	@(rm -f $(NAME))
 
+fullfclean : fclean libfclean
+
 libclean:
-	@(printf "$(RED) Removing $(LIB_PATH) objects $(ENDC)\n")
-	@(make -C ./libft clean)
+#	@(printf "$(RED) Removing $(LIB_PATH) objects $(ENDC)\n")
+	@(make -C $(LIB_PATH) clean)
 
 libfclean:
-	@(printf "$(RED) Removing $(LIB_PATH) executables $(ENDC)\n")
+#	@(printf "$(RED) Removing $(LIB_PATH) executables $(ENDC)\n")
 	@(make -C ./libft fclean)
 
 re: fclean all
