@@ -11,8 +11,10 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	}
 	else
 		ret = redir_exec_open(i, e);
-	if (find_next_output(e, find_last_pipe(e)))
+	if (find_next_output(e, find_last_pipe(e)) && e->last_cmd_ret != 127)
 		redir_fill_output(e);
+	if (e->last_cmd_ret == 127)
+		close(FD.fd[1]);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);

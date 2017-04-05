@@ -270,6 +270,7 @@ typedef struct			s_env
 	int					is_out_close;
 	int					is_valid_pipe;
 	int					hdoc_index;
+	int					last_cmd_ret;
 }						t_env;
 
 /*

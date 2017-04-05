@@ -32,7 +32,7 @@ int				redirection_before_cmd(t_env *e)
 			return (close(STDOUT_FILENO));
 		return (dup2(FD.fd[1], STDOUT_FILENO));
 	}
-	else if (is_output_redir(e, RED_INDEX))
+	else if (is_output_redir(e, RED_INDEX) && e->last_cmd_ret != 127)
 		dup2(FD.fd[1], STDOUT_FILENO);
 	else if (e->hdoc && is_heredoc(e, RED_INDEX))
 	{
