@@ -110,6 +110,7 @@ int			ft_cd(t_env *e, char **cmd)
 			return (ft_error("cd", "no home set", NULL));
 		if (ft_chdir(cmd, home, e, 0) == -1)
 			ft_chdir_error(home);
+		ft_strdel(&home);
 		e->prompt = ft_create_prompt(e, STD_PROMPT);
 	}
 	else if (!ft_strcmp(cmd[1], "-"))

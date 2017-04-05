@@ -26,13 +26,22 @@ char		*ft_create_prompt(t_env *e, char *prompt)
 	char	*new_prompt;
 	char	*tmp;
 	char	str[255];
+	char	*pattern;
 
-	new_prompt = ft_getenv(e->env, "PWD");
-	if (!new_prompt)
+	if ((pattern = ft_getenv(e->env, "PROMPT")))
+		substitution(e, &pattern);
+	if (!(new_prompt = ft_getenv(e->env, "PWD")))
 		new_prompt = ft_strdup(getcwd(str, 255));
 	tmp = ft_getdir(new_prompt);
 	ft_strdel(&new_prompt);
 	new_prompt = ft_strjoin(tmp, prompt);
 	ft_strdel(&tmp);
+	if (pattern)
+	{
+		tmp = new_prompt;
+		new_prompt = ft_strjoin(pattern, tmp);
+		ft_strdel(&tmp);
+		ft_strdel(&pattern);
+	}
 	return (new_prompt);
 }
