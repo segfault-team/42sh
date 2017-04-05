@@ -8,7 +8,7 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 	int		j;
 
 	if (e->line)
-		len = NB_READ - 1;
+		len = (int)ft_strlen(e->line) - 1;
 	else
 		return (NULL);
 	if (!(new = ft_strnew(len)))
@@ -52,5 +52,31 @@ char	*ft_realloc_line(t_env *e, char c)
 		}
 	new[i] = c;
 	strfree(&e->line);
+	return (new);
+}
+
+char	*ft_delete_char(char *str, int pos)
+{
+	char	*new;
+	int		len;
+	int		i;
+	int		j;
+
+	if (str)
+		len = (int)ft_strlen(str) - 1;
+	else
+		return (NULL);
+	if (!(new = ft_strnew(len)))
+	{
+		strfree(&str);
+		return (NULL);
+	}
+	i = -1;
+	j = -1;
+	if (len >= 1)
+		while (str[++i])
+			if (i != pos)
+				new[++j] = str[i];
+	strfree(&str);
 	return (new);
 }

@@ -7,31 +7,29 @@
 void		ft_store_history(t_env *e)
 {
 	char		**tmp;
+	char		*line_cpy;
 	int			is_not_history_cmd;
 	int			x;
-	int			i;
 
-	tmp = NULL;
-	x = 0;
-	i = ft_strlen(e->line);
+	x = -1;
 	tmp = e->history;
-	is_not_history_cmd = ft_strcmp(e->line, "history");
-	while (e->line && e->line[x])
-	{
-		if (e->line[x] == '\n')
-			ft_strncpy(&e->line[x], &e->line[x + 1], i - x);
-		x++;
-	}
-	if (x && e->line[x - 1] == '\n')
-		e->line[x - 1] = '\0';
+	line_cpy = ft_strdup(e->line);
+	is_not_history_cmd = ft_strcmp(line_cpy, "history");
+	while (line_cpy && line_cpy[++x])
+		if (x > 0 && line_cpy[x] && line_cpy[x] == '\n')
+		{
+			line_cpy = ft_delete_char(line_cpy, x);
+			--x;
+		}
 	if (is_not_history_cmd ||
 		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{
-		e->history = ft_tabcat(e->history, e->line);
+		e->history = ft_tabcat(e->history, line_cpy);
 		if (tmp)
 			ft_free_tab(tmp);
 	}
 	strfree(&e->last_cmd);
+	strfree(&line_cpy);
 	e->last_cmd = ft_strdup(e->line);
 }
 

@@ -9,7 +9,7 @@ int		ft_isspace(char c)
 **	bs == back slash
 */
 
-int		check_quote(char *s)
+char	check_quote(t_env *e, char *s)
 {
 	int		i;
 	int		bs;
@@ -17,7 +17,7 @@ int		check_quote(char *s)
 
 	i = -1;
 	bs = 0;
-	quote = '\0';
+	quote = e->multi_quote;
 	while (s[++i])
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')
@@ -29,8 +29,8 @@ int		check_quote(char *s)
 		}
 	}
 	if (quote != '\0')
-		return (1);
-	return (0);
+		return (quote);
+	return (quote);
 }
 
 int		is_bad_line(char *line)

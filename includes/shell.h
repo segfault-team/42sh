@@ -271,6 +271,7 @@ typedef struct			s_env
 	int					is_valid_pipe;
 	int					hdoc_index;
 	int					last_cmd_ret;
+	char				multi_quote;
 }						t_env;
 
 /*
@@ -380,7 +381,7 @@ int						is_number(char c);
 int						is_only_numbers(char *str);
 int						ft_multiline(t_env *e);
 int						is_bad_line(char *line);
-int						check_quote(char *s);
+char					check_quote(t_env *e, char *s);
 char					*ft_strdup_wo_quote_bs(char *s);
 int						ft_isspace(char c);
 int						ft_start_with(char *str, char *comp);
@@ -438,6 +439,7 @@ void					tcaps_enter(t_env *e);
 char					*ft_realloc_line(t_env *e, char c);
 char					*ft_realloc_insert_char(t_env *e, char c);
 char					*ft_realloc_delete_char(t_env *e, int pos);
+char					*ft_delete_char(char *str, int pos);
 void					ft_realloc_insert_str(t_env *e, char *str);
 
 /*
