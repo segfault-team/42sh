@@ -4,7 +4,7 @@ static int	need_close_for_env(char **cmd)
 {
 	int	len;
 
-	len =(int)ft_tablen(cmd);
+	len = (int)ft_tablen(cmd);
 	if (len == 1 ||
 		(len == 2 && (!ft_strcmp(cmd[1], "-u") || !ft_strcmp(cmd[1], "-i"))))
 		return (1);

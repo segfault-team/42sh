@@ -81,7 +81,7 @@ int				ft_setenv_blt(t_env *e, char **cmd)
 		{
 			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
 					ft_strequ(e->cmd[1], "HOME"))
-			e->home = ft_strdup(e->cmd[2]);
+				e->home = ft_strdup(e->cmd[2]);
 			return (ft_setenv(&e->env, cmd[1], cmd[2]));
 		}
 		return (ft_error("setenv", "wrong number of arguments", NULL));

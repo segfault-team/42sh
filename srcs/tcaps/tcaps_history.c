@@ -42,7 +42,6 @@ static void		print_last_cmd(t_env *e)
 	}
 }
 
-
 static int		locate_history(char **history, int c_pos, char *comp, int dir)
 {
 	int max;
@@ -80,7 +79,8 @@ int				tcaps_history_up(t_env *e)
 	TCAPS.nb_move = TCAPS.nb_read;
 	if (!e->history || !e->history[0])
 		return (0);
-	pos = locate_history(e->history, TCAPS.hist_move, e->line_bkp ? e->line_bkp : e->line, -1);
+	pos = locate_history(e->history, TCAPS.hist_move
+		, e->line_bkp ? e->line_bkp : e->line, -1);
 	if (TCAPS.hist_move == -1)
 	{
 		if (e->line)
@@ -108,15 +108,12 @@ int				tcaps_history_up(t_env *e)
 
 int				tcaps_history_down(t_env *e)
 {
-	int	pos;
-
 	if (TCAPS.hist_move == -1 || !e->history || !e->history[0])
 		return (0);
-	pos = locate_history(e->history, TCAPS.hist_move, e->line_bkp ? e->line_bkp : e->line , 1);
+	TCAPS.hist_move = locate_history(e->history, TCAPS.hist_move, e->line_bkp ? e->line_bkp : e->line, 1);
 	clear_cmd(e);
-	if (pos == - 1)
+	if (TCAPS.hist_move == -1)
 	{
-		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		if (e->line_bkp)
 		{
@@ -127,7 +124,6 @@ int				tcaps_history_down(t_env *e)
 	}
 	else
 	{
-		TCAPS.hist_move = pos;
 		strfree(&e->line);
 		e->line = ft_strdup(e->history[TCAPS.hist_move]);
 		print_new_cmd_from_history(e);

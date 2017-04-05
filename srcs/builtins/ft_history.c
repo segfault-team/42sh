@@ -7,31 +7,29 @@
 void		ft_store_history(t_env *e)
 {
 	char		**tmp;
+	char		*line_cpy;
 	int			is_not_history_cmd;
 	int			x;
-	int			i;
 
-	tmp = NULL;
-	x = 0;
-	i = ft_strlen(e->line);
+	x = -1;
 	tmp = e->history;
-	is_not_history_cmd = ft_strcmp(e->line, "history");
-	while (e->line && e->line[x])
-	{
-		if (e->line[x] == '\n')
-			ft_strncpy(&e->line[x], &e->line[x + 1], i - x);
-		x++;
-	}
-	if (x && e->line[x - 1] == '\n')
-		e->line[x - 1] = '\0';
+	line_cpy = ft_strdup(e->line);
+	is_not_history_cmd = ft_strcmp(line_cpy, "history");
+	while (line_cpy && line_cpy[++x])
+		if (x > 0 && line_cpy[x] && line_cpy[x] == '\n')
+		{
+			line_cpy = ft_delete_char(line_cpy, x);
+			--x;
+		}
 	if (is_not_history_cmd ||
 		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
 	{
-		e->history = ft_tabcat(e->history, e->line);
+		e->history = ft_tabcat(e->history, line_cpy);
 		if (tmp)
 			ft_free_tab(tmp);
 	}
 	strfree(&e->last_cmd);
+	strfree(&line_cpy);
 	e->last_cmd = ft_strdup(e->line);
 }
 
@@ -106,27 +104,30 @@ int			is_option(int i, char **cmd, char *option)
 
 int			ft_history(t_env *e, char **cmd, int i)
 {
-	int		ret;
+	int			ret;
+	t_opt_hist	opt;
 
 	ret = -1;
-	if (i == 1 && is_valid_arg(cmd, SH_NAME) < 0)
-		return (-1);
 	if (!e->history)
 		return (-1);
-	if (is_option(i, cmd, "-d"))
-		ret = history_delete(e, cmd, i);
-	else if (is_option(i, cmd, "-w"))
+	init_opt_hist(&opt);
+	if (i == 1 && get_hist_options(i, cmd, &opt) == -1)//is_valid_arg(cmd, SH_NAME) < 0)
+		return (-1);
+//	printf("a:%d\nc: %d\nd:%d\nh:%d\nw:%d\nr:%d\np:%d\n", opt.a, opt.c, opt.d, opt.h, opt.w, opt.r, opt.p);
+	if (opt.d)
+		ret = history_delete(e, cmd, opt.i_opt_d);
+	else if (opt.w)
 		ret = ft_write_history(e, O_TRUNC);
-	else if (is_option(i, cmd, "-a"))
+	else if (opt.a)
 		ret = ft_write_history(e, O_APPEND);
-	else if (is_option(i, cmd, "-c"))
+	else if (opt.c)
 		ret = clear_history_list(e);
-	else if (is_option(i, cmd, "-r"))
+	else if (opt.r)
 		ret = append_history_file_in_list(e);
-	else if (is_option(i, cmd, "-h"))
+	else if (opt.h)
 		ret = print_history_help();
-	else if (is_option(i, cmd, "-p"))
-		ret = print_history_help();
+//	else if (is_option(i, cmd, "-p"))
+//		ret = print_history_help();
 	else if (e->history)
 		ret = print_history(e, cmd);
 	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))

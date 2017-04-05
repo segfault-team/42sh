@@ -3,6 +3,7 @@
 static void	free_hdoc_list(t_env *e)
 {
 	t_list	*tmp;
+
 	e->hdoc = e->b_hdoc;
 	while (e->hdoc)
 	{
@@ -30,5 +31,6 @@ int			ft_reset_line(t_env *e)
 	e->check_ctrl_c = 0;
 	e->hdoc_nb = 0;
 	e->quote = '\0';
+	e->multi_quote = '\0';
 	return (0);
 }

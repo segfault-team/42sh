@@ -10,7 +10,7 @@ static int		ft_check_line(t_env *e)
 		e->line = ft_strdup("\n");
 	else if (is_bad_line(e->line))
 		return (0);
-	if (check_quote(e->line))
+	if (e->line && (e->multi_quote = check_quote(e, e->line)))
 	{
 		if (ft_strcmp(e->line, "\n"))
 		{
@@ -50,7 +50,8 @@ int				ft_multiline(t_env *e)
 	tmp = NULL;
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
-	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42)
+	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42
+			|| !ft_strcmp(e->line, "\n"))
 		return (manage_multi(e, tmp, check));
 	else if (MULTI)
 	{
