@@ -270,6 +270,7 @@ typedef struct			s_env
 	int					is_out_close;
 	int					is_valid_pipe;
 	int					hdoc_index;
+	int					last_cmd_ret;
 }						t_env;
 
 /*
@@ -350,6 +351,7 @@ void					ft_dupp(t_env *e);
 void					output_aggre(t_env *e, int fd_src, int fd_dst);
 void					close_aggre(t_env *e, int fd_src, int fd_dst);
 int						space_after_aggre(char *s);
+int						is_output_after(t_env *e, int i);
 
 /*
 **		Init - Reset
