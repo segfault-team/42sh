@@ -1,5 +1,4 @@
 #include "shell.h"
-
 #include <sys/types.h>
 #include <pwd.h>
 #include <uuid/uuid.h>
@@ -49,11 +48,14 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 	char			*tmp;
 	struct passwd	*pwd;
 
+	tmp = NULL;
 	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
 		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '$' && (i == 0
 		|| (*str)[i - 1] == ' '))
 	{
-		if ((pwd = getpwnam(&(*str)[i + 1])))
+		if ((tmp = ft_getpath_login(&(*str)[i + 1])))
+			do_substitution(str, &i, tmp, ft_strlen(tmp));
+		else if ((pwd = getpwnam(&(*str)[i + 1])))
 			do_substitution(str, &i, pwd->pw_dir, ft_strlen(pwd->pw_name));
 	}
 	else if ((*str)[i] == '~' && (i == 0 || (*str)[i - 1] == ' ')
@@ -64,8 +66,8 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 		if (!tmp)
 			tmp = ft_strdup(e->home);
 		do_substitution(str, &i, tmp, 0);
-		ft_strdel(&tmp);
 	}
+	ft_strdel(&tmp);
 }
 
 int			substitution(t_env *e, char **str)
