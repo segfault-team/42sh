@@ -6,7 +6,8 @@ int	is_last_cmd(t_env *e, int i)
 		   && !is_redir_pipe(e, i)
 		   && !is_operator(e, i))
 		++i;
-	if (i == e->len_mag && !e->magic[i].cmd)
+	if ((i == e->len_mag && !e->magic[i].cmd)
+		|| (i < e->len_mag && e->magic[i].cmd && is_operator(e, i)))
 		return (1);
 	return (0);
 }

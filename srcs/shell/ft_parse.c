@@ -61,8 +61,7 @@ static int		do_exclamation_subs(t_env *e)
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
-	return (ret);
-}
+	return (ret);}
 
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
