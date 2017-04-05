@@ -6,19 +6,24 @@ int				find_last_pipe(t_env *e)
 
 	if (!RED_INDEX  || RED_INDEX >= e->len_mag || !e->magic[0].cmd
 			|| !e->magic[RED_INDEX].cmd)
-		return (0);
+		return (RED_INDEX);
 	tmp = RED_INDEX;
 	while (--tmp)
-		if (is_redir_pipe(e, tmp) || is_operator(e, tmp))
+		if (is_redir_pipe(e, tmp) || is_operator(e, tmp)
+				|| !ft_strcmp(e->magic[tmp].cmd, ";"))
 			return (tmp);
 	return (0);
 }
 
 int				find_next_output(t_env *e, int i)
 {
+	if (i >= e->len_mag || !e->magic[0].cmd
+			|| !e->magic[i].cmd)
+		return (0);
 	if (!e->magic[i].cmd)
 		return (0);
-	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i))
+	while (e->magic[++i].cmd && !is_redir_pipe(e, i) && !is_operator(e, i) && 
+			ft_strcmp(e->magic[i].cmd, ";"))
 	{
 		if (is_output_redir(e, i))
 			return (i);
