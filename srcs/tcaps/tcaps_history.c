@@ -87,7 +87,7 @@ int				tcaps_history_up(t_env *e)
 			e->line_bkp = ft_strdup(e->line);
 		else
 			e->line_bkp = ft_strdup("");
-		TCAPS.hist_move = pos;
+		TCAPS.hist_move = (pos) ? pos : 1;
 	}
 	if (access(HIST_FILE, F_OK) != -1 && TCAPS.hist_move > 0 && pos >= 0)
 	{

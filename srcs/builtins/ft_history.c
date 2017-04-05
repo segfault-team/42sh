@@ -108,8 +108,8 @@ int			ft_history(t_env *e, char **cmd, int i)
 	t_opt_hist	opt;
 
 	ret = -1;
-	if (!e->history)
-		return (-1);
+//	if (!e->history)
+//		return (-1);
 	init_opt_hist(&opt);
 	if (i == 1 && get_hist_options(i, cmd, &opt) == -1)//is_valid_arg(cmd, SH_NAME) < 0)
 		return (-1);
@@ -130,7 +130,7 @@ int			ft_history(t_env *e, char **cmd, int i)
 //		ret = print_history_help();
 	else if (e->history)
 		ret = print_history(e, cmd);
-	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))
-		return (ft_history(e, cmd, i + 1));
+//	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))
+//		return (ft_history(e, cmd, i + 1));
 	return (ret);
 }

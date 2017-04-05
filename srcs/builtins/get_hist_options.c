@@ -2,7 +2,9 @@
 
 static int	manage_opt_hist_priority(t_opt_hist *opt)
 {
-	if (opt->c + opt->r + opt->w > 1)
+	int	mem;
+
+	if (opt->a + opt->r + opt->w > 1)
 		return (ft_error("history", "cannot use more than one of -arw", NULL));
 	if (opt->c)
 	{
@@ -11,8 +13,10 @@ static int	manage_opt_hist_priority(t_opt_hist *opt)
 	}
 	else if (opt->d)
 	{
+		mem = opt->i_opt_d;
 		init_opt_hist(opt);
 		opt->d = 1;
+		opt->i_opt_d = mem;
 	}
 		return (1);
 }
@@ -45,6 +49,20 @@ static void	add_opt(t_opt_hist *opt, char c, int *opt_d, int i)
 		opt->p = 1;
 }
 
+static int	manage_suspend_opt(int i, char **cmd, t_opt_hist *opt)
+{
+	if (cmd[i + 1])
+		if (!is_only_numbers(cmd[i + 1]))
+			return (ft_error("history", cmd[1 + 1], "numeric argument required"));
+	return (manage_opt_hist_priority(opt));
+}
+
+static void	manage_arg_opt_d(int i, int j, int *opt_d, char **cmd)
+{
+	if (i >= 0 && j >= 0 && cmd[i][j + 1])
+		insert_char_in_line(&cmd[i], ' ', j + 1);
+}
+
 static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 {
 	int		j;
@@ -56,20 +74,24 @@ static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 	{
 		opt_d = 0;
 		if (is_valid_opt(cmd[i][j]))
+		{
 			add_opt(opt, cmd[i][j], &opt_d, i);
+			if (opt_d)
+				manage_arg_opt_d(i, j, &opt_d, cmd);
+		}
 		else if (cmd[i][j] == '-' && cmd[i][j + 1] && cmd[i][j + 1] == '-')
-			return (manage_opt_hist_priority(opt));
-		else if (cmd[i][j] != '-')
+			return (manage_suspend_opt(i, cmd, opt));
+		else if (cmd[i][j] != '-' && !is_number(cmd[i][j]))
 		{
 			tmp[0] = cmd[i][j];
 			tmp[1] = '\0';
 			return (ft_error("history", "invalid option", tmp));
 		}
-		if (opt_d && (!cmd[i + 1] || is_only_numbers(cmd[i + 1])))
+		if (opt_d)// && (!cmd[i + 1] || is_only_numbers(cmd[i + 1])))
 		{
 			if (cmd[i + 2])
 				++i;
-			return (1);
+//			return (1);
 		}
 	}
 	return (1);
@@ -89,5 +111,6 @@ int			get_hist_options(int i, char **cmd, t_opt_hist *opt)
 			return (-1);
 		++i;
 	}
+//	printf("a:%d\nc: %d\nd:%d\nh:%d\nw:%d\nr:%d\np:%d\n", opt->a, opt->c, opt->d, opt->h, opt->w, opt->r, opt->p);
 	return (manage_opt_hist_priority(opt));
 }
