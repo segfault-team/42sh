@@ -48,7 +48,7 @@ int		append_history_file_in_list(t_env *e)
 	nb_lines = 0;
 	i = -1;
 	if ((new = malloc(sizeof(e->history) * len)) == NULL)
-		return (ft_error("Malloc failed.", NULL, NULL));
+		return (ft_error(NULL, "Malloc failed.", NULL));
 	while (e->history[++i])
 		new[i] = e->history[i];
 	new[i] = NULL;

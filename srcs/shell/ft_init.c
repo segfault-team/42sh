@@ -73,7 +73,7 @@ int				ft_init(t_env *e, char **env)
 	e->trunc_in_history = 0;
 	e->env = ft_tabdup(env);
 	if (!ft_set_home(e, NULL))
-		ft_error("WARNING: no home set", NULL, NULL);
+		ft_error(NULL, "WARNING: no home set", NULL);
 	e->hist_file = init_hist_file(e);
 	if (ft_read_history(e) < 0)
 	{
@@ -85,6 +85,7 @@ int				ft_init(t_env *e, char **env)
 	FD.stderr = dup(STDERR_FILENO);
 	ft_init_bis(e);
 	ft_bzero(e->buf, 3);
+	e->prompt = NULL;
 	e->prompt = ft_create_prompt(e, STD_PROMPT);
 	ft_set_shlvl(e);
 	return (tcaps_init(e));

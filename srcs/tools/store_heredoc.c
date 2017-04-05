@@ -13,7 +13,7 @@ static int	put_new_node(t_env *e, int *same_node)
 		if (!e->b_hdoc)
 		{
 			e->hdoc = new;
-		++e->hdoc_index;
+			++e->hdoc_index;
 			e->b_hdoc = e->hdoc;
 		}
 		else
@@ -33,8 +33,7 @@ static int	replace_line(t_env *e, int *same_node)
 		e->hdoc->content = ft_tabcat(e->hdoc->content, "");
 	if (e->hdoc_nb - 1 == 0)
 	{
-		if (e->herestock)
-			e->line = ft_strdup(e->herestock);
+		e->line = (e->herestock) ? ft_strdup(e->herestock) : e->line;
 		strfree(&e->herestock);
 		strfree(&e->prompt);
 		e->prompt = ft_create_prompt(e, STD_PROMPT);

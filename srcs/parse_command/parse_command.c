@@ -2,7 +2,9 @@
 
 static void	manage_chev(t_env *e, int *i)
 {
-	if (*i + 1 < (int)ft_strlen(e->line))
+	if (*i && e->line[*i - 1] == '&')
+		ft_error(NULL, "Ambiguous redirection", NULL);
+	else if (*i + 1 < (int)ft_strlen(e->line))
 	{
 		if (e->line[*i + 1] && e->line[*i + 1] != '&')
 			check_parsing_double(e, i, e->line[*i]);

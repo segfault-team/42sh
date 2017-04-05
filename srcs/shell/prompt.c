@@ -36,6 +36,7 @@ char		*ft_create_prompt(t_env *e, char *prompt)
 	ft_strdel(&new_prompt);
 	new_prompt = ft_strjoin(tmp, prompt);
 	ft_strdel(&tmp);
+	strfree(&e->prompt);
 	if (pattern)
 	{
 		tmp = new_prompt;

@@ -91,8 +91,5 @@ char	**ft_find_paths(char **env)
 void	ft_close(int fd)
 {
 	if (fd != 1 && fd != 0)
-	{
-		if (close(fd) == -1)
-			ft_error("IO stream error.\n", NULL, NULL);
-	}
+		close(fd);
 }

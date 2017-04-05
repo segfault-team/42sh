@@ -49,7 +49,7 @@ int			ft_read_history(t_env *e)
 		return (ft_error("Cannot read", HIST_FILE, NULL));
 	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
-		return (ft_error("Malloc failed.", NULL, NULL));
+		return (ft_error(NULL, "Malloc failed.", NULL));
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
 		++i;
 	e->history[i] = NULL;

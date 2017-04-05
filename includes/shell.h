@@ -149,17 +149,17 @@ typedef struct			s_tputs
 	char				*up;
 }						t_tputs;
 
-typedef struct  		s_opt_hist
+typedef struct			s_opt_hist
 {
-	int         		a : 2;
-	int         		c : 2;
-	int         		d : 2;
-	int         		i_opt_d;
-	int         		h : 2;
-	int         		w : 2;
-	int         		r : 2;
-	int         		p : 2;
-}               		t_opt_hist;
+	int					a : 2;
+	int					c : 2;
+	int					d : 2;
+	int					i_opt_d;
+	int					h : 2;
+	int					w : 2;
+	int					r : 2;
+	int					p : 2;
+}						t_opt_hist;
 
 typedef struct			s_aggre_elems
 {
@@ -386,6 +386,8 @@ t_env					*env_access(t_env *e);
 /*
 **		Tools
 */
+int						ft_pairs(char *str);
+int						check_pairs(char *str, char c, char d);
 int						ft_matchquotes(char *str);
 int						red_strstr(char *str);
 int						ft_subs_tilde(t_env *e);
@@ -514,7 +516,8 @@ void					tcaps_cut_paste(t_env *e);
 void					clear_cmd(t_env *e);
 void					print_new_cmd_from_history(t_env *e);
 void					print_last_cmd(t_env *e);
-int						locate_history(char **history, int c_pos, char *comp, int dir);
+int						locate_history(char **history, int c_pos, \
+							char *comp, int dir);
 void					tcaps_ctrl_d(t_env *e);
 void					init_tputs_string(t_env *e);
 int						tcaps_init(t_env *e);
@@ -597,8 +600,8 @@ void					ft_array_strdel(char **array);
 void					ft_remove_usless_slash(char *str);
 void					ft_replace_word(char **s1, char *s2, char **s3, int i);
 
-char *ft_create_prompt(t_env *e, char *prompt);
-int			ft_is_escaped(char *str, int i);
-int			ft_is_escape_after(char *str, int i);
+char					*ft_create_prompt(t_env *e, char *prompt);
+int						ft_is_escaped(char *str, int i);
+int						ft_is_escape_after(char *str, int i);
 
 #endif

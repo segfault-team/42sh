@@ -14,10 +14,10 @@ int			ft_redirect(int oldfd, int newfd)
 		if (dup2(oldfd, newfd) != -1)
 		{
 			if (close(oldfd) < 0)
-				return (ft_error("Failed closing fd", NULL, NULL));
+				return (ft_error(NULL, "Failed closing fd", NULL));
 		}
 		else
-			return (ft_error("dup2 failed", NULL, NULL));
+			return (ft_error(NULL, "dup2 failed", NULL));
 	}
 	return (0);
 }
@@ -27,7 +27,7 @@ int			ft_redirect_blt(int oldfd, int newfd)
 	if (oldfd != newfd)
 	{
 		if (dup2(oldfd, newfd) == -1)
-			return (ft_error("dup2 failed", NULL, NULL));
+			return (ft_error(NULL, "dup2 failed", NULL));
 	}
 	return (0);
 }
