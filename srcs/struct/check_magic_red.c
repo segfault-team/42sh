@@ -6,8 +6,10 @@ int			token_error(t_env *e, int id)
 
 	ret = NULL;
 	if (!e->magic[RED_INDEX].cmd)
+	{
 		return (ft_error("syntax error near unexpected token",\
 					"'newline'", NULL));
+	}
 	if ((int)ft_strlen(e->magic[id].cmd) > 2)
 	{
 		ret = ft_strnew(2);
@@ -23,13 +25,13 @@ int			token_error(t_env *e, int id)
 
 static int	is_bad_first_arg(t_env *e)
 {
-	int 	x;
+	int		x;
 	int		bs;
 	char	quote;
 
 	x = 0;
 	bs = 0;
-	quote ='\0';
+	quote = '\0';
 	if (is_magic(e, 0) && (is_redirection(e, 0)))
 	{
 		while (e->magic[0].cmd[x])
@@ -39,10 +41,9 @@ static int	is_bad_first_arg(t_env *e)
 			else
 			{
 				quote = ft_check_quote_bs(e->magic[0].cmd[x], quote, bs);
-				if (!quote && !bs && 
-					(e->magic[0].cmd[x] == ';' || e->magic[0].cmd[x] == '|'
-					|| e->magic[0].cmd[x] == '>' || e->magic[0].cmd[x] == '&'
-					|| e->magic[0].cmd[x] == '<'))
+				if (!quote && !bs && (e->magic[0].cmd[x] == ';'
+					|| e->magic[0].cmd[x] == '|' || e->magic[0].cmd[x] == '>'
+					|| e->magic[0].cmd[x] == '&' || e->magic[0].cmd[x] == '<'))
 					return (token_error(e, 0));
 				bs = 0;
 			}

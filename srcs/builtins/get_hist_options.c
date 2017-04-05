@@ -14,13 +14,13 @@ static int	manage_opt_hist_priority(t_opt_hist *opt)
 		init_opt_hist(opt);
 		opt->d = 1;
 	}
-		return (1);
+	return (1);
 }
 
 static int	is_valid_opt(char c)
 {
 	return ((c == 'a' || c == 'c' || c == 'd' || c == 'h'
-			 || c == 'w' || c == 'r' || c == 'p'));
+				|| c == 'w' || c == 'r' || c == 'p'));
 }
 
 static void	add_opt(t_opt_hist *opt, char c, int *opt_d, int i)
@@ -81,7 +81,6 @@ int			get_hist_options(int i, char **cmd, t_opt_hist *opt)
 	int		len;
 
 	len = (int)ft_tablen(cmd);
-// SEGFAULT HERE ??? from d4rm4
 	while (i < len && cmd[i])
 	{
 		j = -1;

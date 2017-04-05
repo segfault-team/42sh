@@ -61,5 +61,3 @@ void		ft_create_file(t_env *e)
 		}
 	}
 }
-
-

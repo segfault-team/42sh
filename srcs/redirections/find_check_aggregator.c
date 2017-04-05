@@ -10,12 +10,16 @@ static int		nb_elems_is_invalid(t_aggre_elems *ag)
 
 	error = 0;
 	if (ag->nb_chevron > 1)
-		error = ft_printfd(STDERR_FILENO, "%s: syntax error - too many chevrons in your aggregator\n", SH_NAME);
-	// too many ... 'chevrons' ??
+		error = ft_printfd(STDERR_FILENO,
+				"%s: syntax error - too many chevrons in your aggregator\n",
+				SH_NAME);
 	else if (ag->nb_ampersand > 1)
-		error = ft_printfd(STDERR_FILENO, "%s: syntax error - too many ampersands in your aggregator\n", SH_NAME);
+		error = ft_printfd(STDERR_FILENO,
+				"%s: syntax error - too many ampersands in your aggregator\n",
+				SH_NAME);
 	else if (ag->type == ERROR)
-		error = ft_printfd(STDERR_FILENO, "%s: syntax error in your aggregator\n", SH_NAME);
+		error = ft_printfd(STDERR_FILENO,
+				"%s: syntax error in your aggregator\n", SH_NAME);
 	if (error)
 		ag->type = ERROR;
 	return (error);

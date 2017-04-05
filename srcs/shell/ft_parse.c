@@ -2,7 +2,8 @@
 
 static int		exec_by_type(t_env *e, int i, int ret)
 {
-	if (!e->cat[i + 1] && redir_check_red(e, "|") && !is_output_after(e, RED_INDEX + 1))
+	if (!e->cat[i + 1] && redir_check_red(e, "|")
+			&& !is_output_after(e, RED_INDEX + 1))
 	{
 		FD.fd[1] = STDOUT_FILENO;
 		if (is_next_redir(e, RED_INDEX) == AGGREGATOR)
@@ -63,8 +64,8 @@ static int		do_exclamation_subs(t_env *e)
 	}
 	if (ret)
 		ft_printf("%s\n", e->line);
-	return (ret);}
-
+	return (ret);
+}
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
@@ -74,11 +75,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-	/*
-	ft_printf("----------------\n");
-	ft_printf("cmds: %s\n", cmds_i);
-	ft_printf("----------------\n");
-	*/
 	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
 		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
 		return (ft_error(SH_NAME, "parsing error.", NULL));
@@ -87,27 +83,13 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		return (-42);
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
-/*	ft_printf("====  MAGIC  ====\n");
-	for (int j = 0 ; e->magic[j].cmd ; j++)
-		ft_printfd(2, "cmd[%d]: %s | type: %s\n", j, e->magic[j].cmd, e->magic[j].type);
-
-	ft_printf("====   CAT       ====\n");
-	for (int k = 0 ; e->cat[k] ; ++k)
-		for (int l = 0 ; e->cat[k][l] ; ++l)
-			ft_printf("cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
-	ft_printf("====  END CAT    ====\n");
-	ft_printf("====   CMD       ====\n");
-	ft_puttab(e->cmd);
-	ft_printf("====  END CMD    ====\n");
-*/
 	ft_create_file(e);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, RED_INDEX, ret);
 		e->is_out_close = 0;
-		if (is_last_cmd(e, RED_INDEX + 1))
-			e->is_valid_pipe = 0;
+		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;
 	}
 	e->is_valid_pipe = 1;
 	exec_end(e);

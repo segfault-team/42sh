@@ -60,7 +60,6 @@ int		is_next_redir(t_env *e, int i)
 
 int		is_input_in_next_cmd(t_env *e, int i)
 {
-	//PEU ETRE UN LA SOURCE DU PROB
 	if (!i)
 		return (0);
 	if (i >= e->len_mag)

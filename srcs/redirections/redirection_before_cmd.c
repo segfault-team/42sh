@@ -7,9 +7,6 @@ static int		redirection_before_cmd_bis(t_env *e, int ret)
 	if (ret == -1)
 		return (-1);
 	nxt_redir = is_next_redir(e, RED_INDEX);
-//	if (/*(is_redir_pipe(e, RED_INDEX) && nxt_redir != PIPE
-//		  && nxt_redir != -1 && nxt_redir != OPERATOR) ||*/
-//		(!is_redir_pipe(e, RED_INDEX)
 	if (nxt_redir != -1 && nxt_redir != OPERATOR)
 	{
 		struct_find_red(e);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/24 16:16:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/04 13:53:56 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/05 17:35:46 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int				ft_setenv_blt(t_env *e, char **cmd)
 		{
 			if (!ft_issetenv(e->env, "HOME") && e->home == NULL && \
 					ft_strequ(e->cmd[1], "HOME"))
-			e->home = ft_strdup(e->cmd[2]);
+				e->home = ft_strdup(e->cmd[2]);
 			return (ft_setenv(&e->env, cmd[1], cmd[2]));
 		}
 		return (ft_error("setenv", "wrong number of arguments", NULL));
