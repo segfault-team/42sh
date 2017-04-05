@@ -4,7 +4,7 @@ void	output_aggre(t_env *e, int fd_src, int fd_dst)
 {
 	if (fd_src != fd_dst)
 	{
-		if (!is_last_cmd(e, RED_INDEX))// && is_next_redir(e, RED_INDEX) != OPERATOR)
+		if (!is_last_cmd(e, RED_INDEX))
 		{
 			if (fd_src != 1)
 				dup2(FD.fd[1], fd_src);

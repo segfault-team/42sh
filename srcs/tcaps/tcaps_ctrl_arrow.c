@@ -17,7 +17,7 @@ void		tcaps_ctrl_mov_right(t_env *e)
 
 	i = NB_MOVE;
 	while (i >= 0 && i < NB_READ
-		   && (ft_isalpha(e->line[i]) || is_number(e->line[i])))
+			&& (ft_isalpha(e->line[i]) || is_number(e->line[i])))
 	{
 		move_right(e);
 		++i;
@@ -29,7 +29,6 @@ void		tcaps_ctrl_mov_right(t_env *e)
 		++i;
 	}
 }
-
 
 /*
 **  INSTRUCTION FOR "Ctrl + ARROW <-" KEYS

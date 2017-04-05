@@ -371,7 +371,7 @@ int						is_output_after(t_env *e, int i);
 */
 int						ft_reset_line(t_env *e);
 int						ft_init(t_env *e, char **env);
-int						ft_set_home(t_env *e);
+int						ft_set_home(t_env *e, char *path);
 void					ft_set_shlvl(t_env *e);
 
 /*
@@ -417,9 +417,10 @@ int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);
 int						ft_catlen(char ***cat);
 char					*ft_xtoa(intmax_t nb);
+char					*ft_getpath_uid(int uid, char *path);
+char					*ft_getpath_login(char *login);
 void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
-
 
 /*
 **		History
@@ -511,6 +512,9 @@ void					tcaps_ctrl_arrow(t_env *e);
 void					tcaps_ctrl_end(t_env *e);
 void					tcaps_cut_paste(t_env *e);
 void					clear_cmd(t_env *e);
+void					print_new_cmd_from_history(t_env *e);
+void					print_last_cmd(t_env *e);
+int						locate_history(char **history, int c_pos, char *comp, int dir);
 void					tcaps_ctrl_d(t_env *e);
 void					init_tputs_string(t_env *e);
 int						tcaps_init(t_env *e);

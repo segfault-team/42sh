@@ -3,6 +3,7 @@
 static void	free_hdoc_list(t_env *e)
 {
 	t_list	*tmp;
+
 	e->hdoc = e->b_hdoc;
 	while (e->hdoc)
 	{

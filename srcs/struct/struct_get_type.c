@@ -16,8 +16,7 @@ void		struct_arg_red(int i, t_env *e)
 	else if (i > 0 && ft_check_output(i - 1, e))
 		e->magic[i].type = ft_strdup("output");
 	else if ((is_only_numbers(e->magic[i].cmd) ||
-			 !ft_strcmp(e->magic[i].cmd, "-")) && i && e->magic[i - 1].cmd)// ||
-//			ft_strstr("<&", e->magic[i].cmd))
+				!ft_strcmp(e->magic[i].cmd, "-")) && i && e->magic[i - 1].cmd)
 	{
 		len = (int)ft_strlen(e->magic[i - 1].cmd) - 1;
 		if (e->magic[i - 1].cmd[len] == '>' || e->magic[i - 1].cmd[len] == '>')
@@ -41,10 +40,10 @@ static int	is_valid_fd(char *cmd)
 /*
 **     REMPLIT LE TABLEAU DE STRUCTURE MAGIC ET ASSOCIE CHAQUE ELEMENTS
 **     DE LA CMD AVEC LE TYPE DE L'ELEM. EX: ls -l > test
-**  ls  -> "cmd"
-**  -l  -> "cmd"
-**  >   -> "red"
-**  test    -> "output"
+**  	ls  -> "cmd"
+**  	-l  -> "cmd"
+**  	>   -> "red"
+**  	test    -> "output"
 */
 
 int			magic_type(t_env *e)
