@@ -13,7 +13,7 @@ int		print_history(t_env *e, char **cmd)
 	{
 		arg = (size_t)atoi_bis(cmd[1]);
 		if (arg == -1)
-			return (history_error_with_id(cmd, SH_NAME, 2));
+			return (ft_error("history", cmd[1], "too many arguments"));
 		i = ft_tablen(e->history) - arg - 1;
 	}
 	if (i + 1 > (size_t)len_tab)

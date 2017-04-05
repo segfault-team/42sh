@@ -149,6 +149,18 @@ typedef struct			s_tputs
 	char				*up;
 }						t_tputs;
 
+typedef struct  		s_opt_hist
+{
+	int         		a : 2;
+	int         		c : 2;
+	int         		d : 2;
+	int         		i_opt_d;
+	int         		h : 2;
+	int         		w : 2;
+	int         		r : 2;
+	int         		p : 2;
+}               		t_opt_hist;
+
 typedef struct			s_aggre_elems
 {
 	int					nb_chevron;
@@ -403,6 +415,9 @@ int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);
 int						ft_catlen(char ***cat);
 char					*ft_xtoa(intmax_t nb);
+void					init_opt_hist(t_opt_hist *opt);
+int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
+
 
 /*
 **		History
@@ -419,10 +434,8 @@ int						print_history(t_env *e, char **cmd);
 int						clear_history_list(t_env *e);
 int						append_history_file_in_list(t_env *e);
 int						print_history_help(void);
-int						history_delete_error(char *sh_name, char **cmd);
 int						history_error_with_id(char **cmd, char *sh_name, \
 							int id);
-int						is_valid_arg(char **cmd, char *sh_name);
 
 /*
 **		Tcaps Tools
