@@ -579,5 +579,6 @@ void					ft_replace_word(char **s1, char *s2, char **s3, int i);
 
 char *ft_create_prompt(t_env *e, char *prompt);
 int			ft_is_escaped(char *str, int i);
+int			ft_is_escape_after(char *str, int i);
 
 #endif

@@ -13,23 +13,6 @@ static void	simple_replace(char **new, char **target)
 	++(*new);
 }
 
-int			ft_is_escaped(char *str, int i)
-{
-	int ret;
-
-	ret = 0;
-	if (!i)
-		return (0);
-	i--;
-	while (str[i] && i >= 0 && str[i] == '\\')
-	{
-		if (str[i] == '\\')
-			ret = ret ? 0 : 1;
-		i--;
-	}
-	return (ret);
-}
-
 void		do_substitution(char **target, int *curr_pos, char *substitute,
 							int jmp)
 {

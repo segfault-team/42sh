@@ -56,13 +56,14 @@ static int	manage_for_string(t_env *e, int *curr_pos)
 	start = *curr_pos + 1;
 	i = 0;
 	while (e->line[start + i] && e->line[start + i] != ' '
-		&& e->line[start + i] != '\'' && e->line[start + i] != '\"')
+		&& (!i || (e->line[start + i] == '\'' && e->line[start + i] == '\"'))
+		&& !ft_is_escape_after(e->line, start + i))
 		i++;
 	cmp = ft_strsub(e->line, start, i);
 	i = ft_tablen(e->history) - 1;
-	while (i && !ft_start_with(e->history[i], cmp))
+	while (cmp && i && !ft_start_with(e->history[i], cmp))
 		--i;
-	if (!i && !ft_start_with(e->history[i], cmp))
+	if (!cmp || (!i && !ft_start_with(e->history[i], cmp)))
 		return (error_em(cmp, SH_NAME));
 	do_substitution(&e->line, curr_pos, e->history[i], ft_strlen(cmp));
 	strfree(&cmp);
