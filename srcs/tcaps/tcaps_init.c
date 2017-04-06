@@ -42,6 +42,7 @@ int		tcaps_set(t_env *e)
 	ft_memcpy(e->old_term, e->new_term, sizeof(struct termios));
 	e->new_term->c_cc[VMIN] = 1;
 	e->new_term->c_cc[VTIME] = 0;
+	e->susp[0] = e->new_term->c_cc[VSUSP];
 	e->new_term->c_lflag &= ~(ICANON | ECHO);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, e->new_term) < 0)
 		return (-1);

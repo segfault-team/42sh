@@ -285,6 +285,7 @@ typedef struct			s_env
 	int					hdoc_index;
 	int					last_cmd_ret;
 	char				multi_quote;
+	char				*susp;
 }						t_env;
 
 /*

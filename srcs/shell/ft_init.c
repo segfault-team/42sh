@@ -24,6 +24,7 @@ static void		ft_init_ter(t_env *e)
 	e->hdoc_index = -1;
 	e->last_cmd_ret = 0;
 	e->multi_quote = '\0';
+	e->susp = ft_strnew(1);
 }
 
 static void		ft_init_bis(t_env *e)
