@@ -3,7 +3,6 @@
 static char	*isolate_arg(char **cmd, int i)
 {
 	int		j;
-	int		len;
 	char	*new;
 
 	if (i < 1 || !cmd || !cmd[i])

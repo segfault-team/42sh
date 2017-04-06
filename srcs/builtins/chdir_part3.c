@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	*ft_repstr(char **argv, char *s1, char *s2, t_env *e)
+char	*ft_repstr(char *s1, char *s2, t_env *e)
 {
 	char	*fraiche;
 	char	*pwd;

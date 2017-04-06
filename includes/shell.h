@@ -363,7 +363,7 @@ int						is_or(t_env *e, int i);
 int						find_nxt_operator(t_env *e);
 void					ft_dupp(t_env *e);
 void					output_aggre(t_env *e, int fd_src, int fd_dst);
-void					close_aggre(t_env *e, int fd_src, int fd_dst);
+void					close_aggre(t_env *e, int fd_src);
 int						space_after_aggre(char *s);
 int						is_output_after(t_env *e, int i);
 
@@ -424,7 +424,7 @@ char					*ft_getpath_uid(int uid, char *path);
 char					*ft_getpath_login(char *login);
 void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
-void					exit_in_read(t_env *e);
+int						exit_in_read(t_env *e);
 
 /*
 **		History
@@ -449,7 +449,7 @@ int						history_error_with_id(char **cmd, char *sh_name, \
 */
 void					xputs(char *tag);
 void					move_right(t_env *e);
-void					tcaps_enter(t_env *e);
+int						tcaps_enter(t_env *e);
 
 /*
 **		Realloc
@@ -485,6 +485,9 @@ int						ft_pwd(t_env *e, char **cmd);
 int						ft_echo(char **args);
 int						ft_where(t_env *e, char **cmd);
 int						ft_exit(t_env *e, char **cmd);
+int						manage_opt_hist_priority(t_opt_hist *opt);
+int						is_valid_opt(char c);
+void					add_opt(t_opt_hist *opt, char c, int *opt_d, int i);
 
 /*
 **		Termcaps
@@ -590,12 +593,12 @@ void					delete_char(t_env *e, int pos);
 /*
 **		Chdir
 */
-int						ft_pre_chdir(char **tmp, char **a, char *dir, t_env *e);
+int						ft_pre_chdir(char **tmp, char *dir, t_env *e);
 int						ft_chdir_error(char *path);
 int						ft_cd_check_option(char ***argv);
-char					*ft_save_oldpwd(char **argv, t_env *e);
+char					*ft_save_oldpwd(t_env *e);
 char					*ft_create_path(char **paths, int process);
-char					*ft_repstr(char **argv, char *s1, char *s2, t_env *e);
+char					*ft_repstr(char *s1, char *s2, t_env *e);
 void					ft_fill_array(void **array, void *a1, void *a2, \
 							void *a3);
 void					ft_array_strdel(char **array);

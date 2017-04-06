@@ -72,7 +72,7 @@ char	*ft_create_path(char **paths, int process)
 	return (tmp2);
 }
 
-char	*ft_save_oldpwd(char **argv, t_env *e)
+char	*ft_save_oldpwd(t_env *e)
 {
 	char *ret;
 
@@ -85,9 +85,9 @@ char	*ft_save_oldpwd(char **argv, t_env *e)
 	return (ret);
 }
 
-int		ft_pre_chdir(char **tmp, char **a, char *dir, t_env *e)
+int		ft_pre_chdir(char **tmp, char *dir, t_env *e)
 {
-	ft_fill_array((void **)tmp, ft_save_oldpwd(a, e),
+	ft_fill_array((void **)tmp, ft_save_oldpwd(e),
 		dir, NULL);
 	tmp[1] = ft_create_path(tmp, 1);
 	return (chdir(tmp[1]));

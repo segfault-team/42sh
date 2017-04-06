@@ -30,7 +30,6 @@ static int	isolate_file(t_env *e, int i)
 	int		j;
 	int		k;
 	char	*file;
-	int		fd;
 	int		ret;
 
 	j = 1;
