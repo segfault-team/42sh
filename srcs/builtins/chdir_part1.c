@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static void	set_cwd(t_env *e, char **cwd, char **argv, char *dir)
+static void	set_cwd(t_env *e, char **cwd, char *dir)
 {
 	char	*tmp[4];
 
@@ -10,14 +10,14 @@ static void	set_cwd(t_env *e, char **cwd, char **argv, char *dir)
 		ft_error("cd: error retrieving current directory: getcwd: "
 				, "cannot access parent directories: "
 				, "No such file or directory");
-		ft_fill_array((void **)tmp, ft_save_oldpwd(argv, e),
-				dir, ft_save_oldpwd(argv, e));
+		ft_fill_array((void **)tmp, ft_save_oldpwd(e),
+				dir, ft_save_oldpwd(e));
 		tmp[1] = ft_create_path(tmp, 0);
 		*cwd = tmp[1];
 	}
 }
 
-int			ft_chdir(char **argv, char *dir, t_env *e, int option)
+int			ft_chdir(char *dir, t_env *e, int option)
 {
 	char	*cwd;
 	char	*args[3];
@@ -25,9 +25,9 @@ int			ft_chdir(char **argv, char *dir, t_env *e, int option)
 	char	*tmp[4];
 
 	cwd = NULL;
-	retval = ft_pre_chdir((char **)tmp, argv, dir, e);
+	retval = ft_pre_chdir((char **)tmp, dir, e);
 	if (option == 1 || retval == -1)
-		set_cwd(e, &cwd, argv, dir);
+		set_cwd(e, &cwd, dir);
 	else
 		cwd = ft_strdup(tmp[1]);
 	ft_fill_array((void **)args, ft_strdup("PWD"), cwd , NULL);
@@ -55,7 +55,7 @@ int			ft_cd_bis(char **argv, t_env *e, char *home, int opt)
 		if (argv[2] && *argv[2])
 		{
 			ft_strdel(&home);
-			home = ft_repstr(argv, argv[1], argv[2], e);
+			home = ft_repstr(argv[1], argv[2], e);
 		}
 		if (!home)
 			return (ft_error("cd", "string not in pwd:", argv[1]));
@@ -65,7 +65,7 @@ int			ft_cd_bis(char **argv, t_env *e, char *home, int opt)
 		if (!(home = ft_getenv(e->env, "HOME")))
 			return (ft_error("cd", "no home set", NULL));
 	}
-	if (ft_chdir(argv, home, e, opt) == -1)
+	if (ft_chdir(home, e, opt) == -1)
 		ft_chdir_error(home);
 	ft_strdel(&home);
 	ft_free_tab(tmp);
@@ -107,7 +107,7 @@ int			ft_cd(t_env *e, char **cmd)
 			home = ft_strdup(e->home);
 		if (!home)
 			return (ft_error("cd", "no home set", NULL));
-		if (ft_chdir(cmd, home, e, 0) == -1)
+		if (ft_chdir(home, e, 0) == -1)
 			ft_chdir_error(home);
 		ft_strdel(&home);
 		e->prompt = ft_create_prompt(e, STD_PROMPT);

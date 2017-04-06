@@ -24,7 +24,6 @@ int		check_pairs(char *str, char c, char d)
 int		ft_pairs(char *str)
 {
 	char	ret;
-	char	c;
 
 	ret = check_pairs(str, '(', ')');
 	ret = !ret ? check_pairs(str, '{', '}') : ret;

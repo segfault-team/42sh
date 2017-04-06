@@ -363,7 +363,7 @@ int						is_or(t_env *e, int i);
 int						find_nxt_operator(t_env *e);
 void					ft_dupp(t_env *e);
 void					output_aggre(t_env *e, int fd_src, int fd_dst);
-void					close_aggre(t_env *e, int fd_src, int fd_dst);
+void					close_aggre(t_env *e, int fd_src);
 int						space_after_aggre(char *s);
 int						is_output_after(t_env *e, int i);
 
@@ -593,12 +593,12 @@ void					delete_char(t_env *e, int pos);
 /*
 **		Chdir
 */
-int						ft_pre_chdir(char **tmp, char **a, char *dir, t_env *e);
+int						ft_pre_chdir(char **tmp, char *dir, t_env *e);
 int						ft_chdir_error(char *path);
 int						ft_cd_check_option(char ***argv);
-char					*ft_save_oldpwd(char **argv, t_env *e);
+char					*ft_save_oldpwd(t_env *e);
 char					*ft_create_path(char **paths, int process);
-char					*ft_repstr(char **argv, char *s1, char *s2, t_env *e);
+char					*ft_repstr(char *s1, char *s2, t_env *e);
 void					ft_fill_array(void **array, void *a1, void *a2, \
 							void *a3);
 void					ft_array_strdel(char **array);

@@ -38,35 +38,6 @@ static void		exec_end(t_env *e)
 	e->hdoc_index = -1;
 }
 
-static int		do_exclamation_subs(t_env *e)
-{
-	int		i;
-	int		ret;
-	char	quote;
-
-	i = -1;
-	ret = 0;
-	quote = '\0';
-	while (e->line[++i])
-	{
-		if (ret == -1)
-			return (-1);
-		if ((e->line[i] == '\'')
-			&& !ft_is_escaped(e->line, i))
-		{
-			if (!quote)
-				quote = e->line[i];
-			else if (e->line[i] == quote)
-				quote = '\0';
-		}
-		else if (e->line[i] == '!' && !quote && !ft_is_escaped(e->line, i))
-			ret = manage_exclamation_mark(e, &i);
-	}
-	if (ret)
-		ft_printf("%s\n", e->line);
-	return (ret);
-}
-
 int				ft_iter_cmds(t_env *e, char *cmds_i)
 {
 	int		i;

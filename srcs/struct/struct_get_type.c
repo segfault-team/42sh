@@ -28,15 +28,6 @@ void		struct_arg_red(int i, t_env *e)
 		e->magic[i].type = ft_strdup("cmd");
 }
 
-static int	is_valid_fd(char *cmd)
-{
-	if (ft_strequ(cmd, "0") ||
-		ft_strequ(cmd, "1") ||
-		ft_strequ(cmd, "2"))
-		return (1);
-	return (0);
-}
-
 /*
 **     REMPLIT LE TABLEAU DE STRUCTURE MAGIC ET ASSOCIE CHAQUE ELEMENTS
 **     DE LA CMD AVEC LE TYPE DE L'ELEM. EX: ls -l > test

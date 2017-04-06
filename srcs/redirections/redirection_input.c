@@ -26,8 +26,6 @@ static int	redir_input_do(t_env *e, int newfd[2])
 
 int			redir_input(t_env *e)
 {
-	int		fd_file;
-	int		red_index;
 	int		ret;
 	char	buf[4096];
 	int		newfd[2];

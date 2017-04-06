@@ -40,7 +40,7 @@ static int	redir_to_aggregator_bis(t_env *e, int ag_type,
 	if (ag_type == ERROR)
 		return (-1);
 	else if (fd_dst == -42)
-		close_aggre(e, fd_src, fd_dst);
+		close_aggre(e, fd_src);
 	else if (ag_type == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);
 	else

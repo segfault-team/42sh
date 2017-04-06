@@ -46,7 +46,6 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 static void	substitution_tilde(t_env *e, char **str, int i)
 {
 	char			*tmp;
-	struct passwd	*pwd;
 
 	tmp = NULL;
 	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '

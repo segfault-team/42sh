@@ -7,7 +7,6 @@ int			ft_set_home(t_env *e, char *path)
 {
 	int				uid;
 	char			*login;
-	struct passwd	*pwd;
 
 	e->home = NULL;
 	if ((e->home = ft_getenv(e->env, "HOME")))

@@ -18,7 +18,7 @@ void	output_aggre(t_env *e, int fd_src, int fd_dst)
 	}
 }
 
-void	close_aggre(t_env *e, int fd_src, int fd_dst)
+void	close_aggre(t_env *e, int fd_src)
 {
 	if (fd_src == 1 && !is_last_cmd(e, RED_INDEX) && !e->is_out_close)
 	{
