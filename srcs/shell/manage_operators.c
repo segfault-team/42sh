@@ -2,29 +2,44 @@
 
 static int	find_next_op(t_env *e, int i)
 {
-	while (i < (int)e->len_mag && e->magic[i].type && !is_operator(e, i))
-		++i;
-	if (i >= (int)e->len_mag || !e->magic[i].type)
-		return (0);
-	return (i);
-}
-
-int			manage_operators(t_env *e, int i, int ret)
-{
 	static	int		next_op = 0;
 
 	if (!i)
 		next_op = 0;
-	if (!(next_op = find_next_op(e, next_op)))
+	while (next_op < (int)e->len_mag && e->magic[next_op].type &&
+			!ft_strcmp(e->magic[next_op].type, "cmd"))
+		++next_op;
+	/*
+	if (next_op < (int)e->len_mag)
+		ft_printf("mgc: %s :: %s :: ret: %d\n",
+				e->magic[next_op - 1].cmd, e->magic[next_op].type, e->last_cmd_ret);
+				*/
+	++next_op;
+	return (next_op - 1);
+}
+
+int			manage_operators(t_env *e, int i, int ret)
+{
+	int				op = 0;
+
+	op = find_next_op(e, i);
+	if (op >= (int)e->len_mag || !e->magic[op].type ||
+			ft_strcmp(e->magic[op].type, "operator"))
 		return (0);
 	e->check_input = 0;
-	if (is_and(e, next_op) && ret == 1)
+	ret = ft_waitsons(e);
+	RED_INDEX = op;
+	/*
+	ft_printf("maggic: %s :: %s :: ret: %d\n",
+			e->magic[op - 1].cmd, e->magic[op].type, ret);
+			*/
+	if (is_and(e, op) && ret == 1)
 		return (0);
-	else if (is_and(e, next_op) && ret == -1)
+	if (is_and(e, op) && ret == -1)
 		return (find_nxt_operator(e));
-	else if (is_or(e, next_op) && ret == 1)
+	if (is_or(e, op) && ret == 1)
 		return (find_nxt_operator(e));
-	else if (is_or(e, next_op) && ret == -1)
+	if (is_or(e, op) && ret == -1)
 	{
 		close(FD.in);
 		dup2(STDIN_FILENO, FD.in);

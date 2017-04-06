@@ -53,17 +53,21 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	e->len_mag = struct_len(&e->magic);
 	if (magic_type(e) == -1)
 		return (-42);
+	/*
+	for (size_t k = 0; k < e->len_mag; k++)
+		ft_printf("mag[%d] :: %s :: %s\n", k, e->magic[k].cmd, e->magic[k].type);
+		*/
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
-		i += manage_operators(e, RED_INDEX, ret);
+		i += manage_operators(e, i, ret);
+		//ft_printf("skip: %s\n", e->cat[i][0]);
 		e->is_out_close = 0;
 		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;
 	}
-	e->is_valid_pipe = 1;
 	exec_end(e);
 	return (ret);
 }

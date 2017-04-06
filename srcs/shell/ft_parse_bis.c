@@ -10,9 +10,9 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status)
 	{
 		kill(e->jobs->pid, SIGTERM);
 		if (!i)
-			waitpid(e->jobs->pid, &status, WNOHANG);
+			waitpid(e->jobs->pid, &status, WUNTRACED);
 		else
-			waitpid(e->jobs->pid, &status2, WNOHANG);
+			waitpid(e->jobs->pid, &status2, WUNTRACED);
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
 		free(ptr);
@@ -21,7 +21,7 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status)
 	reset_last_ret(e, WEXITSTATUS(status));
 	e->last_cmd_ret = WEXITSTATUS(status);
 	e->child_running = 0;
-	if (!status)
+	if (!WEXITSTATUS(status))
 		return (1);
 	return (-1);
 }
