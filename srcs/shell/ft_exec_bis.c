@@ -57,7 +57,7 @@ char	*ft_find_exec(char **paths, char *cmd)
 	path = NULL;
 	if (!cmd || !cmd[0])
 		return (NULL);
-	if ((cmd[0] == '.' || cmd[0] == '/'))
+	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
 		return (ft_isexec(cmd) ? ft_strdup(cmd) : NULL);
 	while (paths[++i])
 		if ((exec = ft_find_exec_readdir(paths[i], cmd)) != NULL)

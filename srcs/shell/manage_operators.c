@@ -2,9 +2,9 @@
 
 static int	find_next_op(t_env *e, int i)
 {
-	while (e->magic[i].cmd && !is_operator(e, i))
+	while (i < e->len_mag && e->magic[i].type && !is_operator(e, i))
 		++i;
-	if (!e->magic[i].cmd)
+	if (i >= e->len_mag || !e->magic[i].type)
 		return (0);
 	return (i);
 }
