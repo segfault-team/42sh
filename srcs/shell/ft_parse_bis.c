@@ -8,7 +8,7 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status)
 	i = 0;
 	while (e->jobs)
 	{
-		kill(e->jobs->pid, 9);
+		kill(e->jobs->pid, SIGTERM);
 		if (!i)
 			waitpid(e->jobs->pid, &status, WNOHANG);
 		else
