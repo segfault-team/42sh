@@ -24,6 +24,7 @@ static int		exec_by_type(t_env *e, int i, int ret)
 
 static void		exec_end(t_env *e)
 {
+	e->is_valid_pipe = 1;
 	ft_waitsons(e);
 	ft_triple_free(e);
 	if (e->hdoc_words)
@@ -63,7 +64,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		e->is_out_close = 0;
 		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;
 	}
-	e->is_valid_pipe = 1;
 	exec_end(e);
 	return (ret);
 }

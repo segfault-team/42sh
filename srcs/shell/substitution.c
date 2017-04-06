@@ -55,15 +55,7 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 		if ((tmp = ft_getpath_login(&(*str)[i + 1])))
 			do_substitution(str, &i, tmp, ft_strlen(&(*str)[i + 1]));
 		else
-		{
-			tmp = ft_strdup((*str));
-			do_substitution(str, &i, USERS_DIR, 0);
-			if (access(&(*str)[i], F_OK) == -1)
-			{
-				ft_strdel(str);
-				*str = tmp;
-			}
-		}
+			substitution_cond(str, &i, tmp);
 	}
 	else if ((*str)[i] == '~' && (i == 0 || (*str)[i - 1] == ' ')
 			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'

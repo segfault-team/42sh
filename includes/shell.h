@@ -303,6 +303,7 @@ t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						ft_waitlogix(t_env *e);
 int						substitution(t_env *e, char **target);
+void					substitution_cond(char **str, int *i, char *tmp);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);

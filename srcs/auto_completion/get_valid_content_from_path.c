@@ -31,7 +31,7 @@ char		*escape_specials(char *str, int i, int len)
 	ft_strncpy(tmp, str, i);
 	str += i;
 	tmp += i;
-	while (str && tmp && *str && len)
+	while (str && tmp && *str && len--)
 	{
 		if (*str == ' ' || *str == '	' || *str == '\'' || *str == '\"')
 		{
@@ -41,7 +41,6 @@ char		*escape_specials(char *str, int i, int len)
 		*tmp = *str;
 		++tmp;
 		++str;
-		--len;
 	}
 	ft_strcpy(tmp, str);
 	return (ret);
