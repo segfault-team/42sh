@@ -38,7 +38,7 @@ static int		do_exclamation_subs(t_env *e)
 void			tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
-	if ((e->line && do_exclamation_subs(e) == -1) || !ft_pairs(e->line))
+	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
 	{
 		ft_prompt(e->prompt);
 		ft_reset_line(e);
