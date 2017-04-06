@@ -7,9 +7,7 @@ static char	*isolate_arg(char **cmd, int i)
 	char	*new;
 
 	if (i < 1 || !cmd || !cmd[i])
-	{
 		return (NULL);
-	}
 	j = -1;
 	while (cmd[i][++j] && cmd[i][j] != 'd')
 		;
@@ -22,7 +20,7 @@ static char	*isolate_arg(char **cmd, int i)
 	return (new);
 }
 
-int		history_delete(t_env *e, char **cmd, int i)
+int			history_delete(t_env *e, char **cmd, int i)
 {
 	int		len;
 	char	**tmp;

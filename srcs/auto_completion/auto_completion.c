@@ -69,7 +69,7 @@ char		*add_backquote(t_env *e, char *str, int i)
 	char	*ret;
 
 	x = i;
-	quote = cur_inquote(e);
+	quote = cur_inquote(e->line, NB_MOVE - 1);
 	if (quote)
 	{
 		if (quote == 1)

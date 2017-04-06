@@ -559,7 +559,7 @@ void					ft_putstr_spec(t_env *e, char *str);
 int						valid_selection(t_env *e);
 void					tcaps_manage_printable_char(t_env *e);
 int						tcaps_is_delete_key(t_env *e);
-int						cur_inquote(t_env *e);
+int						cur_inquote(char *str, int pos);
 void					complete_arg(t_env *e, char *arg);
 char					*ft_pick_color(char *perm);
 char					ft_file_type(int mode);
