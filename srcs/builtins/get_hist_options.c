@@ -57,28 +57,20 @@ static int	manage_suspend_opt(int i, char **cmd, t_opt_hist *opt)
 	return (manage_opt_hist_priority(opt));
 }
 
-static void	manage_arg_opt_d(int i, int j, int *opt_d, char **cmd)
-{
-	if (i >= 0 && j >= 0 && cmd[i][j + 1])
-		insert_char_in_line(&cmd[i], ' ', j + 1);
-}
-
 static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 {
 	int		j;
+	int		len;
 	int		opt_d;
 	char	tmp[2];
 
+	len = (int)ft_tablen(cmd);
 	j = -1;
 	while (cmd[i][++j])
 	{
 		opt_d = 0;
 		if (is_valid_opt(cmd[i][j]))
-		{
 			add_opt(opt, cmd[i][j], &opt_d, i);
-//			if (opt_d)
-//				manage_arg_opt_d(i, j, &opt_d, cmd);
-		}
 		else if (cmd[i][j] == '-' && cmd[i][j + 1] && cmd[i][j + 1] == '-')
 			return (manage_suspend_opt(i, cmd, opt));
 		else if (cmd[i][j] != '-' && !is_number(cmd[i][j]))
@@ -87,11 +79,10 @@ static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 			tmp[1] = '\0';
 			return (ft_error("history", "invalid option", tmp));
 		}
-		if (opt_d)// && (!cmd[i + 1] || is_only_numbers(cmd[i + 1])))
+		if (opt_d)
 		{
 			if (cmd[i + 2])
 				++i;
-//			return (1);
 		}
 	}
 	return (1);

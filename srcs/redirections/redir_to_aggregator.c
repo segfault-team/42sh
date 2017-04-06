@@ -18,9 +18,9 @@ static int	aggregator_error(int id, char *sh_name)
 
 static int	is_valid_src(int fd)
 {
-	if (!fd || fd == 1 || fd == 2)
+	if (fd >= 0)
 		return (1);
-	if (!isatty(fd))
+	if (fd < 0 && !isatty(fd))
 		return (0);
 	return (1);
 }
