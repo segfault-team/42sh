@@ -78,10 +78,7 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 		reset_last_ret(e, e->last_cmd_ret);
 	}
 	else
-	{
 		ft_exec(cmd, e);
-//		ret = ft_waitlogix(e);
-	}
 	return (ret);
 }
 
