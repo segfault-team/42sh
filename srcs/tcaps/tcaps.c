@@ -8,7 +8,7 @@ static void	tcaps_bis(t_env *e)
 		tcaps_del_fwd(e);
 	else if (tcaps_check_key(BUF, 27, 91, 49))
 		tcaps_ctrl_arrow(e);
-	else if (tcaps_check_key(BUF, 9, 0, 0))
+	else if (tcaps_check_key(BUF, 9, 0, 0) && !e->raw)
 		auto_completion(e);
 }
 
