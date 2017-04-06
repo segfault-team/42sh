@@ -50,7 +50,7 @@ int			ft_waitlogix(t_env *e)
 		reset_last_ret(e, 127);
 		return (-1);
 	}
-	waitpid(e->jobs->pid, &status, WUNTRACED);
+	waitpid(e->jobs->pid, &status, WNOHANG);
 	ft_handle_ret_signal(status);
 	tmp = e->jobs;
 	e->jobs = e->jobs->next;

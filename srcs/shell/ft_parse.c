@@ -87,6 +87,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
+		ret = ft_waitsons(e);
 		i += manage_operators(e, RED_INDEX, ret);
 		e->is_out_close = 0;
 		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;

@@ -9,12 +9,14 @@ int		ft_waitsons(t_env *e)
 	status = 0;
 	while (e->jobs)
 	{
-		waitpid(e->jobs->pid, &status, WUNTRACED);
+		waitpid(e->jobs->pid, &status, WNOHANG);
 		ft_handle_ret_signal(status);
 		tmp = e->jobs->next;
 		free(e->jobs);
 		e->jobs = tmp;
 	}
+	reset_last_ret(e, WEXITSTATUS(status));
+	e->last_cmd_ret = status;
 	e->child_running = 0;
 	if (!status)
 		return (1);
