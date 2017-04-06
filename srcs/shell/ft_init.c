@@ -12,6 +12,7 @@ static void		ft_init_ter(t_env *e)
 	e->path = NULL;
 	e->prefix = NULL;
 	e->total_len = 0;
+	e->c_match = 0;
 	e->start = 0;
 	e->heredoc = NULL;
 	e->herestop = 0;
