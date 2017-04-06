@@ -53,7 +53,7 @@ int			cur_inquote(char *str, int pos)
 
 	s_quote = 0;
 	d_quote = 0;
-	while (str[pos] && pos)
+	while (pos < ft_strlen(str) && str[pos] && pos)
 	{
 		if (str[pos] == '\'' && !ft_is_escaped(str, pos))
 			s_quote++;
