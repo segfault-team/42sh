@@ -424,6 +424,7 @@ char					*ft_getpath_uid(int uid, char *path);
 char					*ft_getpath_login(char *login);
 void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
+void					exit_in_read(t_env *e);
 
 /*
 **		History
@@ -578,7 +579,7 @@ char					*escape_specials(char *str, int i, int len);
 /*
 **      Parse Command
 */
-void					parse_command(t_env *e);
+int						parse_command(t_env *e);
 void					check_parsing_simple(t_env *e, int *i, char c);
 void					check_parsing_double(t_env *e, int *i, char c);
 void					check_parsing_ampersand(t_env *e, int *i);
