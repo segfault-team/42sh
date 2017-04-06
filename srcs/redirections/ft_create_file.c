@@ -22,8 +22,9 @@ static int	create_aggre_file(t_env *e, int i)
 		strfree(&file);
 		return (-1);
 	}
+	ret = open(file, O_CREAT | O_TRUNC, OFLAGS);
 	strfree(&file);
-	return (open(file, O_CREAT | O_TRUNC, OFLAGS));
+	return (ret);
 }
 
 int			space_after_aggre(char *s)

@@ -1,9 +1,12 @@
 #include "shell.h"
 
-static void	manage_chev(t_env *e, int *i)
+static int	manage_chev(t_env *e, int *i)
 {
 	if (*i && e->line[*i - 1] == '&')
-		ft_error(NULL, "Ambiguous redirection", NULL);
+	{
+		ft_putchar('\n');
+		return (ft_error(NULL, "Ambiguous redirection", NULL));
+	}
 	else if (*i + 1 < (int)ft_strlen(e->line))
 	{
 		if (e->line[*i + 1] && e->line[*i + 1] != '&')
@@ -15,12 +18,11 @@ static void	manage_chev(t_env *e, int *i)
 	}
 	else if (*i > 1 && e->line[*i - 1] == e->line[*i]
 			&& e->line[*i - 2] == e->line[*i])
-	{
 		insert_char(e, ' ', *i);
-	}
+	return (1);
 }
 
-void		parse_command(t_env *e)
+int			parse_command(t_env *e)
 {
 	int		i;
 	char	quote;
@@ -44,6 +46,8 @@ void		parse_command(t_env *e)
 		else if (!quote && e->line[i] == ';')
 			check_parsing_simple(e, &i, e->line[i]);
 		else if (!quote && e->line[i] == '>')
-			manage_chev(e, &i);
+			if (manage_chev(e, &i) == -1)
+				return (-1);
 	}
+	return (1);
 }

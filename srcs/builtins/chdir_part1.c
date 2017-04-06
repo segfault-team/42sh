@@ -2,10 +2,9 @@
 
 static void	set_cwd(t_env *e, char **cwd, char **argv, char *dir)
 {
-	char	buff[PATH_MAX];
 	char	*tmp[4];
 
-	*cwd = getcwd(buff, PATH_MAX);
+	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
 	{
 		ft_error("cd: error retrieving current directory: getcwd: "
@@ -28,13 +27,13 @@ int			ft_chdir(char **argv, char *dir, t_env *e, int option)
 	cwd = NULL;
 	retval = ft_pre_chdir((char **)tmp, argv, dir, e);
 	if (option == 1 || retval == -1)
-		set_cwd(e, &cwd, argv, dir);
+			set_cwd(e, &cwd, argv, dir);
 	else
 		cwd = tmp[1];
 	ft_fill_array((void **)args, ft_strdup("PWD"), ft_strdup(cwd) , NULL);
-	ft_setenv(&e->env, "PWD", args[1]);
 	if (retval != -1)
 	{
+		ft_setenv(&e->env, "PWD", args[1]);
 		ft_array_strdel(args);
 		ft_fill_array((void **)args, ft_strdup("OLDPWD"),
 			ft_strdup(tmp[0]), NULL);

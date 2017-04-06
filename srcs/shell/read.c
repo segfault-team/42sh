@@ -40,8 +40,7 @@ void			tcaps_enter(t_env *e)
 	tcaps_ctrl_end(e);
 	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
 	{
-		ft_prompt(e->prompt);
-		ft_reset_line(e);
+		exit_in_read(e);
 		return ;
 	}
 	if (!ft_multiline(e))
@@ -50,8 +49,11 @@ void			tcaps_enter(t_env *e)
 		return ;
 	if (e->hdoc_nb && store_heredoc(e))
 		return ;
-	if (e->line)
-		parse_command(e);
+	if (e->line && parse_command(e) == -1)
+	{
+		exit_in_read(e);
+		return ;
+	}
 	if (!e->raw)
 		ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))

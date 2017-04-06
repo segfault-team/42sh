@@ -52,7 +52,6 @@ static int		ft_pwd_check_option(char ***argv)
 
 int				ft_pwd(t_env *e, char **args)
 {
-	char	buff[PATH_MAX];
 	int		option;
 	char	*cwd;
 
@@ -60,7 +59,7 @@ int				ft_pwd(t_env *e, char **args)
 		return (-1);
 	if (option == 1)
 	{
-		cwd = getcwd(buff, PATH_MAX);
+		cwd = getcwd(NULL, 0);
 		if (!cwd)
 			return (ft_error("cd: error retrieving current directory: getcwd: "
 				, "cannot access parent directories: "
@@ -70,7 +69,6 @@ int				ft_pwd(t_env *e, char **args)
 		cwd = ft_getenv(e->env, "PWD");
 	ft_putstr_fd(cwd, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	if (option != 1)
-		ft_strdel(&cwd);
+	ft_strdel(&cwd);
 	return (1);
 }
