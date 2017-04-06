@@ -108,12 +108,9 @@ int			ft_history(t_env *e, char **cmd, int i)
 	t_opt_hist	opt;
 
 	ret = -1;
-//	if (!e->history)
-//		return (-1);
 	init_opt_hist(&opt);
-	if (i == 1 && get_hist_options(i, cmd, &opt) == -1)//is_valid_arg(cmd, SH_NAME) < 0)
+	if (i == 1 && get_hist_options(i, cmd, &opt) == -1)
 		return (-1);
-//	printf("a:%d\nc: %d\nd:%d\nh:%d\nw:%d\nr:%d\np:%d\n", opt.a, opt.c, opt.d, opt.h, opt.w, opt.r, opt.p);
 	if (opt.d)
 		ret = history_delete(e, cmd, opt.i_opt_d);
 	else if (opt.w)
@@ -126,11 +123,7 @@ int			ft_history(t_env *e, char **cmd, int i)
 		ret = append_history_file_in_list(e);
 	else if (opt.h)
 		ret = print_history_help();
-//	else if (is_option(i, cmd, "-p"))
-//		ret = print_history_help();
 	else if (e->history)
 		ret = print_history(e, cmd);
-//	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))
-//		return (ft_history(e, cmd, i + 1));
 	return (ret);
 }

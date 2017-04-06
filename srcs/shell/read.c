@@ -35,25 +35,19 @@ static int		do_exclamation_subs(t_env *e)
 	return (ret);
 }
 
-void			tcaps_enter(t_env *e)
+int				tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
-	{
-		exit_in_read(e);
-		return ;
-	}
+		return (exit_in_read(e));
 	if (!ft_multiline(e))
-		return ;
+		return (0);
 	else if (!e->hdoc_words && !ft_heredoc(e))
-		return ;
+		return (0);
 	if (e->hdoc_nb && store_heredoc(e))
-		return ;
+		return (0);
 	if (e->line && parse_command(e) == -1)
-	{
-		exit_in_read(e);
-		return ;
-	}
+		return (exit_in_read(e));
 	if (!e->raw)
 		ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))
@@ -64,6 +58,7 @@ void			tcaps_enter(t_env *e)
 		ft_prompt(e->prompt);
 	}
 	ft_reset_line(e);
+	return (0);
 }
 
 int				reading(t_env *e)

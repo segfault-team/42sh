@@ -424,7 +424,7 @@ char					*ft_getpath_uid(int uid, char *path);
 char					*ft_getpath_login(char *login);
 void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
-void					exit_in_read(t_env *e);
+int						exit_in_read(t_env *e);
 
 /*
 **		History
@@ -449,7 +449,7 @@ int						history_error_with_id(char **cmd, char *sh_name, \
 */
 void					xputs(char *tag);
 void					move_right(t_env *e);
-void					tcaps_enter(t_env *e);
+int						tcaps_enter(t_env *e);
 
 /*
 **		Realloc
@@ -485,6 +485,9 @@ int						ft_pwd(t_env *e, char **cmd);
 int						ft_echo(char **args);
 int						ft_where(t_env *e, char **cmd);
 int						ft_exit(t_env *e, char **cmd);
+int						manage_opt_hist_priority(t_opt_hist *opt);
+int						is_valid_opt(char c);
+void					add_opt(t_opt_hist *opt, char c, int *opt_d, int i);
 
 /*
 **		Termcaps

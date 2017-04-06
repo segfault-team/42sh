@@ -45,9 +45,8 @@ int			parse_command(t_env *e)
 			check_parsing_ampersand(e, &i);
 		else if (!quote && e->line[i] == ';')
 			check_parsing_simple(e, &i, e->line[i]);
-		else if (!quote && e->line[i] == '>')
-			if (manage_chev(e, &i) == -1)
-				return (-1);
+		else if (!quote && e->line[i] == '>' && manage_chev(e, &i) == -1)
+			return (-1);
 	}
 	return (1);
 }

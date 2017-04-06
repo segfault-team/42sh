@@ -27,10 +27,10 @@ int			ft_chdir(char **argv, char *dir, t_env *e, int option)
 	cwd = NULL;
 	retval = ft_pre_chdir((char **)tmp, argv, dir, e);
 	if (option == 1 || retval == -1)
-			set_cwd(e, &cwd, argv, dir);
+		set_cwd(e, &cwd, argv, dir);
 	else
 		cwd = tmp[1];
-	ft_fill_array((void **)args, ft_strdup("PWD"), ft_strdup(cwd) , NULL);
+	ft_fill_array((void **)args, ft_strdup("PWD"), ft_strdup(cwd), NULL);
 	if (retval != -1)
 	{
 		ft_setenv(&e->env, "PWD", args[1]);
