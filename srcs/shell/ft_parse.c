@@ -112,7 +112,6 @@ int				ft_parse_line(t_env *e)
 					SH_NAME);
 		while (cmds[++i])
 		{
-			ft_printfd(2, "cmds: %s =", cmds[i]);
 			if (substitution(e, &cmds[i]) == -1)
 				ret = -42;
 			else
