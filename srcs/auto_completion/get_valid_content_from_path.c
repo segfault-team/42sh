@@ -25,12 +25,13 @@ char		*escape_specials(char *str, int i, int len)
 
 	k = ft_countchar(str, ' ') + ft_countchar(str, '	')
 	+ ft_countchar(str, '\'') + ft_countchar(str, '\"');
-	tmp = ft_strnew(ft_strlen(str) + k);
+	if (!str || !(tmp = ft_strnew((int)ft_strlen(str) + k + 1)))
+		return (NULL);
 	ret = tmp;
 	ft_strncpy(tmp, str, i);
 	str += i;
 	tmp += i;
-	while (*str && len)
+	while (str && tmp && *str && len)
 	{
 		if (*str == ' ' || *str == '	' || *str == '\'' || *str == '\"')
 		{

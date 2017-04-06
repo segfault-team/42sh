@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/04 15:33:42 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/06 15:47:52 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void		ft_sig_handler(int sig)
 		tcaps_ctrl_end(e);
 		tcaps_reset(e);
 		signal(sig, SIG_DFL);
-		raise(sig);
+		ioctl(0, TIOCSTI, e->susp);
 	}
 	else if (sig == SIGCONT)
 	{

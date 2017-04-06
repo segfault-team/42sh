@@ -80,11 +80,15 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 int			substitution(t_env *e, char **str)
 {
 	int		i;
+	int		len;
 
 	i = -1;
-	while ((*str)[++i])
+	len = (int)ft_strlen(*str);
+	if (!(*str))
+		return (0);
+	while (str && ++i < len && (*str)[i])
 	{
-		if ((*str)[i] == '$' && (*str)[i + 1])
+		if (i < len && (*str)[i] == '$' && (*str)[i + 1])
 			do_env_subs(e, str, &i);
 		else
 			substitution_tilde(e, str, i);

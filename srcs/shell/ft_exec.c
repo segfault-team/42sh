@@ -80,7 +80,7 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 	else
 	{
 		ft_exec(cmd, e);
-		ret = ft_waitlogix(e);
+//		ret = ft_waitlogix(e);
 	}
 	return (ret);
 }
