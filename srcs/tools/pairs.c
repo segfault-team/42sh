@@ -11,9 +11,9 @@ int		check_pairs(char *str, char c, char d)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == c && !ft_is_escaped(str, i))
+		if (str[i] == c && !ft_is_escaped(str, i) && !cur_inquote(str, i))
 			++open;
-		else if (str[i] == d && !ft_is_escaped(str, i))
+		else if (str[i] == d && !ft_is_escaped(str, i) && !cur_inquote(str, i))
 			++close;
 	}
 	if (((open + close) % 2) != 0)

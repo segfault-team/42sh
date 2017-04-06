@@ -46,20 +46,18 @@ char		*escape_specials(char *str, int i, int len)
 	return (ret);
 }
 
-int			cur_inquote(t_env *e)
+int			cur_inquote(char *str, int pos)
 {
 	int s_quote;
 	int d_quote;
-	int pos;
 
 	s_quote = 0;
 	d_quote = 0;
-	pos = NB_MOVE - 1;
-	while (e->line[pos] && pos)
+	while (str[pos] && pos)
 	{
-		if (e->line[pos] == '\'' && !ft_is_escaped(e->line, pos))
+		if (str[pos] == '\'' && !ft_is_escaped(str, pos))
 			s_quote++;
-		else if (e->line[pos] == '\"' && !ft_is_escaped(e->line, pos))
+		else if (str[pos] == '\"' && !ft_is_escaped(str, pos))
 			d_quote++;
 		pos--;
 	}
@@ -84,7 +82,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 		return (NULL);
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
-		if (!cur_inquote(e))
+		if (!cur_inquote(e->line, NB_MOVE - 1))
 			tmp = escape_specials(dir_entry->d_name, 0, -1);
 		else
 			tmp = ft_strdup(dir_entry->d_name);
