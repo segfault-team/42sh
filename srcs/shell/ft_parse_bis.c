@@ -1,20 +1,21 @@
 #include "shell.h"
 
-static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status)
+static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 {
 	int			i;
-	int			status2;
+	int			status;
 
 	i = 0;
 	while (e->jobs)
 	{
-		kill(e->jobs->pid, SIGTERM);
 		if (!i)
-			waitpid(e->jobs->pid, &status, WUNTRACED);
+			waitpid(e->jobs->pid, &status, 0);// WUNTRACED);
 		else
-			waitpid(e->jobs->pid, &status2, WUNTRACED);
+			waitpid(e->jobs->pid, &status2, 0);//WUNTRACED);
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
+		if (e->jobs)
+			kill(e->jobs->pid, SIGTERM);
 		free(ptr);
 		++i;
 	}
