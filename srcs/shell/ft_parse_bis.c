@@ -6,6 +6,7 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 	int			status;
 
 	i = 0;
+	status = -1;
 	while (e->jobs)
 	{
 		if (!i)
