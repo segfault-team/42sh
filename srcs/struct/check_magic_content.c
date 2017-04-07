@@ -33,6 +33,7 @@ static int	check_magic_content_bis(t_env *e, int i)
 	}
 	return (0);
 }
+
 int			check_magic_content(t_env *e, int i)
 {
 	if (!e->magic[i + 1].cmd && is_redirection(e, i)
