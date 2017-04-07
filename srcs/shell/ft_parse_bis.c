@@ -10,9 +10,9 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 	while (e->jobs)
 	{
 		if (!i)
-			waitpid(e->jobs->pid, &status, 0);// WUNTRACED);
+			waitpid(e->jobs->pid, &status, 0);
 		else
-			waitpid(e->jobs->pid, &status2, 0);//WUNTRACED);
+			waitpid(e->jobs->pid, &status2, 0);
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
 		if (e->jobs)
