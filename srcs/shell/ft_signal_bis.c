@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/04 15:34:13 by vlistrat         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static void	ft_sigint_reset(t_env *e)
@@ -19,6 +7,7 @@ static void	ft_sigint_reset(t_env *e)
 		tcaps_ctrl_end(e);
 		e->hdoc_nb = 0;
 		strfree(&e->herestock);
+		strfree(&e->line);
 		if (e->hdoc_words)
 		{
 			ft_free_tab(e->hdoc_words);
@@ -26,7 +15,7 @@ static void	ft_sigint_reset(t_env *e)
 		}
 		strfree(&MULTI);
 		TCAPS.hist_move = -1;
-		ft_putchar('\n');
+		ft_putstr("\n\n");
 		strfree(&e->prompt);
 		e->prompt = ft_create_prompt(e, STD_PROMPT);
 		ft_prompt(e->prompt);

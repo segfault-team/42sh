@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/06 19:05:21 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/07 09:03:07 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ void		ft_sig_handler(int sig)
 	{
 		tcaps_ctrl_end(e);
 		tcaps_reset(e);
-		// REMOVE ME
-		ft_printf("CTRL-C\n");
 		signal(sig, SIG_DFL);
 		ioctl(0, TIOCSTI, e->susp);
 	}

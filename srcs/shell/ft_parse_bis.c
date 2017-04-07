@@ -80,7 +80,7 @@ int			ft_check_token(char *s)
 ** trline is now useless cause tab is not inserted (tcaps directives)
 */
 
-char			**ft_trim_split_cmd(t_env *e)
+char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 

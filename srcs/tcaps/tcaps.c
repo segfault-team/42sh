@@ -16,8 +16,6 @@ int			tcaps(t_env *e)
 {
 	if (BUF[0] == CTRL_D)
 		tcaps_ctrl_d(e);
-	/*else if (is_paste(BUF))
-		tcaps_paste(e, BUF);*/
 	else if (tcaps_is_printable(BUF) && NB_MOVE == NB_READ && !e->raw)
 		tcaps_insert(e);
 	else if (tcaps_check_key(BUF, 12, 0, 0))
