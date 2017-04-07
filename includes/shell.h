@@ -238,7 +238,6 @@ typedef struct			s_env
 	char				*prompt;
 	char				*home;
 	char				*line;
-	char				*last_cmd;
 	char				*line_bkp;
 	char				**cmd;
 	char				***cat;

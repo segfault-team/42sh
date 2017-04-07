@@ -19,7 +19,7 @@ int		print_history(t_env *e, char **cmd)
 	if (i + 1 > (size_t)len_tab)
 		i = -1;
 	while (e->history[++i])
-		ft_printf("%d: %s\n", (i + 1), e->history[i]);
+		ft_printf("%d: %s\n", i, e->history[i]);
 	return (1);
 }
 
