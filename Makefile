@@ -34,7 +34,7 @@ SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 ## STRUCT FOLDER ##
 SRC_STRUCT_NAME		= struct_get_type.c struct_strsplit_quote_bs.c \
 					struct_strsplit_wo_quote_bs.c struct_tools.c struct_check.c \
-					check_magic_cmd.c check_magic_red.c check_magic_content.c \
+					check_magic_red.c check_magic_content.c \
 					struct_check_bis.c
 SRC_STRUCT			= $(addprefix struct/,$(SRC_STRUCT_NAME))
 
