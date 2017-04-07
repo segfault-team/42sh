@@ -56,8 +56,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (-1);
 	ft_create_file(e);
-	for(int k = 0 ; e->magic[k].cmd ; ++k)
-		dprintf(2, "[%d]: %s | %s\n", k, e->magic[k].cmd, e->magic[k].type);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);

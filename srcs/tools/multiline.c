@@ -41,6 +41,11 @@ static int		manage_multi(t_env *e, char *tmp, int check)
 	return (0);
 }
 
+static int		finish_by_ampersand_operator(t_env *e)
+{
+	return (check_last_char(e, '&') && check_prev_last_char(e, '&'));
+}
+
 int				ft_multiline(t_env *e)
 {
 	char	*tmp;
@@ -51,7 +56,7 @@ int				ft_multiline(t_env *e)
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
 	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42
-			|| !ft_strcmp(e->line, "\n"))
+		|| !ft_strcmp(e->line, "\n") || finish_by_ampersand_operator(e))
 		return (manage_multi(e, tmp, check));
 	else if (MULTI)
 	{

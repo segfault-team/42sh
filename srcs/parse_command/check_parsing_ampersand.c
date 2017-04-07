@@ -52,4 +52,7 @@ void		check_parsing_ampersand(t_env *e, int *i)
 	else if (*i > 1 && e->line[*i - 1] && e->line[*i - 2]
 		&& e->line[*i - 1] == '&' && e->line[*i - 2] == '&')
 		insert_char(e, ' ', (*i)++);
+	else if (*i && *i + 1 < (int)ft_strlen(e->line) && e->line[*i + 1]
+			 && e->line[*i - 1] == '&' && e->line[*i + 1] != ' ')
+		insert_char(e, ' ', ++(*i));
 }
