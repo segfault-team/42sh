@@ -24,7 +24,7 @@ int		join_line(t_env *e, int *curr_pos)
 
 	new = ft_strnew(*curr_pos + 1);
 	new = ft_strncpy(new, e->line, *curr_pos);
-	do_substitution(&e->line, curr_pos, new, 2);
+	do_substitution_no_esc(&e->line, curr_pos, new, 2);
 	strfree(&new);
 	return (1);
 }

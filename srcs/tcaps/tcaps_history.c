@@ -16,10 +16,9 @@ int				tcaps_history_up(t_env *e)
 			e->line_bkp ? e->line_bkp : e->line, -1);
 	if (TCAPS.hist_move == -1)
 	{
-		if (e->line)
-			e->line_bkp = ft_strdup(e->line);
-		else
-			e->line_bkp = ft_strdup("");
+		if (e->line_bkp)
+			strfree(&e->line_bkp);
+		e->line_bkp = e->line ? ft_strdup(e->line) : ft_strdup("");
 		TCAPS.hist_move = (pos) ? pos : 1;
 	}
 	if (access(HIST_FILE, F_OK) != -1 && TCAPS.hist_move > 0 && pos >= 0)

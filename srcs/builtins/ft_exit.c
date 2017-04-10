@@ -2,6 +2,7 @@
 
 int			ft_exit(t_env *e, char **cmd)
 {
+	tcaps_reset(e);
 	if (cmd && cmd[1])
 	{
 		if (!ft_strisdigit(cmd[1]))

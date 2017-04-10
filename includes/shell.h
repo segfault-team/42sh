@@ -301,12 +301,13 @@ t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						substitution(t_env *e, char **target);
-void					substitution_cond(char **str, int *i, char *tmp);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
 int						join_line(t_env *e, int *curr_pos);
 void					do_substitution(char **target, int *curr_pos, \
+										char *subsitute, int nb_char_to_jump);
+void					do_substitution_no_esc(char **target, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, char **target, int *curr);
 

@@ -79,7 +79,7 @@ int			manage_exclamation_mark(t_env *e, int *curr_pos)
 	nxt_c = e->line[*curr_pos + 1];
 	if (is_number(nxt_c))
 		return (manage_for_pos_number(e, curr_pos));
-	else if (nxt_c == '-')
+	else if (nxt_c == '-' && is_number(e->line[*curr_pos + 2]))
 		return (manage_for_neg_number(e, curr_pos));
 	else if (nxt_c == '!')
 		return (manage_double_excl_mark(e, curr_pos));
