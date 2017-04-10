@@ -68,7 +68,7 @@ char			*init_hist_file(t_env *e)
 
 int				ft_init(t_env *e, char **env)
 {
-	e->new_term = (struct termios *)malloc(sizeof(struct termios));
+	e->new_term = NULL;
 	e->old_term = (struct termios *)malloc(sizeof(struct termios));
 	e->history = NULL;
 	e->trunc_in_history = 0;

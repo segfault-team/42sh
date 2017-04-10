@@ -35,10 +35,8 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 			simple_replace(&new, target);
 		(*target)++;
 	}
-	strfree(&tmp);
-	tmp = ft_strtrim(ret);
 	*target = substitute && escape
-	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
+	? escape_specials(ret, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
 	ft_strdel(&ret);
 	ft_strdel(&tmp);
 }

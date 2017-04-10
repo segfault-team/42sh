@@ -33,17 +33,21 @@ int		tcaps_set(t_env *e)
 {
 	if (!isatty(STDIN_FILENO))
 		return (-1);
-	if (tcgetattr(STDIN_FILENO, e->new_term) < 0)
+	if (!e->new_term)
 	{
-		if (e && !e->raw)
-			ft_error("WARNING", "could not find termios structure", NULL);
-		return (-1);
+		e->new_term = (struct termios *)malloc(sizeof(struct termios));
+		if (tcgetattr(STDIN_FILENO, e->new_term) < 0)
+		{
+			if (e && !e->raw)
+				ft_error("WARNING", "could not find termios structure", NULL);
+			return (-1);
+		}
+		ft_memcpy(e->old_term, e->new_term, sizeof(struct termios));
+		e->new_term->c_cc[VMIN] = 1;
+		e->new_term->c_cc[VTIME] = 0;
+		e->susp[0] = e->new_term->c_cc[VSUSP];
+		e->new_term->c_lflag &= ~(ICANON | ECHO);
 	}
-	ft_memcpy(e->old_term, e->new_term, sizeof(struct termios));
-	e->new_term->c_cc[VMIN] = 1;
-	e->new_term->c_cc[VTIME] = 0;
-	e->susp[0] = e->new_term->c_cc[VSUSP];
-	e->new_term->c_lflag &= ~(ICANON | ECHO);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, e->new_term) < 0)
 		return (-1);
 	return (0);
@@ -55,9 +59,12 @@ int		tcaps_set(t_env *e)
 
 int		tcaps_reset(t_env *e)
 {
-	if (!e->raw && tcsetattr(STDIN_FILENO, TCSANOW, e->old_term) < 0)
-		return (-1);
-	xputs(TGETSTR_VE);
+	if (!e->raw)
+	{
+		xputs(TGETSTR_VE); // WTF ?
+		if (tcsetattr(STDIN_FILENO, TCSANOW, e->old_term) < 0)
+			return (-1);
+	}
 	return (0);
 }
 
