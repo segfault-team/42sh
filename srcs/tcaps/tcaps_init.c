@@ -61,7 +61,7 @@ int		tcaps_reset(t_env *e)
 {
 	if (!e->raw)
 	{
-		xputs(TGETSTR_VE); // WTF ?
+		xputs(TGETSTR_VE);
 		if (tcsetattr(STDIN_FILENO, TCSANOW, e->old_term) < 0)
 			return (-1);
 	}
