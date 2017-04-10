@@ -59,7 +59,7 @@ static int	manage_for_string(t_env *e, int *curr_pos)
 		&& (!i || (e->line[start + i] == '\'' && e->line[start + i] == '\"'))
 		&& !ft_is_escape_after(e->line, start + i))
 		i++;
-	cmp = ft_strsub(e->line, start, i);
+	cmp = ft_strsub(e->line, start, i+1);
 	i = ft_tablen(e->history) - 1;
 	while (cmp && i && !ft_start_with(e->history[i], cmp))
 		--i;
