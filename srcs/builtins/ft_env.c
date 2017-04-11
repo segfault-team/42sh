@@ -95,7 +95,7 @@ int				ft_env(t_env *e, char **cmd)
 	i = 1;
 	env_cpy = ft_tabdup(e->env);
 	tmp = e->env;
-	e->env = env_cpy;
+//	e->env = env_cpy;
 	if ((len = ft_tablen(cmd)) > 1)
 	{
 		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
@@ -103,8 +103,8 @@ int				ft_env(t_env *e, char **cmd)
 	}
 	else
 		ft_puttab(e->env);
-//	ft_free_tab(env_cpy);
-	ft_free_tab(e->env);
+	ft_free_tab(env_cpy);
+	//ft_free_tab(e->env);
 	e->env = tmp;
 	if (!i)
 		return (1);
