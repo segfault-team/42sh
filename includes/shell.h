@@ -67,6 +67,8 @@
 # define MULTI			e->multiline
 # define HIST_MOVE 		TCAPS.hist_move
 # define NB_COL 		TCAPS.nb_col
+# define NB_LINE 		TCAPS.nb_line
+# define CHECK_MOVE 	TCAPS.check_move
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -125,6 +127,9 @@
 # define TGETSTR_SC 	e->struct_tputs.sc
 # define TGETSTR_DL 	e->struct_tputs.dl
 # define TGETSTR_RC 	e->struct_tputs.rc
+# define TGETSTR_ME		e->struct_tputs.me
+# define TGETSTR_MR		e->struct_tputs.mr
+# define TGETSTR_UP		e->struct_tputs.up
 
 typedef struct			s_tputs
 {
@@ -258,7 +263,6 @@ typedef struct			s_env
 	char				*multiline;
 	int					child_running;
 	int					check_ctrl_c;
-	int					check_sigtstp;
 	int					check_input;
 	t_tputs				struct_tputs;
 	char				*hist_file;

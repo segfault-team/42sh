@@ -73,13 +73,12 @@ int		tcaps_init(t_env *e)
 	int ret;
 
 	ret = 0;
-	e->check_sigtstp = 0;
 	NB_MOVE = 0;
 	NB_READ = 0;
-	TCAPS.check_move = 0;
-	TCAPS.hist_move = -1;
-	TCAPS.nb_line = 1;
-	TCAPS.nb_col = 0;
+	CHECK_MOVE = 0;
+	HIST_MOVE = -1;
+	NB_LINE = 1;
+	NB_COL = 0;
 	tcaps_get_term_name(e->env, e->raw);
 	if (tcaps_set(e))
 		ret = -1;
@@ -112,7 +111,7 @@ void	init_tputs_string(t_env *e)
 	TGETSTR_SC = tgetstr("sc", NULL);
 	TGETSTR_DL = tgetstr("dl", NULL);
 	TGETSTR_RC = tgetstr("rc", NULL);
-	e->struct_tputs.me = tgetstr("me", NULL);
-	e->struct_tputs.mr = tgetstr("mr", NULL);
-	e->struct_tputs.up = tgetstr("up", NULL);
+	TGETSTR_ME = tgetstr("me", NULL);
+	TGETSTR_MR = tgetstr("mr", NULL);
+	TGETSTR_UP = tgetstr("up", NULL);
 }
