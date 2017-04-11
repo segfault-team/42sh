@@ -15,13 +15,16 @@ void	ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i)
 	while (ft_strchr(cmd[i], '='))
 	{
 		tmp = *env_cpy;
-		if ((*env_cpy = ft_tabcat(*env_cpy, cmd[i++])) == NULL)
+		if (!(*env_cpy = ft_tabcat(*env_cpy, cmd[i++])))
 			break ;
 		ft_free_tab(tmp);
 	}
 	e->env = *env_cpy;
 	if (cmd[i])
+	{
+		e->env_exec = 1;
 		i = ft_exec_cmd(e, &cmd[i]);
+	}
 	else
 		ft_puttab(e->env);
 }

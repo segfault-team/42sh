@@ -32,5 +32,6 @@ int			ft_reset_line(t_env *e)
 	e->hdoc_nb = 0;
 	e->quote = '\0';
 	e->multi_quote = '\0';
+	e->env_exec = 0;
 	return (0);
 }

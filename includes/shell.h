@@ -65,6 +65,8 @@
 # define WIN_WIDTH		e->tcaps.ws.ws_col
 # define RED_INDEX		e->i_mag
 # define MULTI			e->multiline
+# define HIST_MOVE 		TCAPS.hist_move
+# define NB_COL 		TCAPS.nb_col
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -285,6 +287,7 @@ typedef struct			s_env
 	int					last_cmd_ret;
 	char				multi_quote;
 	char				*susp;
+	int 				env_exec;
 }						t_env;
 
 /*

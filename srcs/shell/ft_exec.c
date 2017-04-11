@@ -72,7 +72,7 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 	int		ret;
 
 	ret = 0;
-	if (ft_is_builtin(cmd[0]))
+	if (ft_is_builtin(cmd[0]) && !e->env_exec)
 	{
 		ret = ft_exec_builtin(e, cmd, 0);
 		reset_last_ret(e, e->last_cmd_ret);
