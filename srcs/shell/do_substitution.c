@@ -38,8 +38,8 @@ void		do_substitution(char **target, int *curr_pos, char *substitute,
 	ft_strdel(&tmp);
 }
 
-void		do_substitution_no_esc(char **target, int *curr_pos, char *substitute,
-							int jmp)
+void		do_substitution_no_esc(char **target, int *curr_pos,
+		char *substitute, int jmp)
 {
 	char	*new;
 	char	*tmp;
