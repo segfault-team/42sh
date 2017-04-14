@@ -57,7 +57,6 @@ tests
 a.out
 
 truc.sh
-*.bkup
 .sh_history
 boid
 *boid*
