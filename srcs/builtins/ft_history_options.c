@@ -2,7 +2,7 @@
 
 int		print_history(t_env *e, char **cmd)
 {
-	size_t	i;
+	int		i;
 	int		arg;
 	int		len_tab;
 
@@ -11,13 +11,14 @@ int		print_history(t_env *e, char **cmd)
 	len_tab = ft_tablen(e->history);
 	if (cmd[1])
 	{
-		arg = (size_t)atoi_bis(cmd[1]);
-		if (arg == -1)
-			return (ft_error("history", cmd[1], "too many arguments"));
+		if ((arg = (size_t)atoi_bis(cmd[1])) == -1)
+			return (ft_error("history", cmd[1], "numeric argument required"));
 		i = ft_tablen(e->history) - arg - 1;
 	}
-	if (i + 1 > (size_t)len_tab)
+	if (i < 0)
 		i = -1;
+	else if (!is_only_numbers(cmd[1]) || i < 0)
+		return (ft_error("history", cmd[1], "numeric argument required"));
 	while (e->history[++i])
 		ft_printf("%d: %s\n", i, e->history[i]);
 	return (1);
