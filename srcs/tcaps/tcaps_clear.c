@@ -11,5 +11,5 @@ void	tcaps_clear(t_env *e)
 {
 	xputs(TGETSTR_CL);
 	ft_prompt(e->prompt);
-	ft_printf("%s", e->line);
+	ft_printf("%s", e->line ? e->line : "");
 }
