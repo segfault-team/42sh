@@ -57,12 +57,10 @@ static int		ft_opt_i(char **cmd, char ***env_cpy, int i, size_t len)
 	return (i);
 }
 
-static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
+static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd, int i)
 {
-	int		i;
 	int		ret;
 
-	i = 0;
 	while (++i < (int)len && cmd[i] && cmd[i][0] == '-' &&
 			!ft_strchr(cmd[i], '='))
 	{
@@ -74,8 +72,7 @@ static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
 				return (i + 2);
 			else if (ret == -1)
 				return (-1);
-			else if (ret == 1)
-				++i;
+			i += (ret == 1) ? 1 : 0;
 		}
 		else if (cmd[i][1] == 'i')
 		{
@@ -102,7 +99,7 @@ int				ft_env(t_env *e, char **cmd)
 	tmp = e->env;
 	if ((len = ft_tablen(cmd)) > 1)
 	{
-		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
+		if ((i = ft_env_opt(&env_cpy, len, cmd, 0)) > 0)
 			ft_env_bis(e, &env_cpy, cmd, i);
 	}
 	else
