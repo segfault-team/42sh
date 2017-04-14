@@ -468,6 +468,8 @@ void					strfree(char **str);
 int						ft_env(t_env *e, char **cmd);
 void					ft_env_bis(t_env *e, char ***env_cpy, char **cmd, \
 							int i);
+int						ft_env_opt_u(char ***env_cpy, char **cmd, int i);
+int						ft_print_env(char **env);
 int						ft_env_error(char *cmd);
 int						ft_cat_env_args(char ***env_cpy, char **cmd, int *i);
 int						ft_setenv_blt(t_env *e, char **cmd);

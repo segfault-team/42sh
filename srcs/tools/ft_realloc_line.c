@@ -8,7 +8,7 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 	int		j;
 
 	if (e->line)
-		len = (int)ft_strlen(e->line);// - 1;
+		len = (int)ft_strlen(e->line);
 	else
 		return (NULL);
 	if (!(new = ft_strnew(len)))

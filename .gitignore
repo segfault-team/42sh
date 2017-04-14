@@ -56,7 +56,8 @@ tests
 *.DS_Store
 a.out
 
-log*
+truc.sh
+*.bkup
 .sh_history
 boid
 *boid*

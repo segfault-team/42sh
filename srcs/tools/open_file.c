@@ -10,7 +10,7 @@ int	open_file(char *file, int flags, mode_t mode)
 		return (ft_error("no such file: ", file, NULL));
 	if (access(file, R_OK) < 0)
 		return (ft_error("permission denied: ", file, NULL));
-    lstat(file, &stat);
+	lstat(file, &stat);
 	if (S_ISDIR(stat.st_mode))
 		return (ft_error("read failed", file, "is a directory"));
 	if ((fd = open(file, flags, mode)) == -1)
