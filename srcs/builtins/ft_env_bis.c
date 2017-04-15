@@ -1,13 +1,27 @@
 #include "shell.h"
 
-int		ft_env_error(char *cmd)
+int			ft_insert_arg(char ***env_cpy, char *arg)
+{
+	char	*name;
+	char	*val;
+
+	val = ft_strdup(ft_strchr(arg, '=') + 1);
+	name = ft_strndup(arg, (ft_strlen(arg) - ft_strlen(val) - 1));
+	ft_setenv(env_cpy, name, val);
+	strfree(&val);
+	strfree(&name);
+	return (0);
+}
+
+int			ft_env_error(char *cmd)
 {
 	ft_printfd(2, "env: illegal option --%c\n", cmd[1]);
-	ft_printfd(2, "usage: env [-i name1=val1 ...] [-u name]\n");
+	ft_printfd(2, "usage: env [-i] [-u name]\n");
+	ft_printfd(2, "           [name=value] [utility [argument ...]]\n");
 	return (-1);
 }
 
-int		ft_env_opt_u_error(char *cmd)
+int			ft_env_opt_u_error(char *cmd)
 {
 	if (!cmd)
 	{

@@ -1,5 +1,11 @@
 #include "shell.h"
 
+int		ft_error2(char *msg, char *msg2, char *msg3, char *msg4)
+{
+	ft_printfd(2, "%s: %s %s: %s\n", msg, msg2, msg3, msg4);
+	return (-1);
+}
+
 int		ft_error(char *util, char *msg, char *what)
 {
 	if (what && util && msg)

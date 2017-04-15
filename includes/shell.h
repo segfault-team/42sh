@@ -287,6 +287,8 @@ int						manage_operators(t_env *e, int i, int ret);
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
+int						ft_error2(char *msg, char *msg2, char *msg3, \
+									char *msg4);
 void					ft_banner(void);
 void					ft_prompt(char *prompt);
 int						ft_freelogic(t_logic *x);
@@ -466,8 +468,8 @@ void					strfree(char **str);
 **		Builtins
 */
 int						ft_env(t_env *e, char **cmd);
-int						ft_print_env(char **env);
 int						ft_env_error(char *cmd);
+int						ft_insert_arg(char ***env_cpy, char *arg);
 int						ft_env_opt_u_error(char *cmd);
 int						ft_cat_env_args(char ***env_cpy, char **cmd, int *i);
 int						ft_setenv_blt(t_env *e, char **cmd);

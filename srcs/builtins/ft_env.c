@@ -50,20 +50,12 @@ static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd, int i)
 
 static int		ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i)
 {
-	char	**tmp;
-
-	tmp = NULL;
 	while (cmd[i] && ft_strchr(cmd[i], '='))
 	{
 		if (cmd[i][0] == '=')
-		{
-			ft_printfd(2, "env: setenv %s: invalid argument\n", cmd[i]);
-			return (-1);
-		}
-		tmp = *env_cpy;
-		if (!(*env_cpy = ft_tabcat(*env_cpy, cmd[i++])))
+			return (ft_error2("env", "setenv", cmd[i], "invalid argument"));
+		if (ft_insert_arg(env_cpy, cmd[i++]))
 			break ;
-		ft_free_tab(tmp);
 	}
 	e->env = *env_cpy;
 	if (cmd[i])
