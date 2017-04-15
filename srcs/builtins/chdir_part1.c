@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-static void	set_cwd(t_env *e, char **cwd, char *dir)
+static int	set_cwd(t_env *e, char **cwd, char *dir)
 {
 	char	*tmp[4];
 
@@ -25,8 +25,11 @@ static void	set_cwd(t_env *e, char **cwd, char *dir)
 		ft_fill_array((void **)tmp, ft_save_oldpwd(e),
 				dir, ft_save_oldpwd(e));
 		tmp[1] = ft_create_path(tmp, 0);
-		*cwd = tmp[1];
+		*cwd = ft_strdup(tmp[1]);
+		ft_array_strdel(tmp);
+		return (1);
 	}
+	return (-1);
 }
 
 int			ft_chdir(char *dir, t_env *e, int option)
@@ -39,7 +42,7 @@ int			ft_chdir(char *dir, t_env *e, int option)
 	cwd = NULL;
 	retval = ft_pre_chdir((char **)tmp, dir, e);
 	if (option == 1 || retval == -1)
-		set_cwd(e, &cwd, dir);
+		retval = set_cwd(e, &cwd, dir);
 	else
 		cwd = ft_strdup(tmp[1]);
 	ft_fill_array((void **)args, ft_strdup("PWD"), cwd, NULL);

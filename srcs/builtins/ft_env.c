@@ -12,89 +12,72 @@
 
 #include "shell.h"
 
-static size_t	ft_arglen(char **cmd, size_t len, int i)
+static int		ft_env_opt_u(char ***env_cpy, char **cmd, int i)
 {
-	size_t	arglen;
-
-	arglen = (size_t)i;
-	while (++arglen < len && ft_strchr(cmd[arglen], '='))
-		;
-	return (arglen);
-}
-
-static int		ft_arg_isdouble(char **args, char *arg, int i)
-{
-	char	*eval;
-	char	**tmp;
-
-	tmp = ft_strsplit(arg, '=');
-	eval = ft_strjoin(tmp[0], "=");
-	ft_free_tab(tmp);
-	while (args[++i])
-		if (ft_strnequ(args[i], eval, ft_strlen(eval)))
-		{
-			strfree(&eval);
-			return (1);
-		}
-	strfree(&eval);
+	if (!cmd[i])
+		return (ft_env_opt_u_error(NULL));
+	else if (ft_strchr(cmd[i], '='))
+		return (ft_env_opt_u_error(cmd[i]));
+	if (ft_unsetenv(env_cpy, cmd[i]) == -1)
+		return (1);
 	return (0);
 }
 
-static int		ft_opt_i(char **cmd, char ***env_cpy, int i, size_t len)
+static int		ft_env_opt_i(char ***env_cpy)
 {
-	char	**ptr;
-	size_t	arglen;
-	int		j;
-
-	arglen = ft_arglen(cmd, len, i);
 	ft_free_tab(*env_cpy);
-	*env_cpy = ft_tabnew(len + 1);
-	ptr = *env_cpy;
-	j = 0;
-	while (++i < (int)arglen)
+	*env_cpy = NULL;
+	env_cpy = NULL;
+	return (0);
+}
+
+static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd, int i)
+{
+	int			j;
+	int			ret;
+
+	while (++i < (int)len && cmd[i] &&
+			cmd[i][0] == '-' && !ft_strchr(cmd[i], '=') && !(j = 0))
 	{
-		if (cmd[i][0] == '=')
-			return (ft_error("env", "invalid argument", cmd[i]));
-		if (!ft_arg_isdouble(cmd, cmd[i], i))
+		while (cmd[i][0] == '-' && cmd[i][++j])
 		{
-			ptr[j] = ft_strdup(cmd[i]);
-			++j;
+			if (cmd[i][j] == 'i')
+			{
+				if (!ft_env_opt_i(env_cpy) && i > 1)
+					break ;
+			}
+			else if (cmd[i][j] == 'u' && !cmd[i][j + 1])
+			{
+				if ((ret = ft_env_opt_u(env_cpy, cmd, ++i)) == -1)
+					return (-1);
+				else if (ret == 1)
+					break ;
+			}
+			else if (cmd[i][1] != 'u' && cmd[i][1] != 'i')
+				return (ft_env_error(cmd[i]));
 		}
-	}
-	if (arglen == len)
-	{
-		ft_puttab(*env_cpy);
-		return (0);
 	}
 	return (i);
 }
 
-static int		ft_env_opt(char ***env_cpy, size_t len, char **cmd)
+static int		ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i)
 {
-	int		i;
-
-	i = 0;
-	while (++i < (int)len && cmd[i] && cmd[i][0] == '-' && \
-			!ft_strchr(cmd[i], '='))
+	while (cmd[i] && ft_strchr(cmd[i], '='))
 	{
-		if (cmd[i][1] == 'u')
-		{
-			if (cmd[i + 1] && !cmd[i][2])
-				ft_unsetenv(env_cpy, cmd[++i]);
-			else
-				return (++i);
-		}
-		else if (cmd[i][1] == 'i')
-			return (ft_opt_i(cmd, env_cpy, i, len));
-		else
-			return (ft_env_error(&cmd[i][1]));
+		if (cmd[i][0] == '=')
+			return (ft_error2("env", "setenv", cmd[i], "invalid argument"));
+		if (ft_insert_arg(env_cpy, cmd[i++]))
+			break ;
 	}
-	if (i == (int)len)
+	e->env = *env_cpy;
+	if (cmd[i])
 	{
-		ft_puttab(*env_cpy);
-		return (0);
+		e->env_exec = 1;
+		i = ft_exec_cmd(e, &cmd[i]);
 	}
-	return (i);
+	else
+		ft_puttab(e->env);
+	return (0);
 }
 
 int				ft_env(t_env *e, char **cmd)
@@ -109,9 +92,10 @@ int				ft_env(t_env *e, char **cmd)
 	tmp = e->env;
 	if ((len = ft_tablen(cmd)) > 1)
 	{
-		if ((i = ft_env_opt(&env_cpy, len, cmd)) > 0)
+		if ((i = ft_env_opt(&env_cpy, len, cmd, 0)) > 0)
 		{
-			ft_env_bis(e, &env_cpy, cmd, i);
+			if (ft_env_bis(e, &env_cpy, cmd, i) == -1)
+				i = 0;
 		}
 	}
 	else

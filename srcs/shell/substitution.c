@@ -11,48 +11,16 @@
 /* ************************************************************************** */
 
 #include "shell.h"
-#include <sys/types.h>
-#include <pwd.h>
-#include <uuid/uuid.h>
 
-static char	*pre_substitution(char **new, char **ret, char *target, int len)
+static void	substitution_cond(char **str, int *i, char *tmp)
 {
-	*new = ft_strnew((int)(ft_strlen(target) + len));
-	*ret = *new;
-	return (target);
-}
-
-static void	simple_replace(char **new, char **target)
-{
-	**new = **target;
-	++(*new);
-}
-
-void		do_substitution(char **target, int *curr_pos, char *substitute,
-							int jmp)
-{
-	char	*new;
-	char	*tmp;
-	char	*ret;
-	int		escape;
-
-	escape = **target != '!' ? 1 : 0;
-	tmp = pre_substitution(&new, &ret, *target, (int)ft_strlen(substitute));
-	while (((*target)) && **target)
+	tmp = ft_strdup((*str));
+	do_substitution(str, i, USERS_DIR, 0);
+	if (access(&(*str)[*i], F_OK) == -1)
 	{
-		if (*target == &tmp[*curr_pos])
-			(!substitute) ? *target += jmp
-				: ft_replace_word(&new, substitute, &*target, jmp + 1);
-		else
-			simple_replace(&new, target);
-		(*target)++;
+		ft_strdel(str);
+		*str = tmp;
 	}
-	strfree(&tmp);
-	tmp = ft_strtrim(ret);
-	*target = substitute && escape
-	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
-	ft_strdel(&ret);
-	ft_strdel(&tmp);
 }
 
 static void	substitution_tilde(t_env *e, char **str, int i)

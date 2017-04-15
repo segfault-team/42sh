@@ -57,10 +57,7 @@ void	ft_triple_free(t_env *e)
 		{
 			j = -1;
 			while (e->cat[i][++j])
-			{
-				free(e->cat[i][j]);
-				e->cat[i][j] = NULL;
-			}
+				strfree(&e->cat[i][j]);
 			free(e->cat[i]);
 			e->cat[i] = NULL;
 		}

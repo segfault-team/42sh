@@ -26,7 +26,7 @@ static void	ft_sigint_reset(t_env *e)
 			e->hdoc_words = NULL;
 		}
 		strfree(&MULTI);
-		TCAPS.hist_move = -1;
+		HIST_MOVE = -1;
 		ft_putstr("\n\n");
 		strfree(&e->prompt);
 		e->prompt = ft_create_prompt(e, STD_PROMPT);

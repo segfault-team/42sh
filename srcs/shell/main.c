@@ -93,6 +93,7 @@ int			main(int ac, char **av, char **env)
 		read_input(e);
 		reading(e);
 	}
+	tcaps_reset(e);
 	ft_write_history(e, O_TRUNC);
 	ret = e->exit;
 	if (!e->raw)

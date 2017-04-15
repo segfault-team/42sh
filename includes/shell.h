@@ -6,25 +6,12 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 14:34:03 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/07 14:34:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/15 16:43:25 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
-
-/*
-**	<unistd.h> :		[ chdir | access ]
-**		(ft_chdir)
-**	<sys/stat.h> :		[ lstat ]
-**		(ft_chdir)
-**	<dirent.h> :		[ opendir | readdir ]
-**		(ft_exec)
-**	<fcntl.h> :		[ open | read ]
-**		(ft_history.c)
-**	<signal.h> :		[ signal ]
-**		(ft_signal)
-*/
 
 # define UATTR __attribute__((unused))
 
@@ -76,6 +63,10 @@
 # define WIN_WIDTH		e->tcaps.ws.ws_col
 # define RED_INDEX		e->i_mag
 # define MULTI			e->multiline
+# define HIST_MOVE 		TCAPS.hist_move
+# define NB_COL 		TCAPS.nb_col
+# define NB_LINE 		TCAPS.nb_line
+# define CHECK_MOVE 	TCAPS.check_move
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -134,6 +125,9 @@
 # define TGETSTR_SC 	e->struct_tputs.sc
 # define TGETSTR_DL 	e->struct_tputs.dl
 # define TGETSTR_RC 	e->struct_tputs.rc
+# define TGETSTR_ME		e->struct_tputs.me
+# define TGETSTR_MR		e->struct_tputs.mr
+# define TGETSTR_UP		e->struct_tputs.up
 
 typedef struct			s_tputs
 {
@@ -267,7 +261,6 @@ typedef struct			s_env
 	char				*multiline;
 	int					child_running;
 	int					check_ctrl_c;
-	int					check_sigtstp;
 	int					check_input;
 	t_tputs				struct_tputs;
 	char				*hist_file;
@@ -296,6 +289,7 @@ typedef struct			s_env
 	int					last_cmd_ret;
 	char				multi_quote;
 	char				*susp;
+	int					env_exec;
 }						t_env;
 
 /*
@@ -305,6 +299,8 @@ int						manage_operators(t_env *e, int i, int ret);
 int						ft_waitlogix(t_env *e);
 int						ft_parse_line(t_env *e);
 int						ft_error(char *util, char *msg, char *what);
+int						ft_error2(char *msg, char *msg2, char *msg3, \
+									char *msg4);
 void					ft_banner(void);
 void					ft_prompt(char *prompt);
 int						ft_freelogic(t_logic *x);
@@ -312,12 +308,13 @@ t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
 int						substitution(t_env *e, char **target);
-void					substitution_cond(char **str, int *i, char *tmp);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
 int						join_line(t_env *e, int *curr_pos);
 void					do_substitution(char **target, int *curr_pos, \
+										char *subsitute, int nb_char_to_jump);
+void					do_substitution_no_esc(char **target, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, char **target, int *curr);
 
@@ -483,9 +480,9 @@ void					strfree(char **str);
 **		Builtins
 */
 int						ft_env(t_env *e, char **cmd);
-void					ft_env_bis(t_env *e, char ***env_cpy, char **cmd, \
-							int i);
 int						ft_env_error(char *cmd);
+int						ft_insert_arg(char ***env_cpy, char *arg);
+int						ft_env_opt_u_error(char *cmd);
 int						ft_cat_env_args(char ***env_cpy, char **cmd, int *i);
 int						ft_setenv_blt(t_env *e, char **cmd);
 int						ft_setenv(char ***env, char *name, char *value);

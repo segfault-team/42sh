@@ -53,7 +53,6 @@ int			history_delete(t_env *e, char **cmd, int i)
 		strfree(&arg);
 		return (ft_error("history", cmd[i], "position out of range"));
 	}
-	strfree(&arg);
 	tmp = e->history;
 	e->history = delete_line_in_tab(e->history, --len);
 	ft_free_tab(tmp);

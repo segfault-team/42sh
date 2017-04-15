@@ -21,7 +21,7 @@ int			ft_exit(t_env *e, char **cmd)
 			e->exit = 255;
 			ft_error("exit", cmd[1], "numeric argument required");
 		}
-		else if (ft_tablen(cmd) > 1)
+		else if (ft_tablen(cmd) > 2)
 		{
 			ft_error("exit", "too many arguments", NULL);
 			return (-1);

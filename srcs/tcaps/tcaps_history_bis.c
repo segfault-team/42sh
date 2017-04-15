@@ -34,8 +34,8 @@ void	clear_cmd(t_env *e)
 
 void	print_new_cmd_from_history(t_env *e)
 {
-	ft_printf("%s", e->history[TCAPS.hist_move]);
-	NB_READ = (int)ft_strlen(e->history[TCAPS.hist_move]);
+	ft_printf("%s", e->history[HIST_MOVE]);
+	NB_READ = (int)ft_strlen(e->history[HIST_MOVE]);
 	NB_MOVE = NB_READ;
 }
 

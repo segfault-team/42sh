@@ -39,10 +39,13 @@ int			ft_reset_line(t_env *e)
 	free_hdoc_list(e);
 	NB_MOVE = 0;
 	NB_READ = 0;
-	TCAPS.hist_move = -1;
+	HIST_MOVE = -1;
 	e->check_ctrl_c = 0;
 	e->hdoc_nb = 0;
 	e->quote = '\0';
 	e->multi_quote = '\0';
+	e->env_exec = 0;
+	NB_COL = 0;
+	NB_LINE = 0;
 	return (0);
 }

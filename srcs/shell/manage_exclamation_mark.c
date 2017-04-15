@@ -30,7 +30,7 @@ static int	manage_for_pos_number(t_env *e, int *curr_pos)
 		|| (e->history && i_hist > (int)ft_tablen(e->history))
 		|| i_hist > 2147483647)
 		return (error_em(ft_strsub(e->line, *curr_pos + 1, len), SH_NAME));
-	do_substitution(&e->line, curr_pos, e->history[i_hist], i + 2);
+	do_substitution(&e->line, curr_pos, e->history[i_hist], len);
 	return (1);
 }
 
@@ -55,7 +55,7 @@ static int	manage_for_neg_number(t_env *e, int *curr_pos)
 		return (error_em(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
 	if (i_hist > (int)ft_tablen(e->history) || !e->history[i_hist + 1])
 		return (error_em(ft_strsub(e->line, *curr_pos + 1, len - 1), SH_NAME));
-	do_substitution(&e->line, curr_pos, e->history[i_hist], i + 3);
+	do_substitution(&e->line, curr_pos, e->history[i_hist], len);
 	return (1);
 }
 
@@ -71,7 +71,7 @@ static int	manage_for_string(t_env *e, int *curr_pos)
 		&& (!i || (e->line[start + i] == '\'' && e->line[start + i] == '\"'))
 		&& !ft_is_escape_after(e->line, start + i))
 		i++;
-	cmp = ft_strsub(e->line, start, i);
+	cmp = ft_strsub(e->line, start, i + 1);
 	i = ft_tablen(e->history) - 1;
 	while (cmp && i && !ft_start_with(e->history[i], cmp))
 		--i;
@@ -91,7 +91,7 @@ int			manage_exclamation_mark(t_env *e, int *curr_pos)
 	nxt_c = e->line[*curr_pos + 1];
 	if (is_number(nxt_c))
 		return (manage_for_pos_number(e, curr_pos));
-	else if (nxt_c == '-')
+	else if (nxt_c == '-' && is_number(e->line[*curr_pos + 2]))
 		return (manage_for_neg_number(e, curr_pos));
 	else if (nxt_c == '!')
 		return (manage_double_excl_mark(e, curr_pos));

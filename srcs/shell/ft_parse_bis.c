@@ -35,7 +35,7 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 	reset_last_ret(e, WEXITSTATUS(status));
 	e->last_cmd_ret = WEXITSTATUS(status);
 	e->child_running = 0;
-	if (!WEXITSTATUS(status))
+	if (!WEXITSTATUS(status) || !WEXITSTATUS(status2))
 		return (1);
 	return (-1);
 }

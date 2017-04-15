@@ -22,7 +22,7 @@
 
 void	tcaps_history_first_step(t_env *e)
 {
-	if (tcaps_check_key(BUF, 27, 91, 65) && TCAPS.hist_move)
+	if (tcaps_check_key(BUF, 27, 91, 65) && HIST_MOVE)
 		tcaps_history_up(e);
 	else if (tcaps_check_key(BUF, 27, 91, 66))
 		tcaps_history_down(e);

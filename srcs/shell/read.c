@@ -86,7 +86,7 @@ int				reading(t_env *e)
 		e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
 	if (tcaps_check_key(BUF, 10, 0, 0))
 		tcaps_enter(e);
-	else
+	else if (!e->raw)
 		tcaps(e);
 	ft_bzero(&BUF, 3);
 	RED_INDEX = 0;
