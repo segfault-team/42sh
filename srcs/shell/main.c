@@ -59,6 +59,16 @@ void		tcaps_manage_printable_char(t_env *e)
 	++NB_READ;
 }
 
+static int	ft_check_fd_in()
+{
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_printfd(2, "Input fd is not a tty. Aborted.\n");
+		return (0);
+	}
+	return (1);
+}
+
 /*
 ** for now we handle ctrl-z, later on we will get rid of that
 */
@@ -68,7 +78,9 @@ int			main(int ac, char **av, char **env)
 	t_env	*e;
 	int		ret;
 
-	e = (t_env *)malloc(sizeof(t_env));
+	if ((e = (t_env *)malloc(sizeof(t_env))) == NULL ||
+			!ft_check_fd_in())
+		return (-1);
 	env_access(e);
 	(void)ac;
 	(void)av;
