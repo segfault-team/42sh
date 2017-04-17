@@ -30,13 +30,15 @@ static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 	while (i < len && cmd[i][++j])
 	{
 		opt_d = 0;
-		if (is_valid_opt(cmd[i][j]))
+		if (!j && !is_only_numbers(cmd[i]) && cmd[i][j] != '-')
+			return (ft_error("history", cmd[i], "numeric argument required"));
+		else if (is_valid_opt(cmd[i][j]))
 			add_opt(opt, cmd[i][j], &opt_d, i);
 		else if (cmd[i][j] == '-' && cmd[i][j + 1] && cmd[i][j + 1] == '-')
 			return (manage_suspend_opt(i, cmd, opt));
 		else if (cmd[i][j] != '-' && !is_number(cmd[i][j]))
 			return (hist_invalid_option(cmd[i][j]));
-		else if (!is_only_numbers(cmd[i]))
+		else if (j && !is_only_numbers(cmd[i]))
 			return (ft_error("history", cmd[i], "numeric argument required"));
 		if (opt_d && cmd[i + 2])
 			++i;
