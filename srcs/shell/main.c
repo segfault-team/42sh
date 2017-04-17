@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kboddez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:27:46 by kboddez           #+#    #+#             */
+/*   Updated: 2017/04/17 17:22:18 by kboddez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 /*
@@ -68,6 +80,8 @@ int			main(int ac, char **av, char **env)
 	t_env	*e;
 	int		ret;
 
+	if (!isatty(STDIN_FILENO))
+		return (ft_error("stdin", "invalid input fd. Aborted", NULL));
 	e = (t_env *)malloc(sizeof(t_env));
 	env_access(e);
 	(void)ac;
