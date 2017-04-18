@@ -47,7 +47,8 @@ int				ft_exec(char **cmd, t_env *e)
 
 	ret = 0;
 	exec = NULL;
-	paths = ft_find_paths(e->env);
+	if ((paths = ft_find_paths(e->env)) == NULL)
+		return (print_command_not_found(cmd[0], e));
 	exec = ft_find_exec(paths, cmd[0]);
 	if (!exec || access(exec, F_OK))
 	{
