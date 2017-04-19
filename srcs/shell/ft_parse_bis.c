@@ -62,9 +62,10 @@ int			ft_check_token(char *s)
 	i = -1;
 	while (s && ++i < (int)ft_strlen(s) && s[i])
 	{
+		quote = ft_check_quote_bs(s[i], quote, bs);
 		if (!bs && s[i] == '\\' && quote != '\'')
 			bs = 1;
-		else
+		else if (!quote)
 		{
 			if (!bs && s[i] == ';')
 				tok++;
