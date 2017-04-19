@@ -41,17 +41,26 @@ int			substitution(t_env *e, char **str)
 {
 	int		i;
 	int		len;
+	int		bs;
+	char	quote;
 
 	i = -1;
+	bs = 0;
+	quote = '\0';
 	len = (int)ft_strlen(*str);
 	if (!(*str))
 		return (0);
 	while (str && ++i < len && (*str)[i])
 	{
-		if (i < len && (*str)[i] == '$' && (*str)[i + 1])
-			do_env_subs(e, str, &i);
-		else
-			substitution_tilde(e, str, i);
+		quote = ft_check_quote_bs((*str)[i], quote, bs);
+		if (quote != '\'')
+		{
+			if (i < len && (*str)[i] == '$' && (*str)[i + 1])
+				do_env_subs(e, str, &i);
+			else
+				substitution_tilde(e, str, i);
+			len = (int)ft_strlen(*str);
+		}
 	}
 	return (0);
 }
