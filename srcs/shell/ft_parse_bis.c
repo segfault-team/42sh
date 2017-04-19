@@ -4,7 +4,6 @@ static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 {
 	if (i)
 	{
-		ft_printf("in\n");
 		if (i > 1)
 			e->last_cmd_ret = WEXITSTATUS(status);
 		else

@@ -15,9 +15,8 @@ static int	set_cwd(t_env *e, char **cwd, char *dir)
 		tmp[1] = ft_create_path(tmp, 0);
 		*cwd = ft_strdup(tmp[1]);
 		ft_array_strdel(tmp);
-		return (1);
 	}
-	return (-1);
+	return (1);
 }
 
 int			ft_chdir(char *dir, t_env *e, int option)

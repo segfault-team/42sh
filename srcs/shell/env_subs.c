@@ -35,5 +35,5 @@ int			do_env_subs(t_env *e, char **target, int *curr_pos)
 	do_substitution(target, curr_pos, substi, (int)ft_strlen(var));
 	strfree(&var);
 	strfree(&substi);
-	return (0);
+	return (ft_strlen(substi));
 }

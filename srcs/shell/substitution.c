@@ -11,9 +11,10 @@ static void	substitution_cond(char **str, int *i, char *tmp)
 	}
 }
 
-static void	substitution_tilde(t_env *e, char **str, int i)
+static int	substitution_tilde(t_env *e, char **str, int i)
 {
-	char			*tmp;
+	char	*tmp;
+	int		ret;
 
 	tmp = NULL;
 	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
@@ -34,7 +35,9 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 			tmp = ft_strdup(e->home);
 		do_substitution(str, &i, tmp, 0);
 	}
+	ret = ft_strlen(tmp);
 	ft_strdel(&tmp);
+	return (ret);
 }
 
 int			substitution(t_env *e, char **str)
@@ -56,9 +59,12 @@ int			substitution(t_env *e, char **str)
 		if (quote != '\'')
 		{
 			if (i < len && (*str)[i] == '$' && (*str)[i + 1])
-				do_env_subs(e, str, &i);
+			{
+				printf("IN\n");
+				i += do_env_subs(e, str, &i);
+			}
 			else
-				substitution_tilde(e, str, i);
+				i += substitution_tilde(e, str, i);
 			len = (int)ft_strlen(*str);
 		}
 	}

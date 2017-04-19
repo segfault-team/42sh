@@ -98,8 +98,8 @@ static int		ft_skip(char const *s, char c)
 	i = 0;
 	bs = 0;
 	quote = '\0';
-	while (s[i] == c)
-		++i;
+	/*while (s[i] == c)
+		++i;*/
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')
@@ -132,7 +132,7 @@ char			**ft_split_cmds(char const *s, char c)
 		while (++i < nw)
 		{
 			if ((tab[i] = ft_strcpy_chr(s, c, '\0', 0)) == NULL)
-				return (tab);
+				i--;
 			s += ft_skip(s, c);
 		}
 	}

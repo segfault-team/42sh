@@ -73,11 +73,11 @@ void		tcaps_manage_printable_char(t_env *e)
 
 static int	ft_check_fd_in()
 {
-	if (!isatty(STDIN_FILENO))
+	/*if (!isatty(STDIN_FILENO))
 	{
 		ft_printfd(2, "Input fd is not a tty. Abort.\n");
-		return (1);
-	}
+		return (0);
+	}*/
 	return (1);
 }
 
