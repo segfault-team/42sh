@@ -1,5 +1,22 @@
 #include "shell.h"
 
+static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
+{
+	if (i)
+	{
+		ft_printf("in\n");
+		if (i > 1)
+			e->last_cmd_ret = WEXITSTATUS(status);
+		else
+			e->last_cmd_ret = WEXITSTATUS(status2);
+		reset_last_ret(e, e->last_cmd_ret);
+	}
+	e->child_running = 0;
+	if (!WEXITSTATUS(status) || !WEXITSTATUS(status2))
+		return (1);
+	return (-1);
+}
+
 static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 {
 	int			i;
@@ -20,12 +37,7 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 		free(ptr);
 		++i;
 	}
-	reset_last_ret(e, WEXITSTATUS(status));
-	e->last_cmd_ret = WEXITSTATUS(status);
-	e->child_running = 0;
-	if (!WEXITSTATUS(status) || !WEXITSTATUS(status2))
-		return (1);
-	return (-1);
+	return (ft_last_cmd_ret(e, status, status2, i));
 }
 
 int			ft_waitsons(t_env *e)
@@ -69,6 +81,7 @@ int			ft_check_token(char *s)
 		{
 			if (!bs && s[i] == ';')
 				tok++;
+			// attention au tabs
 			else if (s[i] != ' ')
 				tok = 0;
 			if (tok > 1)

@@ -40,6 +40,10 @@ int			ft_freelogic(t_logic *x)
 	return (-1);
 }
 
+/*
+ *
+ * UNUSED
+ *
 int			ft_waitlogix(t_env *e)
 {
 	int		status;
@@ -61,3 +65,4 @@ int			ft_waitlogix(t_env *e)
 		return (1);
 	return (-1);
 }
+*/
