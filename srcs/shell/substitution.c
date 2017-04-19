@@ -55,17 +55,19 @@ int			substitution(t_env *e, char **str)
 		return (0);
 	while (str && ++i < len && (*str)[i])
 	{
-		quote = ft_check_quote_bs((*str)[i], quote, bs);
-		if (quote != '\'')
+		if (!bs && (*str)[i] == '\\' && quote != '\'')
+			bs = 1;
+		else
 		{
-			if (i < len && (*str)[i] == '$' && (*str)[i + 1])
+			quote = ft_check_quote_bs((*str)[i], quote, bs);
+			if (quote != '\'')
 			{
-				printf("IN\n");
-				i += do_env_subs(e, str, &i);
+				if (i < len && (*str)[i] == '$' && (*str)[i + 1])
+					do_env_subs(e, str, &i);
+				else
+					substitution_tilde(e, str, i);
+				len = (int)ft_strlen(*str);
 			}
-			else
-				i += substitution_tilde(e, str, i);
-			len = (int)ft_strlen(*str);
 		}
 	}
 	return (0);
