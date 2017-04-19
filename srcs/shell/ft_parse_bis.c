@@ -51,7 +51,7 @@ int			ft_waitsons(t_env *e)
 	ptr = e->jobs;
 	while (!now_kill && ptr)
 	{
-		now_kill = waitpid(ptr->pid, &status, WNOHANG);
+		now_kill = waitpid(ptr->pid, &status, WUNTRACED);
 		if (!ptr->next)
 			ptr = e->jobs;
 		else
