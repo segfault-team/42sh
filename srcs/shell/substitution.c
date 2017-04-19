@@ -33,8 +33,8 @@ static void	substitution_tilde(t_env *e, char **str, int i)
 		if (!tmp)
 			tmp = ft_strdup(e->home);
 		do_substitution(str, &i, tmp, 0);
-		ft_strdel(&tmp);
 	}
+	ft_strdel(&tmp);
 }
 
 int			substitution(t_env *e, char **str)

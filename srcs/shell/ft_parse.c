@@ -22,7 +22,7 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	return (ret);
 }
 
-static void		exec_end(t_env *e)
+static int		exec_end(t_env *e, int ret)
 {
 	e->is_valid_pipe = 1;
 	ft_waitsons(e);
@@ -37,6 +37,21 @@ static void		exec_end(t_env *e)
 	e->cmd = NULL;
 	e->check_input = 0;
 	e->hdoc_index = -1;
+	return (ret);
+}
+
+static int		truc(t_env *e, char *cmds_i)
+{
+	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
+		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
+	{
+		if (e->cmd)
+			ft_tabfree(e->cmd);
+		if (e->magic)
+			magic_free(e);
+		return (-1);
+	}
+	return (0);
 }
 
 int				ft_iter_cmds(t_env *e, char *cmds_i)
@@ -47,14 +62,13 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-	if (!(e->cmd = ft_strsplit_wo_quote_bs(cmds_i, ' ')) ||
-		!(e->magic = struct_strsplit_quote_bs(cmds_i, ' ')))
+	if (truc(e, cmds_i))
 		return (ft_error(NULL, "parsing error.", NULL));
 	e->len_mag = struct_len(&e->magic);
 	if (magic_type(e) == -1)
-		return (-42);
+		return (exec_end(e, -42));
 	if ((e->cat = ft_cmds_split(e)) == NULL)
-		return (-1);
+		return (exec_end(e, -1));
 	ft_create_file(e);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
@@ -63,8 +77,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		e->is_out_close = 0;
 		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;
 	}
-	exec_end(e);
-	return (ret);
+	return (exec_end(e, ret));
 }
 
 int				ft_parse_line(t_env *e)
@@ -85,7 +98,10 @@ int				ft_parse_line(t_env *e)
 			else
 				ret = ft_iter_cmds(e, cmds[i]);
 			if (ret == -42)
+			{
+				ft_free_tab(cmds);
 				return (ret);
+			}
 			tcaps_set(e);
 		}
 	}
