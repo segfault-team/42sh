@@ -11,6 +11,13 @@ void	output_aggre(t_env *e, int fd_src, int fd_dst, int is_file)
 			else
 				dup2(STDOUT_FILENO, FD.fd[1]);
 		}
+		else if (!is_last_cmd(e, RED_INDEX) && is_file)
+		{
+			if (fd_src != 1)
+				dup2(fd_dst, fd_src);
+			else
+				dup2(fd_dst, FD.fd[1]);
+		}
 		else
 			dup2(fd_dst, fd_src);
 	}
