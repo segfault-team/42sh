@@ -51,12 +51,14 @@ int		append_history_file_in_list(t_env *e)
 	if ((new = malloc(sizeof(e->history) * len)) == NULL)
 		return (ft_error(NULL, "Malloc failed.", NULL));
 	while (e->history[++i])
-		new[i] = e->history[i];
+		new[i] = ft_strdup(e->history[i]);
 	new[i] = NULL;
 	while (++nb_lines < 4096 && get_next_line(history_fd, &new[i]) > 0)
 		++i;
 	new[++i] = NULL;
 	ft_close(history_fd);
+	if (e->history)
+		ft_free_tab(e->history);
 	e->history = new;
 	return (1);
 }
