@@ -17,8 +17,14 @@ static int	start_by_nb(char *s, int i, int c)
 	return (0);
 }
 
-void		check_parsing_double(t_env *e, int *i, char c)
+int			check_parsing_double(t_env *e, int *i, char c)
 {
+	if (e->line[*i + 2] && e->line[*i + 1]
+		&& e->line[*i + 1] == '>' && e->line[*i + 2] == '&')
+	{
+		ft_putchar('\n');
+		return (ft_error(NULL, "Ambiguous redirection", NULL));
+	}
 	if (*i && e->line[*i - 1] && is_number(e->line[*i - 1])
 		&& is_only_numbers_before(e->line, *i)
 		&& e->line[*i + 1] && e->line[*i + 1] != '&')
@@ -27,7 +33,7 @@ void		check_parsing_double(t_env *e, int *i, char c)
 			e->line[++*i] = '&';
 		else if (e->line[*i + 1] != e->line[*i])
 			insert_char(e, '&', ++(*i));
-		return ;
+		return (0);
 	}
 	else if (*i && e->line[*i - 1] != ' '
 		&& e->line[*i - 1] != '\\' && e->line[*i - 1] != c)
@@ -39,6 +45,7 @@ void		check_parsing_double(t_env *e, int *i, char c)
 		e->line[*i + 1] != c && e->line[*i + 1] != ' '
 		&& !start_by_nb(e->line, *i, e->line[*i]))
 		insert_char(e, ' ', ++(*i));
+	return (0);
 }
 
 void		check_parsing_simple(t_env *e, int *i, char c)

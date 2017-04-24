@@ -581,7 +581,7 @@ char					*escape_specials(char *str, int i, int len);
 */
 int						parse_command(t_env *e);
 void					check_parsing_simple(t_env *e, int *i, char c);
-void					check_parsing_double(t_env *e, int *i, char c);
+int						check_parsing_double(t_env *e, int *i, char c);
 void					check_parsing_ampersand(t_env *e, int *i);
 void					insert_char(t_env *e, char c, int pos);
 void					insert_char_in_line(char **str, char c, int pos);

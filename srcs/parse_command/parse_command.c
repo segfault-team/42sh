@@ -10,7 +10,7 @@ static int	manage_chev(t_env *e, int *i)
 	else if (*i + 1 < (int)ft_strlen(e->line))
 	{
 		if (e->line[*i + 1] && e->line[*i + 1] != '&')
-			check_parsing_double(e, i, e->line[*i]);
+			return (check_parsing_double(e, i, e->line[*i]));
 		while (e->line[*i + 1] && e->line[*i + 2]
 				&& (e->line[*i + 2] == ' ' || e->line[*i + 2] == '\t')
 				&& e->line[*i + 2])
