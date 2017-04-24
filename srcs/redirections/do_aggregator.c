@@ -1,17 +1,15 @@
 #include "shell.h"
 
-void	output_aggre(t_env *e, int fd_src, int fd_dst)
+void	output_aggre(t_env *e, int fd_src, int fd_dst, int is_file)
 {
 	if (fd_src != fd_dst)
 	{
-		if (!is_last_cmd(e, RED_INDEX))
+		if (!is_last_cmd(e, RED_INDEX) && !is_file)
 		{
 			if (fd_src != 1)
 				dup2(FD.fd[1], fd_src);
 			else
-			{
 				dup2(STDOUT_FILENO, FD.fd[1]);
-			}
 		}
 		else
 			dup2(fd_dst, fd_src);

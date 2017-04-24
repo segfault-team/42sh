@@ -27,6 +27,18 @@ static int	create_aggre_file(t_env *e, int i)
 	return (ret);
 }
 
+static char	*isolate_file(t_env *e, int i)
+{
+	int	pos;
+
+	pos = (int)ft_strlen(e->magic[i].cmd) - 1;
+	while (--pos && e->magic[i].cmd[pos] != '>')
+		;
+	if (pos)
+		return (&e->magic[i].cmd[pos + 1]);
+	return (NULL);
+}
+
 int			space_after_aggre(char *s)
 {
 	int	i;
@@ -46,10 +58,12 @@ void		ft_create_file(t_env *e)
 	fd = -1;
 	while (e->magic[++i].type)
 	{
-		if (!ft_strcmp(e->magic[i].type, "output"))
+		if (!ft_strcmp(e->magic[i].type, "output") || is_special_aggre(e, i))
 		{
 			if (i && !ft_strcmp(e->magic[i - 1].cmd, ">"))
 				fd = open(e->magic[i].cmd, O_CREAT | O_TRUNC, OFLAGS);
+			else if (is_special_aggre(e, i))
+				fd = open(isolate_file(e, i), O_CREAT, OFLAGS);
 			else
 				fd = open(e->magic[i].cmd, O_CREAT, OFLAGS);
 			ft_close(fd);

@@ -35,7 +35,7 @@ static int	is_valid_dst(int fd)
 }
 
 static int	redir_to_aggregator_bis(t_env *e, int ag_type,
-		int fd_src, int fd_dst)
+					int fd_src, int fd_dst, int is_file)
 {
 	if (ag_type == ERROR)
 		return (-1);
@@ -44,7 +44,7 @@ static int	redir_to_aggregator_bis(t_env *e, int ag_type,
 	else if (ag_type == INPUT_AGGRE)
 		dup2(fd_src, fd_dst);
 	else
-		output_aggre(e, fd_src, fd_dst);
+		output_aggre(e, fd_src, fd_dst, is_file);
 	return (1);
 }
 
@@ -66,7 +66,7 @@ int			redir_to_aggregator(t_env *e)
 	ag_type = find_aggregator_type(e);
 	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
 		return (aggregator_error(42, SH_NAME));
-	if (redir_to_aggregator_bis(e, ag_type, fd_src, fd_dst) < 0)
+	if (redir_to_aggregator_bis(e, ag_type, fd_src, fd_dst, is_file) < 0)
 		return (-1);
 	if (is_file)
 		close(fd_dst);

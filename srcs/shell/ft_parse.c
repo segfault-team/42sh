@@ -70,7 +70,13 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (exec_end(e, -1));
 	ft_create_file(e);
-	while (++i < ft_catlen(e->cat) && e->cat[i])
+/*	for (int j = 0 ; e->magic[j].cmd ; ++j)
+		dprintf(2, "[%d]: %s | %s\n", j, e->magic[j].cmd, e->magic[j].type);
+	dprintf(2, "\n++++++++++++++++++++++++++++++\n\n");
+	for (int k = 0 ; e->cat[k] ; ++k)
+		for (int l = 0 ; e->cat[k][l] ; ++l)
+			dprintf(2, "cat[%d][%d]: %s\n", k, l, e->cat[k][l]);
+*/	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, i, ret);

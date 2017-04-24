@@ -20,7 +20,8 @@ int				redirection_before_cmd(t_env *e)
 	int		ret;
 
 	ret = 0;
-	if (is_aggregator(e, RED_INDEX) && !is_output_after(e, RED_INDEX))
+	if ((is_aggregator(e, RED_INDEX) || is_special_aggre(e, RED_INDEX))
+		&& !is_output_after(e, RED_INDEX))
 		ret = redir_to_aggregator(e);
 	else if (is_redir_pipe(e, RED_INDEX) && e->is_valid_pipe)
 	{

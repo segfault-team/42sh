@@ -17,7 +17,7 @@ SRC_RED_NAME 		= redir_iteration.c redir_output.c redir_file.c ft_create_file.c 
 					redirection_input.c redir_from_hdoc.c \
 					check_redirections_part1.c check_redirections_part2.c \
 					check_redirections_part3.c check_redirections_part4.c \
-					do_aggregator.c
+					do_aggregator.c is_special_aggre.c
 SRC_RED 			= $(addprefix redirections/,$(SRC_RED_NAME))
 
 ## TOOLS FOLDER ##
@@ -92,7 +92,7 @@ INC					= $(addprefix -I ,$(INC_PATH))
 
 ## COMPILER ##
 CC					= @gcc
-CFLAGS				= -g -Wall -Wextra -Werror
+CFLAGS				= -g #-Wall -Wextra -Werror
 
 ## COLORS ##
 RED					= \033[31;44m

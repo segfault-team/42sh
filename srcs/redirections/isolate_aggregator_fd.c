@@ -36,12 +36,20 @@ static int	isolate_file(t_env *e, int i)
 	k = -1;
 	if (space_after_aggre(e->magic[i].cmd))
 		return (open(e->magic[i + 1].cmd, O_CREAT | O_TRUNC, OFLAGS));
-	while (j && (e->magic[i].cmd[j] != '&' || e->magic[i].cmd[j - 1] != '>'))
+	while (j && e->magic[i].cmd[j] &&
+		   (e->magic[i].cmd[j] != '&' || e->magic[i].cmd[j - 1] != '>'))
+	{
 		++j;
+		if (e->magic[i].cmd[j] == '>' && e->magic[i].cmd[j - 1] == '>')
+			break ;
+	}
 	file = ft_strnew((int)ft_strlen(e->magic[i].cmd) - j);
 	while (e->magic[i].cmd[++j])
 		file[++k] = e->magic[i].cmd[j];
-	ret = open_file(file, ONE_RED_FLAGS, OFLAGS);
+	if (!is_special_aggre(e, RED_INDEX))
+		ret = open_file(file, ONE_RED_FLAGS, OFLAGS);
+	else
+		ret = open_file(file, TWO_RED_FLAGS, OFLAGS);
 	strfree(&file);
 	return (ret);
 }
@@ -76,7 +84,8 @@ int			isolate_fd_destination(t_env *e, int *is_file)
 	if (e->magic[RED_INDEX].cmd[start] == '-' ||
 		(is_magic(e, RED_INDEX + 1) && e->magic[RED_INDEX + 1].cmd[0] == '-'))
 		return (MINUS);
-	if (is_number(e->magic[RED_INDEX].cmd[start]))
+	if (is_number(e->magic[RED_INDEX].cmd[start])
+		&& !is_special_aggre(e, RED_INDEX))
 	{
 		while (is_number(e->magic[RED_INDEX].cmd[start - 1]))
 			--start;
