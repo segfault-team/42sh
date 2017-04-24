@@ -1,4 +1,4 @@
-NAME				= 21sh
+NAME				= 42sh
 
 ## ROOT FOLDER ##
 SRC_SHELL_NAME		= main.c ft_init.c ft_parse.c ft_exec.c ft_signal.c \
