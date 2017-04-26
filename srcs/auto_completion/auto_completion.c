@@ -95,7 +95,7 @@ int			auto_completion(t_env *e)
 {
 	char	*arg_comp;
 
-	if (!e->line)
+	if (!e->line || !NB_MOVE)
 		return (0);
 	if (e->selected >= -1 && e->files)
 	{
