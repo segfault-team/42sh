@@ -88,7 +88,7 @@ int		detect_tabs(char *str)
 
 	i = -1;
 	count = 0;
-	while (str[++i])
+	while (str && str[++i])
 		if (str[i] == '\t')
 			++count;
 	return (count);
