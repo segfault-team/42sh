@@ -38,10 +38,10 @@ static int		do_exclamation_subs(t_env *e)
 int				tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
-	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
-		return (exit_in_read(e));
 	if (!ft_multiline(e))
 		return (0);
+	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
+		return (exit_in_read(e));
 	else if (!e->hdoc_words && !ft_heredoc(e))
 		return (0);
 	if (e->hdoc_nb && store_heredoc(e))
