@@ -1,6 +1,6 @@
 #include "shell.h"
 
-static int	set_cwd(t_env *e, char **cwd, char *dir)
+static int	set_cwd(t_env *e, char **cwd, char *dir, int retval)
 {
 	char	*tmp[4];
 
@@ -15,8 +15,9 @@ static int	set_cwd(t_env *e, char **cwd, char *dir)
 		tmp[1] = ft_create_path(tmp, 0);
 		*cwd = ft_strdup(tmp[1]);
 		ft_array_strdel(tmp);
+		retval = 1;
 	}
-	return (1);
+	return (retval);
 }
 
 int			ft_chdir(char *dir, t_env *e, int option)
@@ -29,7 +30,7 @@ int			ft_chdir(char *dir, t_env *e, int option)
 	cwd = NULL;
 	retval = ft_pre_chdir((char **)tmp, dir, e);
 	if (option == 1 || retval == -1)
-		retval = set_cwd(e, &cwd, dir);
+		retval = set_cwd(e, &cwd, dir, retval);
 	else
 		cwd = ft_strdup(tmp[1]);
 	ft_fill_array((void **)args, ft_strdup("PWD"), cwd, NULL);
