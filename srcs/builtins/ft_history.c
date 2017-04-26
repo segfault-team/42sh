@@ -43,7 +43,11 @@ int			ft_read_history(t_env *e)
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
 		return (ft_error(NULL, "Malloc failed.", NULL));
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
+	{
+		if (!(e->history[i] = convert_tabs(e->history[i])))
+			break ;
 		++i;
+	}
 	e->history[i] = NULL;
 	return (1);
 }

@@ -456,7 +456,9 @@ char					*ft_realloc_line(t_env *e, char c);
 char					*ft_realloc_insert_char(t_env *e, char c);
 char					*ft_realloc_delete_char(t_env *e, int pos);
 char					*ft_delete_char(char *str, int pos);
+char					*convert_tabs(char *str);
 void					ft_realloc_insert_str(t_env *e, char *str);
+int						detect_tabs(char *str);
 
 /*
 **		Free
