@@ -7,11 +7,11 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 	int		i;
 	int		j;
 
-	if (e->line)
-		len = (int)ft_strlen(e->line);
-	else
+	new = NULL;
+	if (!e->line)
 		return (NULL);
-	if (!(new = ft_strnew(len)))
+	len = (int)ft_strlen(e->line);
+	if ((!pos && len == 1) || !(new = ft_strnew(len)))
 	{
 		strfree(&e->line);
 		return (NULL);
