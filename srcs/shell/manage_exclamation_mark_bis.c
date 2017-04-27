@@ -14,7 +14,7 @@ int		manage_double_excl_mark(t_env *e, int *curr_pos)
 	if (!e->history)
 		return (error_em("!", SH_NAME));
 	i_hist = ft_tablen(e->history) - 1;
-	do_substitution(&e->line, curr_pos, e->history[i_hist], 1);
+	do_substitution_no_esc(&e->line, curr_pos, e->history[i_hist], 1);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 17:31:41 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/07 09:03:07 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/27 14:06:08 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,6 @@ void		ft_sig_handler(int sig)
 		tcsetattr(STDIN_FILENO, TCSANOW, e->new_term);
 		signal(SIGTSTP, ft_sig_handler);
 	}
+	else if (sig == SIGWINCH)
+		tcaps_recalc_pos(e);
 }

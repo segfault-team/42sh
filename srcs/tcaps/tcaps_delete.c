@@ -32,18 +32,13 @@ void		tcaps_del_fwd(t_env *e)
 		buf[0] = 126;
 	if (tcaps_check_key(buf, 126, 0, 0) && NB_READ && NB_MOVE != NB_READ)
 	{
-		xputs(TGETSTR_DM);
-		xputs(TGETSTR_DC);
-		xputs(TGETSTR_ED);
 		if (!(NB_READ - 1))
 			strfree(&e->line);
 		e->line = ft_realloc_delete_char(e, NB_MOVE);
 		if (!NB_READ && e->line)
 			strfree(&e->line);
 		--NB_READ;
-		xputs(TGETSTR_VI);
 		tcaps_putstr(e, e->line);
-		xputs(TGETSTR_VE);
 	}
 }
 
@@ -54,9 +49,7 @@ static void	tcaps_del_bkw_end(t_env *e)
 	if (NB_MOVE)
 		--NB_MOVE;
 	tcaps_recalc_pos(e);
-	if (TCAPS.nb_col == WIN_WIDTH - 1)
-		xputs(TGETSTR_CD);
-	xputs(TGETSTR_DC);
+	xputs(TGETSTR_CD);
 	--NB_READ;
 	xputs(TGETSTR_ED);
 }

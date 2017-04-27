@@ -6,7 +6,7 @@
 /*   By: kboddez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 12:27:46 by kboddez           #+#    #+#             */
-/*   Updated: 2017/04/17 17:25:59 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/27 13:50:05 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void		tcaps_manage_printable_char(t_env *e)
 
 static int	ft_check_fd_in()
 {
-	/*if (!isatty(STDIN_FILENO))
+	if (!isatty(STDIN_FILENO))
 	{
-		ft_printfd(2, "Input fd is not a tty. Abort.\n");
+		ft_printfd(2, "Invalid input. Abort.\n");
 		return (0);
-	}*/
+	}
 	return (1);
 }
 

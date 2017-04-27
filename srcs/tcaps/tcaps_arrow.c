@@ -27,12 +27,12 @@ void	tcaps_history_first_step(t_env *e)
 
 void	tcaps_left(t_env *e)
 {
-	if (TCAPS.nb_col > (int)ft_strlen(e->prompt) || TCAPS.nb_line > 1)
+	if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
+		TCAPS.nb_col = WIN_WIDTH;
+	if (NB_MOVE)
 	{
-		if (TCAPS.nb_col == 0 && TCAPS.nb_line > 1)
-			TCAPS.nb_col = WIN_WIDTH;
 		xputs(TGETSTR_LE);
 		--NB_MOVE;
-		tcaps_recalc_pos(e);
 	}
+	tcaps_recalc_pos(e);
 }

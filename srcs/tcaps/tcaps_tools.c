@@ -13,14 +13,15 @@ void	xputs(char *tcaps)
 
 void	move_right(t_env *e)
 {
-	if (TCAPS.nb_col == (WIN_WIDTH - 1))
+	tcaps_recalc_pos(e);
+	if (!NB_COL && NB_READ)
 	{
 		xputs(TGETSTR_DW);
 		xputs(TGETSTR_CR);
 	}
 	else
 		xputs(TGETSTR_ND);
-	++TCAPS.nb_move;
+	++NB_MOVE;
 	tcaps_recalc_pos(e);
 }
 
