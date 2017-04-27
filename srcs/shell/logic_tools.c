@@ -12,10 +12,6 @@ t_logic		*ft_new_logic(void)
 	return (x);
 }
 
-/*
-**	Check for logical operators
-*/
-
 int			ft_check_op(char *s)
 {
 	if (ft_strequ(s, "&&"))
@@ -39,30 +35,3 @@ int			ft_freelogic(t_logic *x)
 	}
 	return (-1);
 }
-
-/*
- *
- * UNUSED
- *
-int			ft_waitlogix(t_env *e)
-{
-	int		status;
-	t_job	*tmp;
-
-	if (!e->jobs)
-	{
-		reset_last_ret(e, 127);
-		return (-1);
-	}
-	waitpid(e->jobs->pid, &status, WNOHANG);
-	ft_handle_ret_signal(status);
-	tmp = e->jobs;
-	e->jobs = e->jobs->next;
-	free(tmp);
-	reset_last_ret(e, WEXITSTATUS(status));
-	e->last_cmd_ret = status;
-	if (!status)
-		return (1);
-	return (-1);
-}
-*/

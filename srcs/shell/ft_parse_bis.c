@@ -60,14 +60,12 @@ int			ft_waitsons(t_env *e)
 	return (ft_waitsons_bbis(e, ptr, status));
 }
 
-int			ft_check_token(char *s)
+static int	ft_check_token(char *s, char quote)
 {
-	char	quote;
 	int		tok;
 	int		bs;
 	int		i;
 
-	quote = '\0';
 	tok = 0;
 	bs = 0;
 	i = -1;
@@ -80,7 +78,6 @@ int			ft_check_token(char *s)
 		{
 			if (!bs && s[i] == ';')
 				tok++;
-			// attention au tabs
 			else if (s[i] != ' ')
 				tok = 0;
 			if (tok > 1)
@@ -99,7 +96,7 @@ char		**ft_trim_split_cmd(t_env *e)
 {
 	char	**cmds;
 
-	if (!ft_check_token(e->line))
+	if (!ft_check_token(e->line, '\0'))
 	{
 		ft_printfd(2, "%s: syntax error near unexpected token \";;\"\n",
 				SH_NAME);

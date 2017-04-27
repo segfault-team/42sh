@@ -26,11 +26,6 @@ char	*ft_realloc_delete_char(t_env *e, int pos)
 	return (new);
 }
 
-/*
- **	Appends new character at the end of line
- **	(realloc it)
- */
-
 char	*ft_realloc_line(t_env *e, char c)
 {
 	char	*new;
@@ -81,15 +76,17 @@ char	*ft_delete_char(char *str, int pos)
 	return (new);
 }
 
-int		detect_tabs(char *str)
+int		detect_tabs(char *str, int *i, int *j)
 {
-	int		i;
+	int		k;
 	int		count;
 
-	i = -1;
+	k = -1;
 	count = 0;
-	while (str && str[++i])
-		if (str[i] == '\t')
+	*i = -1;
+	*j = 0;
+	while (str && str[++k])
+		if (str[k] == '\t')
 			++count;
 	return (count);
 }
@@ -101,10 +98,8 @@ char	*convert_tabs(char *str)
 	int		count;
 	char	*ret;
 
-	if (!(count = detect_tabs(str)))
+	if (!(count = detect_tabs(str, &i, &j)))
 		return (str);
-	i = -1;
-	j = 0;
 	if (!(ret = ft_strnew((int)ft_strlen(str) + (4 * count) - count)))
 		return (NULL);
 	while (str[++i])

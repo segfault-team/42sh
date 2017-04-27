@@ -6,7 +6,7 @@
 /*   By: kboddez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 12:27:46 by kboddez           #+#    #+#             */
-/*   Updated: 2017/04/27 13:50:05 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/27 15:53:37 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		tcaps_manage_printable_char(t_env *e)
 	++NB_READ;
 }
 
-static int	ft_check_fd_in()
+static int	ft_check_fd_in(void)
 {
 	if (!isatty(STDIN_FILENO))
 	{

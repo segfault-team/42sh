@@ -98,8 +98,6 @@ static int		ft_skip(char const *s, char c)
 	i = 0;
 	bs = 0;
 	quote = '\0';
-	/*while (s[i] == c)
-		++i;*/
 	while (s[i] && (s[i] != c || quote || (bs && s[i] == c)))
 	{
 		if (!bs && s[i] == '\\' && quote != '\'')

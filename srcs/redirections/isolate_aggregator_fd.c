@@ -36,8 +36,8 @@ static int	isolate_file(t_env *e, int i)
 	k = -1;
 	if (space_after_aggre(e->magic[i].cmd))
 		return (open(e->magic[i + 1].cmd, O_CREAT | O_TRUNC, OFLAGS));
-	while (j && e->magic[i].cmd[j] &&
-		   (e->magic[i].cmd[j] != '&' || e->magic[i].cmd[j - 1] != '>'))
+	while (j && e->magic[i].cmd[j]
+			&& (e->magic[i].cmd[j] != '&' || e->magic[i].cmd[j - 1] != '>'))
 	{
 		++j;
 		if (e->magic[i].cmd[j] == '>' && e->magic[i].cmd[j - 1] == '>')

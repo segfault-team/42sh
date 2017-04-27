@@ -32,7 +32,7 @@ static void	manage_dst_fd(t_env *e, int *i)
 	k = *i;
 	while (e->line[++k] && e->line[k] == ' ')
 		;
-	if (e->line[k + 1]  && is_number(e->line[k + 1]))
+	if (e->line[k + 1] && is_number(e->line[k + 1]))
 		delete_char(e, *i + 1);
 }
 
@@ -53,6 +53,6 @@ void		check_parsing_ampersand(t_env *e, int *i)
 		&& e->line[*i - 1] == '&' && e->line[*i - 2] == '&')
 		insert_char(e, ' ', (*i)++);
 	else if (*i && *i + 1 < (int)ft_strlen(e->line) && e->line[*i + 1]
-			 && e->line[*i - 1] == '&' && e->line[*i + 1] != ' ')
+			&& e->line[*i - 1] == '&' && e->line[*i + 1] != ' ')
 		insert_char(e, ' ', ++(*i));
 }

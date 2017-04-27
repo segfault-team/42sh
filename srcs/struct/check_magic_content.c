@@ -8,7 +8,7 @@ static int	manage_check_red(t_env *e, int i)
 			is_heredoc(e, i + 1)))
 		return (token_error(e, i + 1));
 	else if (!e->magic[i + 1].type && !is_aggregator(e, i)
-			 && !is_special_aggre(e, i))
+			&& !is_special_aggre(e, i))
 		return (token_error(e, i));
 	return (0);
 }
@@ -55,10 +55,10 @@ int			check_magic_content(t_env *e, int i)
 						"device can't be used as stdin", NULL));
 	}
 	if (!e->magic[i + 1].cmd && is_redirection(e, i)
-		&& !is_redir_pipe(e, i) && !is_aggregator(e, i + 1) && \
-		!is_aggregator(e, i) && !is_special_aggre(e, i))
+		&& !is_redir_pipe(e, i) && !is_aggregator(e, i + 1)
+		&& !is_aggregator(e, i) && !is_special_aggre(e, i))
 	{
-		return (ft_error("syntax error near unexpected token",	\
+		return (ft_error("syntax error near unexpected token",
 					"'newline'", NULL));
 	}
 	if (!i && is_operator(e, i))
