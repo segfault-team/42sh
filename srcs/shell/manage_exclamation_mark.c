@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 18:43:12 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/28 18:51:58 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int			manage_exclamation_mark(t_env *e, int *curr_pos)
 	if (!e->line[*curr_pos + 1])
 	{
 		ft_putchar('\n');
-		return (ft_error("syntax error near unexpected token", "'newline'", NULL));
+		return (ft_error("syntax error near unexpected token",
+					"'newline'", NULL));
 	}
 	nxt_c = e->line[*curr_pos + 1];
 	if (is_number(nxt_c))
