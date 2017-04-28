@@ -6,11 +6,24 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 18:50:48 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/28 20:12:08 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+int		ft_exec_bis(char **cmd, t_env *e, char *exec, int ret)
+{
+	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
+		ret = ft_fork_exec(exec, cmd, e);
+	else
+	{
+		ret = ft_error(exec, "Permission denied", NULL);
+		e->last_cmd_ret = 126;
+	}
+	strfree(&exec);
+	return (ret);
+}
 
 int		print_command_not_found(char *cmd, t_env *e)
 {
@@ -77,7 +90,7 @@ char	*ft_find_exec(char **paths, char *cmd)
 		return (NULL);
 	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
 		return (ft_isexec(cmd) ? ft_strdup(cmd) : NULL);
-	while (paths[++i])
+	while (paths && paths[++i])
 		if ((exec = ft_find_exec_readdir(paths[i], cmd)) != NULL)
 		{
 			tmp = ft_strjoin(paths[i], "/");
@@ -104,10 +117,4 @@ char	**ft_find_paths(char **env)
 		strfree(&value);
 	}
 	return (paths);
-}
-
-void	ft_close(int fd)
-{
-	if (fd != 1 && fd != 0)
-		close(fd);
 }

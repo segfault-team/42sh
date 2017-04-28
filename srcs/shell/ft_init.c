@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 17:45:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 19:54:13 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void		ft_init_bis(t_env *e)
 	e->quote = '\0';
 	MULTI = NULL;
 	e->is_out_close = 0;
-	e->is_valid_pipe = 1;
 	e->env_exec = 0;
 	ft_init_ter(e);
 }

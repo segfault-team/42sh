@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:01 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/04/28 18:44:01 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/28 19:54:00 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int				redirection_before_cmd(t_env *e)
 	if ((is_aggregator(e, RED_INDEX) || is_special_aggre(e, RED_INDEX))
 		&& !is_output_after(e, RED_INDEX))
 		ret = redir_to_aggregator(e);
-	else if (is_redir_pipe(e, RED_INDEX) && e->is_valid_pipe)
+	else if (is_redir_pipe(e, RED_INDEX))
 	{
 		e->check_input = 1;
 		if (e->is_out_close)
