@@ -363,6 +363,8 @@ void					close_aggre(t_env *e, int fd_src);
 int						space_after_aggre(char *s);
 int						is_output_after(t_env *e, int i);
 int						is_special_aggre(t_env *e, int i);
+int						is_special_aggre_in_line(t_env *e, int i);
+int						is_invalid_spe_aggre(t_env *e, int i);
 
 /*
 **		Init - Reset
