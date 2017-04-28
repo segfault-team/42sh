@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:09:27 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:09:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 22:31:29 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		ft_banner(void)
 			BLUE, WHITE);
 	ft_printf("         !.........||||%s....%s%s%s", BLUE, GREEN, "## > ",
 			ITALIC);
-	ft_printf("%s%s........%s||||\n", "21sh", BLUE, WHITE);
+	ft_printf("%s%s........%s||||\n", SH_NAME, BLUE, WHITE);
 	ft_printf("         !.........||||%s.....................%s||||\n",
 			BLUE, WHITE);
 	ft_printf("         !.........||||%s.....................%s||||\n",

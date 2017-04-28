@@ -6,7 +6,7 @@
 /*   By: aleghmar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:09:37 by aleghmar          #+#    #+#             */
-/*   Updated: 2017/04/28 18:09:37 by aleghmar         ###   ########.fr       */
+/*   Updated: 2017/04/28 22:35:05 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int				ft_setenv(char ***env, char *name, char *value)
 	return (1);
 }
 
+static int		is_valid_env_char(char c)
+{
+	return ((c == '_' || c == '-'));
+}
+
 static int		valid_name(char *s)
 {
 	int	i;
@@ -62,7 +67,7 @@ static int		valid_name(char *s)
 		if (!i && ft_isdigit(s[i]))
 			return (ft_error("setenv", \
 						"variable name must begin with a letter", NULL));
-		else if (!ft_isalnum(s[i]))
+		else if (!ft_isalnum(s[i]) && !is_valid_env_char(s[i]))
 			return (ft_error("setenv", \
 						"variable name must contain only alphanumerics", NULL));
 	}
