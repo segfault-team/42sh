@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:51 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:42:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 16:46:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int			ft_write_history(t_env *e, int flag)
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
 		return (ft_error("Cannot open history file", HIST_FILE, NULL));
 	len_tab = ft_tablen(e->history);
-	i = len_tab - 4095;
+	if (len_tab > 4096)
+		i = len_tab - 4096;
+	else
+		i = -1;
 	while (++i < len_tab)
 	{
 		tmp = ft_strjoin(e->history[i], "\n");
