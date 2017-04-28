@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:11:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:11:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 16:11:06 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,24 @@ static int	get_opt_in_one_arg(int i, char **cmd, t_opt_hist *opt)
 			return (ft_error("history", cmd[i], "numeric argument required"));
 		if (opt_d && cmd[i + 2])
 			++i;
+		if (opt->p)
+			return (42);
 	}
 	return (1);
 }
 
 int			get_hist_options(int i, char **cmd, t_opt_hist *opt)
 {
-	int		j;
-	int		len;
+	int	j;
+	int	len;
+	int	ret;
 
 	len = (int)ft_tablen(cmd);
-	while (i < len && cmd[i])
+	ret = 0;
+	while (ret != 42 && i < len && cmd[i])
 	{
 		j = -1;
-		if (get_opt_in_one_arg(i, cmd, opt) == -1)
+		if ((ret = get_opt_in_one_arg(i, cmd, opt)) == -1)
 			return (-1);
 		++i;
 	}

@@ -490,6 +490,7 @@ int						ft_exit(t_env *e, char **cmd);
 int						manage_opt_hist_priority(t_opt_hist *opt);
 int						is_valid_opt(char c);
 void					add_opt(t_opt_hist *opt, char c, int *opt_d, int i);
+int						history_p(t_env *e, char **cmd);
 
 /*
 **		Termcaps
