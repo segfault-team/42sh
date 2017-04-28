@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:51 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:28:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 16:37:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,18 @@ int			ft_read_history(t_env *e)
 	int		i;
 	int		nb_lines;
 
+	i = 0;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
 		return (ft_error("Cannot read", HIST_FILE, NULL));
+	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
 		return (ft_error(NULL, "Malloc failed.", NULL));
-	i = -1;
-	nb_lines = -1;
-	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]))
+	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
 	{
 		if (!(e->history[i] = convert_tabs(e->history[i])))
 			break ;
 		++i;
 	}
-	ft_printf("nlin: %d\n", nb_lines);
 	e->history[i] = NULL;
 	return (1);
 }
@@ -82,7 +81,7 @@ int			ft_write_history(t_env *e, int flag)
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
 		return (ft_error("Cannot open history file", HIST_FILE, NULL));
 	len_tab = ft_tablen(e->history);
-	i = len_tab - 4097;
+	i = len_tab - 4095;
 	while (++i < len_tab)
 	{
 		tmp = ft_strjoin(e->history[i], "\n");

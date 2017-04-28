@@ -51,7 +51,7 @@ int			check_parsing_double(t_env *e, int *i, char c)
 		&& e->line[*i - 1] != '\\' && e->line[*i - 1] != c)
 		insert_char(e, ' ', (*i)++);
 	else if (is_special_aggre_in_line(e, *i)
-			 && e->line[*i + 1] && e->line[*i + 1] == ' ')
+			&& e->line[*i + 1] && e->line[*i + 1] == ' ')
 		delete_char(e, *i + 1);
 	return (check_parsing_double_bis(e, i, c));
 }
