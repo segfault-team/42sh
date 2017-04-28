@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:10:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 14:40:51 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static int		ft_check_line(t_env *e)
 		return (0);
 	else if (!e->line)
 		e->line = ft_strdup("\n");
-	else if (is_bad_line(e->line))
-		return (0);
+	e->line = is_bad_line(e->line, e->multi_quote);
 	if (e->line && (e->multi_quote = check_quote(e, e->line)))
 	{
 		if (ft_strcmp(e->line, "\n"))
