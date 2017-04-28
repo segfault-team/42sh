@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:10 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 15:20:03 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			do_env_subs(t_env *e, char **target, int *curr_pos)
 	if (!(var = isolate_var_name(SH_NAME, *target, *curr_pos + 1)))
 		return (-1);
 	if (!ft_strcmp(var, "?"))
-		substi = ft_strdup(e->last_ret);
+		substi = ft_xtoa(e->last_cmd_ret);
 	else
 		substi = ft_getenv(e->env, var);
 	do_substitution(target, curr_pos, substi, (int)ft_strlen(var));
