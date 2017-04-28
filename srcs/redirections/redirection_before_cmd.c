@@ -20,6 +20,8 @@ int				redirection_before_cmd(t_env *e)
 	int		ret;
 
 	ret = 0;
+	if (is_operator(e, RED_INDEX))
+		return (1);
 	if ((is_aggregator(e, RED_INDEX) || is_special_aggre(e, RED_INDEX))
 		&& !is_output_after(e, RED_INDEX))
 		ret = redir_to_aggregator(e);
@@ -33,9 +35,7 @@ int				redirection_before_cmd(t_env *e)
 	else if (is_output_redir(e, RED_INDEX) && e->last_cmd_ret != 127)
 		dup2(FD.fd[1], STDOUT_FILENO);
 	else if (e->hdoc && is_heredoc(e, RED_INDEX))
-	{
 		ret = redir_from_hdoc(e);
-	}
 	else if (is_input_redir(e, RED_INDEX))
 	{
 		ret = redir_input(e);
