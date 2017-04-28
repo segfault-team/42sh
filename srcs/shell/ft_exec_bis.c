@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 18:50:48 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		print_command_not_found(char *cmd, t_env *e)
 	else
 	{
 		if (e->env_exec || (cmd && cmd[0] == '/'))
-			ft_error(cmd, "No such file or directory", NULL);
+			ft_error(cmd, "is not a valid file", NULL);
 		else
 			ft_error(cmd, "Command not found", NULL);
 		e->last_cmd_ret = 127;
