@@ -1,11 +1,16 @@
-#include "shell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kboddez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 12:27:46 by kboddez           #+#    #+#             */
+/*   Updated: 2017/04/27 15:53:37 by vlistrat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void		ft_prompt(char *prompt)
-{
-	ft_putstr(GREEN);
-	ft_putstr(prompt);
-	ft_putstr(ENDC);
-}
+#include "shell.h"
 
 /*
 **	INSTRUCTION FOR ALL KEY
@@ -66,6 +71,16 @@ void		tcaps_manage_printable_char(t_env *e)
 	++NB_READ;
 }
 
+static int	ft_check_fd_in(void)
+{
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_printfd(2, "Invalid input. Abort.\n");
+		return (0);
+	}
+	return (1);
+}
+
 /*
 ** for now we handle ctrl-z, later on we will get rid of that
 */
@@ -75,7 +90,9 @@ int			main(int ac, char **av, char **env)
 	t_env	*e;
 	int		ret;
 
-	e = (t_env *)malloc(sizeof(t_env));
+	if ((e = (t_env *)malloc(sizeof(t_env))) == NULL ||
+			!ft_check_fd_in())
+		return (-1);
 	env_access(e);
 	(void)ac;
 	(void)av;
@@ -88,6 +105,7 @@ int			main(int ac, char **av, char **env)
 		read_input(e);
 		reading(e);
 	}
+	tcaps_reset(e);
 	ft_write_history(e, O_TRUNC);
 	ret = e->exit;
 	if (!e->raw)

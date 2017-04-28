@@ -3,24 +3,29 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-int			ft_set_home(t_env *e)
+int			ft_set_home(t_env *e, char *path)
 {
 	int				uid;
-	struct passwd	*pwd;
+	char			*login;
 
 	e->home = NULL;
 	if ((e->home = ft_getenv(e->env, "HOME")))
 		return (1);
 	if ((uid = getuid()))
 	{
-		if ((pwd = getpwuid(uid)))
+		if ((path = ft_getpath_uid(uid, NULL)))
 		{
-			if (pwd->pw_dir)
-			{
-				e->home = ft_strdup(pwd->pw_dir);
-				ft_setenv(&e->env, "HOME", pwd->pw_dir);
-				return (1);
-			}
+			e->home = ft_strdup(path);
+			ft_setenv(&e->env, "HOME", path);
+			return (1);
+		}
+		if ((login = getlogin()))
+		{
+			login = ft_strjoin(USERS_DIR, login);
+			e->home = ft_strdup(login);
+			ft_setenv(&e->env, "HOME", login);
+			strfree(&login);
+			return (1);
 		}
 	}
 	return (0);

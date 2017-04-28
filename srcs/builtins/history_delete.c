@@ -1,38 +1,48 @@
 #include "shell.h"
 
-static int	litlle_itoa(t_env *e, int curr, t_pos *p, char **cmd)
+static char	*isolate_arg(char **cmd, int i)
 {
-	while (e->cmd[curr][++(p->j)])
-	{
-		if (!is_number(e->cmd[curr][(p->j)]))
-			return (history_delete_error(SH_NAME, cmd));
-		p->i = p->i * 10 + e->cmd[curr][p->j] - '0';
-	}
-	--(p->i);
-	return (0);
+	int		j;
+	char	*new;
+
+	if (i < 1 || !cmd || !cmd[i])
+		return (NULL);
+	j = -1;
+	while (cmd[i][++j] && cmd[i][j] != 'd')
+		;
+	if (!cmd[i][++j] && cmd[i + 1])
+		return (cmd[i + 1]);
+	else if (!cmd[i][j] && !cmd[i + 1])
+		return (NULL);
+	if (!(new = ft_strsub(cmd[i], j, (int)ft_strlen(cmd[i]) - j)))
+		return (NULL);
+	return (new);
 }
 
-int			history_delete(t_env *e, char **cmd, int curr)
+int			history_delete(t_env *e, char **cmd, int i)
 {
-	t_pos	p;
+	int		len;
 	char	**tmp;
+	char	*arg;
 
-	p.i = (e->cmd[curr][2]) ? 0 : -1;
-	p.j = 1;
-	if (!p.i && litlle_itoa(e, curr, &p, cmd) == -1)
-		return (-1);
-	else if (!e->cmd[curr + 1])
-		return (history_delete_error(SH_NAME, cmd));
-	else
+	len = -1;
+	if (!e->history)
+		return (ft_error("history", cmd[i], "position out of range"));
+	arg = isolate_arg(cmd, i - 1);
+	if (arg == NULL || i > (int)ft_tablen(cmd))
 	{
-		if (!is_only_numbers(cmd[curr + 1]) && p.i == -1)
-			return (history_delete_error(SH_NAME, cmd));
-		p.i = ft_atoi(cmd[curr + 1]) - 1;
+		strfree(&arg);
+		return (ft_error("history", "-d", "option requires an argument"));
 	}
-	if (p.i < 0 || !e->history[p.i])
-		return (history_delete_error(SH_NAME, cmd));
+	if (!e->history || !is_only_numbers(arg)
+		|| ((len = ft_atoi(arg)) > 2147483647)
+		|| len < 1 || len > (int)ft_tablen(e->history) || !e->history[len])
+	{
+		strfree(&arg);
+		return (ft_error("history", cmd[i], "position out of range"));
+	}
 	tmp = e->history;
-	e->history = delete_line_in_tab(e->history, p.i);
+	e->history = delete_line_in_tab(e->history, --len);
 	ft_free_tab(tmp);
 	return (1);
 }

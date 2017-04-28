@@ -25,12 +25,13 @@ char		*escape_specials(char *str, int i, int len)
 
 	k = ft_countchar(str, ' ') + ft_countchar(str, '	')
 	+ ft_countchar(str, '\'') + ft_countchar(str, '\"');
-	tmp = ft_strnew(ft_strlen(str) + k);
+	if (!str || !(tmp = ft_strnew((int)ft_strlen(str) + k + 1)))
+		return (NULL);
 	ret = tmp;
 	ft_strncpy(tmp, str, i);
 	str += i;
 	tmp += i;
-	while (*str && len)
+	while (str && tmp && *str && len--)
 	{
 		if (*str == ' ' || *str == '	' || *str == '\'' || *str == '\"')
 		{
@@ -40,26 +41,23 @@ char		*escape_specials(char *str, int i, int len)
 		*tmp = *str;
 		++tmp;
 		++str;
-		--len;
 	}
 	ft_strcpy(tmp, str);
 	return (ret);
 }
 
-int			cur_inquote(t_env *e)
+int			cur_inquote(char *str, int pos)
 {
 	int s_quote;
 	int d_quote;
-	int pos;
 
 	s_quote = 0;
 	d_quote = 0;
-	pos = NB_MOVE - 1;
-	while (e->line[pos] && pos)
+	while (pos < (int)ft_strlen(str) && str[pos] && pos)
 	{
-		if (e->line[pos] == '\'' && e->line[pos - 1] != '\\')
+		if (str[pos] == '\'' && !ft_is_escaped(str, pos))
 			s_quote++;
-		else if (e->line[pos] == '\"' && e->line[pos - 1] != '\\')
+		else if (str[pos] == '\"' && !ft_is_escaped(str, pos))
 			d_quote++;
 		pos--;
 	}
@@ -84,7 +82,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 		return (NULL);
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
-		if (!cur_inquote(e))
+		if (!cur_inquote(e->line, NB_MOVE - 1))
 			tmp = escape_specials(dir_entry->d_name, 0, -1);
 		else
 			tmp = ft_strdup(dir_entry->d_name);
@@ -93,7 +91,7 @@ t_list		*dir_to_list(t_env *e, char *curr_path)
 		ft_strdel(&tmp);
 	}
 	if (closedir(dir_id))
-		ft_error("closedir", "failed closing dir", curr_path);
+		ft_error("closedir in autocomp", "failed closing dir", curr_path);
 	return (first);
 }
 

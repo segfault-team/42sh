@@ -15,25 +15,19 @@ void		tcaps_ctrl_mov_right(t_env *e)
 {
 	int	i;
 
-	if (!(i = NB_MOVE))
+	i = NB_MOVE;
+	while (i >= 0 && i < NB_READ
+			&& (ft_isalpha(e->line[i]) || is_number(e->line[i])))
 	{
 		move_right(e);
 		++i;
 	}
-	while (i > 0 && i < NB_READ && ft_isalpha(e->line[i + 1])
-			&& is_number(e->line[i - 1]))
+	while (i > 0 && i < NB_READ && (!ft_isalpha(e->line[i])
+				&& !is_number(e->line[i])))
 	{
 		move_right(e);
 		++i;
 	}
-	while (i > 0 && i < NB_READ && (!ft_isalpha(e->line[i + 1])
-				|| !is_number(e->line[i - 1])))
-	{
-		move_right(e);
-		++i;
-	}
-	if (i + 1 < NB_READ)
-		move_right(e);
 }
 
 /*

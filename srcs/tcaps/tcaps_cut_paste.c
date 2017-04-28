@@ -1,17 +1,5 @@
 #include "shell.h"
 
-static void	ctrl_k_loop(t_env *e, int i)
-{
-	xputs(TGETSTR_CE);
-	if (i && (i % (WIN_WIDTH - 1) == 0))
-	{
-		xputs(TGETSTR_DW);
-		xputs(TGETSTR_CR);
-	}
-	else
-		xputs(TGETSTR_ND);
-}
-
 static void	tcaps_ctrl_k(t_env *e)
 {
 	int		i;
@@ -25,12 +13,9 @@ static void	tcaps_ctrl_k(t_env *e)
 	tmp = ft_strsub(e->line, 0, NB_MOVE);
 	strfree(&e->line);
 	e->line = tmp;
-	xputs(TGETSTR_SC);
 	xputs(TGETSTR_DM);
-	while (i++ <= NB_READ)
-		ctrl_k_loop(e, i);
+	xputs(TGETSTR_CD);
 	xputs(TGETSTR_ED);
-	xputs(TGETSTR_RC);
 	NB_READ -= (int)ft_strlen(e->cut);
 }
 

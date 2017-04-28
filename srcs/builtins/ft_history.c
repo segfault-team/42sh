@@ -7,20 +7,22 @@
 void		ft_store_history(t_env *e)
 {
 	char		**tmp;
-	int			is_not_history_cmd;
+	char		*line_cpy;
+	int			x;
 
-	tmp = NULL;
+	x = -1;
 	tmp = e->history;
-	is_not_history_cmd = ft_strcmp(e->line, "history");
-	if (is_not_history_cmd ||
-		(e->last_cmd && ft_strcmp(e->last_cmd, "history")) || !e->last_cmd)
-	{
-		e->history = ft_tabcat(e->history, e->line);
-		if (tmp)
-			ft_free_tab(tmp);
-	}
-	strfree(&e->last_cmd);
-	e->last_cmd = ft_strdup(e->line);
+	line_cpy = ft_strdup(e->line);
+	while (line_cpy && line_cpy[++x])
+		if (x > 0 && line_cpy[x] && line_cpy[x] == '\n')
+		{
+			line_cpy = ft_delete_char(line_cpy, x);
+			--x;
+		}
+	e->history = ft_tabcat(e->history, line_cpy);
+	if (tmp)
+		ft_free_tab(tmp);
+	strfree(&line_cpy);
 }
 
 /*
@@ -36,12 +38,16 @@ int			ft_read_history(t_env *e)
 
 	i = 0;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot read", HIST_FILE));
+		return (ft_error("Cannot read", HIST_FILE, NULL));
 	nb_lines = 0;
 	if ((e->history = malloc(sizeof(e->history) * 4096)) == NULL)
-		return (ft_error(SH_NAME, "Malloc failed.", NULL));
+		return (ft_error(NULL, "Malloc failed.", NULL));
 	while (++nb_lines < 4096 && get_next_line(history_fd, &e->history[i]) > 0)
+	{
+		if (!(e->history[i] = convert_tabs(e->history[i])))
+			break ;
 		++i;
+	}
 	e->history[i] = NULL;
 	return (1);
 }
@@ -61,7 +67,7 @@ int			ft_write_history(t_env *e, int flag)
 	tmp = NULL;
 	flag = (e->trunc_in_history) ? O_TRUNC : flag;
 	if ((history_fd = open(HIST_FILE, O_RDWR | O_CREAT | flag, OFLAGS)) == -1)
-		return (ft_error(SH_NAME, "Cannot open history file", HIST_FILE));
+		return (ft_error("Cannot open history file", HIST_FILE, NULL));
 	len_tab = ft_tablen(e->history);
 	i = -1;
 	while (++i < len_tab)
@@ -94,30 +100,26 @@ int			is_option(int i, char **cmd, char *option)
 
 int			ft_history(t_env *e, char **cmd, int i)
 {
-	int		ret;
+	int			ret;
+	t_opt_hist	opt;
 
 	ret = -1;
-	if (i == 1 && is_valid_arg(cmd, SH_NAME) < 0)
+	init_opt_hist(&opt);
+	if (i == 1 && get_hist_options(i, cmd, &opt) == -1)
 		return (-1);
-	if (!e->history)
-		return (-1);
-	if (is_option(i, cmd, "-d"))
-		ret = history_delete(e, cmd, i);
-	else if (is_option(i, cmd, "-w"))
+	if (opt.d)
+		ret = history_delete(e, cmd, opt.i_opt_d);
+	else if (opt.w)
 		ret = ft_write_history(e, O_TRUNC);
-	else if (is_option(i, cmd, "-a"))
+	else if (opt.a)
 		ret = ft_write_history(e, O_APPEND);
-	else if (is_option(i, cmd, "-c"))
+	else if (opt.c)
 		ret = clear_history_list(e);
-	else if (is_option(i, cmd, "-r"))
+	else if (opt.r)
 		ret = append_history_file_in_list(e);
-	else if (is_option(i, cmd, "-h"))
-		ret = print_history_help();
-	else if (is_option(i, cmd, "-p"))
+	else if (opt.h)
 		ret = print_history_help();
 	else if (e->history)
 		ret = print_history(e, cmd);
-	if (ret != -1 && cmd[i + 1] && !is_redirection(e, i + 1))
-		return (ft_history(e, cmd, i + 1));
 	return (ret);
 }

@@ -44,10 +44,10 @@ int			ft_unsetenv_blt(t_env *e, char **cmd)
 				ft_free_tab(e->env);
 				e->env = NULL;
 			}
-			else if (ft_unsetenv(&e->env, cmd[i]) > 0)
-				return (1);
+			else if (ft_unsetenv(&e->env, cmd[i]) < 0)
+				return (-1);
 		}
-		return (-1);
+		return (1);
 	}
 	return (ft_error("unsetenv", "too few arguments", NULL));
 }

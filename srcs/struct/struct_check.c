@@ -1,38 +1,21 @@
 #include "shell.h"
 
-int			ft_check_input(int i, t_env *e)
-{
-	if (!ft_strcmp(e->magic[i].cmd, "<") ||
-		!ft_strcmp("input", e->magic[i].type))
-		return (1);
-	return (0);
-}
-
-int			ft_check_output(int i, t_env *e)
-{
-	if (!ft_strcmp(e->magic[i].cmd, ">") ||
-		!ft_strcmp(e->magic[i].cmd, ">>") ||
-		!ft_strcmp(e->magic[i].cmd, "|") ||
-		!ft_strcmp("output", e->magic[i].type))
-		return (1);
-	return (0);
-}
-
-int			ft_check_heredoc(int i, t_env *e)
-{
-	if (!ft_strcmp(e->magic[i].cmd, "<<") &&
-		ft_strcmp("heredoc", e->magic[i].type))
-		return (1);
-	return (0);
-}
-
 /*
 **  CHECK IF A REDIRECTION IS IN 'str'
 */
 
+static int	red_strstr_check(char *s, int i)
+{
+	if (s[i] == '|' && s[i + 1] == '|')
+		return (0);
+	if (s[i] == '&' && s[i + 1] == '&')
+		return (0);
+	return (1);
+}
+
 int			red_strstr(char *s)
 {
-	int 	i;
+	int		i;
 	int		bs;
 	char	quote;
 
@@ -46,11 +29,9 @@ int			red_strstr(char *s)
 		else
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
-			if (!quote)
+			if (!quote && !bs)
 			{
-				if (s[i] == '|' && s[i + 1] == '|')
-					return (0);
-				if (s[i] == '&' && s[i + 1] == '&')
+				if (!red_strstr_check(s, i))
 					return (0);
 				if (is_redir_sign(s[i]))
 					return (1);

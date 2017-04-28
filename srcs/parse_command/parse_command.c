@@ -1,18 +1,28 @@
 #include "shell.h"
 
-static void	manage_chev(t_env *e, int *i)
+static int	manage_chev(t_env *e, int *i)
 {
-	if (*i + 1 < (int)ft_strlen(e->line))
+	if (*i && e->line[*i - 1] == '&')
+	{
+		ft_putchar('\n');
+		return (ft_error(NULL, "Ambiguous redirection", NULL));
+	}
+	else if (*i + 1 < (int)ft_strlen(e->line))
 	{
 		if (e->line[*i + 1] && e->line[*i + 1] != '&')
-			check_parsing_double(e, i, e->line[*i]);
+			return (check_parsing_double(e, i, e->line[*i]));
+		while (e->line[*i + 1] && e->line[*i + 2]
+				&& (e->line[*i + 2] == ' ' || e->line[*i + 2] == '\t')
+				&& e->line[*i + 2])
+			delete_char(e, (*i + 2));
 	}
 	else if (*i > 1 && e->line[*i - 1] == e->line[*i]
 			&& e->line[*i - 2] == e->line[*i])
 		insert_char(e, ' ', *i);
+	return (1);
 }
 
-void		parse_command(t_env *e)
+int			parse_command(t_env *e)
 {
 	int		i;
 	char	quote;
@@ -35,7 +45,8 @@ void		parse_command(t_env *e)
 			check_parsing_ampersand(e, &i);
 		else if (!quote && e->line[i] == ';')
 			check_parsing_simple(e, &i, e->line[i]);
-		else if (!quote && e->line[i] == '>')
-			manage_chev(e, &i);
+		else if (!quote && e->line[i] == '>' && manage_chev(e, &i) == -1)
+			return (-1);
 	}
+	return (1);
 }

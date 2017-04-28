@@ -19,7 +19,7 @@ int			ft_countchar(char *str, char c)
 	int i;
 
 	i = 0;
-	while (*str)
+	while (str && *str)
 	{
 		if (*str == c)
 			++i;

@@ -1,64 +1,32 @@
 #include "shell.h"
 
-static char	*pre_substitution(char **new, char **ret, char *target, int len)
+static void	substitution_cond(char **str, int *i, char *tmp)
 {
-	*new = ft_strnew((int)(ft_strlen(target) + len));
-	*ret = *new;
-	return (target);
-}
-
-static void	simple_replace(char **new, char **target)
-{
-	**new = **target;
-	++(*new);
-}
-
-void		do_substitution(char **target, int *curr_pos, char *substitute,
-							int jmp)
-{
-	char	*new;
-	char	*tmp;
-	char	*ret;
-
-	tmp = pre_substitution(&new, &ret, *target, (int)ft_strlen(substitute));
-	while (((*target)) && **target)
+	tmp = ft_strdup((*str));
+	do_substitution(str, i, USERS_DIR, 0);
+	if (access(&(*str)[*i], F_OK) == -1)
 	{
-		if (*target == &tmp[*curr_pos])
-		{
-			if (!substitute)
-				*target += jmp;
-			else
-				ft_replace_word(&new, substitute, &*target, jmp + 1);
-		}
-		else
-			simple_replace(&new, target);
-		(*target)++;
+		ft_strdel(str);
+		*str = tmp;
 	}
-	strfree(&tmp);
-	tmp = ft_strtrim(ret);
-	*target = (substitute)
-	? escape_specials(tmp, *curr_pos, ft_strlen(substitute)) : ft_strdup(ret);
-	ft_strdel(&ret);
-	ft_strdel(&tmp);
 }
 
-static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
+static int	substitution_tilde(t_env *e, char **str, int i)
 {
 	char	*tmp;
+	int		ret;
 
+	tmp = NULL;
 	if ((*str)[i] == '~' && (*str)[i + 1] && (*str)[i + 1] != ' '
-		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '~' && (!(*str)[i - 1]
+		&& (*str)[i + 1] != '/' && (*str)[i + 1] != '$' && (i == 0
 		|| (*str)[i - 1] == ' '))
 	{
-		tmp = ft_strdup((*str));
-		do_substitution(str, &i, user_dir, 0);
-		if (access(&(*str)[i], F_OK) == -1)
-		{
-			ft_strdel(str);
-			*str = tmp;
-		}
+		if ((tmp = ft_getpath_login(&(*str)[i + 1])))
+			do_substitution(str, &i, tmp, ft_strlen(&(*str)[i + 1]));
+		else
+			substitution_cond(str, &i, tmp);
 	}
-	else if ((*str)[i] == '~' && (!(*str)[i - 1] || (*str)[i - 1] == ' ')
+	else if ((*str)[i] == '~' && (i == 0 || (*str)[i - 1] == ' ')
 			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'
 			&& (*str)[i + 1] != '\'' && (*str)[i + 1] != '\"')))
 	{
@@ -66,24 +34,37 @@ static void	substitution_tilde(t_env *e, char **str, int i, char *user_dir)
 		if (!tmp)
 			tmp = ft_strdup(e->home);
 		do_substitution(str, &i, tmp, 0);
-		ft_strdel(&tmp);
 	}
+	ret = ft_strlen(tmp);
+	ft_strdel(&tmp);
+	return (ret);
 }
 
-int			substitution(t_env *e, char **str)
+int			substitution(t_env *e, char **str, char quote, int bs)
 {
 	int		i;
-	char	*user_dir;
+	int		len;
 
 	i = -1;
-	user_dir = ft_strdup("/Users/");
-	while ((*str)[++i])
+	len = (int)ft_strlen(*str);
+	if (!(*str))
+		return (0);
+	while (str && ++i < len && (*str)[i])
 	{
-		if ((*str)[i] == '$' && (*str)[i + 1])
-			do_env_subs(e, str, &i);
+		if (!bs && (*str)[i] == '\\' && quote != '\'')
+			bs = 1;
 		else
-			substitution_tilde(e, str, i, user_dir);
+		{
+			quote = ft_check_quote_bs((*str)[i], quote, bs);
+			if (quote != '\'')
+			{
+				if (i < len && (*str)[i] == '$' && (*str)[i + 1])
+					do_env_subs(e, str, &i);
+				else
+					substitution_tilde(e, str, i);
+				len = (int)ft_strlen(*str);
+			}
+		}
 	}
-	strfree(&user_dir);
 	return (0);
 }

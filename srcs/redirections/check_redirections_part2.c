@@ -2,7 +2,7 @@
 
 int		is_redir_pipe(t_env *e, int i)
 {
-	if (i >= e->len_mag)
+	if (i >= (int)e->len_mag)
 		return (0);
 	if (!ft_strcmp(e->magic[i].cmd, "|"))
 		return (1);
@@ -11,7 +11,7 @@ int		is_redir_pipe(t_env *e, int i)
 
 int		is_input_file(t_env *e, int i)
 {
-	if (i >= e->len_mag)
+	if (i >= (int)e->len_mag)
 		return (0);
 	if (!e->magic[i].cmd || ft_strcmp(e->magic[i].type, "input"))
 		return (0);
@@ -20,7 +20,7 @@ int		is_input_file(t_env *e, int i)
 
 int		is_redir_from_symbol(t_env *e, int i)
 {
-	if (i >= e->len_mag)
+	if (i >= (int)e->len_mag)
 		return (0);
 	if (is_output_redir(e, i) ||
 		is_input_redir(e, i) ||
@@ -32,10 +32,10 @@ int		is_redir_from_symbol(t_env *e, int i)
 
 int		is_next_redir(t_env *e, int i)
 {
-	if (i >= e->len_mag || !e->magic[i].cmd)
+	if (i >= (int)e->len_mag || !e->magic[i].cmd)
 		return (-1);
 	++i;
-	if (i >= e->len_mag)
+	if (i >= (int)e->len_mag)
 		return (-1);
 	while (e->magic[i].cmd && !red_strstr(e->magic[i].cmd)
 			&& !is_operator(e, i))
@@ -60,10 +60,9 @@ int		is_next_redir(t_env *e, int i)
 
 int		is_input_in_next_cmd(t_env *e, int i)
 {
-	//PEU ETRE UN LA SOURCE DU PROB
 	if (!i)
 		return (0);
-	if (i >= e->len_mag)
+	if (i >= (int)e->len_mag)
 		return (0);
 	++i;
 	while (e->magic[i].cmd && !is_redir_pipe(e, i) && !is_input_redir(e, i) \

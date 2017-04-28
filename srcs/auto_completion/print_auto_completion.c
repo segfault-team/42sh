@@ -8,9 +8,10 @@ int		write_line(t_env *e, int i, int x, char *spaces)
 	moar = 0;
 	while (i < e->c_match)
 	{
-		moar = ft_strlen(e->files[i]->name) > e->tcaps.ws.ws_col ?
+		moar = (int)ft_strlen(e->files[i]->name) > e->tcaps.ws.ws_col ?
 			moar + 1 : moar;
-		len = e->total_len - ft_strlen(e->files[i]->name);
+		if ((len = (int)e->total_len - (int)ft_strlen(e->files[i]->name)) < 0)
+			len = 0;
 		if ((i + 4) <= e->c_match)
 			spaces[0] = ' ';
 		spaces[len] = '\0';

@@ -15,21 +15,25 @@
 int		tcaps_putstr(t_env *e, char *str)
 {
 	int		len;
+	int		pos;
 
-	xputs(TGETSTR_SC);
-	xputs(TGETSTR_CR);
 	xputs(TGETSTR_DM);
-	len = NB_READ;
-	while (--len > 0)
-	{
+	len = NB_MOVE + (int)ft_strlen(e->prompt);
+	pos = NB_READ;
+	while (len-- > 0)
 		xputs(TGETSTR_LE);
-		xputs(TGETSTR_DC);
-	}
-	xputs(TGETSTR_DL);
-	xputs(TGETSTR_CE);
+	xputs(TGETSTR_CD);
 	xputs(TGETSTR_ED);
 	ft_prompt(e->prompt);
-	tputs(str, 1, dsh_putchar);
-	xputs(TGETSTR_RC);
+	tcaps_recalc_pos(e);
+	if (str)
+	{
+		ft_putstr(str);
+		while (pos-- > NB_MOVE)
+			xputs(TGETSTR_LE);
+		tcaps_recalc_pos(e);
+		if (NB_COL == (WIN_WIDTH - 1))
+			xputs(TGETSTR_ND);
+	}
 	return (0);
 }

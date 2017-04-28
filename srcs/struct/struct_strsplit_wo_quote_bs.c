@@ -50,8 +50,8 @@ static size_t	ft_strlen_chr(char const *s, char c, char quote)
 		else
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
-			if (bs && ((quote == '\'' && s[i] == '\\') ||
-					(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+			if (bs && ((quote == '\'' && s[i] == '\\')
+						|| (quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				++len;
 			if ((!quote && !ft_isquote(s[i])) || bs || (quote && s[i] != quote))
 				++len;
@@ -79,8 +79,8 @@ static char		*ft_strcpy_chr(char const *s, char c, char quote, int bs)
 		else
 		{
 			quote = ft_check_quote_bs(s[i], quote, bs);
-			if (bs && ((quote == '\'' && s[i] == '\\') ||
-						(quote == '\"' && s[i] != '\\' && s[i] != '\"')))
+			if (bs && ((quote == '\'' && s[i] == '\\')
+						|| (quote == '\"' && s[i] != '\\' && s[i] != '\"')))
 				cpy[j++] = '\\';
 			if ((!quote && !ft_isquote(s[i])) || bs || (quote && s[i] != quote))
 				cpy[j++] = s[i];

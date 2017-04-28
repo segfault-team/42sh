@@ -1,27 +1,35 @@
 #include "shell.h"
 
-int		ft_env_error(char *cmd)
+int			ft_insert_arg(char ***env_cpy, char *arg)
 {
-	ft_error("env", "illegal option --", cmd);
-	ft_error("\nusage", "env [-i name1=val1 ...] [-u name]", NULL);
+	char	*name;
+	char	*val;
+
+	val = ft_strdup(ft_strchr(arg, '=') + 1);
+	name = ft_strndup(arg, (ft_strlen(arg) - ft_strlen(val) - 1));
+	ft_setenv(env_cpy, name, val);
+	strfree(&val);
+	strfree(&name);
+	return (0);
+}
+
+int			ft_env_error(char *cmd)
+{
+	ft_printfd(2, "env: illegal option --%c\n", cmd[1]);
+	ft_printfd(2, "usage: env [-i] [-u name]\n");
+	ft_printfd(2, "           [name=value] [utility [argument ...]]\n");
 	return (-1);
 }
 
-void	ft_env_bis(t_env *e, char ***env_cpy, char **cmd, int i)
+int			ft_env_opt_u_error(char *cmd)
 {
-	char	**tmp;
-
-	tmp = NULL;
-	while (ft_strchr(cmd[i], '='))
+	if (!cmd)
 	{
-		tmp = *env_cpy;
-		if ((*env_cpy = ft_tabcat(*env_cpy, cmd[i++])) == NULL)
-			break ;
-		ft_free_tab(tmp);
+		ft_printfd(2, "env: option requires an argument -- u\n");
+		ft_printfd(2, "usage: env [-i] [-u name]\n");
+		ft_printfd(2, "           [name=value] [utility [argument ...]]\n");
 	}
-	e->env = *env_cpy;
-	if (cmd[i])
-		i = ft_exec_cmd(e, &cmd[i]);
-	else
-		ft_puttab(e->env);
+	else if (cmd)
+		ft_printfd(2, "env: unsetenv %s: invalid argument", cmd);
+	return (-1);
 }

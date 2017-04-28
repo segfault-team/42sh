@@ -9,12 +9,22 @@ int		print_command_not_found(char *cmd, t_env *e)
 	{
 		number = ft_itoa(-e->raw);
 		string = ft_strjoin("line ", number);
-		ft_error(cmd, string, "Command not found");
+		if (e->env_exec || (cmd && cmd[0] == '/'))
+			ft_error(cmd, "No such file or directory", NULL);
+		else
+			ft_error(cmd, string, "Command not found");
+		e->last_cmd_ret = 127;
 		ft_strdel(&number);
 		ft_strdel(&string);
 	}
 	else
-		ft_error(cmd, "Command not found", NULL);
+	{
+		if (e->env_exec || (cmd && cmd[0] == '/'))
+			ft_error(cmd, "No such file or directory", NULL);
+		else
+			ft_error(cmd, "Command not found", NULL);
+		e->last_cmd_ret = 127;
+	}
 	return (-1);
 }
 
@@ -53,7 +63,7 @@ char	*ft_find_exec(char **paths, char *cmd)
 	path = NULL;
 	if (!cmd || !cmd[0])
 		return (NULL);
-	if ((cmd[0] == '.' || cmd[0] == '/'))
+	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
 		return (ft_isexec(cmd) ? ft_strdup(cmd) : NULL);
 	while (paths[++i])
 		if ((exec = ft_find_exec_readdir(paths[i], cmd)) != NULL)
@@ -87,8 +97,5 @@ char	**ft_find_paths(char **env)
 void	ft_close(int fd)
 {
 	if (fd != 1 && fd != 0)
-	{
-		if (close(fd) == -1)
-			ft_error(SH_NAME, "IO stream error.\n", NULL);
-	}
+		close(fd);
 }

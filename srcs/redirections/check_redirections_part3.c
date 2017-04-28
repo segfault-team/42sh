@@ -14,21 +14,21 @@ int		is_put_after(t_env *e)
 
 int		is_operator(t_env *e, int i)
 {
-	if (!ft_strcmp(e->magic[i].type, "operator"))
+	if (e->magic[i].type && !ft_strcmp(e->magic[i].type, "operator"))
 		return (1);
 	return (0);
 }
 
 int		is_and(t_env *e, int i)
 {
-	if (!ft_strcmp(e->magic[i].cmd, "&&"))
+	if (e->magic[i].cmd && !ft_strcmp(e->magic[i].cmd, "&&"))
 		return (1);
 	return (0);
 }
 
 int		is_or(t_env *e, int i)
 {
-	if (!ft_strcmp(e->magic[i].cmd, "||"))
+	if (e->magic[i].cmd && !ft_strcmp(e->magic[i].cmd, "||"))
 		return (1);
 	return (0);
 }

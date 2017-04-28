@@ -1,10 +1,11 @@
 #include "shell.h"
 
-char		*get_path_from_arg(char *arg)
+char		*get_path_from_arg(t_env *e, char *arg)
 {
 	char	*path;
 	int		i;
 	int		x;
+	char	*tmp;
 
 	i = ft_strlen(arg);
 	while (i > 0 && arg[i - 1] != '/')
@@ -20,6 +21,8 @@ char		*get_path_from_arg(char *arg)
 			ft_strncpy(&path[x], &path[x + 1], i - x - 1);
 		x++;
 	}
+	tmp = path;
+	substitution(e, &path, '\0', 0);
 	return (path);
 }
 
@@ -66,7 +69,7 @@ char		*add_backquote(t_env *e, char *str, int i)
 	char	*ret;
 
 	x = i;
-	quote = cur_inquote(e);
+	quote = cur_inquote(e->line, NB_MOVE - 1);
 	if (quote)
 	{
 		if (quote == 1)
@@ -79,7 +82,7 @@ char		*add_backquote(t_env *e, char *str, int i)
 	else
 	{
 		while (x > 0 && ((str[x] != ' ' && str[x] != '	'
-			&& str[x] != '\'' && str[x] != '\"') || str[x - 1] == '\\'))
+			&& str[x] != '\'' && str[x] != '\"') || ft_is_escaped(str, x)))
 			x--;
 	}
 	if (str[x] == quote || str[x] == ' ')
@@ -92,7 +95,7 @@ int			auto_completion(t_env *e)
 {
 	char	*arg_comp;
 
-	if (!e->line)
+	if (!e->line || !NB_MOVE)
 		return (0);
 	if (e->selected >= -1 && e->files)
 	{

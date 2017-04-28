@@ -5,6 +5,13 @@
 #define OUTPUT_AGGRE    1
 #define ERROR_FILENUMBER -4242
 
+/*
+** fd_tab[0] = fd_src
+** fd_tab[1] = fd_dst
+** fd_tab[2] = ag_type
+** fd_tab[3] = is_file
+*/
+
 static int	aggregator_error(int id, char *sh_name)
 {
 	if (id == 1)
@@ -18,9 +25,9 @@ static int	aggregator_error(int id, char *sh_name)
 
 static int	is_valid_src(int fd)
 {
-	if (!fd || fd == 1 || fd == 2)
+	if (fd >= 0)
 		return (1);
-	if (!isatty(fd))
+	if (fd < 0 && !isatty(fd))
 		return (0);
 	return (1);
 }
@@ -34,28 +41,38 @@ static int	is_valid_dst(int fd)
 	return (1);
 }
 
+static int	redir_to_aggregator_bis(t_env *e, int fd_tab[4])
+{
+	if (fd_tab[2] == ERROR)
+		return (-1);
+	else if (fd_tab[1] == -42)
+		close_aggre(e, fd_tab[0]);
+	else if (fd_tab[2] == INPUT_AGGRE)
+		dup2(fd_tab[0], fd_tab[1]);
+	else
+		output_aggre(e, fd_tab[0], fd_tab[1], fd_tab[3]);
+	return (1);
+}
+
 int			redir_to_aggregator(t_env *e)
 {
-	int		fd_src;
-	int		fd_dst;
-	int		ag_type;
+	int		fd_tab[4];
 
-	fd_src = isolate_fd_source(e);
-	fd_dst = isolate_fd_destination(e);
-	if (fd_dst == ERROR_FILENUMBER)
+	fd_tab[0] = isolate_fd_source(e);
+	fd_tab[1] = isolate_fd_destination(e, &fd_tab[3]);
+	if (fd_tab[1] == ERROR_FILENUMBER)
 		return (aggregator_error(ERROR_FILENUMBER, SH_NAME));
-	else if (!is_valid_src(fd_src) || !is_valid_dst(fd_dst))
-		return (aggregator_error(1, SH_NAME));
-	ag_type = find_aggregator_type(e);
-	if (fd_dst == ERROR || (fd_src == ERROR && ag_type == OUTPUT_AGGRE))
-		return (aggregator_error(42, SH_NAME));
-	if (ag_type == ERROR)
+	if (fd_tab[3] && fd_tab[1] == -1)
 		return (-1);
-	else if (fd_dst == -42)
-		close_aggre(e, fd_src, fd_dst);
-	else if (ag_type == INPUT_AGGRE)
-		dup2(fd_src, fd_dst);
-	else
-		output_aggre(e, fd_src, fd_dst);
+	else if (!is_valid_src(fd_tab[0])
+			|| (!is_valid_dst(fd_tab[1]) && !fd_tab[3]))
+		return (aggregator_error(1, SH_NAME));
+	fd_tab[2] = find_aggregator_type(e);
+	if (fd_tab[1] == ERROR || (fd_tab[0] == ERROR && fd_tab[2] == OUTPUT_AGGRE))
+		return (aggregator_error(42, SH_NAME));
+	if (redir_to_aggregator_bis(e, fd_tab) < 0)
+		return (-1);
+	if (fd_tab[3])
+		close(fd_tab[1]);
 	return (1);
 }

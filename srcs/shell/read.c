@@ -6,25 +6,59 @@
 **	this avoid writing over multi lines
 */
 
-static void		tcaps_enter(t_env *e)
+static int		do_exclamation_subs(t_env *e)
+{
+	int		i;
+	int		ret;
+	char	quote;
+
+	i = -1;
+	ret = 0;
+	quote = '\0';
+	while (e->line[++i])
+	{
+		if (ret == -1)
+			return (-1);
+		if ((e->line[i] == '\'')
+			&& !ft_is_escaped(e->line, i))
+		{
+			if (!quote)
+				quote = e->line[i];
+			else if (e->line[i] == quote)
+				quote = '\0';
+		}
+		else if (e->line[i] == '!' && !quote && !ft_is_escaped(e->line, i))
+			ret = manage_exclamation_mark(e, &i);
+	}
+	if (ret)
+		ft_printf("\n%s", e->line);
+	return (ret);
+}
+
+int				tcaps_enter(t_env *e)
 {
 	tcaps_ctrl_end(e);
 	if (!ft_multiline(e))
-		return ;
+		return (0);
+	if (e->line && ((do_exclamation_subs(e) == -1) || !ft_pairs(e->line)))
+		return (exit_in_read(e));
 	else if (!e->hdoc_words && !ft_heredoc(e))
-		return ;
+		return (0);
 	if (e->hdoc_nb && store_heredoc(e))
-		return ;
-	if (e->line)
-		parse_command(e);
+		return (0);
+	if (e->line && parse_command(e) == -1)
+		return (exit_in_read(e));
 	if (!e->raw)
 		ft_putchar('\n');
 	if (e->line && ft_parse_line(e) && ft_strcmp(e->line, "exit"))
 		;
-//		ft_putchar('\n');
 	if (e->x && !e->raw)
+	{
+		ft_putchar('\n');
 		ft_prompt(e->prompt);
+	}
 	ft_reset_line(e);
+	return (0);
 }
 
 int				reading(t_env *e)
@@ -40,7 +74,7 @@ int				reading(t_env *e)
 		e->line = ft_realloc_delete_char(e, NB_MOVE - 1);
 	if (tcaps_check_key(BUF, 10, 0, 0))
 		tcaps_enter(e);
-	else
+	else if (!e->raw)
 		tcaps(e);
 	ft_bzero(&BUF, 3);
 	RED_INDEX = 0;
