@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 18:31:17 by lfabbro           #+#    #+#             */
-/*   Updated: 2016/09/21 11:39:45 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 21:23:45 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 int		ft_atoi(const char *str)
 {
 	int		n;
+	int		i;
 	int		sign;
 
 	n = 0;
-	while (*str == ' ' || *str == '\n' || *str == '\t' || *str == '\r' ||
-			*str == '\f' || *str == '\v')
-		++str;
-	sign = (*str == '-') ? -1 : 1;
-	if (*str == '+' || *str == '-')
-		++str;
-	while (*str >= '0' && *str <= '9')
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\r' ||
+			str[i] == '\f' || str[i] == '\v')
+		++i;
+	sign = (str[i] == '-') ? -1 : 1;
+	if (str[i] == '+' || str[i] == '-')
+		++i;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		n = n * 10 + (*str - 48) % 10;
-		++str;
+		n = n * 10 + (str[i] - 48) % 10;
+		++i;
 	}
 	return (n * sign);
 }
