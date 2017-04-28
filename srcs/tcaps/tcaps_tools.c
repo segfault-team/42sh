@@ -18,6 +18,7 @@ void	move_right(t_env *e)
 	{
 		xputs(TGETSTR_DW);
 		xputs(TGETSTR_CR);
+		xputs(TGETSTR_ND);
 	}
 	else
 		xputs(TGETSTR_ND);
