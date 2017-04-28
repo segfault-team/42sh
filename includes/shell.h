@@ -10,7 +10,6 @@
 # include <fcntl.h>
 # include <term.h>
 # include <termios.h>
-# include <curses.h>
 # include <sys/ioctl.h>
 # include "libft.h"
 
@@ -393,7 +392,7 @@ int						ft_subs_tilde(t_env *e);
 int						is_number(char c);
 int						is_only_numbers(char *str);
 int						ft_multiline(t_env *e);
-int						is_bad_line(char *line);
+char					*is_bad_line(char *line, char quote);
 char					check_quote(t_env *e, char *s);
 char					*ft_strdup_wo_quote_bs(char *s);
 int						ft_isspace(char c);
