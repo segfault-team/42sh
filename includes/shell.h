@@ -1,3 +1,4 @@
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -41,7 +42,7 @@
 # define BLUE			"\033[34m"
 # define YELLOW			"\033[33m"
 # define ITALIC			"\x1b[3m"
-# define SH_NAME		"21sh"
+# define SH_NAME		"42sh"
 # define PATH			"/usr/bin:/bin:/usr/sbin:/sbin"
 # define USERS_DIR		"/Users/"
 # define FD				e->fd
