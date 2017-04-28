@@ -1,25 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_parse_bis.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:54:56 by lfabbro          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
 static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 {
 	if (i)
 	{
-		if (i > 1)
-			e->last_cmd_ret = WEXITSTATUS(status);
+		if (ft_handle_ret_signal(status) == -1)
+			e->last_cmd_ret = WTERMSIG(status);
 		else
-			e->last_cmd_ret = WEXITSTATUS(status2);
+			e->last_cmd_ret = WEXITSTATUS(status);
 		reset_last_ret(e, e->last_cmd_ret);
 	}
 	e->child_running = 0;
@@ -38,9 +26,9 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 	while (e->jobs)
 	{
 		if (!i)
-			waitpid(e->jobs->pid, &status, 0);
+			waitpid(e->jobs->pid, &status, WUNTRACED);
 		else
-			waitpid(e->jobs->pid, &status2, 0);
+			waitpid(e->jobs->pid, &status2, WUNTRACED);
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
 		if (e->jobs)
@@ -54,21 +42,10 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 int			ft_waitsons(t_env *e)
 {
 	t_job		*ptr;
-	int			now_kill;
 	int			status;
 
-	ptr = e->jobs;
 	status = 0;
-	now_kill = 0;
 	ptr = e->jobs;
-	while (!now_kill && ptr)
-	{
-		now_kill = waitpid(ptr->pid, &status, WUNTRACED);
-		if (!ptr->next)
-			ptr = e->jobs;
-		else
-			ptr = ptr->next;
-	}
 	return (ft_waitsons_bbis(e, ptr, status));
 }
 
