@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:51 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:27:13 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 16:28:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ int			ft_history(t_env *e, char **cmd, int i)
 		ret = append_history_file_in_list(e);
 	else if (opt.h)
 		ret = print_history_help();
+	else if (opt.p)
+		ret = history_p(e, cmd);
 	else if (e->history)
 		ret = print_history(e, cmd);
 	return (ret);
