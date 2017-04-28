@@ -10,7 +10,6 @@
 # include <fcntl.h>
 # include <term.h>
 # include <termios.h>
-# include <curses.h>
 # include <sys/ioctl.h>
 # include "libft.h"
 
