@@ -312,7 +312,6 @@ int						do_env_subs(t_env *e, char **target, int *curr);
 int						ft_exec_builtin(t_env *e, char **cmd, int ret);
 int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
-//int						ft_exec(char **cmd, t_env *e);
 char					*ft_find_exec_readdir(char *paths, char *cmd);
 int						ft_exec_cmd(t_env *e, char **cmd);
 char					**ft_find_paths(char **env);
