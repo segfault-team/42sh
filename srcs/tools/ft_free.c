@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:09:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 15:02:59 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:32:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_env_free(t_env *e)
 	strfree(&e->prompt);
 	strfree(&HIST_FILE);
 	strfree(&e->herestock);
-	strfree(&e->last_ret);
 	strfree(&e->susp);
 	strfree(&e->cut);
 	if (e->env)

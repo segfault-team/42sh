@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:52 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:35:26 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:59:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ static int		error_pwd(char **cwd)
 {
 	*cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (ft_error("cd: error retrieving current directory: getcwd: "
-						, "cannot access parent directories: "
-						, "No such file or directory"));
+	{
+		return (ft_error("cd: error retrieving current directory: getcwd: "\
+					, "cannot access parent directories: "\
+					, "No such file or directory"));
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:13 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:54:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,10 @@ static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
 	return (add_job(e, pid));
 }
 
-int				ft_exec(char **cmd, t_env *e)
+static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 {
-	int		ret;
 	char	**paths;
-	char	*exec;
 
-	ret = 0;
-	exec = NULL;
 	if ((paths = ft_find_paths(e->env)) == NULL)
 		return (print_command_not_found(cmd[0], e));
 	exec = ft_find_exec(paths, cmd[0]);
@@ -73,7 +69,10 @@ int				ft_exec(char **cmd, t_env *e)
 	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
 		ret = ft_fork_exec(exec, cmd, e);
 	else
+	{
 		ret = ft_error(exec, "Permission denied", NULL);
+		e->last_cmd_ret = 126;
+	}
 	ft_free_tab(paths);
 	paths = NULL;
 	strfree(&exec);
@@ -88,10 +87,10 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 	if (ft_is_builtin(cmd[0]) && !e->env_exec)
 	{
 		ret = ft_exec_builtin(e, cmd, 0);
-		reset_last_ret_builtin(e, ret);
+		e->last_cmd_ret = (ret > 0) ? 0 : 1;
 	}
 	else
-		ret = ft_exec(cmd, e);
+		ret = ft_exec(cmd, e, NULL, 0);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:07:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:41:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	i = -1;
 	ret = 0;
 	FD.in = STDIN_FILENO;
-	if (truc(e, cmds_i))
+	if (truc(e, cmds_i) == -1)
 		return (ft_error(NULL, "parsing error.", NULL));
 	e->len_mag = struct_len(&e->magic);
 	if (magic_type(e) == -1)

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:16 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:45:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void		ft_init_ter(t_env *e)
 	e->hdoc_words = NULL;
 	e->hdoc_nb = 0;
 	e->hdoc = NULL;
-	e->last_ret = ft_strdup("0");
 	e->check_input = 0;
 	e->hdoc_index = -1;
 	e->last_cmd_ret = 0;
+	e->last_pipe_ret = 0;
 	e->multi_quote = '\0';
 	e->susp = ft_strnew(1);
 }

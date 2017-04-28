@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 16:08:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:48:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,23 @@ static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 			e->last_cmd_ret = WTERMSIG(status);
 		else
 			e->last_cmd_ret = WEXITSTATUS(status);
-		reset_last_ret(e, e->last_cmd_ret);
 	}
 	e->child_running = 0;
-	if (!WEXITSTATUS(status) || !WEXITSTATUS(status2))
+	if (!e->last_pipe_ret && (!WEXITSTATUS(status) || !WEXITSTATUS(status2)))
 		return (1);
 	return (-1);
 }
 
-static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
+int			ft_waitsons(t_env *e)
 {
 	int			i;
 	int			status;
+	int			status2;
+	t_job		*ptr;
 
 	i = 0;
 	status = -1;
+	status2 = -1;
 	while (e->jobs)
 	{
 		if (!i)
@@ -49,16 +51,6 @@ static int	ft_waitsons_bbis(t_env *e, t_job *ptr, int status2)
 		++i;
 	}
 	return (ft_last_cmd_ret(e, status, status2, i));
-}
-
-int			ft_waitsons(t_env *e)
-{
-	t_job		*ptr;
-	int			status;
-
-	status = 0;
-	ptr = e->jobs;
-	return (ft_waitsons_bbis(e, ptr, status));
 }
 
 static int	ft_check_token(char *s, char quote)

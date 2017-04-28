@@ -221,7 +221,6 @@ typedef struct			s_pos
 
 typedef struct			s_env
 {
-	char				*last_ret;
 	t_fd				fd;
 	int					x;
 	struct termios		*new_term;
@@ -275,6 +274,7 @@ typedef struct			s_env
 	int					is_valid_pipe;
 	int					hdoc_index;
 	int					last_cmd_ret;
+	int					last_pipe_ret;
 	char				multi_quote;
 	char				*susp;
 	int					env_exec;
@@ -312,7 +312,7 @@ int						do_env_subs(t_env *e, char **target, int *curr);
 int						ft_exec_builtin(t_env *e, char **cmd, int ret);
 int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
-int						ft_exec(char **cmd, t_env *e);
+//int						ft_exec(char **cmd, t_env *e);
 char					*ft_find_exec_readdir(char *paths, char *cmd);
 int						ft_exec_cmd(t_env *e, char **cmd);
 char					**ft_find_paths(char **env);
@@ -415,8 +415,6 @@ void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
 int						store_heredoc(t_env *e);
-void					reset_last_ret(t_env *e, int ret);
-void					reset_last_ret_builtin(t_env *e, int ret);
 int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);
 int						ft_catlen(char ***cat);
