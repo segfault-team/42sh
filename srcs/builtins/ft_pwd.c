@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:52 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:10:52 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 16:35:26 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ static int		ft_pwd_check_option(char ***argv)
 	return (opt);
 }
 
+static int		error_pwd(char **cwd)
+{
+	*cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (ft_error("cd: error retrieving current directory: getcwd: "
+						, "cannot access parent directories: "
+						, "No such file or directory"));
+	return (0);
+}
+
 int				ft_pwd(t_env *e, char **args)
 {
 	int		option;
@@ -69,16 +79,9 @@ int				ft_pwd(t_env *e, char **args)
 
 	if ((option = ft_pwd_check_option(&args)) == -1)
 		return (-1);
-	if (option == 1)
-	{
-		cwd = getcwd(NULL, 0);
-		if (!cwd)
-			return (ft_error("cd: error retrieving current directory: getcwd: "
-				, "cannot access parent directories: "
-				, "No such file or directory"));
-	}
-	else
-		cwd = ft_getenv(e->env, "PWD");
+	if (option == 1 || (!(cwd = ft_getenv(e->env, "PWD"))))
+		if (error_pwd(&cwd) == -1)
+			return (-1);
 	ft_putstr_fd(cwd, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	ft_strdel(&cwd);
