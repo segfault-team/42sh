@@ -22,7 +22,7 @@ char		*get_path_from_arg(t_env *e, char *arg)
 		x++;
 	}
 	tmp = path;
-	substitution(e, &path);
+	substitution(e, &path, '\0', 0);
 	return (path);
 }
 

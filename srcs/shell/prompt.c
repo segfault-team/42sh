@@ -29,7 +29,7 @@ char		*ft_create_prompt(t_env *e, char *prompt)
 	char	*pattern;
 
 	if ((pattern = ft_getenv(e->env, "PROMPT")))
-		substitution(e, &pattern);
+		substitution(e, &pattern, '\0', 0);
 	if (!(new_prompt = ft_getenv(e->env, "PWD")))
 		new_prompt = ft_strdup(getcwd(str, 255));
 	tmp = ft_getdir(new_prompt);

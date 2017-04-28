@@ -93,7 +93,7 @@ int				ft_parse_line(t_env *e)
 	{
 		while (cmds[++i])
 		{
-			if (substitution(e, &cmds[i]) == -1)
+			if (substitution(e, &cmds[i], '\0', 0) == -1)
 				ret = -42;
 			else
 				ret = ft_iter_cmds(e, cmds[i]);

@@ -295,7 +295,7 @@ int						ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
-int						substitution(t_env *e, char **target);
+int						substitution(t_env *e, char **target, char quote, int bs);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
@@ -459,7 +459,7 @@ char					*ft_realloc_delete_char(t_env *e, int pos);
 char					*ft_delete_char(char *str, int pos);
 char					*convert_tabs(char *str);
 void					ft_realloc_insert_str(t_env *e, char *str);
-int						detect_tabs(char *str);
+int						detect_tabs(char *str, int *i, int *j);
 
 /*
 **		Free

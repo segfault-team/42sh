@@ -40,16 +40,12 @@ static int	substitution_tilde(t_env *e, char **str, int i)
 	return (ret);
 }
 
-int			substitution(t_env *e, char **str)
+int			substitution(t_env *e, char **str, char quote, int bs)
 {
 	int		i;
 	int		len;
-	int		bs;
-	char	quote;
 
 	i = -1;
-	bs = 0;
-	quote = '\0';
 	len = (int)ft_strlen(*str);
 	if (!(*str))
 		return (0);
