@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 17:41:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 19:53:42 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int		exec_by_type(t_env *e, int i, int ret)
 
 static int		exec_end(t_env *e, int ret)
 {
-	e->is_valid_pipe = 1;
 	ft_waitsons(e);
 	ft_triple_free(e);
 	if (e->hdoc_words)
@@ -87,7 +86,6 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, i, ret);
 		e->is_out_close = 0;
-		e->is_valid_pipe = is_last_cmd(e, RED_INDEX + 1) ? 0 : e->is_valid_pipe;
 	}
 	return (exec_end(e, ret));
 }

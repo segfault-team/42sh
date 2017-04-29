@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 17:54:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 22:38:04 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		add_job(t_env *e, pid_t pid)
 	return (1);
 }
 
-static int		ft_fork_exec(char *exec, char **cmd, t_env *e)
+int				ft_fork_exec(char *exec, char **cmd, t_env *e)
 {
 	pid_t		pid;
 
@@ -55,9 +55,13 @@ static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 {
 	char	**paths;
 
-	if ((paths = ft_find_paths(e->env)) == NULL)
+	paths = ft_find_paths(e->env);
+	if (!(exec = ft_find_exec(paths, cmd[0])))
+	{
+		if (paths)
+			ft_free_tab(paths);
 		return (print_command_not_found(cmd[0], e));
-	exec = ft_find_exec(paths, cmd[0]);
+	}
 	if (!exec || access(exec, F_OK))
 	{
 		strfree(&exec);
@@ -66,17 +70,10 @@ static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 		redirection_before_cmd(e);
 		return (print_command_not_found(cmd[0], e));
 	}
-	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		ret = ft_fork_exec(exec, cmd, e);
-	else
-	{
-		ret = ft_error(exec, "Permission denied", NULL);
-		e->last_cmd_ret = 126;
-	}
-	ft_free_tab(paths);
+	if (paths)
+		ft_free_tab(paths);
 	paths = NULL;
-	strfree(&exec);
-	return (ret);
+	return (ft_exec_bis(cmd, e, exec, ret));
 }
 
 static int		exec_cmd_bis(t_env *e, char **cmd)

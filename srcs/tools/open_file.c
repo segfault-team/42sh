@@ -6,13 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:03 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:10:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 20:05:08 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	open_file(char *file, int flags, mode_t mode)
+int		open_file(char *file, int flags, mode_t mode)
 {
 	struct stat	stat;
 	int			fd;
@@ -28,4 +28,10 @@ int	open_file(char *file, int flags, mode_t mode)
 	if ((fd = open(file, flags, mode)) == -1)
 		return (ft_error(file, "Resource temporarily unavailable", NULL));
 	return (fd);
+}
+
+void	ft_close(int fd)
+{
+	if (fd != 1 && fd != 0)
+		close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/04/28 18:44:19 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/04/28 20:13:29 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,6 @@ typedef struct			s_env
 	int					hdoc_nb;
 	int					raw;
 	int					is_out_close;
-	int					is_valid_pipe;
 	int					hdoc_index;
 	int					last_cmd_ret;
 	int					last_pipe_ret;
@@ -306,7 +305,8 @@ int						ft_freelogic(t_logic *x);
 t_logic					*ft_split_logic(t_logic *x, char **cmd);
 t_logic					*ft_new_logic(void);
 int						ft_check_op(char *s);
-int						substitution(t_env *e, char **target, char quote, int bs);
+int						substitution(t_env *e, char **target, char quote,
+							int bs);
 int						manage_exclamation_mark(t_env *e, int *curr_pos);
 int						error_em(char *arg, char *sh_name);
 int						manage_double_excl_mark(t_env *e, int *curr_pos);
@@ -321,6 +321,8 @@ int						do_env_subs(t_env *e, char **target, int *curr);
 **		Exec
 */
 int						ft_exec_builtin(t_env *e, char **cmd, int ret);
+int						ft_exec_bis(char **cmd, t_env *e, char *exec, int ret);
+int						ft_fork_exec(char *exec, char **cmd, t_env *e);
 int						ft_waitsons(t_env *e);
 int						ft_is_builtin(char *cmd);
 char					*ft_find_exec_readdir(char *paths, char *cmd);

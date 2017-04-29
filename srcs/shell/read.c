@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:46 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 18:45:31 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int		do_exclamation_subs(t_env *e)
 		else if (e->line[i] == '!' && !quote && !ft_is_escaped(e->line, i))
 			ret = manage_exclamation_mark(e, &i);
 	}
-	if (ret)
+	if (ret != 0 && ret != -1)
 		ft_printf("\n%s", e->line);
 	return (ret);
 }

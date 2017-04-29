@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 17:48:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/04/28 19:34:09 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ static int	ft_check_token(char *s, char quote)
 	i = -1;
 	while (s && ++i < (int)ft_strlen(s) && s[i])
 	{
-		quote = ft_check_quote_bs(s[i], quote, bs);
-		if (!bs && s[i] == '\\' && quote != '\'')
+		quote = s[i] ? ft_check_quote_bs(s[i], quote, bs) : '\0';
+		if (!bs && s[i] && s[i] == '\\' && quote != '\'')
 			bs = 1;
 		else if (!quote)
 		{
-			if (!bs && s[i] == ';')
+			if (!bs && s[i] && s[i] == ';')
 				tok++;
-			else if (s[i] != ' ')
+			else if (s[i] && s[i] != ' ')
 				tok = 0;
 			if (tok > 1)
 				return (0);

@@ -6,7 +6,7 @@
 /*   By: aleghmar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:09:51 by aleghmar          #+#    #+#             */
-/*   Updated: 2017/04/28 18:09:51 by aleghmar         ###   ########.fr       */
+/*   Updated: 2017/04/28 21:28:17 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char	*isolate_arg(char **cmd, int i)
 	int		j;
 	char	*new;
 
+	new = NULL;
 	if (i < 1 || !cmd || !cmd[i])
 		return (NULL);
 	j = -1;
