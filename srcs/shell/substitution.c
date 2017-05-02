@@ -6,14 +6,16 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:47 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:07:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/02 15:05:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	substitution_cond(char **str, int *i, char *tmp)
+static int	substitution_cond(char **str, int *i, char *tmp)
 {
+	int		ret;
+
 	tmp = ft_strdup((*str));
 	do_substitution(str, i, USERS_DIR, 0);
 	if (access(&(*str)[*i], F_OK) == -1)
@@ -21,6 +23,9 @@ static void	substitution_cond(char **str, int *i, char *tmp)
 		ft_strdel(str);
 		*str = tmp;
 	}
+	ret = ft_strlen(tmp);
+	strfree(&tmp);
+	return (ret);
 }
 
 static int	substitution_tilde(t_env *e, char **str, int i)
@@ -36,7 +41,7 @@ static int	substitution_tilde(t_env *e, char **str, int i)
 		if ((tmp = ft_getpath_login(&(*str)[i + 1])))
 			do_substitution(str, &i, tmp, ft_strlen(&(*str)[i + 1]));
 		else
-			substitution_cond(str, &i, tmp);
+			return (substitution_cond(str, &i, tmp));
 	}
 	else if ((*str)[i] == '~' && (i == 0 || (*str)[i - 1] == ' ')
 			&& (!(*str)[i + 1] || ((*str)[i + 1] != '~'

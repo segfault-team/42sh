@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:02 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 15:27:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/02 14:58:32 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	check_quote(t_env *e, char *s)
 			bs = 0;
 		}
 	}
-	if (quote != '\0')
-		return (quote);
 	return (quote);
 }
 
