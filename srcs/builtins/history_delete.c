@@ -6,7 +6,7 @@
 /*   By: aleghmar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:09:51 by aleghmar          #+#    #+#             */
-/*   Updated: 2017/04/28 21:28:17 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/03 12:13:33 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,11 @@ int			history_delete(t_env *e, char **cmd, int i)
 		return (ft_error("history", cmd[i], "position out of range"));
 	arg = isolate_arg(cmd, i - 1);
 	if (arg == NULL || i > (int)ft_tablen(cmd))
-	{
-		strfree(&arg);
 		return (ft_error("history", "-d", "option requires an argument"));
-	}
 	if (!e->history || !is_only_numbers(arg)
 		|| ((len = ft_atoi(arg)) > 2147483647)
 		|| len < 1 || len > (int)ft_tablen(e->history) || !e->history[len])
-	{
-		strfree(&arg);
 		return (ft_error("history", cmd[i], "position out of range"));
-	}
 	tmp = e->history;
 	e->history = delete_line_in_tab(e->history, --len);
 	ft_free_tab(tmp);
