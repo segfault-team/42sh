@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:09:47 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 12:09:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/03 14:54:42 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int			ft_reset_line(t_env *e)
 	e->env_exec = 0;
 	NB_COL = 0;
 	NB_LINE = 0;
+	ERRCODE = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/03 16:10:26 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/03 16:19:06 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 
 # include <sys/stat.h>
 # include <sys/types.h>
+
+# define CMD_NF			1
+# define FILE_NF		2
+# define NSFOD			3
+# define FAIL			4
+# define INVALID_FILE	5
+# define DIRCLOSE_FAIL	6
+# define PERM_DENIED	7
+
 # define PATH_MAX		2048
 # define C_RESET		"\033[39m"
 # define C_RED			"\033[31m"
@@ -66,6 +75,8 @@
 # define NB_COL 		TCAPS.nb_col
 # define NB_LINE 		TCAPS.nb_line
 # define CHECK_MOVE 	TCAPS.check_move
+# define ERRCODE		e->errcode
+# define ERRMSG			e->err_msg
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -288,6 +299,8 @@ typedef struct			s_env
 	char				multi_quote;
 	char				*susp;
 	int					env_exec;
+	int					errcode;
+	char				*err_msg;
 }						t_env;
 
 /*
@@ -316,6 +329,9 @@ void					do_substitution(char **target, int *curr_pos, \
 void					do_substitution_no_esc(char **target, int *curr_pos, \
 										char *subsitute, int nb_char_to_jump);
 int						do_env_subs(t_env *e, char **target, int *curr);
+int						manage_err(t_env *e);
+void					set_error(t_env *e, int errcode, char *err_msg);
+void					free_error(t_env *e);
 
 /*
 **		Exec

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/03 15:54:21 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/03 16:18:52 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, i, ret);
 		e->is_out_close = 0;
+		free_error(e);
 	}
 	return (exec_end(e, ret));
 }
