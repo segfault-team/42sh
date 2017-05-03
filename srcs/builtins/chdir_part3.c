@@ -19,7 +19,7 @@ char	*ft_repstr(char *s1, char *s2, t_env *e)
 	char	*ptr[2];
 
 	pwd = ft_getenv(e->env, "PWD");
-	fraiche = ft_strnew(ft_strlen(s1) + ft_strlen(pwd) + 1);
+	fraiche = ft_strnew((ft_countstr(pwd, s1) * ft_strlen(s2)) + ft_strlen(pwd) + 1);
 	ptr[0] = fraiche;
 	ptr[1] = pwd;
 	while (*pwd)

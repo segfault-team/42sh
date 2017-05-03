@@ -39,3 +39,26 @@ int			ft_countchar(char *str, char c)
 	}
 	return (i);
 }
+
+int			ft_countstr(char *str, char *cmp)
+{
+	int i;
+	int len;
+	int len_ref;
+
+	i = 0;
+	len = 0;
+	len_ref = ft_strlen(cmp);
+	while (str && *str && cmp && *cmp)
+	{
+		if (!ft_strncmp(str, cmp, len_ref))
+		{
+			len = len_ref;
+			++i;
+		}
+		while (--len > 0)
+			str += !!*str;
+		str += !!*str;
+	}
+	return (i);
+}
