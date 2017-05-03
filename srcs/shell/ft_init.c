@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 19:54:13 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/03 14:54:27 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void		ft_init_bis(t_env *e)
 	MULTI = NULL;
 	e->is_out_close = 0;
 	e->env_exec = 0;
+	ERRCODE = 0;
 	ft_init_ter(e);
 }
 

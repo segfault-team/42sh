@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:14 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/02 15:20:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/03 15:56:10 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 int		ft_exec_bis(char **cmd, t_env *e, char *exec, int ret)
 {
-	if (access(exec, X_OK | R_OK) == 0 || ft_issticky(exec))
-		ret = ft_fork_exec(exec, cmd, e);
-	else
+	if (!ERRCODE && (!exec || (access(exec, X_OK | R_OK) == -1
+				&& !ft_issticky(exec))))
 	{
-		ret = ft_error(exec, "Permission denied", NULL);
+		ret = -1;
+		set_error(e, PERM_DENIED, exec);
 		e->last_cmd_ret = 126;
 	}
+	ret = ft_fork_exec(exec, cmd, e);
 	strfree(&exec);
 	return (ret);
 }
@@ -35,9 +36,9 @@ int		print_command_not_found(char *cmd, t_env *e)
 		number = ft_itoa(-e->raw);
 		string = ft_strjoin("line ", number);
 		if (e->env_exec || (cmd && cmd[0] == '/'))
-			ft_error(cmd, "No such file or directory", NULL);
+			set_error(e, NSFOD, cmd);
 		else
-			ft_error(cmd, string, "Command not found");
+			set_error(e, CMD_NF, cmd);
 		e->last_cmd_ret = 127;
 		ft_strdel(&number);
 		ft_strdel(&string);
@@ -45,9 +46,9 @@ int		print_command_not_found(char *cmd, t_env *e)
 	else
 	{
 		if (e->env_exec || (cmd && cmd[0] == '/'))
-			ft_error(cmd, "is not a valid file", NULL);
+			set_error(e, INVALID_FILE, cmd);
 		else
-			ft_error(cmd, "Command not found", NULL);
+			set_error(e, CMD_NF, cmd);
 		e->last_cmd_ret = 127;
 	}
 	return (-1);
@@ -70,8 +71,7 @@ char	*ft_find_exec_readdir(char *paths, char *cmd)
 				break ;
 			}
 		}
-		if (closedir(dir))
-			ft_error("closedir", "failed closing dir", paths);
+		closedir(dir);
 	}
 	return (exec);
 }

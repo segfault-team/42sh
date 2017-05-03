@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:02 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/02 14:58:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/03 15:35:30 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ char	*is_bad_line(char *line, char quote)
 	int		i;
 	char	*new;
 
-	i = 0;
 	new = NULL;
 	if (!line)
 		return (NULL);
-	if (line[i] && !quote && (line[i] == '|' || line[i] == '&'
-				|| line[i] == ';'))
+	if (line[0] && !quote && (line[0] == '|' || line[0] == '&'
+				|| line[0] == ';'))
 	{
 		new = ft_strjoin(" ", line);
 		strfree(&line);
