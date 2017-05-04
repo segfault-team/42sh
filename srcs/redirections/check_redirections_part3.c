@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:43:45 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/04/29 15:09:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/04 14:52:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ int		find_nxt_operator(t_env *e)
 	int	len;
 
 	len = 1;
+	//ft_printfd(2, "cmd: %s   --- type: %s\n", e->magic[RED_INDEX].cmd, e->magic[RED_INDEX].type);
 	if (RED_INDEX >= e->len_mag || !e->magic[RED_INDEX].cmd)
 		return (0);
-	while (e->magic[++RED_INDEX].cmd && !is_operator(e, RED_INDEX))
+	while (++RED_INDEX < e->len_mag && e->magic[RED_INDEX].cmd &&
+			!is_operator(e, RED_INDEX))
 		if (is_redir_pipe(e, RED_INDEX))
 			++len;
 	return (len);

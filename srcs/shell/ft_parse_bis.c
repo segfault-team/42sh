@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/03 16:16:01 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/04 14:42:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,17 @@ static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 			e->last_cmd_ret = WEXITSTATUS(status);
 	}
 	e->child_running = 0;
-	if (!e->last_pipe_ret && !is_error_status(status)  && !is_error_status(status2)
-		&& (!WEXITSTATUS(status) || !WEXITSTATUS(status2)))
+	/*
+	ft_printfd(2, "status: %d\n", status);
+	ft_printfd(2, "WEXST: %d\n", WEXITSTATUS(status));
+	ft_printfd(2, "WTSIG: %d\n\n", WTERMSIG(status));
+	ft_printfd(2, "status2: %d\n", status2);
+	ft_printfd(2, "WEXST: %d\n", WEXITSTATUS(status));
+	ft_printfd(2, "WTSIG: %d\n\n", WTERMSIG(status2));
+	*/
+	if (!e->last_pipe_ret &&
+			((child_is_signaled(status) || child_is_signaled(status2))
+			|| (!WEXITSTATUS(status) || !WEXITSTATUS(status2))))
 		return (1);
 	return (-1);
 }
@@ -38,6 +47,8 @@ int			ft_waitsons(t_env *e)
 	i = 0;
 	status = -1;
 	status2 = -1;
+	if (!e->jobs)
+		return (-1);
 	while (e->jobs)
 	{
 		if (!i)

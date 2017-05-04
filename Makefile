@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/04/28 18:44:23 by vlistrat          #+#    #+#              #
-#    Updated: 2017/05/03 16:19:27 by kboddez          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME				= 42sh
 
@@ -40,7 +29,7 @@ SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					ft_singletone.c is_only_numbers.c delete_line_in_tab.c \
 					open_file.c atoi_bis.c ft_check.c ft_heredoc.c store_heredoc.c \
 					ft_xtoa.c ft_strdup_wo_quote_bs.c ft_escape.c pairs.c \
-					exit_in_read.c is_error_status.c manage_err.c
+					exit_in_read.c child_is_signaled.c manage_err.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##

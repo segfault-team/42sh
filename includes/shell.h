@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/03 16:19:06 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/04 14:15:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -452,7 +452,7 @@ char					*ft_getpath_login(char *login);
 void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
 int						exit_in_read(t_env *e);
-int						is_error_status(int status);
+int						child_is_signaled(int status);
 
 /*
 **		History
