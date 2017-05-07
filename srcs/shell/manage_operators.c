@@ -19,7 +19,7 @@ static int	find_next_op(t_env *e, int i)
 	if (!i)
 		next_op = 0;
 	while (next_op < (int)e->len_mag && e->magic[next_op].type &&
-			!ft_strcmp(e->magic[next_op].type, "cmd"))
+			ft_strcmp(e->magic[next_op].type, "operator"))
 		++next_op;
 	++next_op;
 	return (next_op - 1);
@@ -30,6 +30,7 @@ int			manage_operators(t_env *e, int i, int ret)
 	int	op;
 
 	op = find_next_op(e, i);
+	dprintf(2, "%d\n", op);
 	if (op >= (int)e->len_mag || !e->magic[op].type ||
 			ft_strcmp(e->magic[op].type, "operator"))
 		return (0);
