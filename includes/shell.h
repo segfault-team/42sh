@@ -301,6 +301,7 @@ typedef struct			s_env
 	int					env_exec;
 	int					errcode;
 	char				*err_msg;
+	int				mult_esc;
 }						t_env;
 
 /*

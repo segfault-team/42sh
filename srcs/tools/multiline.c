@@ -66,12 +66,18 @@ int				ft_multiline(t_env *e)
 	tmp = NULL;
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
+	if (check_last_char(e, '\\'))
+		e->mult_esc = 1;
 	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42
-		|| !ft_strcmp(e->line, "\n") || finish_by_ampersand_operator(e))
+		|| (!ft_strcmp(e->line, "\n") && !e->mult_esc)
+		|| finish_by_ampersand_operator(e))
 		return (manage_multi(e, tmp, check));
 	else if (MULTI)
 	{
-		tmp = ft_strjoin(MULTI, e->line);
+		if (!ft_strcmp(e->line, "\n") && e->mult_esc)
+			tmp = ft_strdup(MULTI);
+		else
+			tmp = ft_strjoin(MULTI, e->line);
 		strfree(&e->line);
 		e->line = tmp;
 		strfree(&MULTI);
@@ -80,6 +86,7 @@ int				ft_multiline(t_env *e)
 			strfree(&e->prompt);
 			e->prompt = ft_create_prompt(e, STD_PROMPT);
 		}
+		e->mult_esc = 0;
 	}
 	return (1);
 }

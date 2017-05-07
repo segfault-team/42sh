@@ -30,7 +30,6 @@ int			manage_operators(t_env *e, int i, int ret)
 	int	op;
 
 	op = find_next_op(e, i);
-	dprintf(2, "%d\n", op);
 	if (op >= (int)e->len_mag || !e->magic[op].type ||
 			ft_strcmp(e->magic[op].type, "operator"))
 		return (0);
