@@ -60,6 +60,7 @@ static void		ft_init_bis(t_env *e)
 	e->is_out_close = 0;
 	e->env_exec = 0;
 	ERRCODE = 0;
+	ERRMSG = NULL;
 	e->mult_esc = 0;
 	ft_init_ter(e);
 }
