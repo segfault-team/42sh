@@ -6,17 +6,18 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:43:54 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/04/28 18:43:54 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 21:43:06 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void		ft_dupp(t_env *e)
+int			ft_dupp(t_env *e)
 {
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);
 	dup2(FD.stderr, STDERR_FILENO);
+	return (1);
 }
 
 int			ft_redirect(int oldfd, int newfd)

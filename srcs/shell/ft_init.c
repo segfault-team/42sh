@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/03 14:54:27 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 22:34:22 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void		ft_init_bis(t_env *e)
 	ERRMSG = NULL;
 	e->mult_esc = 0;
 	ft_init_ter(e);
+	e->is_builtin = 0;
 }
 
 char			*init_hist_file(t_env *e)

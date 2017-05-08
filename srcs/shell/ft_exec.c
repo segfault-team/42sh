@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 21:27:40 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 21:46:03 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ int				ft_fork_exec(char *exec, char **cmd, t_env *e)
 	if ((RED_INDEX != e->len_mag || is_next_redir(e, RED_INDEX) != -1)
 		&& !e->is_out_close)
 		ft_close(FD.fd[1]);
-	if (ERRCODE)
-	{
-		manage_err(e);
-		ft_dupp(e);
+	if (ERRCODE && manage_err(e) && ft_dupp(e))
 		return (-1);
-	}
 	if ((pid = fork()) < 0)
 		ft_error(NULL, "failed to fork process", NULL);
 	if (!pid)
