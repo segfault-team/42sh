@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 11:22:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/01/20 17:06:42 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/05 16:52:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define PAD_RIGHT	1
 # define PAD_ZERO	2
 
-# define FD st->fd
+# define FD 		st->fd
 
 typedef struct		s_lmod
 {

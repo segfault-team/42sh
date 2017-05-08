@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 21:19:39 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 23:43:02 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	ft_create_file(e);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
+		if (i >= ft_catlen(e->cat) - 3 /* identifier derniere commande*/)
+			ft_last_is_builtin(e, i);
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, i, ret);
 		e->is_out_close = 0;

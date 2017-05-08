@@ -1,0 +1,13 @@
+total 480
+drwxr-xr-x  12 freccia  staff     408 May  4 14:59 .
+drwxr-xr-x  17 freccia  staff     578 May  4 14:53 ..
+drwxr-xr-x  16 freccia  staff     544 May  4 14:58 .git
+-rw-r--r--   1 freccia  staff     434 May  4 14:00 .gitignore
+-rwxr-xr-x   1 freccia  staff  227004 May  4 14:54 42sh
+-rw-r--r--   1 freccia  staff    4590 May  4 14:15 Makefile
+-rw-r--r--   1 freccia  staff      34 May  4 14:00 auteur
+drwxr-xr-x   3 freccia  staff     102 May  4 14:15 includes
+drwxr-xr-x   8 freccia  staff     272 May  4 14:54 libft
+drwxr-xr-x  10 freccia  staff     340 May  4 14:43 srcs
+drwxr-xr-x   2 freccia  staff      68 Mar  5 21:09 test
+-rw-r--r--   1 freccia  staff       0 May  4 14:59 truc
