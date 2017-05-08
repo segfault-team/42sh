@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 23:43:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:44:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,9 @@ static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 			e->last_cmd_ret = WEXITSTATUS(status);
 	}
 	e->child_running = 0;
-	/*
-	ft_printfd(2, "status: %d\n", status);
-	ft_printfd(2, "WEXST: %d\n", WEXITSTATUS(status));
-	ft_printfd(2, "WTSIG: %d\n\n", WTERMSIG(status));
-	ft_printfd(2, "status2: %d\n", status2);
-	ft_printfd(2, "WEXST: %d\n", WEXITSTATUS(status));
-	ft_printfd(2, "WTSIG: %d\n\n", WTERMSIG(status2));
-	*/
-	if (!e->last_pipe_ret &&
-			((child_is_signaled(status) || child_is_signaled(status2))
-			|| (!WEXITSTATUS(status) || !WEXITSTATUS(status2))))
+	if (!e->last_pipe_ret && ((child_is_signaled(status)
+		|| child_is_signaled(status2)) || (!WEXITSTATUS(status)
+		|| !WEXITSTATUS(status2))))
 		return (1);
 	return (-1);
 }

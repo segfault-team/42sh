@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/08 23:35:15 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:45:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,8 +301,13 @@ typedef struct			s_env
 	int					env_exec;
 	int					errcode;
 	char				*err_msg;
+<<<<<<< HEAD
 	int					last_is_builtin;
 	int					mult_esc;
+=======
+	int					mult_esc;
+	int					is_builtin;
+>>>>>>> 82239370864b0e031802f76d51ed8fbf0dd606ab
 }						t_env;
 
 /*
@@ -387,7 +392,7 @@ int						is_operator(t_env *e, int i);
 int						is_and(t_env *e, int i);
 int						is_or(t_env *e, int i);
 int						find_nxt_operator(t_env *e);
-void					ft_dupp(t_env *e);
+int						ft_dupp(t_env *e);
 void					output_aggre(t_env *e, int fd_src, int fd_dst,
 							int is_file);
 void					close_aggre(t_env *e, int fd_src);

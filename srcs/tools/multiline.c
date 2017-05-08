@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:10:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/28 14:40:51 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 21:47:07 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ static int		ft_check_line(t_env *e)
 	return (1);
 }
 
-static int		manage_multi(t_env *e, char *tmp, int check)
+static int		manage_multi(t_env *e, int check)
 {
+	char	*tmp;
+
+	tmp = NULL;
 	strfree(&e->prompt);
 	e->prompt = ft_strdup(BS_PROMPT);
 	tmp = ft_strjoin(MULTI, e->line);
@@ -57,36 +60,40 @@ static int		finish_by_ampersand_operator(t_env *e)
 	return (check_last_char(e, '&') && check_prev_last_char(e, '&'));
 }
 
-int				ft_multiline(t_env *e)
+static void		ft_multiline_bis(t_env *e)
 {
 	char	*tmp;
+
+	tmp = NULL;
+	if (!ft_strcmp(e->line, "\n") && e->mult_esc)
+		tmp = ft_strdup(MULTI);
+	else
+		tmp = ft_strjoin(MULTI, e->line);
+	strfree(&e->line);
+	e->line = tmp;
+	strfree(&MULTI);
+	if (!e->hdoc_words)
+	{
+		strfree(&e->prompt);
+		e->prompt = ft_create_prompt(e, STD_PROMPT);
+	}
+	e->mult_esc = 0;
+}
+
+int				ft_multiline(t_env *e)
+{
 	int		check;
 
 	check = 0;
-	tmp = NULL;
 	if ((check = ft_check_line(e)) == 0 && !MULTI)
 		return (1);
 	if (check_last_char(e, '\\'))
 		e->mult_esc = 1;
 	if (check_last_char(e, '\\') || check_last_char(e, '|') || check == 42
-		|| (!ft_strcmp(e->line, "\n") && !e->mult_esc)
-		|| finish_by_ampersand_operator(e))
-		return (manage_multi(e, tmp, check));
+			|| (!ft_strcmp(e->line, "\n") && !e->mult_esc)
+			|| finish_by_ampersand_operator(e))
+		return (manage_multi(e, check));
 	else if (MULTI)
-	{
-		if (!ft_strcmp(e->line, "\n") && e->mult_esc)
-			tmp = ft_strdup(MULTI);
-		else
-			tmp = ft_strjoin(MULTI, e->line);
-		strfree(&e->line);
-		e->line = tmp;
-		strfree(&MULTI);
-		if (!e->hdoc_words)
-		{
-			strfree(&e->prompt);
-			e->prompt = ft_create_prompt(e, STD_PROMPT);
-		}
-		e->mult_esc = 0;
-	}
+		ft_multiline_bis(e);
 	return (1);
 }

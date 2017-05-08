@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:06:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 20:41:30 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/08 22:37:05 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int			ft_exec_builtin(t_env *e, char **cmd, int ret)
 		(need_close_for_env(cmd)))
 		ft_close(FD.fd[1]);
 	ft_dupp(e);
+	e->is_builtin = ret;
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/03 16:06:57 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/08 22:51:06 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			manage_operators(t_env *e, int i, int ret)
 	e->check_input = 0;
 	if (e->last_cmd_ret)
 		e->last_pipe_ret = e->last_cmd_ret;
-	ret = ft_waitsons(e);
+	ret = e->is_builtin ? ret : ft_waitsons(e);
 	e->last_pipe_ret = 0;
 	RED_INDEX = op;
 	if (is_and(e, op) && ret == 1)

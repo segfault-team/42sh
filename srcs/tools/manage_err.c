@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_err.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/08 21:35:43 by vlistrat          #+#    #+#             */
+/*   Updated: 2017/05/08 21:35:48 by vlistrat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	set_error(t_env *e, int errcode, char *err_msg)
@@ -23,7 +35,8 @@ int		manage_err(t_env *e)
 	else if (ERRCODE == DIRCLOSE_FAIL)
 		return (ft_error(ERRMSG, "Failed closing directory.", NULL));
 	else if (ERRCODE == INVALID_FILE)
-		return (ft_error(ERRMSG, "is not a valid file or is a directory.", NULL));
+		return (ft_error(ERRMSG, "is not a valid file or is a directory.",
+					NULL));
 	else if (ERRCODE == FILE_NF)
 		return (ft_error(ERRMSG, "File not found.", NULL));
 	else
