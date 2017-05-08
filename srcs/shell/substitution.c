@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:47 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/02 15:10:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/08 21:23:20 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ static int	substitution_cond(char **str, int *i, char *tmp)
 {
 	int		ret;
 
-	tmp = ft_strdup((*str));
+	tmp = ft_strdup(*str);
 	do_substitution(str, i, USERS_DIR, 0);
 	if (access(&(*str)[*i], F_OK) == -1)
 	{
 		ft_strdel(str);
 		*str = tmp;
+		return (-1);
 	}
 	ret = ft_strlen(tmp);
 	strfree(&tmp);

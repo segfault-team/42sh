@@ -6,7 +6,7 @@
 /*   By: aleghmar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:10:06 by aleghmar          #+#    #+#             */
-/*   Updated: 2017/04/28 18:10:06 by aleghmar         ###   ########.fr       */
+/*   Updated: 2017/05/08 21:11:33 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			cur_inquote(char *str, int pos)
 
 	s_quote = 0;
 	d_quote = 0;
-	while (pos < (int)ft_strlen(str) && str[pos] && pos)
+	while (pos < (int)ft_strlen(str) && pos && str[pos])
 	{
 		if (str[pos] == '\'' && !ft_is_escaped(str, pos))
 			s_quote++;

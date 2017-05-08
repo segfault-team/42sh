@@ -21,6 +21,12 @@ int		manage_err(t_env *e)
 	else if (ERRCODE == PERM_DENIED)
 		return (ft_error(ERRMSG, "permission denied.", NULL));
 	else if (ERRCODE == DIRCLOSE_FAIL)
-		return (ft_error(ERRMSG, "Failed closing directory", NULL));
+		return (ft_error(ERRMSG, "Failed closing directory.", NULL));
+	else if (ERRCODE == INVALID_FILE)
+		return (ft_error(ERRMSG, "is not a valid file or is a directory.", NULL));
+	else if (ERRCODE == FILE_NF)
+		return (ft_error(ERRMSG, "File not found.", NULL));
+	else
+		return (ft_error(ERRMSG, "Invalid input.", NULL));
 	return (1);
 }
