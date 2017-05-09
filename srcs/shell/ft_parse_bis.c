@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 15:18:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 16:18:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,30 @@ static int	ft_last_cmd_ret(t_env *e, int status, int status2, int i)
 	}
 	e->child_running = 0;
 	if (!e->last_pipe_ret && ((child_is_signaled(status)
-		|| child_is_signaled(status2)) || (!WEXITSTATUS(status)
-		|| !WEXITSTATUS(status2))))
+					|| child_is_signaled(status2)) || (!WEXITSTATUS(status)
+					|| !WEXITSTATUS(status2))))
 		return (1);
 	return (-1);
 }
 
-int			ft_waitsons(t_env *e)
+int			ft_waitsons_bbis(t_env *e, int lol, int status, t_job *ptr)
 {
 	int			i;
-	int			status;
 	int			status2;
-	t_job		*ptr;
 
 	i = 0;
-	status = -1;
 	status2 = -1;
-	if (!e->jobs)
-		return (-1);
 	while (e->jobs)
 	{
-		if (!i)
-			waitpid(e->jobs->pid, &status, WUNTRACED);
-		else
-			waitpid(e->jobs->pid, &status2, WUNTRACED);
+		if (e->jobs->pid != -1)
+		{
+			if (lol)
+				kill(e->jobs->pid, SIGKILL);
+			if (!i)
+				waitpid(e->jobs->pid, &status, WUNTRACED);
+			else
+				waitpid(e->jobs->pid, &status2, WUNTRACED);
+		}
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
 		if (e->jobs)
@@ -55,6 +55,33 @@ int			ft_waitsons(t_env *e)
 		++i;
 	}
 	return (ft_last_cmd_ret(e, status, status2, i));
+}
+
+int			ft_waitsons(t_env *e)
+{
+	int		status;
+	int		lol;
+	int		now_kill;
+	t_job	*ptr;
+
+	lol = 0;
+	status = -1;
+	now_kill = 0;
+	if (!e->jobs)
+		return (-1);
+	ptr = e->jobs;
+	while (!lol && !now_kill && ptr)
+	{
+		if (ptr->pid != -1)
+			now_kill = waitpid(e->jobs->pid, &status, WNOHANG);
+		else
+			lol = 1;
+		if (ptr->next)
+			ptr = ptr->next;
+		else
+			ptr = e->jobs;
+	}
+	return (ft_waitsons_bbis(e, lol, status, ptr));
 }
 
 static int	ft_check_token(char *s, char quote)
@@ -86,8 +113,8 @@ static int	ft_check_token(char *s, char quote)
 }
 
 /*
-** trline is now useless cause tab is not inserted (tcaps directives)
-*/
+ ** trline is now useless cause tab is not inserted (tcaps directives)
+ */
 
 char		**ft_trim_split_cmd(t_env *e)
 {
