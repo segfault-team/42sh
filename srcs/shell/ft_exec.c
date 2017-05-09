@@ -43,6 +43,7 @@ int				ft_fork_exec(char *exec, char **cmd, t_env *e)
 	{
 		ft_redirect(FD.in, STDIN_FILENO);
 		execve(exec, &cmd[0], e->env);
+		exit(0);
 	}
 	++e->child_running;
 	ft_dupp(e);
