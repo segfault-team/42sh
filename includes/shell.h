@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/08 23:47:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:18:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,6 @@ typedef struct			s_env
 	int					env_exec;
 	int					errcode;
 	char				*err_msg;
-	int					last_is_builtin;
 	int					mult_esc;
 	int					is_builtin;
 }						t_env;

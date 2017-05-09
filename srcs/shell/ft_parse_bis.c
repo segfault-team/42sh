@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 23:44:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:18:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,10 @@ int			ft_waitsons(t_env *e)
 		return (-1);
 	while (e->jobs)
 	{
-		if (!e->last_is_builtin)
-		{
-			if (!i)
-				waitpid(e->jobs->pid, &status, WUNTRACED);
-			else
-				waitpid(e->jobs->pid, &status2, WUNTRACED);
-		}
-		e->last_is_builtin = 0;
+		if (!i)
+			waitpid(e->jobs->pid, &status, WUNTRACED);
+		else
+			waitpid(e->jobs->pid, &status2, WUNTRACED);
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
 		if (e->jobs)
