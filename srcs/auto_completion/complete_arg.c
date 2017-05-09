@@ -100,7 +100,7 @@ void		complete_arg(t_env *e, char *arg, int type)
 	char	*tmp;
 
 	tmp = NULL;
-	autoc_check_arg(e, arg, &tmp);
+	//autoc_check_arg(e, arg, &tmp);
 	path = get_path_from_arg(e, arg);
 	arg = isolate_arg_to_complete(arg);
 	content = get_valid_content_from_path(e, path, arg, type);

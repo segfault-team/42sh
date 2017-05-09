@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/09 15:18:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:49:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,7 +444,6 @@ void					ft_cut_tab(char **pas_tab, int index);
 void					strfree(char **str);
 void					ft_tabzero(char **dbl_tab, int tab_len);
 t_job					*ft_new_job(t_job *next, int pid);
-int						ft_last_is_builtin(t_env *e, int i);
 int						store_heredoc(t_env *e);
 int						token_error(t_env *e, int id);
 int						is_last_cmd(t_env *e, int i);

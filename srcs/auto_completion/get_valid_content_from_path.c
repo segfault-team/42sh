@@ -225,6 +225,8 @@ char		**get_valid_content_from_path(t_env *e, char *curr_path, char *arg, int ty
 		{
 			elem_match = ft_strsub(ptr->content, ft_strlen(arg)
 				, ft_strlen(ptr->content) - ft_strlen(arg));
+			if (!elem_match)
+				elem_match = ft_strnew(1);
 			tmp = content;
 			content = ft_tabcat(content, elem_match);
 			ft_free_tab(tmp);

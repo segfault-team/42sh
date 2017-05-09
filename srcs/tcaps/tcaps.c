@@ -14,6 +14,8 @@
 
 static void	tcaps_bis(t_env *e)
 {
+	int count;
+
 	if (tcaps_check_key(BUF, 11, 0, 0) || tcaps_check_key(BUF, 16, 0, 0))
 		tcaps_cut_paste(e);
 	else if (tcaps_check_key(BUF, 27, 91, 51))
@@ -25,11 +27,14 @@ static void	tcaps_bis(t_env *e)
 	else if (tcaps_check_key(BUF, 27, 91, 90))
 	{
 		ft_bzero(&BUF, 3);
-		BUF[0] = ' ';
-		tcaps_insert(e);
-		tcaps_insert(e);
-		tcaps_insert(e);
-		tcaps_insert(e);
+		count = 4;
+		while (count--)
+		{
+			BUF[0] = ' ';
+			BUF[1] = '\0';
+			reading(e);
+		}
+		ft_bzero(&BUF, 3);
 	}
 }
 
