@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 16:18:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 17:25:11 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,6 @@ static int	ft_check_token(char *s, char quote)
 	}
 	return (1);
 }
-
-/*
- ** trline is now useless cause tab is not inserted (tcaps directives)
- */
 
 char		**ft_trim_split_cmd(t_env *e)
 {

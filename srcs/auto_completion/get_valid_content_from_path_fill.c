@@ -6,7 +6,7 @@
 /*   By: aleghmar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 17:08:44 by aleghmar          #+#    #+#             */
-/*   Updated: 2017/05/09 17:08:47 by aleghmar         ###   ########.fr       */
+/*   Updated: 2017/05/09 17:25:40 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static t_list	*env_to_list(t_env *e)
 	return (first);
 }
 
-t_list	*pick_destination(t_env *e, char *curr_path, char *arg,
+t_list			*pick_destination(t_env *e, char *curr_path, char *arg,
 									int type)
 {
 	t_list *ret;
