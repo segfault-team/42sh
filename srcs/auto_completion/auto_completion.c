@@ -74,7 +74,26 @@ void		*ft_free_double_array(char **array)
 	return (NULL);
 }
 
-char		*add_backquote(t_env *e, char *str, int i)
+static void change_type(int *type, char *str, int x)
+{
+	//ft_printf("\nstr=%s\n", str);
+	if (!x)
+		*type = 1;
+	else
+	{
+		*type = 2;
+		while (x)
+		{
+			if (str[x] == ';'
+				|| str[x] == '&'
+				|| str[x] == '|')
+			*type = 1;
+			x--;
+		}
+	}
+}
+
+char		*add_backquote(t_env *e, char *str, int i, int *type)
 {
 	int		x;
 	int		quote;
@@ -100,15 +119,24 @@ char		*add_backquote(t_env *e, char *str, int i)
 	if (str[x] == quote || str[x] == ' ')
 		x++;
 	ret = ft_strsub(str, x, i - x + 1);
+	change_type(type, str, x);
+//	ft_printf("ret = %s\n", ret);
 	return (ret);
 }
+
+/*
+** type can take values 1,2 for binary,file
+*/
 
 int			auto_completion(t_env *e)
 {
 	char	*arg_comp;
+	int		type;
 
+	type = 0;
+	arg_comp = NULL;
 	if (!e->line || !NB_MOVE)
-		return (0);
+		type = 1;
 	if (e->selected >= -1 && e->files)
 	{
 		e->selected = e->files[e->selected + 1] ? e->selected + 1 : 0;
@@ -116,8 +144,10 @@ int			auto_completion(t_env *e)
 	}
 	else
 	{
-		arg_comp = add_backquote(e, e->line, TCAPS.nb_move - 1);
-		complete_arg(e, arg_comp);
+		if (!type)
+			arg_comp = add_backquote(e, e->line, TCAPS.nb_move - 1, &type);
+	//	ft_printf("type = %d\n", type);
+		complete_arg(e, arg_comp, type);
 		ft_strdel(&arg_comp);
 	}
 	return (1);

@@ -589,7 +589,7 @@ int						check_magic_content(t_env *e, int i);
 */
 int						auto_completion(t_env *e);
 char					**get_valid_content_from_path(t_env *e, \
-							char *curr_path, char *arg);
+							char *curr_path, char *arg, int type);
 void					print_auto_completion(t_env *e, char *arg, \
 							char *path, char **content);
 void					ft_putstr_spec(t_env *e, char *str);
@@ -597,7 +597,7 @@ int						valid_selection(t_env *e);
 void					tcaps_manage_printable_char(t_env *e);
 int						tcaps_is_delete_key(t_env *e);
 int						cur_inquote(char *str, int pos);
-void					complete_arg(t_env *e, char *arg);
+void					complete_arg(t_env *e, char *arg, int type);
 char					*ft_pick_color(char *perm);
 char					ft_file_type(int mode);
 char					*ft_perms(int mode);

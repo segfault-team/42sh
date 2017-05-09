@@ -93,7 +93,7 @@ static void	autoc_check_arg(t_env *e, char *arg, char **tmp)
 	}
 }
 
-void		complete_arg(t_env *e, char *arg)
+void		complete_arg(t_env *e, char *arg, int type)
 {
 	char	**content;
 	char	*path;
@@ -103,7 +103,7 @@ void		complete_arg(t_env *e, char *arg)
 	autoc_check_arg(e, arg, &tmp);
 	path = get_path_from_arg(e, arg);
 	arg = isolate_arg_to_complete(arg);
-	content = get_valid_content_from_path(e, path, arg);
+	content = get_valid_content_from_path(e, path, arg, type);
 	ft_strdel(&tmp);
 	if (content)
 	{
