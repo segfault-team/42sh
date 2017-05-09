@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 15:05:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 15:49:12 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ static int		exec_cmd_bis(t_env *e, char **cmd)
 		ret = ft_exec_builtin(e, cmd, 0);
 		e->last_cmd_ret = (ret > 0) ? 0 : 1;
 		add_job(e, -1);
-		if (!e->jobs)
-			e->last_is_builtin = 1;
 	}
 	else
 		ret = ft_exec(cmd, e, NULL, 0);
