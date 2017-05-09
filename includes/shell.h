@@ -610,6 +610,8 @@ int						ft_countstr(char *str, char *cmp);
 int						calc_rows(t_env *e);
 void					merge_sort(t_list **source);
 char					*escape_specials(char *str, int i, int len);
+t_list					*pick_destination(t_env *e, char *curr_path, char *arg,
+							int type);
 
 /*
 **      Parse Command

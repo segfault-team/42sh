@@ -77,22 +77,6 @@ static int	complete_arg_tcaps(t_env *e, char ***content)
 	return (1);
 }
 
-static void	autoc_check_arg(t_env *e, char *arg, char **tmp)
-{
-	if (arg)
-	{
-		if (arg[ft_strlen(arg) - 1] != '/' && ft_is_dir(arg))
-		{
-			arg = ft_strjoin(arg, "/");
-			ft_putchar('/');
-			ft_realloc_insert_str(e, "/");
-			NB_READ += 1;
-			NB_MOVE += 1;
-			*tmp = arg;
-		}
-	}
-}
-
 void		complete_arg(t_env *e, char *arg, int type)
 {
 	char	**content;
@@ -100,7 +84,6 @@ void		complete_arg(t_env *e, char *arg, int type)
 	char	*tmp;
 
 	tmp = NULL;
-	//autoc_check_arg(e, arg, &tmp);
 	path = get_path_from_arg(e, arg);
 	arg = isolate_arg_to_complete(arg);
 	content = get_valid_content_from_path(e, path, arg, type);

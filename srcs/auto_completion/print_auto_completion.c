@@ -92,6 +92,7 @@ void	pre_print(t_env *e)
 void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 {
 	char	*tmp;
+
 	if (path)
 	{
 		e->path = ft_strjoin(path, "/");
@@ -107,7 +108,8 @@ void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 	{
 		e->selected = 0;
 		tmp = e->files[e->selected]->name;
-		e->files[e->selected]->name = ft_strjoin(e->files[e->selected]->name, "/");
+		e->files[e->selected]->name = ft_strjoin(e->files[e->selected]->name
+													, "/");
 		ft_strdel(&tmp);
 		valid_selection(e);
 	}
