@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/18 14:59:28 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/04/29 15:06:12 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/09 16:36:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t		ft_nwords(char const *str, char div)
 	{
 		while (str[++i] != '\0')
 		{
-			if (str[i] != div && str[i - 1] == div)
+			if (str[i] != div && (str[i - 1] == div || i == 1))
 				++nwds;
 		}
 		if (!str[i] && i > 0 && str[i - 1] != div)
