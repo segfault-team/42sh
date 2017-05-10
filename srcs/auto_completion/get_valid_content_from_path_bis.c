@@ -12,6 +12,27 @@
 
 #include "shell.h"
 
+int		test_file(char *curr_path, char *curr_file, int exec_only)
+{
+	int			ret;
+	struct stat	file_stat;
+	char		*path;
+	char		*tmp;
+
+	ret = 0;
+	tmp = ft_strjoin(curr_path, "/");
+	path = ft_strjoin(tmp, curr_file);
+	stat(path, &file_stat);
+	if ((!exec_only || S_ISDIR(file_stat.st_mode))
+			&& ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))
+		ret = 1;
+	else if (exec_only && !access(path, X_OK))
+		ret = 1;
+	ft_strdel(&tmp);
+	ft_strdel(&path);
+	return (ret);
+}
+
 void		ft_add_list(t_list **first, t_list **ptr, char *str)
 {
 	if (!*first)

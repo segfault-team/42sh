@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-char		*get_path_from_arg(t_env *e, char *arg)
+char		*get_path_from_arg(t_env *e, char *arg, int type)
 {
 	char	*path;
 	int		i;
@@ -23,7 +23,7 @@ char		*get_path_from_arg(t_env *e, char *arg)
 	while (i > 0 && arg[i - 1] != '/')
 		--i;
 	if (!arg || !i || (i > 0 && arg[i - 1] == ' '))
-		return ((path = getcwd(NULL, 0)));
+		return (type == 2 ? getcwd(NULL, 0) : NULL);
 	path = ft_strnew(i);
 	ft_strncpy(path, arg, i);
 	x = 0;
@@ -57,7 +57,7 @@ char		*isolate_arg_to_complete(char *arg)
 	return (ret);
 }
 
-static void	change_type(int *type, char *str, int x)
+static void	change_type(int *type, char *str, int x, t_env *e)
 {
 	if (!x)
 		*type = 1;
@@ -98,7 +98,7 @@ char		*add_backquote(t_env *e, char *str, int i, int *type)
 	if (str[x] == quote || str[x] == ' ')
 		x++;
 	ret = ft_strsub(str, x, i - x + 1);
-	change_type(type, str, x);
+	change_type(type, str, x, e);
 	return (ret);
 }
 

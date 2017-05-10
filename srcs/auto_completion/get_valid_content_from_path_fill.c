@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-static t_list	*dir_to_list(t_env *e, char *curr_path)
+static t_list	*dir_to_list(t_env *e, char *curr_path, int exec_only)
 {
 	DIR				*dir_id;
 	struct dirent	*dir_entry;
@@ -25,11 +25,9 @@ static t_list	*dir_to_list(t_env *e, char *curr_path)
 		return (NULL);
 	while ((dir_entry = readdir(dir_id)) != NULL)
 	{
-		if (!cur_inquote(e->line, NB_MOVE - 1))
-			tmp = escape_specials(dir_entry->d_name, 0, -1);
-		else
-			tmp = ft_strdup(dir_entry->d_name);
-		if (ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))
+		tmp = (cur_inquote(e->line, NB_MOVE - 1)) ? ft_strdup(dir_entry->d_name)
+				: escape_specials(dir_entry->d_name, 0, -1);
+		if (test_file(curr_path, dir_entry->d_name, exec_only))
 			ft_add_list(&first, &ptr, tmp);
 		ft_strdel(&tmp);
 	}
@@ -108,8 +106,10 @@ t_list			*pick_destination(t_env *e, char *curr_path, char *arg,
 	if (arg && *arg == '$')
 		ret = env_to_list(e);
 	else if (type == 2)
-		ret = dir_to_list(e, curr_path);
-	else
+		ret = dir_to_list(e, curr_path, 0);
+	else if (type == 1 && !curr_path)
 		ret = binary_to_list(e);
+	else
+		ret = dir_to_list(e, curr_path, 1);
 	return (ret);
 }
