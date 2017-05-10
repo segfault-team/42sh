@@ -84,7 +84,7 @@ void		complete_arg(t_env *e, char *arg, int type)
 	char	*tmp;
 
 	tmp = NULL;
-	path = get_path_from_arg(e, arg);
+	path = get_path_from_arg(e, arg, type);
 	arg = isolate_arg_to_complete(arg);
 	content = get_valid_content_from_path(e, path, arg, type);
 	ft_strdel(&tmp);

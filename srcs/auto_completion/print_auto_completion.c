@@ -91,7 +91,7 @@ void	pre_print(t_env *e)
 
 void	print_auto_completion(t_env *e, char *arg, char *path, char **content)
 {
-	if (path)
+	if (content)
 	{
 		e->path = ft_strjoin(path, "/");
 		ft_strdel(&path);

@@ -109,7 +109,12 @@ t_list			*pick_destination(t_env *e, char *curr_path, char *arg,
 		ret = env_to_list(e);
 	else if (type == 2)
 		ret = dir_to_list(e, curr_path);
-	else
+	else if (type == 1 && !curr_path)
+	{
+		e->exec_only = 0;
 		ret = binary_to_list(e);
+	}
+	else
+		ret = dir_to_list(e, curr_path);
 	return (ret);
 }
