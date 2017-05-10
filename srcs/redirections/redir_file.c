@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:43:52 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/10 15:19:12 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/10 16:57:00 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static int		redir_file_output(t_env *e, char *ret_output)
 		if (is_output_redir(e, i))
 			redir_output_do(e, fd_output, i, ret_output);
 	strfree(&ret_output);
-//	struct_find_red(e);
+	if (is_next_redir(e, RED_INDEX) != INPUT)
+		struct_find_red(e);
 	return (1);
 }
 
