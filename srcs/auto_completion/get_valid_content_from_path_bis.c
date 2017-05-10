@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-int		test_file(char *curr_path, char *curr_file, int exec_only)
+int			test_file(char *curr_path, char *curr_file, int exec_only)
 {
 	int			ret;
 	struct stat	file_stat;
