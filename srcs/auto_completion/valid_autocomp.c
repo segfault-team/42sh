@@ -37,7 +37,7 @@ static void	reset_autocomp(t_env *e)
 
 static void	insert_after_comp(t_env *e)
 {
-	if (e->buf[0] != 10 && e->buf[0] != 9 && e->buf[0] != '/'
+	if (e->buf[0] != '/'
 		&& (e->files[e->selected]->color == C_DIR
 		|| e->files[e->selected]->color == C_WHT))
 	{
