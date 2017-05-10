@@ -57,7 +57,6 @@ void				hash_gen(t_env *e, char **paths)
 	list = NULL;
 	prev = NULL;
 	i = -1;
-	hash = 0;
 	while (paths[++i])
 		if ((DIRP = opendir(paths[i])))
 			while ((DP = readdir(DIRP)))
@@ -74,4 +73,5 @@ void				hash_gen(t_env *e, char **paths)
 				prev = list;
 				list = list->next;
 			}
+	merge_sort_hash(&e->hash);
 }

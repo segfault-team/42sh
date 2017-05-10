@@ -18,7 +18,7 @@ int		write_line(t_env *e, int i, int x, char *spaces)
 	int moar;
 
 	moar = 0;
-	while (i < e->c_match)
+	while (i < e->c_match && i >= 0)
 	{
 		moar = (int)ft_strlen(e->files[i]->name) > e->tcaps.ws.ws_col ?
 			moar + 1 : moar;
