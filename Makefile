@@ -30,7 +30,7 @@ SRC_TOOLS_NAME 		= ft_banner.c ft_error.c ft_realloc_line.c ft_realloc_tab.c \
 					open_file.c atoi_bis.c ft_check.c ft_heredoc.c store_heredoc.c \
 					ft_xtoa.c ft_strdup_wo_quote_bs.c ft_escape.c pairs.c \
 					exit_in_read.c child_is_signaled.c manage_err.c \
-					hash.c ft_tools_bis.c
+					hash.c ft_tools_bis.c mergesort_hash.c
 SRC_TOOLS			= $(addprefix tools/,$(SRC_TOOLS_NAME))
 
 ## STRUCT FOLDER ##

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 17:25:11 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:52:18 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int			ft_waitsons_bbis(t_env *e, int lol, int status, t_job *ptr)
 	{
 		if (e->jobs->pid != -1)
 		{
-			if (lol)
-				kill(e->jobs->pid, SIGKILL);
 			if (!i)
 				waitpid(e->jobs->pid, &status, WUNTRACED);
 			else
@@ -49,7 +47,7 @@ int			ft_waitsons_bbis(t_env *e, int lol, int status, t_job *ptr)
 		}
 		ptr = e->jobs;
 		e->jobs = e->jobs->next;
-		if (e->jobs)
+		if (e->jobs && e->jobs->pid != -1)
 			kill(e->jobs->pid, SIGTERM);
 		free(ptr);
 		++i;

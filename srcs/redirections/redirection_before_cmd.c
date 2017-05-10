@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:01 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/10 14:17:23 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 16:10:06 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ static int		redirection_before_cmd_bis(t_env *e, int ret)
 {
 	int	nxt_redir;
 
-	if (ret == -1)
+	if (ret == -1 && !is_input_redir(e, RED_INDEX))
 		return (-1);
+	else if (ret == -1 && is_input_redir(e, RED_INDEX))
+		while (is_next_redir(e, RED_INDEX) != PIPE
+			&& is_next_redir(e, RED_INDEX) != -1)
+			struct_find_red(e);
 	nxt_redir = is_next_redir(e, RED_INDEX);
 	if (nxt_redir != -1 && nxt_redir != OPERATOR)
 	{
@@ -32,6 +36,7 @@ int				redirection_before_cmd(t_env *e)
 	int		ret;
 
 	ret = 0;
+//	dprintf(2, "[%d]: %s | %s\n", RED_INDEX, e->magic[RED_INDEX].cmd, e->magic[RED_INDEX].type);
 	if (is_operator(e, RED_INDEX))
 		return (1);
 	if ((is_aggregator(e, RED_INDEX) || is_special_aggre(e, RED_INDEX))

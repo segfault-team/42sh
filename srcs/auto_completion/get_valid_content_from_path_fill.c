@@ -46,7 +46,8 @@ static void		binary_dir_to_list(t_list **first, t_list **ptr, char *path)
 	while (dir_id && (dir_entry = readdir(dir_id)) != NULL)
 	{
 		tmp = ft_strdup(dir_entry->d_name);
-		ft_add_list(first, ptr, tmp);
+		if (ft_strcmp(tmp, ".") && ft_strcmp(tmp, ".."))
+			ft_add_list(first, ptr, tmp);
 		ft_strdel(&tmp);
 	}
 	if (dir_id && closedir(dir_id))

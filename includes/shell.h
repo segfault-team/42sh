@@ -616,7 +616,8 @@ char					*ft_perms(int mode);
 char					*get_path_from_arg(t_env *e, char *arg, int type);
 char					*isolate_arg_to_complete(char *arg);
 int						ft_is_dir(char *target);
-int						test_file(char *curr_path, char *curr_file, int exec_only);
+int						test_file(char *curr_path, char *curr_file,
+							int exec_only);
 void					ft_add_list(t_list **first, t_list **ptr, char *str);
 void					ft_put_file(t_env *e, int i, char *spaces);
 void					ft_fill_files(char **argv, t_env *e);
@@ -662,5 +663,6 @@ int						ft_is_escape_after(char *str, int i);
 ** HASH
 */
 void					hash_gen(t_env *e, char **paths);
+void					merge_sort_hash(t_hash **source);
 
 #endif
