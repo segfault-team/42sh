@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 17:24:57 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:20:02 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int		exec_by_type(t_env *e, int i, int ret)
 	}
 	else
 		ret = redir_exec_open(i, e);
-	if (find_next_output(e, find_last_pipe(e)) && e->last_cmd_ret != 127)
+	if (find_next_output(e, find_last_pipe(e)) && e->cmd_ok)
 		redir_fill_output(e);
-	if (e->last_cmd_ret == 127)
+	if (e->last_cmd_ret == 127 || !e->cmd_ok)
 		close(FD.fd[1]);
 	dup2(FD.stdin, STDIN_FILENO);
 	dup2(FD.stdout, STDOUT_FILENO);

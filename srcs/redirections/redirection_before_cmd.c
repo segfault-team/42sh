@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:01 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/03 15:47:35 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:17:23 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				redirection_before_cmd(t_env *e)
 			return (close(STDOUT_FILENO));
 		return (dup2(FD.fd[1], STDOUT_FILENO));
 	}
-	else if (is_output_redir(e, RED_INDEX) && e->last_cmd_ret != 127)
+	else if (is_output_redir(e, RED_INDEX) && e->cmd_ok)
 		dup2(FD.fd[1], STDOUT_FILENO);
 	else if (e->hdoc && is_heredoc(e, RED_INDEX))
 		ret = redir_from_hdoc(e);

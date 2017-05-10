@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/09 15:49:51 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/10 14:16:02 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,13 @@ typedef struct			s_file
 	char				*color;
 }						t_file;
 
+typedef struct			s_hash
+{
+	unsigned int		hash;
+	char				*name;
+	struct s_hash		*next;
+}						t_hash;
+
 typedef struct			s_pos
 {
 	int					i;
@@ -303,6 +310,8 @@ typedef struct			s_env
 	char				*err_msg;
 	int					mult_esc;
 	int					is_builtin;
+	t_hash				*hash;
+	int					cmd_ok;
 }						t_env;
 
 /*

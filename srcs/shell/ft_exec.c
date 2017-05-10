@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/09 16:28:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2017/05/10 14:21:16 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 		if (paths)
 			ft_free_tab(paths);
 		paths = NULL;
+		e->cmd_ok = 0;
 		print_command_not_found(cmd[0], e);
 	}
+	else
+		e->cmd_ok = 1;
 	if (paths && !ERRCODE)
 		ft_free_tab(paths);
 	paths = NULL;
