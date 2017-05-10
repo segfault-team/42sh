@@ -662,5 +662,6 @@ int						ft_is_escape_after(char *str, int i);
 ** HASH
 */
 void					hash_gen(t_env *e, char **paths);
+void					merge_sort_hash(t_hash **source);
 
 #endif

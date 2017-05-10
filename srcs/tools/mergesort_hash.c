@@ -51,7 +51,7 @@ static void		partition(t_hash *head, t_hash **front, t_hash **back)
 	}
 }
 
-void			merge_sort(t_hash **source)
+void			merge_sort_hash(t_hash **source)
 {
 	t_hash	*head;
 	t_hash	*a;
@@ -63,7 +63,7 @@ void			merge_sort(t_hash **source)
 	if (head == NULL || head->next == NULL)
 		return ;
 	partition(head, &a, &b);
-	merge_sort(&a);
-	merge_sort(&b);
+	merge_sort_hash(&a);
+	merge_sort_hash(&b);
 	*source = merge_lists(a, b);
 }
