@@ -35,7 +35,7 @@ int		print_command_not_found(char *cmd, t_env *e)
 	{
 		number = ft_itoa(-e->raw);
 		string = ft_strjoin("line ", number);
-		if (e->env_exec || (cmd && cmd[0] == '/'))
+		if (e->env_exec || (cmd && (cmd[0] == '/' || cmd[0] == '.')))
 			set_error(e, NSFOD, cmd);
 		else
 			set_error(e, CMD_NF, cmd);
@@ -45,7 +45,7 @@ int		print_command_not_found(char *cmd, t_env *e)
 	}
 	else
 	{
-		if (e->env_exec || (cmd && cmd[0] == '/'))
+		if (e->env_exec || (cmd && (cmd[0] == '/' || cmd[0] == '.')))
 			set_error(e, INVALID_FILE, cmd);
 		else
 			set_error(e, CMD_NF, cmd);
