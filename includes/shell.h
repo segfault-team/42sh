@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/10 14:28:34 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:43:11 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -468,6 +468,7 @@ void					init_opt_hist(t_opt_hist *opt);
 int						get_hist_options(int i, char **cmd, t_opt_hist *opt);
 int						exit_in_read(t_env *e);
 int						child_is_signaled(int status);
+int						is_dir(char *str);
 
 /*
 **		History

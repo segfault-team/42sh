@@ -6,7 +6,11 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:13 by lfabbro           #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2017/05/10 14:44:45 by vlistrat         ###   ########.fr       */
+=======
 /*   Updated: 2017/05/10 14:56:08 by kboddez          ###   ########.fr       */
+>>>>>>> 5845697de1bc3af5e6c5d015b15faf4fa6c596cb
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +57,7 @@ int				ft_fork_exec(char *exec, char **cmd, t_env *e)
 static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 {
 	char		**paths;
-	struct stat	lstat;
 
-	ft_bzero(&lstat, sizeof(struct stat));
 	paths = ft_find_paths(e->env);
 	if (!(exec = ft_find_exec(paths, cmd[0])))
 	{
@@ -63,9 +65,7 @@ static int		ft_exec(char **cmd, t_env *e, char *exec, int ret)
 			ft_free_tab(paths);
 		print_command_not_found(cmd[0], e);
 	}
-	else
-		stat(exec, &lstat);
-	if (!ERRCODE && (!exec || access(exec, F_OK) || S_ISDIR(lstat.st_mode)))
+	if (!ERRCODE && (!exec || access(exec, F_OK) || is_dir(exec) > 0))
 	{
 		strfree(&exec);
 		if (paths)
