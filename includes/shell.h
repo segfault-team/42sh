@@ -276,7 +276,6 @@ typedef struct			s_env
 	size_t				trunc_in_history;
 	char				quote;
 	t_file				**files;
-	int					exec_only;
 	char				*prefix;
 	char				*path;
 	int					selected;
@@ -603,6 +602,7 @@ char					*ft_perms(int mode);
 char					*get_path_from_arg(t_env *e, char *arg, int type);
 char					*isolate_arg_to_complete(char *arg);
 int						ft_is_dir(char *target);
+int						test_file(char *curr_path, char *curr_file, int exec_only);
 void					ft_add_list(t_list **first, t_list **ptr, char *str);
 void					ft_put_file(t_env *e, int i, char *spaces);
 void					ft_fill_files(char **argv, t_env *e);

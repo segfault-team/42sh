@@ -73,7 +73,6 @@ static void	change_type(int *type, char *str, int x, t_env *e)
 			x--;
 		}
 	}
-	e->exec_only = (*type == 2) ? 0 : 1;
 }
 
 char		*add_backquote(t_env *e, char *str, int i, int *type)
@@ -111,10 +110,7 @@ int			auto_completion(t_env *e)
 	type = 0;
 	arg_comp = NULL;
 	if (!e->line || !NB_MOVE)
-	{
-		e->exec_only = 1;
 		type = 1;
-	}
 	if (e->selected >= -1 && e->files)
 	{
 		e->selected = e->files[e->selected + 1] ? e->selected + 1 : 0;
