@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:14 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/10 14:16:02 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:28:34 by vlistrat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@
 # define CHECK_MOVE 	TCAPS.check_move
 # define ERRCODE		e->errcode
 # define ERRMSG			e->err_msg
+# define DP				e->dp
+# define DIRP			e->dirp
 
 # define NB_MOVE		TCAPS.nb_move
 # define NB_READ		TCAPS.nb_read
@@ -312,6 +314,8 @@ typedef struct			s_env
 	int					is_builtin;
 	t_hash				*hash;
 	int					cmd_ok;
+	struct dirent		*dp;
+	DIR					*dirp;
 }						t_env;
 
 /*
@@ -652,5 +656,10 @@ void					ft_replace_word(char **s1, char *s2, char **s3, int i);
 char					*ft_create_prompt(t_env *e, char *prompt);
 int						ft_is_escaped(char *str, int i);
 int						ft_is_escape_after(char *str, int i);
+
+/*
+** HASH
+*/
+void					hash_gen(t_env *e, char **paths);
 
 #endif

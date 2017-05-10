@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
 
 static unsigned int	get_hash_value(char *key)
 {
@@ -49,7 +47,7 @@ static char			*path_join(char *s1, char *s2)
 	return (cpy);
 }
 
-void				*hash_gen(t_env *e, char **paths)
+void				hash_gen(t_env *e, char **paths)
 {
 	unsigned int	hash;
 	t_hash			*list;
@@ -62,7 +60,7 @@ void				*hash_gen(t_env *e, char **paths)
 	hash = 0;
 	while (paths[++i])
 		if ((DIRP = opendir(paths[i])))
-			while (DP = readdir(DIRP))
+			while ((DP = readdir(DIRP)))
 			{
 				hash = get_hash_value(DP->d_name);
 				list = (t_hash*)malloc(sizeof(t_hash));
@@ -71,7 +69,7 @@ void				*hash_gen(t_env *e, char **paths)
 				else
 					e->hash = list;
 				list->hash = hash;
-				list->name = path_join(path[i], DP->d_name);
+				list->name = path_join(paths[i], DP->d_name);
 				list->next = NULL;
 				prev = list;
 				list = list->next;
