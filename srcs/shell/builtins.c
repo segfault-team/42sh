@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:06:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 22:37:05 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/10 14:28:49 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	ft_exec_builtin_bis(t_env *e, char **cmd, int ret)
 
 int			ft_exec_builtin(t_env *e, char **cmd, int ret)
 {
+	e->cmd_ok = 1;
 	if (redirection_before_cmd(e) < 1)
 	{
 		ft_close(FD.fd[1]);
