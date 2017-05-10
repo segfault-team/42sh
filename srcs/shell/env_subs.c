@@ -26,9 +26,7 @@ static char	*isolate_var_name(char *sh_name, char *line, int i)
 	tmp = i;
 	if (!line[i])
 		return (gestion_error(sh_name, NULL, 0));
-	while (line[tmp] && line[tmp] != '/' && line[tmp] != ' '
-			&& line[tmp] != '$' && line[tmp] != '\''
-			&& line[tmp] != '\"' && line[tmp] != '\\')
+	while (line[tmp] && ft_isalnum(line[tmp]))
 		++tmp;
 	return (ft_strsub(line, i, (tmp - i)));
 }
