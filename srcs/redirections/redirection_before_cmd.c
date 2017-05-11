@@ -6,7 +6,7 @@
 /*   By: vlistrat <vlistrat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:44:01 by vlistrat          #+#    #+#             */
-/*   Updated: 2017/05/10 16:57:43 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:01:12 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int				redirection_before_cmd(t_env *e)
 	int		ret;
 
 	ret = 0;
-//	dprintf(2, "[%d]: %s | %s\n", RED_INDEX, e->magic[RED_INDEX].cmd, e->magic[RED_INDEX].type);
 	if (is_operator(e, RED_INDEX))
 		return (1);
 	if ((is_aggregator(e, RED_INDEX) || is_special_aggre(e, RED_INDEX))

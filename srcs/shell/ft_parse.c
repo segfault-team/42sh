@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:18 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/10 15:23:43 by kboddez          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:01:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,8 @@ int				ft_iter_cmds(t_env *e, char *cmds_i)
 	if ((e->cat = ft_cmds_split(e)) == NULL)
 		return (exec_end(e, -1));
 	ft_create_file(e);
-//	for (int k = 0 ; e->magic[k].cmd ; ++k)
-//		dprintf(2, "[%d]: %s | %s\n", k, e->magic[k].cmd, e->magic[k].type);
 	while (++i < ft_catlen(e->cat) && e->cat[i])
 	{
-//		dprintf(2, "LOOP:[%d]: %s | %s\n", RED_INDEX, e->magic[RED_INDEX].cmd, e->magic[RED_INDEX].type);
 		ret = exec_by_type(e, i, ret);
 		i += manage_operators(e, i, ret);
 		e->is_out_close = 0;
