@@ -98,7 +98,10 @@ void		ft_sig_handler(int sig)
 	else if (sig == SIGCONT)
 	{
 		if (!e->raw)
+		{
 			ft_prompt(e->prompt);
+			ft_putstr(e->line);
+		}
 		tcsetattr(STDIN_FILENO, TCSANOW, e->new_term);
 		signal(SIGTSTP, ft_sig_handler);
 	}
