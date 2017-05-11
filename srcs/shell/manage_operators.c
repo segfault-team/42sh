@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:07:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2017/05/08 22:51:06 by vlistrat         ###   ########.fr       */
+/*   Updated: 2017/05/11 16:27:17 by kboddez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ static int	find_next_op(t_env *e, int i)
 	return (next_op - 1);
 }
 
+static int  is_pipe_before(t_env *e, int i)
+{
+	while (--i > 0 && e->magic[i].type && !is_redir_pipe(e, i))
+		;
+	if (!i || !e->magic[i].type)
+		return (0);
+	return (1);
+}
+
 int			manage_operators(t_env *e, int i, int ret)
 {
 	int	op;
@@ -34,7 +43,7 @@ int			manage_operators(t_env *e, int i, int ret)
 			ft_strcmp(e->magic[op].type, "operator"))
 		return (0);
 	e->check_input = 0;
-	if (e->last_cmd_ret)
+	if (e->last_cmd_ret && RED_INDEX && is_pipe_before(e, RED_INDEX))
 		e->last_pipe_ret = e->last_cmd_ret;
 	ret = e->is_builtin ? ret : ft_waitsons(e);
 	e->last_pipe_ret = 0;
