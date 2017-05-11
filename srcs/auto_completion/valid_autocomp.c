@@ -39,16 +39,14 @@ static void	insert_after_comp(t_env *e)
 {
 	if (e->buf[0] != '/'
 		&& (e->files[e->selected]->color == C_DIR
-		|| e->files[e->selected]->color == C_WHT))
+		|| e->files[e->selected]->color == C_WHT)
+		&& e->line[NB_MOVE] != '/')
 	{
 		NB_READ += 1;
 		NB_MOVE += 1;
 		ft_putchar('/');
 		ft_realloc_insert_str(e, "/");
 	}
-	else if (e->buf[0] == 10 && (e->files[e->selected]->color == C_DIR
-		|| e->files[e->selected]->color == C_WHT))
-		ft_putstr_spec(e, "/");
 	else if (NB_MOVE == NB_READ && (e->buf[0] == 10 || (e->c_match == 1
 		&& (e->files[e->selected]->color != C_DIR
 		&& e->files[e->selected]->color != C_WHT))))

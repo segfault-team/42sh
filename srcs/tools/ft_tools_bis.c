@@ -7,5 +7,5 @@ int		is_dir(char *str)
 	ft_bzero(&info, sizeof(struct stat));
 	if (!str || lstat(str, &info) < 0)
 		return (-1);
-	return (S_ISDIR(info.st_mode))
+	return (S_ISDIR(info.st_mode));
 }
